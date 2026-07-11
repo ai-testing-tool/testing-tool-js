@@ -1,0 +1,28 @@
+name: QAnalyzer Vitest
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run --reporter=json --outputFile=qanalyzer-results.json
+      - name: Upload to QAnalyzer
+        if: always()
+        env:
+          QANALYZER_INGEST_URL: ${{ secrets.QANALYZER_INGEST_URL }}
+          QANALYZER_INGEST_TOKEN: ${{ secrets.QANALYZER_INGEST_TOKEN }}
+        run: |
+          npx qa-forge-api-client \
+            --project "${{ vars.JIRA_PROJECT_KEY }}" \
+            --launch "${{ github.workflow }} #${{ github.run_number }}" \
+            --report qanalyzer-results.json

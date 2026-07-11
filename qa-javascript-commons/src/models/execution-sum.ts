@@ -1,0 +1,7 @@
+/** Aggregate timing for a launch/report. */
+export interface ExecutionSum {
+  start_time: number;
+  end_time: number;
+  duration: number;
+  cumulative_duration: number;
+}

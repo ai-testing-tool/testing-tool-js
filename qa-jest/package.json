@@ -1,0 +1,40 @@
+{
+  "name": "qa-jest",
+  "version": "0.0.0",
+  "description": "QAnalyzer Jest reporter — ingest or file modes via qa-javascript-commons",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./jest": {
+      "types": "./dist/jest.d.ts",
+      "default": "./dist/jest.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "npm run clean && npx tsc --project tsconfig.build.json",
+    "clean": "rm -rf dist",
+    "test": "npm run build && node --test dist/__tests__/**/*.test.js"
+  },
+  "dependencies": {
+    "qa-javascript-commons": "0.0.0"
+  },
+  "peerDependencies": {
+    "jest": ">=29.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "qanalyzer-vitest-pilot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "QAnalyzer Vitest pilot — JSONPlaceholder API tests + JSON upload path",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:json": "vitest run --reporter=json --outputFile=qanalyzer-results.json",
+    "upload": "npx qa-forge-api-client --project AUTH --launch \"vitest pilot\" --report qanalyzer-results.json"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2",
+    "vitest": "^3.2.4"
+  }
+}

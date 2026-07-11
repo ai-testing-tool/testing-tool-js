@@ -1,0 +1,18 @@
+export enum EnvEnum {
+  mode = 'QANALYZER_MODE',
+  fallback = 'QANALYZER_FALLBACK',
+  debug = 'QANALYZER_DEBUG',
+  projectKey = 'QANALYZER_PROJECT_KEY',
+  launchName = 'QANALYZER_LAUNCH_NAME',
+}
+
+export enum EnvIngestEnum {
+  url = 'QANALYZER_INGEST_URL',
+  token = 'QANALYZER_INGEST_TOKEN',
+  timeoutMs = 'QANALYZER_INGEST_TIMEOUT_MS',
+  maxPayloadBytes = 'QANALYZER_INGEST_MAX_PAYLOAD_BYTES',
+}
+
+export enum EnvFileEnum {
+  path = 'QANALYZER_FILE_PATH',
+}

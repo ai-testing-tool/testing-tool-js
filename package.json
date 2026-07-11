@@ -1,0 +1,21 @@
+{
+  "name": "qanalyzer-js",
+  "private": true,
+  "description": "QAnalyzer JavaScript SDK — commons, CLI, and test-runner reporters (Testing Library / Jest / Vitest)",
+  "workspaces": [
+    "qa-*"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "clean": "npm run clean --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
+  },
+  "license": "Apache-2.0"
+}

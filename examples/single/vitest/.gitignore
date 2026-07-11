@@ -1,0 +1,4 @@
+node_modules/
+qanalyzer-results.json
+dist/
+*.log

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qanalyzer.local/schemas/ingest-payload.schema.json",
+  "title": "QAnalyzer ingest payload (FR41)",
+  "type": "object",
+  "required": ["projectKey", "report"],
+  "additionalProperties": true,
+  "properties": {
+    "projectKey": { "type": "string", "minLength": 1 },
+    "launchName": { "type": "string" },
+    "format": {
+      "type": "string",
+      "enum": ["jest-json", "vitest-json", "normalized"]
+    },
+    "ciPlatform": { "type": "string" },
+    "buildUrl": { "type": "string" },
+    "gitCommitSha": { "type": "string" },
+    "gitBranch": { "type": "string" },
+    "gitAuthorName": { "type": "string" },
+    "gitAuthorEmail": { "type": "string" },
+    "ciTriggeredBy": { "type": "string" },
+    "gitCommittedAt": { "type": "string" },
+    "gitCommitMessageSubject": { "type": "string" },
+    "gitCommitMessageBody": { "type": "string" },
+    "report": {
+      "type": "object",
+      "required": ["testResults"],
+      "properties": {
+        "numTotalTests": { "type": "number" },
+        "numPassedTests": { "type": "number" },
+        "numFailedTests": { "type": "number" },
+        "numPendingTests": { "type": "number" },
+        "numTodoTests": { "type": "number" },
+        "startTime": { "type": "number" },
+        "success": { "type": "boolean" },
+        "testResults": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      }
+    },
+    "tests": {
+      "type": "array",
+      "description": "Optional normalized shape when format=normalized"
+    }
+  }
+}
