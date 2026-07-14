@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sanitizeOptionsForLog = exports.maskToken = exports.Logger = exports.DisabledException = void 0;
+exports.EnvAttachEnum = exports.uploadAttachmentForQa = exports.projectKeyFromIssueKey = exports.firstIssueKey = exports.extractIssueKeys = exports.sanitizeOptionsForLog = exports.maskToken = exports.Logger = exports.DisabledException = void 0;
 var disabled_exception_1 = require("./disabled-exception");
 Object.defineProperty(exports, "DisabledException", { enumerable: true, get: function () { return disabled_exception_1.DisabledException; } });
 var logger_1 = require("./logger");
@@ -8,3 +8,10 @@ Object.defineProperty(exports, "Logger", { enumerable: true, get: function () { 
 var token_masker_1 = require("./token-masker");
 Object.defineProperty(exports, "maskToken", { enumerable: true, get: function () { return token_masker_1.maskToken; } });
 Object.defineProperty(exports, "sanitizeOptionsForLog", { enumerable: true, get: function () { return token_masker_1.sanitizeOptionsForLog; } });
+var issue_keys_1 = require("./issue-keys");
+Object.defineProperty(exports, "extractIssueKeys", { enumerable: true, get: function () { return issue_keys_1.extractIssueKeys; } });
+Object.defineProperty(exports, "firstIssueKey", { enumerable: true, get: function () { return issue_keys_1.firstIssueKey; } });
+Object.defineProperty(exports, "projectKeyFromIssueKey", { enumerable: true, get: function () { return issue_keys_1.projectKeyFromIssueKey; } });
+var upload_attachment_1 = require("./upload-attachment");
+Object.defineProperty(exports, "uploadAttachmentForQa", { enumerable: true, get: function () { return upload_attachment_1.uploadAttachmentForQa; } });
+Object.defineProperty(exports, "EnvAttachEnum", { enumerable: true, get: function () { return upload_attachment_1.EnvAttachEnum; } });

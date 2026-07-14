@@ -5,6 +5,11 @@ export type PublishReportOptions = {
     projectKey?: string;
     launchName?: string;
     format?: IngestPayload['format'];
+    planId?: string;
+    planKey?: string;
+    planName?: string;
+    fixVersion?: string;
+    sprintName?: string;
 };
 /**
  * Thin orchestrator over OptionsResolver, ReporterFactory, and FallbackCoordinator.

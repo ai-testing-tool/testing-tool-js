@@ -88,6 +88,34 @@ const jest_js_1 = require("../jest.js");
         strict_1.default.equal(report.testResults?.[0]?.name, '/tests/c.test.js');
         strict_1.default.equal(report.testResults?.[0]?.assertionResults?.[0]?.title, 'AUTH-200 ok');
     });
+    (0, node_test_1.it)('attaches meta.qa from helper map by fullName', () => {
+        const metaByFullName = new Map([
+            [
+                'Suite AUTH-101 passes',
+                {
+                    framework: 'jest',
+                    suite: [{ title: 'Auth' }],
+                    steps: [{ id: 's1', stepType: 'text', name: 'open', status: 'passed' }],
+                },
+            ],
+        ]);
+        const report = (0, report_builder_js_1.toJestJsonReport)({
+            testResults: [
+                {
+                    name: '/tests/a.test.js',
+                    assertionResults: [
+                        {
+                            fullName: 'Suite AUTH-101 passes',
+                            title: 'AUTH-101 passes',
+                            status: 'passed',
+                        },
+                    ],
+                },
+            ],
+        }, metaByFullName);
+        const qa = report.testResults?.[0]?.assertionResults?.[0]?.meta?.qa;
+        strict_1.default.deepEqual(qa?.suite, [{ title: 'Auth' }]);
+    });
 });
 (0, node_test_1.describe)('qa helpers', () => {
     (0, node_test_1.it)('records step and suite metadata', async () => {
@@ -95,6 +123,6 @@ const jest_js_1 = require("../jest.js");
         await jest_js_1.qa.suite('Auth');
         await jest_js_1.qa.step('open form', async () => undefined);
         const meta = (0, jest_js_1.drainQaMeta)();
-        strict_1.default.deepEqual(meta.map((m) => m.type), ['qa-suite', 'qa-step']);
+        strict_1.default.deepEqual(meta.map((m) => m.type), ['qa-suite', 'qa-step', 'qa-step-end']);
     });
 });

@@ -1,0 +1,4 @@
+node_modules/
+qanalyzer-results.json
+*.log
+.DS_Store

@@ -49,4 +49,32 @@ describe('buildJestCompatibleReport', () => {
     assert.equal(report.testResults?.length, 2);
     assert.equal(report.testResults?.[0]?.assertionResults?.[1]?.title, 'AUTH-102 fails');
   });
+
+  it('attaches meta.qa onto assertionResults when present', () => {
+    const report = buildJestCompatibleReport(
+      groupCasesByFile([
+        {
+          id: '1',
+          name: 'AUTH-101',
+          fullName: 'AUTH-101',
+          filePath: '/t.test.ts',
+          ancestorTitles: [],
+          status: 'passed',
+          durationMs: 1,
+          failureMessages: [],
+          metaQa: {
+            framework: 'vitest',
+            suite: [{ title: 'Auth' }],
+            steps: [{ id: 's1', stepType: 'text', name: 'open', status: 'passed' }],
+          },
+        },
+      ]),
+    );
+
+    assert.deepEqual(report.testResults?.[0]?.assertionResults?.[0]?.meta?.qa, {
+      framework: 'vitest',
+      suite: [{ title: 'Auth' }],
+      steps: [{ id: 's1', stepType: 'text', name: 'open', status: 'passed' }],
+    });
+  });
 });

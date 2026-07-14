@@ -3,6 +3,9 @@ import type { TestCase } from 'vitest/node';
 import {
   ModeEnum,
   QAnalyzerReporter,
+  applyQaAnnotations,
+  createQaMetaAccumulator,
+  toQaMetaWire,
   type OptionsType,
 } from 'qa-javascript-commons';
 
@@ -65,6 +68,24 @@ function collectFromTestCase(testCase: TestCase): CollectedCase {
     // ignore suite walk failures
   }
 
+  const acc = createQaMetaAccumulator();
+  try {
+    const annotations =
+      typeof testCase.annotations === 'function' ? testCase.annotations() : [];
+    applyQaAnnotations(
+      acc,
+      annotations.map((a) => ({
+        message: a.message,
+        type: (a as { type?: string }).type,
+        body: (a as { body?: unknown }).body,
+      })),
+    );
+  } catch {
+    // ignore annotation parse failures
+  }
+
+  const metaQa = toQaMetaWire(acc, { framework: 'vitest' });
+
   return {
     id: testCase.id,
     name: testCase.name,
@@ -78,6 +99,7 @@ function collectFromTestCase(testCase: TestCase): CollectedCase {
         : null,
     failureMessages,
     startTime: diagnostic?.startTime,
+    metaQa,
   };
 }
 

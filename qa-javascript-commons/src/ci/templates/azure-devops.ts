@@ -4,8 +4,14 @@ import {
   indentUploadCli,
 } from '../frameworks/upload';
 import {
-  assertVitestReporter,
-  vitestReporterRun,
+  assertReporterFramework,
+  frameworkReporterRun,
+  reporterConfigHint,
+  reporterFrameworkLabel,
+  planCiVariableHints,
+  versionTagCiVariableHints,
+  reporterPackageName,
+  reporterPreRunScripts,
 } from '../frameworks/reporter';
 import type {
   CiSecretHint,
@@ -15,11 +21,22 @@ import type {
 } from '../types';
 import { UnsupportedVariantError } from '../types';
 
+function azurePreRunScripts(ctx: CiTemplateContext): string {
+  return reporterPreRunScripts(ctx)
+    .map(
+      (cmd) => `  - script: ${cmd}
+    displayName: Install Playwright browsers
+`,
+    )
+    .join('');
+}
+
 function azureSecrets(): CiSecretHint[] {
   return [
     {
       name: 'QANALYZER_INGEST_URL',
-      description: 'Forge web trigger URL for QAnalyzer ingest',
+      description:
+        'Forge web trigger URL (launch ingest + binary attach / screenshots / qa.attach)',
       platformHint: 'Pipelines → Library → Variable group `qanalyzer-secrets` (mark as secret)',
     },
     {
@@ -41,12 +58,16 @@ function azureVariables(): CiVariableHint[] {
 }
 
 function renderAzureReporter(ctx: CiTemplateContext): CiTemplateResult {
-  assertVitestReporter(ctx);
+  assertReporterFramework(ctx);
   const nodeVersion = ctx.nodeVersion ?? '22';
   const urlExpr = ctx.ingestUrlExpr ?? `$(${ctx.ingestUrlSecret})`;
   const tokenExpr = ctx.ingestTokenExpr ?? `$(${ctx.ingestTokenSecret})`;
+  const label = reporterFrameworkLabel(ctx);
+  const pkg = reporterPackageName(ctx);
+  const configHint = reporterConfigHint(ctx);
 
-  const content = `# QAnalyzer fragment — Vitest qa-vitest reporter path
+  const content = `# QAnalyzer fragment — ${label} ${pkg} reporter path
+# Requires ${pkg} in package.json and ${configHint}
 trigger:
   - main
 
@@ -67,8 +88,8 @@ steps:
   - script: npm ci
     displayName: Install dependencies
 
-  - script: ${vitestReporterRun()}
-    displayName: Run Vitest with QAnalyzer reporter
+${azurePreRunScripts(ctx)}  - script: ${frameworkReporterRun(ctx)}
+    displayName: Run ${label} with QAnalyzer reporter
     env:
       QANALYZER_MODE: ingest
       QANALYZER_INGEST_URL: ${urlExpr}
@@ -78,17 +99,17 @@ steps:
 
   return {
     platform: 'azure-devops',
-    framework: 'vitest',
+    framework: ctx.framework,
     ingestPath: 'reporter',
     filename: 'azure-pipelines.yml',
     content,
     secretsSetup: azureSecrets(),
-    variablesSetup: azureVariables(),
+    variablesSetup: [...azureVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
   };
 }
 
 /**
- * Azure DevOps — upload path or Vitest reporter path.
+ * Azure DevOps — upload path or qa-vitest / qa-jest reporter path.
  */
 export function renderAzureDevOpsUpload(ctx: CiTemplateContext): CiTemplateResult {
   if (ctx.ingestPath === 'reporter') {
@@ -126,7 +147,7 @@ steps:
   - script: npm ci
     displayName: Install dependencies
 
-  - script: ${testCmd}
+${azurePreRunScripts(ctx)}  - script: ${testCmd}
     displayName: Run ${label}
 
   - script: |
@@ -145,6 +166,6 @@ ${uploadBlock}
     filename: 'azure-pipelines.yml',
     content,
     secretsSetup: azureSecrets(),
-    variablesSetup: azureVariables(),
+    variablesSetup: [...azureVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
   };
 }

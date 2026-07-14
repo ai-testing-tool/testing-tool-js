@@ -22,22 +22,37 @@ const PLATFORMS: CiPlatform[] = [
   'bitbucket',
 ];
 
-const FRAMEWORKS: CiFramework[] = ['vitest', 'jest'];
+const UPLOAD_FRAMEWORKS: CiFramework[] = ['vitest', 'jest', 'playwright'];
+const REPORTER_FRAMEWORKS: CiFramework[] = [
+  'vitest',
+  'jest',
+  'mocha',
+  'cucumberjs',
+  'cypress',
+  'playwright',
+  'wdio',
+];
 
-/** Upload path for Vitest + Jest; reporter path for Vitest (qa-vitest) only. */
+/**
+ * Upload path: Vitest, Jest, Playwright (JSON + qa-forge-api-client).
+ * Reporter path: Vitest, Jest, Mocha, CucumberJS, Cypress, Playwright, WebdriverIO.
+ * Mocha / CucumberJS / Cypress / WDIO have no upload JSON dual-path — use mode=file via reporter instead.
+ */
 const SUPPORTED_VARIANTS: CiTemplateVariant[] = [
   ...PLATFORMS.flatMap((platform) =>
-    FRAMEWORKS.map((framework) => ({
+    UPLOAD_FRAMEWORKS.map((framework) => ({
       platform,
       framework,
       ingestPath: 'upload' as const,
     })),
   ),
-  ...PLATFORMS.map((platform) => ({
-    platform,
-    framework: 'vitest' as const,
-    ingestPath: 'reporter' as const,
-  })),
+  ...PLATFORMS.flatMap((platform) =>
+    REPORTER_FRAMEWORKS.map((framework) => ({
+      platform,
+      framework,
+      ingestPath: 'reporter' as const,
+    })),
+  ),
 ];
 
 function isSupported(ctx: Pick<CiTemplateContext, 'platform' | 'framework' | 'ingestPath'>): boolean {

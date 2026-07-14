@@ -1,0 +1,7 @@
+node_modules/
+test-results/
+playwright-report/
+blob-report/
+.qa-playwright-results.json
+qanalyzer-results.json
+qanalyzer-playwright.json

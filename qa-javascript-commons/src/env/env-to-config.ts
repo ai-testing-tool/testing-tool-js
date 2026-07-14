@@ -27,6 +27,11 @@ export function envToConfig(): ConfigType {
     debug: readBoolean(EnvEnum.debug),
     projectKey: readEnv(EnvEnum.projectKey),
     launchName: readEnv(EnvEnum.launchName),
+    planId: readEnv(EnvEnum.planId),
+    planKey: readEnv(EnvEnum.planKey),
+    planName: readEnv(EnvEnum.planName),
+    fixVersion: readEnv(EnvEnum.fixVersion),
+    sprintName: readEnv(EnvEnum.sprintName),
     ingest: {
       url: readEnv(EnvIngestEnum.url),
       token: readEnv(EnvIngestEnum.token),

@@ -1,4 +1,9 @@
-import type { JestAssertionResult, JestTestFileResult, JestVitestJsonReport } from 'qa-javascript-commons';
+import type {
+  JestAssertionResult,
+  JestTestFileResult,
+  JestVitestJsonReport,
+  QaMetaWire,
+} from 'qa-javascript-commons';
 
 /** Minimal case shape collected by the Vitest reporter (testable without Vitest runtime). */
 export type CollectedCase = {
@@ -11,6 +16,8 @@ export type CollectedCase = {
   durationMs: number | null;
   failureMessages: string[];
   startTime?: number;
+  /** FR41 assertionResults[].meta.qa */
+  metaQa?: QaMetaWire;
 };
 
 export type CollectedFile = {
@@ -45,7 +52,7 @@ export function buildJestCompatibleReport(
       else if (c.status === 'todo') numTodoTests += 1;
       else numPendingTests += 1;
 
-      return {
+      const assertion: JestAssertionResult = {
         ancestorTitles: c.ancestorTitles,
         fullName: c.fullName,
         title: c.name,
@@ -53,6 +60,12 @@ export function buildJestCompatibleReport(
         duration: c.durationMs ?? undefined,
         failureMessages: c.failureMessages,
       };
+
+      if (c.metaQa) {
+        assertion.meta = { qa: c.metaQa };
+      }
+
+      return assertion;
     });
 
     const fileFailed = assertionResults.some((a) => a.status === 'failed');

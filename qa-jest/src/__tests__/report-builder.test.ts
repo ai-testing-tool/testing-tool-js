@@ -88,6 +88,41 @@ describe('toJestJsonReport', () => {
     assert.equal(report.testResults?.[0]?.name, '/tests/c.test.js');
     assert.equal(report.testResults?.[0]?.assertionResults?.[0]?.title, 'AUTH-200 ok');
   });
+  it('attaches meta.qa from helper map by fullName', () => {
+    const metaByFullName = new Map([
+      [
+        'Suite AUTH-101 passes',
+        {
+          framework: 'jest' as const,
+          suite: [{ title: 'Auth' }],
+          steps: [{ id: 's1', stepType: 'text' as const, name: 'open', status: 'passed' as const }],
+        },
+      ],
+    ]);
+
+    const report = toJestJsonReport(
+      {
+        testResults: [
+          {
+            name: '/tests/a.test.js',
+            assertionResults: [
+              {
+                fullName: 'Suite AUTH-101 passes',
+                title: 'AUTH-101 passes',
+                status: 'passed',
+              },
+            ],
+          },
+        ],
+      },
+      metaByFullName,
+    );
+
+    const qa = report.testResults?.[0]?.assertionResults?.[0]?.meta?.qa as
+      | { suite?: Array<{ title: string }> }
+      | undefined;
+    assert.deepEqual(qa?.suite, [{ title: 'Auth' }]);
+  });
 });
 
 describe('qa helpers', () => {
@@ -98,7 +133,7 @@ describe('qa helpers', () => {
     const meta = drainQaMeta();
     assert.deepEqual(
       meta.map((m) => m.type),
-      ['qa-suite', 'qa-step'],
+      ['qa-suite', 'qa-step', 'qa-step-end'],
     );
   });
 });

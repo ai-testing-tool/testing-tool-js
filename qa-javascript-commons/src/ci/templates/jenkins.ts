@@ -4,8 +4,14 @@ import {
   indentUploadCli,
 } from '../frameworks/upload';
 import {
-  assertVitestReporter,
-  vitestReporterRun,
+  assertReporterFramework,
+  frameworkReporterRun,
+  reporterConfigHint,
+  reporterFrameworkLabel,
+  planCiVariableHints,
+  versionTagCiVariableHints,
+  reporterPackageName,
+  reporterPreRunScripts,
 } from '../frameworks/reporter';
 import type {
   CiSecretHint,
@@ -15,11 +21,18 @@ import type {
 } from '../types';
 import { UnsupportedVariantError } from '../types';
 
+function jenkinsShLines(indent: string, ctx: CiTemplateContext, ...cmds: string[]): string {
+  // Use sh -c so redirects in Playwright JSON upload (`> file`) work.
+  return [...reporterPreRunScripts(ctx), ...cmds]
+    .map((cmd) => `${indent}sh -c '${cmd.replace(/'/g, `'\"'\"'`)}'`)
+    .join('\n');
+}
+
 function jenkinsSecrets(): CiSecretHint[] {
   return [
     {
       name: 'qanalyzer-ingest-url',
-      description: 'Secret text credential: Forge web trigger URL',
+      description: 'Secret text credential: Forge web trigger URL (ingest + attach)',
       platformHint: "Manage Jenkins → Credentials → Add → Secret text; ID `qanalyzer-ingest-url`",
     },
     {
@@ -41,9 +54,13 @@ function jenkinsVariables(): CiVariableHint[] {
 }
 
 function renderJenkinsReporter(ctx: CiTemplateContext): CiTemplateResult {
-  assertVitestReporter(ctx);
+  assertReporterFramework(ctx);
+  const label = reporterFrameworkLabel(ctx);
+  const pkg = reporterPackageName(ctx);
+  const configHint = reporterConfigHint(ctx);
 
-  const content = `// QAnalyzer fragment — Vitest qa-vitest reporter path
+  const content = `// QAnalyzer fragment — ${label} ${pkg} reporter path
+// Requires ${pkg} in package.json and ${configHint}
 pipeline {
   agent any
   environment {
@@ -59,7 +76,7 @@ pipeline {
           string(credentialsId: 'qanalyzer-ingest-token', variable: 'QANALYZER_INGEST_TOKEN'),
         ]) {
           sh 'npm ci'
-          sh '${vitestReporterRun()}'
+${jenkinsShLines('          ', ctx, frameworkReporterRun(ctx))}
         }
       }
     }
@@ -69,17 +86,17 @@ pipeline {
 
   return {
     platform: 'jenkins',
-    framework: 'vitest',
+    framework: ctx.framework,
     ingestPath: 'reporter',
     filename: 'Jenkinsfile',
     content,
     secretsSetup: jenkinsSecrets(),
-    variablesSetup: jenkinsVariables(),
+    variablesSetup: [...jenkinsVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
   };
 }
 
 /**
- * Jenkins — upload path or Vitest reporter path.
+ * Jenkins — upload path or qa-vitest / qa-jest reporter path.
  */
 export function renderJenkinsUpload(ctx: CiTemplateContext): CiTemplateResult {
   if (ctx.ingestPath === 'reporter') {
@@ -103,7 +120,7 @@ pipeline {
     stage('Test') {
       steps {
         sh 'npm ci'
-        sh '${testCmd}'
+${jenkinsShLines('        ', ctx, testCmd)}
       }
     }
   }
@@ -129,6 +146,6 @@ ${uploadBlock}
     filename: 'Jenkinsfile',
     content,
     secretsSetup: jenkinsSecrets(),
-    variablesSetup: jenkinsVariables(),
+    variablesSetup: [...jenkinsVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
   };
 }

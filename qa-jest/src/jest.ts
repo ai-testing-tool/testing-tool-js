@@ -1,9 +1,19 @@
 /**
- * Programmatic helpers for Jest tests (FR75).
- * Prefer Jira issue keys in test titles; use these for suite/fields/steps metadata.
+ * Programmatic helpers for Jest tests (FR75 + Phase 3 attach upload FR83).
  */
 
+import { uploadAttachmentForQa } from 'qa-javascript-commons';
+
 type StepFn = () => Promise<void> | void;
+
+export type QaAttachInput = {
+  name?: string;
+  contentType?: string;
+  type?: string;
+  content?: string | Buffer | Uint8Array;
+  path?: string;
+  issueKey?: string;
+};
 
 export type QaHelpers = {
   title(value: string): Promise<void>;
@@ -13,30 +23,47 @@ export type QaHelpers = {
   parameters(values: Record<string, string>): Promise<void>;
   ignore(): void;
   step(name: string, body: StepFn): Promise<void>;
-  attach(attach: {
-    name?: string;
-    contentType?: string;
-    type?: string;
-    content?: string;
-  }): Promise<void>;
+  attach(attach: QaAttachInput): Promise<void>;
 };
 
-type QaMetaEntry = {
+export type QaMetaEntry = {
   type: string;
   body: unknown;
 };
 
-/** In-memory buffer for future meta.qa enrichment (scaffold: collect only). */
-const metaBuffer: QaMetaEntry[] = [];
+export type QaJestBridge = {
+  push(entry: QaMetaEntry): void;
+  drain(): QaMetaEntry[];
+  currentTitle?: string;
+};
+
+declare global {
+  // eslint-disable-next-line no-var
+  var __QA_JEST_BRIDGE__: QaJestBridge | undefined;
+}
+
+const localBuffer: QaMetaEntry[] = [];
+
+function pushMeta(type: string, body: unknown): void {
+  const entry = { type, body };
+  if (globalThis.__QA_JEST_BRIDGE__) {
+    globalThis.__QA_JEST_BRIDGE__.push(entry);
+    return;
+  }
+  localBuffer.push(entry);
+}
 
 export function drainQaMeta(): QaMetaEntry[] {
-  const copy = [...metaBuffer];
-  metaBuffer.length = 0;
+  if (globalThis.__QA_JEST_BRIDGE__) {
+    return globalThis.__QA_JEST_BRIDGE__.drain();
+  }
+  const copy = [...localBuffer];
+  localBuffer.length = 0;
   return copy;
 }
 
-function pushMeta(type: string, body: unknown): void {
-  metaBuffer.push({ type, body });
+function currentTestTitle(): string | undefined {
+  return globalThis.__QA_JEST_BRIDGE__?.currentTitle;
 }
 
 export const qa: QaHelpers = {
@@ -60,12 +87,29 @@ export const qa: QaHelpers = {
   },
   async step(name: string, body: StepFn) {
     pushMeta('qa-step', name);
-    await body();
+    try {
+      await body();
+      pushMeta('qa-step-end', { name, status: 'passed' });
+    } catch (error) {
+      pushMeta('qa-step-failed', { name, status: 'failed' });
+      throw error;
+    }
   },
   async attach(attach) {
+    const mime = attach.contentType ?? attach.type;
+    const outcome = await uploadAttachmentForQa({
+      fileName: attach.name,
+      mimeType: mime,
+      content: attach.content,
+      path: attach.path,
+      issueKey: attach.issueKey,
+      issueKeySources: [attach.issueKey, currentTestTitle()],
+    });
     pushMeta('qa-attach', {
-      name: attach.name,
-      contentType: attach.contentType ?? attach.type,
+      name: outcome.attachment.file_name ?? attach.name,
+      contentType: outcome.attachment.mime_type ?? mime,
+      size: outcome.attachment.size,
+      content_ref: outcome.attachment.content_ref,
     });
   },
 };

@@ -4,11 +4,18 @@ exports.renderAzureDevOpsUpload = renderAzureDevOpsUpload;
 const upload_1 = require("../frameworks/upload");
 const reporter_1 = require("../frameworks/reporter");
 const types_1 = require("../types");
+function azurePreRunScripts(ctx) {
+    return (0, reporter_1.reporterPreRunScripts)(ctx)
+        .map((cmd) => `  - script: ${cmd}
+    displayName: Install Playwright browsers
+`)
+        .join('');
+}
 function azureSecrets() {
     return [
         {
             name: 'QANALYZER_INGEST_URL',
-            description: 'Forge web trigger URL for QAnalyzer ingest',
+            description: 'Forge web trigger URL (launch ingest + binary attach / screenshots / qa.attach)',
             platformHint: 'Pipelines → Library → Variable group `qanalyzer-secrets` (mark as secret)',
         },
         {
@@ -28,11 +35,15 @@ function azureVariables() {
     ];
 }
 function renderAzureReporter(ctx) {
-    (0, reporter_1.assertVitestReporter)(ctx);
+    (0, reporter_1.assertReporterFramework)(ctx);
     const nodeVersion = ctx.nodeVersion ?? '22';
     const urlExpr = ctx.ingestUrlExpr ?? `$(${ctx.ingestUrlSecret})`;
     const tokenExpr = ctx.ingestTokenExpr ?? `$(${ctx.ingestTokenSecret})`;
-    const content = `# QAnalyzer fragment — Vitest qa-vitest reporter path
+    const label = (0, reporter_1.reporterFrameworkLabel)(ctx);
+    const pkg = (0, reporter_1.reporterPackageName)(ctx);
+    const configHint = (0, reporter_1.reporterConfigHint)(ctx);
+    const content = `# QAnalyzer fragment — ${label} ${pkg} reporter path
+# Requires ${pkg} in package.json and ${configHint}
 trigger:
   - main
 
@@ -53,8 +64,8 @@ steps:
   - script: npm ci
     displayName: Install dependencies
 
-  - script: ${(0, reporter_1.vitestReporterRun)()}
-    displayName: Run Vitest with QAnalyzer reporter
+${azurePreRunScripts(ctx)}  - script: ${(0, reporter_1.frameworkReporterRun)(ctx)}
+    displayName: Run ${label} with QAnalyzer reporter
     env:
       QANALYZER_MODE: ingest
       QANALYZER_INGEST_URL: ${urlExpr}
@@ -63,16 +74,16 @@ steps:
 `;
     return {
         platform: 'azure-devops',
-        framework: 'vitest',
+        framework: ctx.framework,
         ingestPath: 'reporter',
         filename: 'azure-pipelines.yml',
         content,
         secretsSetup: azureSecrets(),
-        variablesSetup: azureVariables(),
+        variablesSetup: [...azureVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
     };
 }
 /**
- * Azure DevOps — upload path or Vitest reporter path.
+ * Azure DevOps — upload path or qa-vitest / qa-jest reporter path.
  */
 function renderAzureDevOpsUpload(ctx) {
     if (ctx.ingestPath === 'reporter') {
@@ -108,7 +119,7 @@ steps:
   - script: npm ci
     displayName: Install dependencies
 
-  - script: ${testCmd}
+${azurePreRunScripts(ctx)}  - script: ${testCmd}
     displayName: Run ${label}
 
   - script: |
@@ -126,6 +137,6 @@ ${uploadBlock}
         filename: 'azure-pipelines.yml',
         content,
         secretsSetup: azureSecrets(),
-        variablesSetup: azureVariables(),
+        variablesSetup: [...azureVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
     };
 }

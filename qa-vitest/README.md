@@ -60,6 +60,8 @@ test(
 
 Prefer **Jira issue keys in test titles**. Put competitive/reference notes in internal docs only — not in this package.
 
+`withQa` / `qa.*` annotations are collected by the reporter into `assertionResults[].meta.qa` (suite, fields, steps, comments) on Path B ingest/file.
+
 ## Dual path
 
 You can still use native JSON + CLI:

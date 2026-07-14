@@ -31,6 +31,30 @@ function parseArgs(argv) {
             args.launch = next;
             i += 1;
         }
+        if (arg === '--plan' && next) {
+            args.plan = next;
+            i += 1;
+        }
+        if (arg === '--plan-id' && next) {
+            args.planId = next;
+            i += 1;
+        }
+        if (arg === '--plan-key' && next) {
+            args.planKey = next;
+            i += 1;
+        }
+        if (arg === '--fix-version' && next) {
+            args.fixVersion = next;
+            i += 1;
+        }
+        if (arg === '--sprint' && next) {
+            args.sprint = next;
+            i += 1;
+        }
+        if (arg === '--format' && next) {
+            args.format = next;
+            i += 1;
+        }
     }
     return args;
 }
@@ -39,20 +63,30 @@ function printHelp() {
 
 Usage:
   qa-forge-api-client --project <KEY> --report <path>
+  qa-forge-api-client --project <KEY> --report results.xml --format junit-xml
 
 Options:
   --project, -p   Jira project key
-  --report, -r    Path to Jest/Vitest JSON (default: ./qanalyzer-results.json)
+  --report, -r    Path to Jest/Vitest JSON (default) or JUnit XML with --format junit-xml
+  --format        jest-json (default) | vitest-json | junit-xml
+                  Note: JUnit XML is optional/secondary; Jest/Vitest JSON remains primary (FR41).
   --url           Ingest URL (or QANALYZER_INGEST_URL)
   --token         Bearer token (or QANALYZER_INGEST_TOKEN)
   --launch, -l    Launch display name
+  --plan          Test Plan name (or QANALYZER_PLAN_NAME)
+  --plan-id       Test Plan UUID (or QANALYZER_PLAN_ID)
+  --plan-key      Test Plan slug (or QANALYZER_PLAN_KEY)
+  --fix-version  Fix version tag (or QANALYZER_FIX_VERSION)
+  --sprint        Sprint name tag (or QANALYZER_SPRINT)
   --help          Show this help
 `);
 }
-function readReport(path) {
+function readText(path) {
     const absolute = (0, path_1.resolve)(process.cwd(), path);
-    const raw = (0, fs_1.readFileSync)(absolute, 'utf8');
-    return JSON.parse(raw);
+    return (0, fs_1.readFileSync)(absolute, 'utf8');
+}
+function readJsonReport(path) {
+    return JSON.parse(readText(path));
 }
 async function main() {
     const args = parseArgs(process.argv.slice(2));
@@ -69,11 +103,19 @@ async function main() {
         process.exit(1);
     }
     const reportPath = args.report ?? './qanalyzer-results.json';
-    const report = readReport(reportPath);
+    const format = args.format ?? 'jest-json';
+    const report = format === 'junit-xml' ? readText(reportPath) : readJsonReport(reportPath);
+    // CLI flags override env (FR158)
     const payload = (0, qa_javascript_commons_1.buildIngestPayload)({
         projectKey,
         report,
+        format,
         launchName: args.launch ?? merged.launchName,
+        planId: args.planId ?? merged.planId,
+        planKey: args.planKey ?? merged.planKey,
+        planName: args.plan ?? merged.planName,
+        fixVersion: args.fixVersion ?? merged.fixVersion,
+        sprintName: args.sprint ?? merged.sprintName,
         ci: (0, qa_javascript_commons_1.detectCiEnvironment)(),
     });
     const client = new qa_javascript_commons_1.IngestClient({

@@ -4,11 +4,17 @@ exports.renderJenkinsUpload = renderJenkinsUpload;
 const upload_1 = require("../frameworks/upload");
 const reporter_1 = require("../frameworks/reporter");
 const types_1 = require("../types");
+function jenkinsShLines(indent, ctx, ...cmds) {
+    // Use sh -c so redirects in Playwright JSON upload (`> file`) work.
+    return [...(0, reporter_1.reporterPreRunScripts)(ctx), ...cmds]
+        .map((cmd) => `${indent}sh -c '${cmd.replace(/'/g, `'\"'\"'`)}'`)
+        .join('\n');
+}
 function jenkinsSecrets() {
     return [
         {
             name: 'qanalyzer-ingest-url',
-            description: 'Secret text credential: Forge web trigger URL',
+            description: 'Secret text credential: Forge web trigger URL (ingest + attach)',
             platformHint: "Manage Jenkins → Credentials → Add → Secret text; ID `qanalyzer-ingest-url`",
         },
         {
@@ -28,8 +34,12 @@ function jenkinsVariables() {
     ];
 }
 function renderJenkinsReporter(ctx) {
-    (0, reporter_1.assertVitestReporter)(ctx);
-    const content = `// QAnalyzer fragment — Vitest qa-vitest reporter path
+    (0, reporter_1.assertReporterFramework)(ctx);
+    const label = (0, reporter_1.reporterFrameworkLabel)(ctx);
+    const pkg = (0, reporter_1.reporterPackageName)(ctx);
+    const configHint = (0, reporter_1.reporterConfigHint)(ctx);
+    const content = `// QAnalyzer fragment — ${label} ${pkg} reporter path
+// Requires ${pkg} in package.json and ${configHint}
 pipeline {
   agent any
   environment {
@@ -45,7 +55,7 @@ pipeline {
           string(credentialsId: 'qanalyzer-ingest-token', variable: 'QANALYZER_INGEST_TOKEN'),
         ]) {
           sh 'npm ci'
-          sh '${(0, reporter_1.vitestReporterRun)()}'
+${jenkinsShLines('          ', ctx, (0, reporter_1.frameworkReporterRun)(ctx))}
         }
       }
     }
@@ -54,16 +64,16 @@ pipeline {
 `;
     return {
         platform: 'jenkins',
-        framework: 'vitest',
+        framework: ctx.framework,
         ingestPath: 'reporter',
         filename: 'Jenkinsfile',
         content,
         secretsSetup: jenkinsSecrets(),
-        variablesSetup: jenkinsVariables(),
+        variablesSetup: [...jenkinsVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
     };
 }
 /**
- * Jenkins — upload path or Vitest reporter path.
+ * Jenkins — upload path or qa-vitest / qa-jest reporter path.
  */
 function renderJenkinsUpload(ctx) {
     if (ctx.ingestPath === 'reporter') {
@@ -85,7 +95,7 @@ pipeline {
     stage('Test') {
       steps {
         sh 'npm ci'
-        sh '${testCmd}'
+${jenkinsShLines('        ', ctx, testCmd)}
       }
     }
   }
@@ -110,6 +120,6 @@ ${uploadBlock}
         filename: 'Jenkinsfile',
         content,
         secretsSetup: jenkinsSecrets(),
-        variablesSetup: jenkinsVariables(),
+        variablesSetup: [...jenkinsVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
     };
 }

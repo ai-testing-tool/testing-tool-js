@@ -1,0 +1,37 @@
+{
+  "name": "qa-cucumberjs",
+  "version": "0.0.0",
+  "description": "QAnalyzer CucumberJS formatter — ingest or file modes via qa-javascript-commons",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "npm run clean && npx tsc --project tsconfig.build.json",
+    "clean": "rm -rf dist",
+    "test": "npm run build && node --test dist/__tests__/**/*.test.js"
+  },
+  "dependencies": {
+    "@cucumber/messages": "^27.2.0",
+    "qa-javascript-commons": "0.0.0"
+  },
+  "peerDependencies": {
+    "@cucumber/cucumber": ">=10.0.0"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^11.2.0"
+  },
+  "license": "Apache-2.0"
+}

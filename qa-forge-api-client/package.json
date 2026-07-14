@@ -13,7 +13,7 @@
     "node": ">=18"
   },
   "scripts": {
-    "build": "npm run clean && npx tsc --project tsconfig.build.json",
+    "build": "npm run clean && npx tsc --project tsconfig.build.json && chmod +x dist/cli.js",
     "clean": "rm -rf dist",
     "test": "echo 'tests: pending'"
   },

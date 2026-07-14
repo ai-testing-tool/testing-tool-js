@@ -15,6 +15,11 @@ export type PublishReportOptions = {
   projectKey?: string;
   launchName?: string;
   format?: IngestPayload['format'];
+  planId?: string;
+  planKey?: string;
+  planName?: string;
+  fixVersion?: string;
+  sprintName?: string;
 };
 
 /**
@@ -76,6 +81,11 @@ export class QAnalyzerReporter {
       report,
       launchName: overrides.launchName ?? this.options.launchName,
       format: overrides.format,
+      planId: overrides.planId ?? this.options.planId,
+      planKey: overrides.planKey ?? this.options.planKey,
+      planName: overrides.planName ?? this.options.planName,
+      fixVersion: overrides.fixVersion ?? this.options.fixVersion,
+      sprintName: overrides.sprintName ?? this.options.sprintName,
       ci: detectCiEnvironment(),
     });
 

@@ -46,6 +46,19 @@ function collectFromTestCase(testCase) {
     catch {
         // ignore suite walk failures
     }
+    const acc = (0, qa_javascript_commons_1.createQaMetaAccumulator)();
+    try {
+        const annotations = typeof testCase.annotations === 'function' ? testCase.annotations() : [];
+        (0, qa_javascript_commons_1.applyQaAnnotations)(acc, annotations.map((a) => ({
+            message: a.message,
+            type: a.type,
+            body: a.body,
+        })));
+    }
+    catch {
+        // ignore annotation parse failures
+    }
+    const metaQa = (0, qa_javascript_commons_1.toQaMetaWire)(acc, { framework: 'vitest' });
     return {
         id: testCase.id,
         name: testCase.name,
@@ -58,6 +71,7 @@ function collectFromTestCase(testCase) {
             : null,
         failureMessages,
         startTime: diagnostic?.startTime,
+        metaQa,
     };
 }
 /**

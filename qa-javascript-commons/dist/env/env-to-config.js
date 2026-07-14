@@ -27,6 +27,11 @@ function envToConfig() {
         debug: readBoolean(env_enum_1.EnvEnum.debug),
         projectKey: readEnv(env_enum_1.EnvEnum.projectKey),
         launchName: readEnv(env_enum_1.EnvEnum.launchName),
+        planId: readEnv(env_enum_1.EnvEnum.planId),
+        planKey: readEnv(env_enum_1.EnvEnum.planKey),
+        planName: readEnv(env_enum_1.EnvEnum.planName),
+        fixVersion: readEnv(env_enum_1.EnvEnum.fixVersion),
+        sprintName: readEnv(env_enum_1.EnvEnum.sprintName),
         ingest: {
             url: readEnv(env_enum_1.EnvIngestEnum.url),
             token: readEnv(env_enum_1.EnvIngestEnum.token),

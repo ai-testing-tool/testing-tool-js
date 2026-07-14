@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UnsupportedVariantError = exports.uploadCliCommand = exports.indentUploadCli = exports.frameworkTestCommand = exports.frameworkLabel = exports.reporterIngestEnvLines = exports.vitestReporterRun = exports.vitestReporterEnv = exports.vitestJsonRun = exports.jestJsonRun = exports.listCiTemplateVariants = exports.generateCiTemplate = exports.buildCiTemplateContext = void 0;
+exports.UnsupportedVariantError = exports.uploadCliCommand = exports.indentUploadCli = exports.frameworkTestCommand = exports.frameworkLabel = exports.assertReporterFramework = exports.versionTagCiVariableHints = exports.planCiVariableHints = exports.reporterIngestEnvLines = exports.reporterConfigHint = exports.reporterFrameworkLabel = exports.reporterPackageName = exports.frameworkReporterRun = exports.cucumberjsReporterRun = exports.mochaReporterRun = exports.wdioReporterRun = exports.playwrightReporterRun = exports.cypressReporterRun = exports.jestReporterRun = exports.vitestReporterRun = exports.vitestReporterEnv = exports.vitestJsonRun = exports.jestJsonRun = exports.listCiTemplateVariants = exports.generateCiTemplate = exports.buildCiTemplateContext = void 0;
 var context_1 = require("./context");
 Object.defineProperty(exports, "buildCiTemplateContext", { enumerable: true, get: function () { return context_1.buildCiTemplateContext; } });
 var generate_ci_template_1 = require("./generate-ci-template");
@@ -13,7 +13,20 @@ Object.defineProperty(exports, "vitestJsonRun", { enumerable: true, get: functio
 Object.defineProperty(exports, "vitestReporterEnv", { enumerable: true, get: function () { return vitest_1.vitestReporterEnv; } });
 var reporter_1 = require("./frameworks/reporter");
 Object.defineProperty(exports, "vitestReporterRun", { enumerable: true, get: function () { return reporter_1.vitestReporterRun; } });
+Object.defineProperty(exports, "jestReporterRun", { enumerable: true, get: function () { return reporter_1.jestReporterRun; } });
+Object.defineProperty(exports, "cypressReporterRun", { enumerable: true, get: function () { return reporter_1.cypressReporterRun; } });
+Object.defineProperty(exports, "playwrightReporterRun", { enumerable: true, get: function () { return reporter_1.playwrightReporterRun; } });
+Object.defineProperty(exports, "wdioReporterRun", { enumerable: true, get: function () { return reporter_1.wdioReporterRun; } });
+Object.defineProperty(exports, "mochaReporterRun", { enumerable: true, get: function () { return reporter_1.mochaReporterRun; } });
+Object.defineProperty(exports, "cucumberjsReporterRun", { enumerable: true, get: function () { return reporter_1.cucumberjsReporterRun; } });
+Object.defineProperty(exports, "frameworkReporterRun", { enumerable: true, get: function () { return reporter_1.frameworkReporterRun; } });
+Object.defineProperty(exports, "reporterPackageName", { enumerable: true, get: function () { return reporter_1.reporterPackageName; } });
+Object.defineProperty(exports, "reporterFrameworkLabel", { enumerable: true, get: function () { return reporter_1.reporterFrameworkLabel; } });
+Object.defineProperty(exports, "reporterConfigHint", { enumerable: true, get: function () { return reporter_1.reporterConfigHint; } });
 Object.defineProperty(exports, "reporterIngestEnvLines", { enumerable: true, get: function () { return reporter_1.reporterIngestEnvLines; } });
+Object.defineProperty(exports, "planCiVariableHints", { enumerable: true, get: function () { return reporter_1.planCiVariableHints; } });
+Object.defineProperty(exports, "versionTagCiVariableHints", { enumerable: true, get: function () { return reporter_1.versionTagCiVariableHints; } });
+Object.defineProperty(exports, "assertReporterFramework", { enumerable: true, get: function () { return reporter_1.assertReporterFramework; } });
 var upload_1 = require("./frameworks/upload");
 Object.defineProperty(exports, "frameworkLabel", { enumerable: true, get: function () { return upload_1.frameworkLabel; } });
 Object.defineProperty(exports, "frameworkTestCommand", { enumerable: true, get: function () { return upload_1.frameworkTestCommand; } });

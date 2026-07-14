@@ -38,6 +38,47 @@ describe('buildIngestPayload', () => {
       { name: 'suite.test.ts', assertionResults: [] },
     ]);
   });
+
+  it('includes optional fixVersion and sprintName (FR21)', () => {
+    const payload = buildIngestPayload({
+      projectKey: 'AUTH',
+      report: { numTotalTests: 0, testResults: [] },
+      fixVersion: ' 2.4.0 ',
+      sprintName: 'Sprint 42',
+    });
+    assert.equal(payload.fixVersion, '2.4.0');
+    assert.equal(payload.sprintName, 'Sprint 42');
+  });
+
+  it('builds junit-xml payload with XML string report (FR45)', () => {
+    const xml = '<testsuite name="T"><testcase name="a" classname="c"/></testsuite>';
+    const payload = buildIngestPayload({
+      projectKey: 'AUTH',
+      format: 'junit-xml',
+      report: xml,
+    });
+    assert.equal(payload.format, 'junit-xml');
+    assert.equal(payload.report, xml);
+  });
+});
+
+describe('envToConfig version tags', () => {
+  it('maps QANALYZER_FIX_VERSION and QANALYZER_SPRINT', () => {
+    const prevFix = process.env.QANALYZER_FIX_VERSION;
+    const prevSprint = process.env.QANALYZER_SPRINT;
+    process.env.QANALYZER_FIX_VERSION = '2.4.0';
+    process.env.QANALYZER_SPRINT = 'Sprint 42';
+    try {
+      const config = envToConfig();
+      assert.equal(config.fixVersion, '2.4.0');
+      assert.equal(config.sprintName, 'Sprint 42');
+    } finally {
+      if (prevFix === undefined) delete process.env.QANALYZER_FIX_VERSION;
+      else process.env.QANALYZER_FIX_VERSION = prevFix;
+      if (prevSprint === undefined) delete process.env.QANALYZER_SPRINT;
+      else process.env.QANALYZER_SPRINT = prevSprint;
+    }
+  });
 });
 
 describe('createDefaultConfig', () => {

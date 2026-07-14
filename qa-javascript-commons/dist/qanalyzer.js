@@ -51,6 +51,11 @@ class QAnalyzerReporter {
             report,
             launchName: overrides.launchName ?? this.options.launchName,
             format: overrides.format,
+            planId: overrides.planId ?? this.options.planId,
+            planKey: overrides.planKey ?? this.options.planKey,
+            planName: overrides.planName ?? this.options.planName,
+            fixVersion: overrides.fixVersion ?? this.options.fixVersion,
+            sprintName: overrides.sprintName ?? this.options.sprintName,
             ci: (0, env_1.detectCiEnvironment)(),
         });
         if (this.fallback.isDisabled()) {

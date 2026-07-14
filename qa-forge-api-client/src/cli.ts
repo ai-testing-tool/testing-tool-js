@@ -9,6 +9,7 @@ import {
   envToConfig,
   loadConfig,
   composeOptions,
+  type IngestFormat,
   type JestVitestJsonReport,
 } from 'qa-javascript-commons';
 
@@ -18,6 +19,12 @@ type CliArgs = {
   url?: string;
   token?: string;
   launch?: string;
+  plan?: string;
+  planId?: string;
+  planKey?: string;
+  fixVersion?: string;
+  sprint?: string;
+  format?: IngestFormat;
   help?: boolean;
 };
 
@@ -47,6 +54,30 @@ function parseArgs(argv: string[]): CliArgs {
       args.launch = next;
       i += 1;
     }
+    if (arg === '--plan' && next) {
+      args.plan = next;
+      i += 1;
+    }
+    if (arg === '--plan-id' && next) {
+      args.planId = next;
+      i += 1;
+    }
+    if (arg === '--plan-key' && next) {
+      args.planKey = next;
+      i += 1;
+    }
+    if (arg === '--fix-version' && next) {
+      args.fixVersion = next;
+      i += 1;
+    }
+    if (arg === '--sprint' && next) {
+      args.sprint = next;
+      i += 1;
+    }
+    if (arg === '--format' && next) {
+      args.format = next as IngestFormat;
+      i += 1;
+    }
   }
   return args;
 }
@@ -56,21 +87,32 @@ function printHelp(): void {
 
 Usage:
   qa-forge-api-client --project <KEY> --report <path>
+  qa-forge-api-client --project <KEY> --report results.xml --format junit-xml
 
 Options:
   --project, -p   Jira project key
-  --report, -r    Path to Jest/Vitest JSON (default: ./qanalyzer-results.json)
+  --report, -r    Path to Jest/Vitest JSON (default) or JUnit XML with --format junit-xml
+  --format        jest-json (default) | vitest-json | junit-xml
+                  Note: JUnit XML is optional/secondary; Jest/Vitest JSON remains primary (FR41).
   --url           Ingest URL (or QANALYZER_INGEST_URL)
   --token         Bearer token (or QANALYZER_INGEST_TOKEN)
   --launch, -l    Launch display name
+  --plan          Test Plan name (or QANALYZER_PLAN_NAME)
+  --plan-id       Test Plan UUID (or QANALYZER_PLAN_ID)
+  --plan-key      Test Plan slug (or QANALYZER_PLAN_KEY)
+  --fix-version  Fix version tag (or QANALYZER_FIX_VERSION)
+  --sprint        Sprint name tag (or QANALYZER_SPRINT)
   --help          Show this help
 `);
 }
 
-function readReport(path: string): JestVitestJsonReport {
+function readText(path: string): string {
   const absolute = resolve(process.cwd(), path);
-  const raw = readFileSync(absolute, 'utf8');
-  return JSON.parse(raw) as JestVitestJsonReport;
+  return readFileSync(absolute, 'utf8');
+}
+
+function readJsonReport(path: string): JestVitestJsonReport {
+  return JSON.parse(readText(path)) as JestVitestJsonReport;
 }
 
 async function main(): Promise<void> {
@@ -90,11 +132,21 @@ async function main(): Promise<void> {
   }
 
   const reportPath = args.report ?? './qanalyzer-results.json';
-  const report = readReport(reportPath);
+  const format: IngestFormat = args.format ?? 'jest-json';
+  const report =
+    format === 'junit-xml' ? readText(reportPath) : readJsonReport(reportPath);
+
+  // CLI flags override env (FR158)
   const payload = buildIngestPayload({
     projectKey,
     report,
+    format,
     launchName: args.launch ?? merged.launchName,
+    planId: args.planId ?? merged.planId,
+    planKey: args.planKey ?? merged.planKey,
+    planName: args.plan ?? merged.planName,
+    fixVersion: args.fixVersion ?? merged.fixVersion,
+    sprintName: args.sprint ?? merged.sprintName,
     ci: detectCiEnvironment(),
   });
 

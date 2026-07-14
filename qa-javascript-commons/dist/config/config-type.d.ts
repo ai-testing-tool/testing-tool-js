@@ -13,6 +13,11 @@ export type ConfigType = {
     fallback?: `${ModeEnum}`;
     projectKey?: string;
     launchName?: string;
+    planId?: string;
+    planKey?: string;
+    planName?: string;
+    fixVersion?: string;
+    sprintName?: string;
     debug?: boolean;
     ingest?: IngestOptionsType;
     file?: FileOptionsType;

@@ -16,19 +16,32 @@ const PLATFORMS = [
     'jenkins',
     'bitbucket',
 ];
-const FRAMEWORKS = ['vitest', 'jest'];
-/** Upload path for Vitest + Jest; reporter path for Vitest (qa-vitest) only. */
+const UPLOAD_FRAMEWORKS = ['vitest', 'jest', 'playwright'];
+const REPORTER_FRAMEWORKS = [
+    'vitest',
+    'jest',
+    'mocha',
+    'cucumberjs',
+    'cypress',
+    'playwright',
+    'wdio',
+];
+/**
+ * Upload path: Vitest, Jest, Playwright (JSON + qa-forge-api-client).
+ * Reporter path: Vitest, Jest, Mocha, CucumberJS, Cypress, Playwright, WebdriverIO.
+ * Mocha / CucumberJS / Cypress / WDIO have no upload JSON dual-path — use mode=file via reporter instead.
+ */
 const SUPPORTED_VARIANTS = [
-    ...PLATFORMS.flatMap((platform) => FRAMEWORKS.map((framework) => ({
+    ...PLATFORMS.flatMap((platform) => UPLOAD_FRAMEWORKS.map((framework) => ({
         platform,
         framework,
         ingestPath: 'upload',
     }))),
-    ...PLATFORMS.map((platform) => ({
+    ...PLATFORMS.flatMap((platform) => REPORTER_FRAMEWORKS.map((framework) => ({
         platform,
-        framework: 'vitest',
+        framework,
         ingestPath: 'reporter',
-    })),
+    }))),
 ];
 function isSupported(ctx) {
     return SUPPORTED_VARIANTS.some((v) => v.platform === ctx.platform &&

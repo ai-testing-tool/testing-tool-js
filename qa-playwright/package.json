@@ -1,0 +1,40 @@
+{
+  "name": "qa-playwright",
+  "version": "0.0.0",
+  "description": "QAnalyzer Playwright reporter — ingest or file modes via qa-javascript-commons",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./helpers": {
+      "types": "./dist/helpers.d.ts",
+      "default": "./dist/helpers.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "npm run clean && npx tsc --project tsconfig.build.json && cp -R src/__fixtures__ dist/__fixtures__",
+    "clean": "rm -rf dist",
+    "test": "npm run build && node --test dist/__tests__/**/*.test.js"
+  },
+  "dependencies": {
+    "qa-javascript-commons": "0.0.0"
+  },
+  "peerDependencies": {
+    "@playwright/test": ">=1.40.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.1"
+  },
+  "license": "Apache-2.0"
+}

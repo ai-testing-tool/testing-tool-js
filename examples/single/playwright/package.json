@@ -1,0 +1,21 @@
+{
+  "name": "qanalyzer-playwright-pilot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "QAnalyzer Playwright pilot — saucedemo e-commerce E2E + qa-playwright reporter",
+  "scripts": {
+    "test": "QANALYZER_MODE=${QANALYZER_MODE:-off} npx playwright test",
+    "test:headed": "QANALYZER_MODE=${QANALYZER_MODE:-off} npx playwright test --headed",
+    "test:file": "QANALYZER_MODE=file QANALYZER_PROJECT_KEY=AUTH npx playwright test",
+    "upload": "npx qa-forge-api-client --project AUTH --launch \"playwright pilot\" --report qanalyzer-results.json",
+    "install:browsers": "npx playwright install chromium"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.1",
+    "qa-javascript-commons": "file:../../../qa-javascript-commons",
+    "qa-playwright": "file:../../../qa-playwright"
+  }
+}

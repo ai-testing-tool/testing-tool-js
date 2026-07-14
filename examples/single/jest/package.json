@@ -1,0 +1,21 @@
+{
+  "name": "qanalyzer-jest-pilot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "QAnalyzer Jest pilot — JSONPlaceholder API tests + JSON upload path",
+  "scripts": {
+    "test": "jest --runInBand",
+    "test:json": "jest --runInBand --json --outputFile=qanalyzer-results.json",
+    "upload": "npx qa-forge-api-client --project AUTH --launch \"jest pilot\" --report qanalyzer-results.json"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.13.10",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.4.0",
+    "typescript": "^5.8.2"
+  }
+}

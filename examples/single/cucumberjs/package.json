@@ -1,0 +1,19 @@
+{
+  "name": "qanalyzer-cucumberjs-pilot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "QAnalyzer CucumberJS pilot — JSONPlaceholder BDD + qa-cucumberjs formatter",
+  "scripts": {
+    "test": "QANALYZER_MODE=${QANALYZER_MODE:-off} cucumber-js",
+    "test:file": "QANALYZER_MODE=file QANALYZER_PROJECT_KEY=AUTH cucumber-js",
+    "upload": "npx qa-forge-api-client --project AUTH --launch \"cucumberjs pilot\" --report qanalyzer-results.json"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^11.2.0",
+    "qa-cucumberjs": "file:../../../qa-cucumberjs",
+    "qa-javascript-commons": "file:../../../qa-javascript-commons"
+  }
+}

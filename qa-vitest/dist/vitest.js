@@ -1,12 +1,27 @@
 "use strict";
 /**
- * Programmatic helpers for Vitest tests (FR98).
- * Prefer Jira issue keys in test titles; use these for suite/fields/steps metadata.
+ * Programmatic helpers for Vitest tests (FR98 + Phase 3 FR107 attach upload).
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.qa = void 0;
 exports.withQa = withQa;
-function createQaHelpers(annotate) {
+const qa_javascript_commons_1 = require("qa-javascript-commons");
+function vitestCurrentTitle(ctx) {
+    const task = ctx?.task;
+    if (task?.fullName)
+        return task.fullName;
+    if (task?.name)
+        return task.name;
+    try {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const { expect } = require('vitest');
+        return expect?.getState?.()?.currentTestName;
+    }
+    catch {
+        return undefined;
+    }
+}
+function createQaHelpers(annotate, titleSources) {
     return {
         async title(value) {
             await annotate(`QA Title: ${value}`, { type: 'qa-title', body: value });
@@ -30,16 +45,43 @@ function createQaHelpers(annotate) {
             });
         },
         ignore() {
-            // Sync only — marks intent; runner skip is still the caller's responsibility
+            // Sync only
         },
         async step(name, body) {
             await annotate(`QA Step: ${name}`, { type: 'qa-step', body: name });
-            await body();
+            try {
+                await body();
+                await annotate(`QA Step End: ${name}`, {
+                    type: 'qa-step-end',
+                    body: { name, status: 'passed' },
+                });
+            }
+            catch (error) {
+                await annotate(`QA Step Failed: ${name}`, {
+                    type: 'qa-step-failed',
+                    body: { name, status: 'failed' },
+                });
+                throw error;
+            }
         },
         async attach(attach) {
-            await annotate(`QA Attach: ${attach.name ?? 'file'}`, {
+            const mime = attach.type ?? attach.contentType;
+            const outcome = await (0, qa_javascript_commons_1.uploadAttachmentForQa)({
+                fileName: attach.name,
+                mimeType: mime,
+                content: attach.content,
+                path: attach.path,
+                issueKey: attach.issueKey,
+                issueKeySources: [attach.issueKey, ...titleSources()],
+            });
+            await annotate(`QA Attach: ${outcome.attachment.file_name ?? attach.name ?? 'file'}`, {
                 type: 'qa-attach',
-                body: { name: attach.name, type: attach.type },
+                body: {
+                    name: outcome.attachment.file_name ?? attach.name,
+                    type: outcome.attachment.mime_type ?? mime,
+                    size: outcome.attachment.size,
+                    content_ref: outcome.attachment.content_ref,
+                },
             });
         },
     };
@@ -52,9 +94,11 @@ function withQa(fn) {
         const annotate = typeof ctx.annotate === 'function'
             ? ctx.annotate
             : async () => undefined;
-        const qa = createQaHelpers(annotate);
+        const qa = createQaHelpers(annotate, () => [vitestCurrentTitle(ctx)]);
         await fn({ ...ctx, qa, annotate });
     };
 }
 /** Standalone helpers when not using withQa (no-op annotate). */
-exports.qa = createQaHelpers(async () => undefined);
+exports.qa = createQaHelpers(async () => undefined, () => [
+    vitestCurrentTitle(),
+]);

@@ -1,6 +1,13 @@
 export type CiPlatform = 'github' | 'gitlab' | 'azure-devops' | 'jenkins' | 'bitbucket';
 
-export type CiFramework = 'vitest' | 'jest';
+export type CiFramework =
+  | 'vitest'
+  | 'jest'
+  | 'mocha'
+  | 'cucumberjs'
+  | 'cypress'
+  | 'playwright'
+  | 'wdio';
 
 export type CiIngestPath = 'upload' | 'reporter';
 

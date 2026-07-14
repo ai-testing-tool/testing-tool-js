@@ -6,12 +6,55 @@ const report_builder_1 = require("./report-builder");
 /**
  * Jest custom reporter for QAnalyzer.
  * Configure: `reporters: ['default', 'qa-jest']` or `['qa-jest', { mode: 'ingest', ... }]`.
+ *
+ * Helpers from `qa-jest/jest` forward metadata via a global bridge (works with `--runInBand`).
  */
 class JestQaReporter {
     options;
     publishPromise = null;
+    bridgeBuffer = [];
+    metaByFullName = new Map();
     constructor(_globalConfig, options = {}) {
         this.options = options ?? {};
+        this.installBridge();
+    }
+    installBridge() {
+        const bridge = {
+            push: (entry) => {
+                this.bridgeBuffer.push(entry);
+            },
+            drain: () => {
+                const copy = [...this.bridgeBuffer];
+                this.bridgeBuffer.length = 0;
+                return copy;
+            },
+            currentTitle: undefined,
+        };
+        globalThis.__QA_JEST_BRIDGE__ = bridge;
+    }
+    onTestCaseStart(_test, testCaseStartInfo) {
+        try {
+            if (globalThis.__QA_JEST_BRIDGE__) {
+                globalThis.__QA_JEST_BRIDGE__.currentTitle =
+                    testCaseStartInfo.fullName ?? testCaseStartInfo.title;
+            }
+        }
+        catch {
+            // never fail
+        }
+    }
+    onTestCaseResult(_test, testCaseResult) {
+        try {
+            const entries = this.bridgeBuffer.splice(0, this.bridgeBuffer.length);
+            const wire = (0, qa_javascript_commons_1.qaMetaFromEntries)(entries, { framework: 'jest' });
+            const key = testCaseResult.fullName ?? testCaseResult.title;
+            if (wire && key) {
+                this.metaByFullName.set(key, wire);
+            }
+        }
+        catch {
+            // Never fail the Jest run because of metadata collection
+        }
     }
     async onRunComplete(_testContexts, results) {
         if (this.publishPromise) {
@@ -32,7 +75,7 @@ class JestQaReporter {
             if (mode === qa_javascript_commons_1.ModeEnum.off) {
                 return;
             }
-            const report = (0, report_builder_1.toJestJsonReport)(results);
+            const report = (0, report_builder_1.toJestJsonReport)(results, this.metaByFullName);
             await reporter.publishReport(report, {
                 format: 'jest-json',
                 launchName: this.options.launchName,

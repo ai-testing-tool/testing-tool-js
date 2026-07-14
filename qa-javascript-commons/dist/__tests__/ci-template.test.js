@@ -13,7 +13,16 @@ const PLATFORMS = [
     'jenkins',
     'bitbucket',
 ];
-const FRAMEWORKS = ['vitest', 'jest'];
+const FRAMEWORKS = ['vitest', 'jest', 'playwright'];
+const REPORTER_FRAMEWORKS = [
+    'vitest',
+    'jest',
+    'mocha',
+    'cucumberjs',
+    'cypress',
+    'playwright',
+    'wdio',
+];
 const EXPECTED_FILENAMES = {
     github: (fw) => `.github/workflows/qanalyzer-${fw}.yml`,
     gitlab: () => '.gitlab-ci.yml',
@@ -76,20 +85,34 @@ const EXPECTED_FILENAMES = {
     });
 });
 (0, node_test_1.describe)('listCiTemplateVariants', () => {
-    (0, node_test_1.it)('returns upload matrix plus Vitest reporter variants', () => {
+    (0, node_test_1.it)('returns upload (Vitest/Jest/Playwright) + reporter (… + WDIO) matrix', () => {
         const variants = (0, ci_1.listCiTemplateVariants)();
-        strict_1.default.equal(variants.length, 15);
+        // 5 platforms × 3 upload + 5 × 7 reporter = 50
+        strict_1.default.equal(variants.length, 50);
         for (const platform of PLATFORMS) {
             for (const framework of FRAMEWORKS) {
                 strict_1.default.ok(variants.some((v) => v.platform === platform &&
                     v.framework === framework &&
                     v.ingestPath === 'upload'), `missing ${platform}/${framework}/upload`);
             }
-            strict_1.default.ok(variants.some((v) => v.platform === platform &&
-                v.framework === 'vitest' &&
-                v.ingestPath === 'reporter'), `missing ${platform}/vitest/reporter`);
+            for (const framework of REPORTER_FRAMEWORKS) {
+                strict_1.default.ok(variants.some((v) => v.platform === platform &&
+                    v.framework === framework &&
+                    v.ingestPath === 'reporter'), `missing ${platform}/${framework}/reporter`);
+            }
+            strict_1.default.ok(!variants.some((v) => v.platform === platform &&
+                v.framework === 'cypress' &&
+                v.ingestPath === 'upload'), `Cypress upload must be unsupported (${platform})`);
+            strict_1.default.ok(!variants.some((v) => v.platform === platform &&
+                v.framework === 'wdio' &&
+                v.ingestPath === 'upload'), `WDIO upload must be unsupported (${platform})`);
+            strict_1.default.ok(!variants.some((v) => v.platform === platform &&
+                v.framework === 'mocha' &&
+                v.ingestPath === 'upload'), `Mocha upload must be unsupported (${platform})`);
+            strict_1.default.ok(!variants.some((v) => v.platform === platform &&
+                v.framework === 'cucumberjs' &&
+                v.ingestPath === 'upload'), `CucumberJS upload must be unsupported (${platform})`);
         }
-        strict_1.default.ok(!variants.some((v) => v.framework === 'jest' && v.ingestPath === 'reporter'));
     });
 });
 (0, node_test_1.describe)('generateCiTemplate — all platforms × frameworks', () => {
@@ -111,11 +134,17 @@ const EXPECTED_FILENAMES = {
                 strict_1.default.doesNotMatch(result.content, /qanalyzer-upload\.js/);
                 strict_1.default.ok(result.secretsSetup.length >= 2);
                 strict_1.default.ok(result.variablesSetup.length >= 1);
+                strict_1.default.ok(result.variablesSetup.some((v) => v.name === 'QANALYZER_PLAN_NAME'), 'documents QANALYZER_PLAN_NAME for Test Plans (FR158)');
+                strict_1.default.ok(result.variablesSetup.some((v) => v.name === 'QANALYZER_FIX_VERSION'), 'documents QANALYZER_FIX_VERSION for version tags (FR21)');
                 if (framework === 'vitest') {
                     strict_1.default.match(result.content, /npx vitest run --reporter=json --outputFile=qanalyzer-results\.json/);
                 }
-                else {
+                else if (framework === 'jest') {
                     strict_1.default.match(result.content, /npx jest --json --outputFile=qanalyzer-results\.json/);
+                }
+                else {
+                    strict_1.default.match(result.content, /npx playwright test --reporter=json/);
+                    strict_1.default.match(result.content, /npx playwright install --with-deps/);
                 }
             });
         }
@@ -227,7 +256,7 @@ pipeline {
     stage('Test') {
       steps {
         sh 'npm ci'
-        sh 'npx vitest run --reporter=json --outputFile=qanalyzer-results.json'
+        sh -c 'npx vitest run --reporter=json --outputFile=qanalyzer-results.json'
       }
     }
   }
@@ -327,29 +356,99 @@ steps:
 `);
     });
 });
-(0, node_test_1.describe)('reporter path (qa-vitest)', () => {
+(0, node_test_1.describe)('reporter path (qa-vitest / qa-jest / qa-mocha / qa-cucumberjs / qa-cypress / qa-playwright / qa-wdio)', () => {
     for (const platform of PLATFORMS) {
-        (0, node_test_1.it)(`${platform} / vitest / reporter`, () => {
-            const result = (0, ci_1.generateCiTemplate)({
-                platform,
-                framework: 'vitest',
-                ingestPath: 'reporter',
-                projectKey: 'AUTH',
+        for (const framework of REPORTER_FRAMEWORKS) {
+            (0, node_test_1.it)(`${platform} / ${framework} / reporter`, () => {
+                const result = (0, ci_1.generateCiTemplate)({
+                    platform,
+                    framework,
+                    ingestPath: 'reporter',
+                    projectKey: 'AUTH',
+                });
+                strict_1.default.equal(result.ingestPath, 'reporter');
+                strict_1.default.equal(result.framework, framework);
+                strict_1.default.match(result.content, /QANALYZER_MODE/);
+                const runPattern = framework === 'jest'
+                    ? /npx jest --runInBand/
+                    : framework === 'mocha'
+                        ? /npx mocha/
+                        : framework === 'cucumberjs'
+                            ? /npx cucumber-js/
+                            : framework === 'cypress'
+                                ? /npx cypress run/
+                                : framework === 'playwright'
+                                    ? /npx playwright test/
+                                    : framework === 'wdio'
+                                        ? /npx wdio run wdio\.conf\.js/
+                                        : /npx vitest run/;
+                strict_1.default.match(result.content, runPattern);
+                if (framework === 'playwright') {
+                    strict_1.default.match(result.content, /npx playwright install --with-deps/);
+                    strict_1.default.match(result.content, /qa-playwright/);
+                }
+                if (framework === 'wdio') {
+                    strict_1.default.match(result.content, /qa-wdio/);
+                    strict_1.default.match(result.content, /headless Chrome/);
+                }
+                if (framework === 'mocha') {
+                    strict_1.default.match(result.content, /qa-mocha/);
+                    strict_1.default.match(result.content, /\.mocharc\.js/);
+                }
+                if (framework === 'cucumberjs') {
+                    strict_1.default.match(result.content, /qa-cucumberjs/);
+                    strict_1.default.match(result.content, /cucumber\.js/);
+                }
+                strict_1.default.doesNotMatch(result.content, /qa-forge-api-client/);
+                strict_1.default.doesNotMatch(result.content, /Bearer\s+\S+/i);
+                strict_1.default.ok(result.variablesSetup.some((v) => v.name === 'QANALYZER_PLAN_NAME'), 'documents QANALYZER_PLAN_NAME for Test Plans (FR158)');
+                strict_1.default.ok(result.variablesSetup.some((v) => v.name === 'QANALYZER_FIX_VERSION'), 'documents QANALYZER_FIX_VERSION for version tags (FR21)');
             });
-            strict_1.default.equal(result.ingestPath, 'reporter');
-            strict_1.default.match(result.content, /QANALYZER_MODE/);
-            strict_1.default.match(result.content, /npx vitest run/);
-            strict_1.default.doesNotMatch(result.content, /qa-forge-api-client/);
-            strict_1.default.doesNotMatch(result.content, /Bearer\s+\S+/i);
-        });
+        }
     }
-    (0, node_test_1.it)('throws UnsupportedVariantError for jest reporter', () => {
+    (0, node_test_1.it)('rejects Cypress upload path', () => {
         strict_1.default.throws(() => (0, ci_1.generateCiTemplate)({
             platform: 'github',
-            framework: 'jest',
-            ingestPath: 'reporter',
+            framework: 'cypress',
+            ingestPath: 'upload',
             projectKey: 'AUTH',
-        }), (err) => err instanceof ci_1.UnsupportedVariantError);
+        }), /Unsupported CI template variant/);
+    });
+    (0, node_test_1.it)('rejects WDIO upload path', () => {
+        strict_1.default.throws(() => (0, ci_1.generateCiTemplate)({
+            platform: 'github',
+            framework: 'wdio',
+            ingestPath: 'upload',
+            projectKey: 'AUTH',
+        }), /Unsupported CI template variant/);
+    });
+    (0, node_test_1.it)('rejects Mocha upload path', () => {
+        strict_1.default.throws(() => (0, ci_1.generateCiTemplate)({
+            platform: 'github',
+            framework: 'mocha',
+            ingestPath: 'upload',
+            projectKey: 'AUTH',
+        }), /Unsupported CI template variant/);
+    });
+    (0, node_test_1.it)('rejects CucumberJS upload path', () => {
+        strict_1.default.throws(() => (0, ci_1.generateCiTemplate)({
+            platform: 'github',
+            framework: 'cucumberjs',
+            ingestPath: 'upload',
+            projectKey: 'AUTH',
+        }), /Unsupported CI template variant/);
+    });
+    (0, node_test_1.it)('supports Playwright upload JSON path', () => {
+        const result = (0, ci_1.generateCiTemplate)({
+            platform: 'github',
+            framework: 'playwright',
+            ingestPath: 'upload',
+            projectKey: 'AUTH',
+        });
+        strict_1.default.match(result.content, /npx playwright test --reporter=json/);
+        strict_1.default.match(result.content, /npx playwright install --with-deps/);
+        strict_1.default.match(result.content, /qa-forge-api-client/);
+        strict_1.default.doesNotMatch(result.content, /Bearer\s+\S+/i);
     });
 });
 (0, node_test_1.describe)('vitestJsonRun', () => {

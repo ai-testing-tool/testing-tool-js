@@ -25,7 +25,7 @@ function buildJestCompatibleReport(files, options = {}) {
                 numTodoTests += 1;
             else
                 numPendingTests += 1;
-            return {
+            const assertion = {
                 ancestorTitles: c.ancestorTitles,
                 fullName: c.fullName,
                 title: c.name,
@@ -33,6 +33,10 @@ function buildJestCompatibleReport(files, options = {}) {
                 duration: c.durationMs ?? undefined,
                 failureMessages: c.failureMessages,
             };
+            if (c.metaQa) {
+                assertion.meta = { qa: c.metaQa };
+            }
+            return assertion;
         });
         const fileFailed = assertionResults.some((a) => a.status === 'failed');
         testResults.push({

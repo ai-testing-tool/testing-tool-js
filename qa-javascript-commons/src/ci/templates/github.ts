@@ -1,8 +1,18 @@
-import { frameworkTestCommand, uploadCliCommand } from '../frameworks/upload';
 import {
-  assertVitestReporter,
+  frameworkLabel,
+  frameworkTestCommand,
+  uploadCliCommand,
+} from '../frameworks/upload';
+import {
+  assertReporterFramework,
+  frameworkReporterRun,
+  planCiVariableHints,
+  versionTagCiVariableHints,
+  reporterConfigHint,
+  reporterFrameworkLabel,
   reporterIngestEnvLines,
-  vitestReporterRun,
+  reporterPackageName,
+  reporterPreRunScripts,
 } from '../frameworks/reporter';
 import type {
   CiSecretHint,
@@ -12,11 +22,18 @@ import type {
 } from '../types';
 import { UnsupportedVariantError } from '../types';
 
+function githubPreRunSteps(ctx: CiTemplateContext): string {
+  return reporterPreRunScripts(ctx)
+    .map((cmd) => `      - run: ${cmd}`)
+    .join('\n');
+}
+
 function githubSecrets(): CiSecretHint[] {
   return [
     {
       name: 'QANALYZER_INGEST_URL',
-      description: 'Forge web trigger URL for QAnalyzer ingest',
+      description:
+        'Forge web trigger URL (launch ingest + binary attach / screenshots / qa.attach)',
       platformHint: 'Repository → Settings → Secrets and variables → Actions → New repository secret',
     },
     {
@@ -43,16 +60,20 @@ function githubFilename(framework: CiTemplateContext['framework'], ingestPath: C
 }
 
 function renderGithubReporter(ctx: CiTemplateContext): CiTemplateResult {
-  assertVitestReporter(ctx);
+  assertReporterFramework(ctx);
   const nodeVersion = ctx.nodeVersion ?? '22';
   const env = reporterIngestEnvLines(ctx);
   const urlExpr = ctx.ingestUrlExpr ?? `\${{ secrets.${ctx.ingestUrlSecret} }}`;
   const tokenExpr = ctx.ingestTokenExpr ?? `\${{ secrets.${ctx.ingestTokenSecret} }}`;
   const projectExpr = ctx.projectKeyExpr ?? `\${{ vars.JIRA_PROJECT_KEY }}`;
+  const label = reporterFrameworkLabel(ctx);
+  const pkg = reporterPackageName(ctx);
+  const configHint = reporterConfigHint(ctx);
+  const preRun = githubPreRunSteps(ctx);
 
-  const content = `name: QAnalyzer Vitest (qa-vitest)
+  const content = `name: QAnalyzer ${label} (${pkg})
 
-# Requires qa-vitest in package.json and vitest.config.ts reporters: ['default', 'qa-vitest']
+# Requires ${pkg} in package.json and ${configHint}
 on:
   push:
     branches: [main]
@@ -68,29 +89,35 @@ jobs:
           node-version: "${nodeVersion}"
           cache: npm
       - run: npm ci
-      - name: Run Vitest with QAnalyzer reporter
+${preRun ? `${preRun}\n` : ''}      - name: Run ${label} with QAnalyzer reporter
         env:
           QANALYZER_MODE: ${env.mode}
           QANALYZER_INGEST_URL: ${urlExpr}
           QANALYZER_INGEST_TOKEN: ${tokenExpr}
           QANALYZER_PROJECT_KEY: ${projectExpr}
           QANALYZER_LAUNCH_NAME: \${{ github.workflow }} #\${{ github.run_number }}
-        run: ${vitestReporterRun()}
+          # Optional Test Plan (FR158): QANALYZER_PLAN_NAME / QANALYZER_PLAN_ID / QANALYZER_PLAN_KEY
+          # QANALYZER_PLAN_NAME: Smoke
+          # Optional tags (FR21): QANALYZER_FIX_VERSION / QANALYZER_SPRINT
+          # QANALYZER_FIX_VERSION: 2.4.0
+          # QANALYZER_SPRINT: Sprint 42
+        run: ${frameworkReporterRun(ctx)}
 `;
 
   return {
     platform: 'github',
-    framework: 'vitest',
+    framework: ctx.framework,
     ingestPath: 'reporter',
-    filename: githubFilename('vitest', 'reporter'),
+    filename: githubFilename(ctx.framework, 'reporter'),
     content,
     secretsSetup: githubSecrets(),
-    variablesSetup: githubVariables(),
+    variablesSetup: [...githubVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
   };
 }
 
 /**
- * GitHub Actions — Vitest/Jest upload path, or Vitest qa-vitest reporter path.
+ * GitHub Actions — upload (Vitest/Jest/Playwright) or reporter
+ * (qa-vitest / qa-jest / qa-mocha / qa-cucumberjs / qa-cypress / qa-playwright / qa-wdio).
  */
 export function renderGithubUpload(ctx: CiTemplateContext): CiTemplateResult {
   if (ctx.ingestPath === 'reporter') {
@@ -99,12 +126,22 @@ export function renderGithubUpload(ctx: CiTemplateContext): CiTemplateResult {
   if (ctx.ingestPath !== 'upload') {
     throw new UnsupportedVariantError(ctx.platform, ctx.framework, ctx.ingestPath);
   }
+  if (
+    ctx.framework === 'mocha' ||
+    ctx.framework === 'cucumberjs' ||
+    ctx.framework === 'cypress' ||
+    ctx.framework === 'wdio'
+  ) {
+    throw new UnsupportedVariantError(ctx.platform, ctx.framework, ctx.ingestPath);
+  }
 
   const nodeVersion = ctx.nodeVersion ?? '22';
   const testCmd = frameworkTestCommand(ctx);
   const uploadCmd = uploadCliCommand(ctx);
   const urlExpr = ctx.ingestUrlExpr ?? `\${{ secrets.${ctx.ingestUrlSecret} }}`;
   const tokenExpr = ctx.ingestTokenExpr ?? `\${{ secrets.${ctx.ingestTokenSecret} }}`;
+  const label = frameworkLabel(ctx);
+  const preRun = githubPreRunSteps(ctx);
 
   const testStep =
     ctx.includeTestStep === false
@@ -123,7 +160,7 @@ export function renderGithubUpload(ctx: CiTemplateContext): CiTemplateResult {
           ${uploadCmd.split('\n').join('\n          ')}
 `;
 
-  const content = `name: QAnalyzer ${ctx.framework === 'vitest' ? 'Vitest' : 'Jest'}
+  const content = `name: QAnalyzer ${label}
 
 on:
   push:
@@ -140,7 +177,7 @@ jobs:
           node-version: "${nodeVersion}"
           cache: npm
       - run: npm ci
-${testStep}${uploadStep}`;
+${preRun ? `${preRun}\n` : ''}${testStep}${uploadStep}`;
 
   return {
     platform: 'github',
@@ -149,6 +186,6 @@ ${testStep}${uploadStep}`;
     filename: githubFilename(ctx.framework, 'upload'),
     content,
     secretsSetup: githubSecrets(),
-    variablesSetup: githubVariables(),
+    variablesSetup: [...githubVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
   };
 }

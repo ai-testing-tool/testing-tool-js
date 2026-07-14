@@ -113,6 +113,28 @@ Await all `qa.*` calls except `qa.ignore()` (sync). Prefer **Jira keys in titles
 
 This example’s tests stay plain Vitest (no `withQa`) so Path A stays zero-config.
 
+## Optional: Test Plans
+
+Attach a launch to a named plan (groups runs on the Jira project **Plans** tab):
+
+```bash
+export QANALYZER_PLAN_NAME=Smoke
+# or: QANALYZER_PLAN_ID=<uuid> / QANALYZER_PLAN_KEY=smoke
+# upload CLI: --plan Smoke | --plan-id <uuid> | --plan-key smoke
+```
+
+Plans do not run tests — CI still selects which files execute.
+
+## Optional: Fix version / sprint tags
+
+Tag launches for release filtering (project + global Quality pages):
+
+```bash
+export QANALYZER_FIX_VERSION=2.4.0
+export QANALYZER_SPRINT="Sprint 42"
+# upload CLI: --fix-version 2.4.0 --sprint "Sprint 42"
+```
+
 ## Configure page
 
 1. Jira → Manage apps → **QAnalyzer** (configure)

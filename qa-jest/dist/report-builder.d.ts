@@ -1,4 +1,4 @@
-import type { JestVitestJsonReport } from 'qa-javascript-commons';
+import type { JestVitestJsonReport, QaMetaWire } from 'qa-javascript-commons';
 /**
  * Minimal AggregatedResult / --json shapes accepted by the mapper.
  * Jest onRunComplete uses `testFilePath` + nested `testResults`;
@@ -39,5 +39,6 @@ export type AggregatedResultLike = {
 };
 /**
  * Normalize Jest AggregatedResult or native `--json` output into FR41 jest-json shape.
+ * Optional `metaByFullName` attaches `meta.qa` from qa helpers (reporter path).
  */
-export declare function toJestJsonReport(results: AggregatedResultLike): JestVitestJsonReport;
+export declare function toJestJsonReport(results: AggregatedResultLike, metaByFullName?: ReadonlyMap<string, QaMetaWire>): JestVitestJsonReport;

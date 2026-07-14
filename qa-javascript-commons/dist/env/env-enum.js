@@ -8,6 +8,11 @@ var EnvEnum;
     EnvEnum["debug"] = "QANALYZER_DEBUG";
     EnvEnum["projectKey"] = "QANALYZER_PROJECT_KEY";
     EnvEnum["launchName"] = "QANALYZER_LAUNCH_NAME";
+    EnvEnum["planId"] = "QANALYZER_PLAN_ID";
+    EnvEnum["planKey"] = "QANALYZER_PLAN_KEY";
+    EnvEnum["planName"] = "QANALYZER_PLAN_NAME";
+    EnvEnum["fixVersion"] = "QANALYZER_FIX_VERSION";
+    EnvEnum["sprintName"] = "QANALYZER_SPRINT";
 })(EnvEnum || (exports.EnvEnum = EnvEnum = {}));
 var EnvIngestEnum;
 (function (EnvIngestEnum) {

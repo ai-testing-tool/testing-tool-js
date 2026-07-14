@@ -8,7 +8,8 @@ JavaScript / TypeScript client SDK for **QAnalyzer** (Jira Forge quality hub).
 | Forge API client | `qa-forge-api-client` | Scaffold |
 | Vitest reporter | `qa-vitest` | Scaffold (Sprint 4 / Epic 2.1) |
 | Jest reporter | `qa-jest` | Scaffold (Sprint 5 / Epic 2.2) |
-| Cypress | `qa-cypress` | Planned (P3) |
+| Cypress | `qa-cypress` | Scaffold (Sprint 7 / Epic 2.6) |
+| Playwright | `qa-playwright` | Scaffold (Sprint 8 / Epic 2.7) |
 
 **Location:** `bmad-crm/qanalyzer/qanalyzer-js` (product workspace; own npm publish pipeline).
 
@@ -29,6 +30,24 @@ npx qa-forge-api-client --project AUTH --report qanalyzer-results.json
 
 Env: `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`.
 
+### Optional JUnit XML (secondary)
+
+Jest/Vitest JSON remains the **primary** FR41 contract. For legacy JVM runners:
+
+```bash
+# Surefire / Gradle JUnit XML → Forge (server normalizes to FR41)
+npx qa-forge-api-client --project AUTH --report target/surefire-reports/TEST-*.xml --format junit-xml
+```
+
+Or curl JSON envelope:
+
+```bash
+curl -X POST "$QANALYZER_INGEST_URL" \
+  -H "Authorization: Bearer $QANALYZER_INGEST_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "{\"projectKey\":\"AUTH\",\"format\":\"junit-xml\",\"report\":$(jq -Rs . < results.xml)}"
+```
+
 ## Layout
 
 ```
@@ -37,6 +56,12 @@ qanalyzer-js/
 ├── qa-forge-api-client/
 ├── qa-vitest/
 ├── qa-jest/
+├── qa-cypress/
+├── qa-playwright/
+├── examples/single/vitest/
+├── examples/single/jest/
+├── examples/single/cypress/
+├── examples/single/playwright/
 ├── schemas/ingest-payload.schema.json
 └── package.json          # npm workspaces root
 ```

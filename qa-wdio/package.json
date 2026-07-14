@@ -1,0 +1,50 @@
+{
+  "name": "qa-wdio",
+  "version": "0.0.0",
+  "description": "QAnalyzer WebdriverIO reporter + service — ingest or file modes via qa-javascript-commons",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./helpers": {
+      "types": "./dist/helpers.d.ts",
+      "default": "./dist/helpers.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "npm run clean && npx tsc --project tsconfig.build.json && cp -R src/__fixtures__ dist/__fixtures__",
+    "clean": "rm -rf dist",
+    "test": "npm run build && node --test dist/__tests__/**/*.test.js"
+  },
+  "dependencies": {
+    "@wdio/reporter": "^8.43.0",
+    "qa-javascript-commons": "0.0.0"
+  },
+  "peerDependencies": {
+    "@wdio/mocha-framework": ">=8.0.0",
+    "@wdio/cucumber-framework": ">=8.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@wdio/mocha-framework": {
+      "optional": true
+    },
+    "@wdio/cucumber-framework": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10"
+  },
+  "license": "Apache-2.0"
+}

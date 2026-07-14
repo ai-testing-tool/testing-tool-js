@@ -7,6 +7,11 @@ export {
   buildIngestPayload,
   estimatePayloadBytes,
   normalizeJestReport,
+  applyQaAnnotation,
+  applyQaAnnotations,
+  createQaMetaAccumulator,
+  qaMetaFromEntries,
+  toQaMetaWire,
   TestResultType,
   TestStepType,
   TestExecution,
@@ -15,9 +20,16 @@ export {
   StepExecution,
   StepStatusEnum,
   type IngestPayload,
+  type IngestFormat,
   type JestVitestJsonReport,
   type JestAssertionResult,
   type JestTestFileResult,
+  type QaAnnotationLike,
+  type QaMetaAccumulator,
+  type QaMetaWire,
+  type QaMetaStepWire,
+  type QaMetaAttachmentWire,
+  type QaMetaFramework,
   type Report,
   type Stats,
   type ShortResult,
@@ -27,10 +39,18 @@ export {
   type Suite,
   type SuiteData,
 } from './models';
-export { IngestClient, type IngestResponse } from './client';
+export { IngestClient, AttachClient, DEFAULT_MAX_ATTACH_BYTES, type IngestResponse } from './client';
 export { FsWriter } from './writer';
 export { FallbackCoordinator, IngestReporter, FileReporter } from './reporters';
-export { Logger, sanitizeOptionsForLog } from './utils';
+export {
+  Logger,
+  sanitizeOptionsForLog,
+  extractIssueKeys,
+  firstIssueKey,
+  projectKeyFromIssueKey,
+  uploadAttachmentForQa,
+  EnvAttachEnum,
+} from './utils';
 export {
   generateCiTemplate,
   buildCiTemplateContext,
@@ -49,6 +69,3 @@ export {
 } from './ci';
 
 export const PACKAGE_NAME = 'qa-javascript-commons';
-
-/** @deprecated Use ConfigType */
-export type QAnalyzerConfig = import('./config').ConfigType;

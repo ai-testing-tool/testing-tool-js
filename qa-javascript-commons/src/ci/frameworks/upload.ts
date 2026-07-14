@@ -31,9 +31,24 @@ export function frameworkTestCommand(ctx: CiTemplateContext): string {
   if (ctx.framework === 'vitest') {
     return `npx vitest run --reporter=json --outputFile=${reportFile}`;
   }
-  return `npx jest --json --outputFile=${reportFile}`;
+  if (ctx.framework === 'jest') {
+    return `npx jest --json --outputFile=${reportFile}`;
+  }
+  if (ctx.framework === 'playwright') {
+    // Native Playwright JSON reporter → stdout (FR109 Path A)
+    return `npx playwright test --reporter=json > ${reportFile}`;
+  }
+  throw new Error(
+    'Upload JSON path is not supported for Mocha, CucumberJS, Cypress, or WebdriverIO — use ingestPath: reporter (qa-mocha / qa-cucumberjs / qa-cypress / qa-wdio)',
+  );
 }
 
 export function frameworkLabel(ctx: CiTemplateContext): string {
-  return ctx.framework === 'vitest' ? 'Vitest' : 'Jest';
+  if (ctx.framework === 'vitest') return 'Vitest';
+  if (ctx.framework === 'mocha') return 'Mocha';
+  if (ctx.framework === 'cucumberjs') return 'CucumberJS';
+  if (ctx.framework === 'cypress') return 'Cypress';
+  if (ctx.framework === 'playwright') return 'Playwright';
+  if (ctx.framework === 'wdio') return 'WebdriverIO';
+  return 'Jest';
 }

@@ -4,11 +4,16 @@ exports.renderBitbucketUpload = renderBitbucketUpload;
 const upload_1 = require("../frameworks/upload");
 const reporter_1 = require("../frameworks/reporter");
 const types_1 = require("../types");
+function bitbucketScriptLines(ctx, ...cmds) {
+    return [...(0, reporter_1.reporterPreRunScripts)(ctx), ...cmds]
+        .map((c) => `          - ${c}`)
+        .join('\n');
+}
 function bitbucketSecrets() {
     return [
         {
             name: 'QANALYZER_INGEST_URL',
-            description: 'Forge web trigger URL for QAnalyzer ingest',
+            description: 'Forge web trigger URL (launch ingest + binary attach / screenshots / qa.attach)',
             platformHint: 'Repository settings → Pipelines → Repository variables (Secured)',
         },
         {
@@ -28,9 +33,13 @@ function bitbucketVariables() {
     ];
 }
 function renderBitbucketReporter(ctx) {
-    (0, reporter_1.assertVitestReporter)(ctx);
+    (0, reporter_1.assertReporterFramework)(ctx);
     const nodeVersion = ctx.nodeVersion ?? '22';
-    const content = `# QAnalyzer fragment — Vitest qa-vitest reporter path
+    const label = (0, reporter_1.reporterFrameworkLabel)(ctx);
+    const pkg = (0, reporter_1.reporterPackageName)(ctx);
+    const configHint = (0, reporter_1.reporterConfigHint)(ctx);
+    const content = `# QAnalyzer fragment — ${label} ${pkg} reporter path
+# Requires ${pkg} in package.json and ${configHint}
 # Set secured vars QANALYZER_INGEST_URL / QANALYZER_INGEST_TOKEN
 image: node:${nodeVersion}
 
@@ -44,20 +53,20 @@ pipelines:
           - export QANALYZER_MODE=ingest
           - export QANALYZER_PROJECT_KEY=$JIRA_PROJECT_KEY
           - npm ci
-          - ${(0, reporter_1.vitestReporterRun)()}
+${bitbucketScriptLines(ctx, (0, reporter_1.frameworkReporterRun)(ctx))}
 `;
     return {
         platform: 'bitbucket',
-        framework: 'vitest',
+        framework: ctx.framework,
         ingestPath: 'reporter',
         filename: 'bitbucket-pipelines.yml',
         content,
         secretsSetup: bitbucketSecrets(),
-        variablesSetup: bitbucketVariables(),
+        variablesSetup: [...bitbucketVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
     };
 }
 /**
- * Bitbucket Pipelines — upload path or Vitest reporter path.
+ * Bitbucket Pipelines — upload path or qa-vitest / qa-jest reporter path.
  */
 function renderBitbucketUpload(ctx) {
     if (ctx.ingestPath === 'reporter') {
@@ -83,7 +92,7 @@ pipelines:
           - node
         script:
           - npm ci
-          - ${testCmd}
+${bitbucketScriptLines(ctx, testCmd)}
         artifacts:
           - ${reportFile}
     - step:
@@ -99,6 +108,6 @@ ${uploadBlock}
         filename: 'bitbucket-pipelines.yml',
         content,
         secretsSetup: bitbucketSecrets(),
-        variablesSetup: bitbucketVariables(),
+        variablesSetup: [...bitbucketVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
     };
 }

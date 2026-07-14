@@ -4,8 +4,14 @@ import {
   indentUploadCli,
 } from '../frameworks/upload';
 import {
-  assertVitestReporter,
-  vitestReporterRun,
+  assertReporterFramework,
+  frameworkReporterRun,
+  reporterConfigHint,
+  reporterFrameworkLabel,
+  planCiVariableHints,
+  versionTagCiVariableHints,
+  reporterPackageName,
+  reporterPreRunScripts,
 } from '../frameworks/reporter';
 import type {
   CiSecretHint,
@@ -15,11 +21,16 @@ import type {
 } from '../types';
 import { UnsupportedVariantError } from '../types';
 
+function gitlabScriptLines(ctx: CiTemplateContext, ...cmds: string[]): string {
+  return [...reporterPreRunScripts(ctx), ...cmds].map((c) => `    - ${c}`).join('\n');
+}
+
 function gitlabSecrets(): CiSecretHint[] {
   return [
     {
       name: 'QANALYZER_INGEST_URL',
-      description: 'Forge web trigger URL for QAnalyzer ingest',
+      description:
+        'Forge web trigger URL (launch ingest + binary attach / screenshots / qa.attach)',
       platformHint: 'Settings → CI/CD → Variables → Add variable (Masked + Protected as needed)',
     },
     {
@@ -41,15 +52,19 @@ function gitlabVariables(): CiVariableHint[] {
 }
 
 function renderGitlabReporter(ctx: CiTemplateContext): CiTemplateResult {
-  assertVitestReporter(ctx);
+  assertReporterFramework(ctx);
   const nodeVersion = ctx.nodeVersion ?? '22';
+  const label = reporterFrameworkLabel(ctx);
+  const pkg = reporterPackageName(ctx);
+  const configHint = reporterConfigHint(ctx);
+  const jobName = ctx.framework;
 
-  const content = `# QAnalyzer fragment — Vitest qa-vitest reporter path
-# Requires qa-vitest in package.json and vitest.config.ts reporters
+  const content = `# QAnalyzer fragment — ${label} ${pkg} reporter path
+# Requires ${pkg} in package.json and ${configHint}
 stages:
   - test
 
-vitest:
+${jobName}:
   stage: test
   image: node:${nodeVersion}-alpine
   variables:
@@ -58,24 +73,26 @@ vitest:
     QANALYZER_INGEST_TOKEN: $QANALYZER_INGEST_TOKEN
     QANALYZER_PROJECT_KEY: $JIRA_PROJECT_KEY
     QANALYZER_LAUNCH_NAME: $CI_PIPELINE_ID
+    # Optional Test Plan: QANALYZER_PLAN_NAME / QANALYZER_PLAN_ID / QANALYZER_PLAN_KEY
+    # Optional tags: QANALYZER_FIX_VERSION / QANALYZER_SPRINT
   script:
     - npm ci
-    - ${vitestReporterRun()}
+${gitlabScriptLines(ctx, frameworkReporterRun(ctx))}
 `;
 
   return {
     platform: 'gitlab',
-    framework: 'vitest',
+    framework: ctx.framework,
     ingestPath: 'reporter',
     filename: '.gitlab-ci.yml',
     content,
     secretsSetup: gitlabSecrets(),
-    variablesSetup: gitlabVariables(),
+    variablesSetup: [...gitlabVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
   };
 }
 
 /**
- * GitLab CI — upload path or Vitest reporter path.
+ * GitLab CI — upload path or qa-vitest / qa-jest reporter path.
  */
 export function renderGitlabUpload(ctx: CiTemplateContext): CiTemplateResult {
   if (ctx.ingestPath === 'reporter') {
@@ -103,7 +120,7 @@ ${jobName}:
   image: node:${nodeVersion}-alpine
   script:
     - npm ci
-    - ${testCmd}
+${gitlabScriptLines(ctx, testCmd)}
   artifacts:
     when: always
     paths:
@@ -129,6 +146,6 @@ ${uploadBlock}
     filename: '.gitlab-ci.yml',
     content,
     secretsSetup: gitlabSecrets(),
-    variablesSetup: gitlabVariables(),
+    variablesSetup: [...gitlabVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
   };
 }

@@ -1,4 +1,9 @@
-import type { JestAssertionResult, JestTestFileResult, JestVitestJsonReport } from 'qa-javascript-commons';
+import type {
+  JestAssertionResult,
+  JestTestFileResult,
+  JestVitestJsonReport,
+  QaMetaWire,
+} from 'qa-javascript-commons';
 
 /**
  * Minimal AggregatedResult / --json shapes accepted by the mapper.
@@ -41,15 +46,26 @@ export type AggregatedResultLike = {
   testResults?: AggregatedFileLike[];
 };
 
-function mapAssertion(a: AggregatedAssertionLike): JestAssertionResult {
-  return {
+function mapAssertion(
+  a: AggregatedAssertionLike,
+  metaByFullName?: ReadonlyMap<string, QaMetaWire>,
+): JestAssertionResult {
+  const fullName = a.fullName ?? a.title ?? '';
+  const assertion: JestAssertionResult = {
     ancestorTitles: a.ancestorTitles ?? [],
-    fullName: a.fullName ?? a.title ?? '',
+    fullName,
     title: a.title ?? '',
     status: a.status,
     duration: a.duration ?? undefined,
     failureMessages: a.failureMessages ?? [],
   };
+
+  const qa = metaByFullName?.get(fullName);
+  if (qa) {
+    assertion.meta = { qa };
+  }
+
+  return assertion;
 }
 
 function fileStatus(
@@ -62,11 +78,15 @@ function fileStatus(
 
 /**
  * Normalize Jest AggregatedResult or native `--json` output into FR41 jest-json shape.
+ * Optional `metaByFullName` attaches `meta.qa` from qa helpers (reporter path).
  */
-export function toJestJsonReport(results: AggregatedResultLike): JestVitestJsonReport {
+export function toJestJsonReport(
+  results: AggregatedResultLike,
+  metaByFullName?: ReadonlyMap<string, QaMetaWire>,
+): JestVitestJsonReport {
   const testResults: JestTestFileResult[] = (results.testResults ?? []).map((file) => {
     const rawAssertions = file.assertionResults ?? file.testResults ?? [];
-    const assertionResults = rawAssertions.map(mapAssertion);
+    const assertionResults = rawAssertions.map((a) => mapAssertion(a, metaByFullName));
     return {
       name: file.name ?? file.testFilePath ?? 'unknown',
       status: fileStatus(file, assertionResults),

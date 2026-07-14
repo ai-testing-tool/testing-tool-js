@@ -1,0 +1,183 @@
+{
+  "suite": "saucedemo-reference-wdio",
+  "source": "saucedemo e-commerce suite (login/inventory/cart/checkout) \u2014 titles use FR43 AUTH-* keys; steps via await qa.step()",
+  "specs": [
+    {
+      "name": "test/specs/login.spec.js",
+      "assertions": [
+        {
+          "ancestorTitles": [
+            "Login Scenarios"
+          ],
+          "title": "AUTH-101 User can login with valid credentials",
+          "status": "passed",
+          "duration": 1200,
+          "steps": [
+            "Fill in username",
+            "Fill in password",
+            "Submit login form",
+            "Verify successful login"
+          ]
+        },
+        {
+          "ancestorTitles": [
+            "Login Scenarios"
+          ],
+          "title": "AUTH-102 User cannot login with invalid password",
+          "status": "passed",
+          "duration": 800,
+          "steps": [
+            "Attempt login with invalid credentials",
+            "Verify error message is shown"
+          ]
+        },
+        {
+          "ancestorTitles": [
+            "Login Scenarios"
+          ],
+          "title": "AUTH-103 Locked user cannot login",
+          "status": "passed",
+          "duration": 700,
+          "steps": [
+            "Attempt login with locked user",
+            "Verify locked out error"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test/specs/inventory.spec.js",
+      "assertions": [
+        {
+          "ancestorTitles": [
+            "Product Inventory"
+          ],
+          "title": "AUTH-104 User can browse all products",
+          "status": "passed",
+          "duration": 900,
+          "steps": [
+            "Verify Products page title",
+            "Count inventory items"
+          ]
+        },
+        {
+          "ancestorTitles": [
+            "Product Inventory"
+          ],
+          "title": "AUTH-105 User can sort products by price",
+          "status": "passed",
+          "duration": 850,
+          "steps": [
+            "Select sort by price low to high",
+            "Verify prices ascending"
+          ]
+        },
+        {
+          "ancestorTitles": [
+            "Product Inventory"
+          ],
+          "title": "AUTH-106 User can view product details",
+          "status": "passed",
+          "duration": 750,
+          "steps": [
+            "Click on first product name",
+            "Verify product detail page"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test/specs/cart.spec.js",
+      "assertions": [
+        {
+          "ancestorTitles": [
+            "Cart Management"
+          ],
+          "title": "AUTH-107 User can add product to cart",
+          "status": "passed",
+          "duration": 1000,
+          "steps": [
+            "Add to cart",
+            "Verify cart badge"
+          ]
+        },
+        {
+          "ancestorTitles": [
+            "Cart Management"
+          ],
+          "title": "AUTH-108 User can remove product from cart",
+          "status": "passed",
+          "duration": 950,
+          "steps": [
+            "Remove from cart",
+            "Verify empty"
+          ]
+        },
+        {
+          "ancestorTitles": [
+            "Cart Management"
+          ],
+          "title": "AUTH-109 User can add multiple products to cart",
+          "status": "passed",
+          "duration": 1100,
+          "steps": [
+            "Add products",
+            "Verify count"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test/specs/checkout.spec.js",
+      "assertions": [
+        {
+          "ancestorTitles": [
+            "Checkout Flow"
+          ],
+          "title": "AUTH-110 User can complete checkout with valid information",
+          "status": "passed",
+          "duration": 1500,
+          "steps": [
+            "Fill checkout",
+            "Finish",
+            "Verify confirmation"
+          ]
+        },
+        {
+          "ancestorTitles": [
+            "Checkout Flow"
+          ],
+          "title": "AUTH-111 Checkout fails without required information",
+          "status": "passed",
+          "duration": 600,
+          "steps": [
+            "Submit empty",
+            "Verify validation"
+          ]
+        },
+        {
+          "ancestorTitles": [
+            "Checkout Flow"
+          ],
+          "title": "AUTH-112 User can cancel checkout",
+          "status": "passed",
+          "duration": 700,
+          "steps": [
+            "Cancel",
+            "Verify cart"
+          ]
+        },
+        {
+          "ancestorTitles": [
+            "Checkout Flow"
+          ],
+          "title": "AUTH-113 Demo test that will be ignored in reporting",
+          "status": "pending",
+          "duration": 0,
+          "steps": [],
+          "ignore": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,15 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.toJestJsonReport = toJestJsonReport;
-function mapAssertion(a) {
-    return {
+function mapAssertion(a, metaByFullName) {
+    const fullName = a.fullName ?? a.title ?? '';
+    const assertion = {
         ancestorTitles: a.ancestorTitles ?? [],
-        fullName: a.fullName ?? a.title ?? '',
+        fullName,
         title: a.title ?? '',
         status: a.status,
         duration: a.duration ?? undefined,
         failureMessages: a.failureMessages ?? [],
     };
+    const qa = metaByFullName?.get(fullName);
+    if (qa) {
+        assertion.meta = { qa };
+    }
+    return assertion;
 }
 function fileStatus(file, assertions) {
     if (file.status)
@@ -18,11 +24,12 @@ function fileStatus(file, assertions) {
 }
 /**
  * Normalize Jest AggregatedResult or native `--json` output into FR41 jest-json shape.
+ * Optional `metaByFullName` attaches `meta.qa` from qa helpers (reporter path).
  */
-function toJestJsonReport(results) {
+function toJestJsonReport(results, metaByFullName) {
     const testResults = (results.testResults ?? []).map((file) => {
         const rawAssertions = file.assertionResults ?? file.testResults ?? [];
-        const assertionResults = rawAssertions.map(mapAssertion);
+        const assertionResults = rawAssertions.map((a) => mapAssertion(a, metaByFullName));
         return {
             name: file.name ?? file.testFilePath ?? 'unknown',
             status: fileStatus(file, assertionResults),

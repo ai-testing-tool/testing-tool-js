@@ -3,7 +3,12 @@ export declare enum EnvEnum {
     fallback = "QANALYZER_FALLBACK",
     debug = "QANALYZER_DEBUG",
     projectKey = "QANALYZER_PROJECT_KEY",
-    launchName = "QANALYZER_LAUNCH_NAME"
+    launchName = "QANALYZER_LAUNCH_NAME",
+    planId = "QANALYZER_PLAN_ID",
+    planKey = "QANALYZER_PLAN_KEY",
+    planName = "QANALYZER_PLAN_NAME",
+    fixVersion = "QANALYZER_FIX_VERSION",
+    sprintName = "QANALYZER_SPRINT"
 }
 export declare enum EnvIngestEnum {
     url = "QANALYZER_INGEST_URL",

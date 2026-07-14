@@ -1,4 +1,4 @@
-import type { JestVitestJsonReport } from 'qa-javascript-commons';
+import type { JestVitestJsonReport, QaMetaWire } from 'qa-javascript-commons';
 /** Minimal case shape collected by the Vitest reporter (testable without Vitest runtime). */
 export type CollectedCase = {
     id: string;
@@ -10,6 +10,8 @@ export type CollectedCase = {
     durationMs: number | null;
     failureMessages: string[];
     startTime?: number;
+    /** FR41 assertionResults[].meta.qa */
+    metaQa?: QaMetaWire;
 };
 export type CollectedFile = {
     filePath: string;

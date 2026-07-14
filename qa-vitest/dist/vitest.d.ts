@@ -1,12 +1,19 @@
 /**
- * Programmatic helpers for Vitest tests (FR98).
- * Prefer Jira issue keys in test titles; use these for suite/fields/steps metadata.
+ * Programmatic helpers for Vitest tests (FR98 + Phase 3 FR107 attach upload).
  */
 type StepFn = () => Promise<void> | void;
 type AnnotateFn = (message: string, options?: {
     type?: string;
     body?: unknown;
 }) => Promise<void>;
+export type QaAttachInput = {
+    name?: string;
+    type?: string;
+    contentType?: string;
+    content?: string | Buffer | Uint8Array;
+    path?: string;
+    issueKey?: string;
+};
 export type QaHelpers = {
     title(value: string): Promise<void>;
     comment(value: string): Promise<void>;
@@ -15,11 +22,7 @@ export type QaHelpers = {
     parameters(values: Record<string, string>): Promise<void>;
     ignore(): void;
     step(name: string, body: StepFn): Promise<void>;
-    attach(attach: {
-        name?: string;
-        type?: string;
-        content?: string;
-    }): Promise<void>;
+    attach(attach: QaAttachInput): Promise<void>;
 };
 export type QaTestContext = {
     qa: QaHelpers;

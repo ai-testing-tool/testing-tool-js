@@ -1,0 +1,5 @@
+node_modules/
+cypress/videos/
+cypress/screenshots/
+.qa-cypress-results.json
+qanalyzer-results.json
