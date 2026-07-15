@@ -19,5 +19,11 @@
     "@types/node": "^22.13.10",
     "typescript": "^5.8.2"
   },
+  "overrides": {
+    "serialize-javascript": "^7.0.7",
+    "mocha": {
+      "diff": "^8.0.3"
+    }
+  },
   "license": "Apache-2.0"
 }
