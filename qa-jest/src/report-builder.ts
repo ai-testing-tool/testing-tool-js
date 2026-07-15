@@ -130,6 +130,9 @@ export function toJestJsonReport(
   const numPassedTestSuites =
     results.numPassedTestSuites ?? testResults.length - numFailedTestSuites;
 
+  // Failed-suite check catches runtime-error suites that have no failed assertions.
+  const derivedSuccess = numFailedTests === 0 && numFailedTestSuites === 0;
+
   return {
     numTotalTestSuites: results.numTotalTestSuites ?? testResults.length,
     numPassedTestSuites,
@@ -141,7 +144,7 @@ export function toJestJsonReport(
     numPendingTests,
     numTodoTests: numTodoTests ?? 0,
     startTime: results.startTime,
-    success: results.success ?? numFailedTests === 0,
+    success: results.success ?? derivedSuccess,
     testResults,
   };
 }

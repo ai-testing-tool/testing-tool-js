@@ -2,7 +2,7 @@
 
 Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`qa-playwright`**.
 
-Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`) — FR43.
+Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`).
 
 Steps use Playwright native **`test.step()`** (no `qa.step`). Default mode is **`off`** (no credentials).
 
@@ -40,7 +40,7 @@ test/
 playwright.config.js
 ```
 
-### Native `test.step` (FR112)
+### Native `test.step`
 
 ```js
 const { test } = require('@playwright/test');
@@ -56,13 +56,13 @@ test('AUTH-101 …', async ({ page }) => {
 
 ### `qa.attach({ contentType })`
 
-Metadata-only stub in the cart spec — binary screenshot/video/trace upload is deferred (FR119).
+Metadata-only stub in the cart spec — binary screenshot/video/trace upload is deferred.
 
 ## Path A — Playwright JSON + CLI
 
 ```bash
 npx playwright test --reporter=json
-# Prefer Path B file mode for FR41 shape A, or upload a converted report:
+# Prefer Path B file mode for the jest-json ingest shape, or upload a converted report:
 npx qa-forge-api-client --project AUTH --launch "playwright pilot" --report qanalyzer-results.json
 ```
 

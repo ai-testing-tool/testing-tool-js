@@ -31,8 +31,8 @@ module.exports = {
 | Mode | Behavior |
 | ---- | -------- |
 | `off` (default) | No network / file write |
-| `file` | Writes FR41 ingest payload (default `./qanalyzer-results.json`) |
-| `ingest` | POSTs FR41 with `format: jest-json` |
+| `file` | Writes the ingest payload (default `./qanalyzer-results.json`) |
+| `ingest` | POSTs the payload with `format: jest-json` |
 
 Env (same as CLI): `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`, `QANALYZER_LAUNCH_NAME`.
 
@@ -49,7 +49,7 @@ describe('JSONPlaceholder User CRUD', function () {
       const response = await fetch('https://jsonplaceholder.typicode.com/users');
       assert.strictEqual(response.status, 200);
     });
-    // Sync steps also supported (NFR26):
+    // Sync steps also supported:
     qa.step('Validate title has issue key', () => {
       assert.ok(true);
     });

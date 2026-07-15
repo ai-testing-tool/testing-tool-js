@@ -84,8 +84,8 @@ module.exports = {
 | Mode | Behavior |
 | ---- | -------- |
 | `off` (default) | No network / file write |
-| `file` | Writes FR41 ingest payload (default `./qanalyzer-results.json`) |
-| `ingest` | POSTs FR41 with `format: jest-json` (needs URL + token + project) |
+| `file` | Writes the ingest payload (default `./qanalyzer-results.json`) |
+| `ingest` | POSTs the payload with `format: jest-json` (needs URL + token + project) |
 
 Same secrets as Path A for `ingest`.
 

@@ -24,6 +24,7 @@ module.exports = defineConfig({
       // Defaults to mode=off (no credentials required)
       // mode: 'ingest' | 'file' | 'off',
       // projectKey: 'DEMO',
+      // resultsPath: './.qa-cypress-results.json',
     },
   },
   e2e: {
@@ -42,19 +43,19 @@ Direct reporter (no multi-reporters):
 reporter: 'qa-cypress',
 ```
 
-**Required:** register `qa-cypress/plugin` so `after:run` publishes one FR41 launch for the whole `cypress run` (results are buffered across specs).
+**Required:** register `qa-cypress/plugin` so `after:run` publishes one launch for the whole `cypress run` (results are buffered across specs).
 
 ### Modes
 
 | Mode | Behavior |
 | ---- | -------- |
 | `off` (default) | No network / file write |
-| `file` | Writes FR41 ingest payload (default `./qanalyzer-results.json`) |
-| `ingest` | POSTs FR41 with `format: jest-json` |
+| `file` | Writes the ingest payload (default `./qanalyzer-results.json`) |
+| `ingest` | POSTs the payload with `format: jest-json` |
 
 Env (same as CLI): `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`, `QANALYZER_LAUNCH_NAME`.
 
-Optional bridge path: `QANALYZER_CYPRESS_RESULTS_PATH` (default: `<projectRoot>/.qa-cypress-results.json`).
+Results bridge path: `resultsPath` reporter option or `QANALYZER_CYPRESS_RESULTS_PATH` env var (default: `<projectRoot>/.qa-cypress-results.json`).
 
 ## Helpers
 
@@ -64,13 +65,19 @@ const { qa } = require('qa-cypress/mocha');
 it('AUTH-101 login', () => {
   qa.suite('Auth');
   qa.step('open form', () => {
-    // synchronous callback only (FR64) — no async/await
+    // synchronous callback only — no async/await
     cy.visit('/login');
   });
 });
 ```
 
+All helpers: `qa.title(value)`, `qa.comment(value)`, `qa.suite(value)`, `qa.parameters({ key: value })`, `qa.ignore()`, `qa.step(name, syncFn)`. `qa.step()` throws if the callback returns a Promise — keep it synchronous and let Cypress commands queue as usual.
+
 Prefer **Jira issue keys in test titles**. Requires `qa-cypress/metadata` so `cy.task` bridges metadata to the Node reporter. Step hierarchy lands on `assertionResults[].meta.qa.steps`.
+
+## Failure screenshots
+
+With `qa-cypress/plugin` registered, the `after:screenshot` hook records Cypress failure screenshots automatically. On publish (`mode=ingest` or `file`), each failed assertion gets a matching still image (png/jpeg/webp — videos are skipped) uploaded to Forge and attached as `meta.qa.attachments`. Screenshots are matched to assertions by test title, falling back to spec order; each screenshot is used at most once. Upload errors never fail the Cypress run.
 
 ## Dual path
 
@@ -83,7 +90,7 @@ npx cypress run
 npx qa-forge-api-client --project DEMO --report qanalyzer-results.json
 ```
 
-(`mode=file` already writes an FR41 payload; CLI re-upload is optional if you prefer the upload workflow.)
+(`mode=file` already writes a ready-to-ingest payload; CLI re-upload is optional if you prefer the upload workflow.)
 
 **Path B — reporter ingest:**
 

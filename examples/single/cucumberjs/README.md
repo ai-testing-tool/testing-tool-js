@@ -35,7 +35,7 @@ npm test
 | `@QaParameters={...}` | Parameters JSON |
 | `@QaIgnore` | Skip reporting |
 
-Use `function()` step definitions so World `this` works. Attachments via `this.attach()` are deferred for FR41 binary upload (FR58).
+Use `function()` step definitions so World `this` works. Attachments via `this.attach()` are deferred (binary upload is not yet supported).
 
 ## Features
 

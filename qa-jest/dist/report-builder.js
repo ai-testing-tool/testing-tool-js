@@ -69,6 +69,8 @@ function toJestJsonReport(results, metaByFullName) {
     const numFailedTestSuites = results.numFailedTestSuites ??
         testResults.filter((t) => t.status === 'failed').length;
     const numPassedTestSuites = results.numPassedTestSuites ?? testResults.length - numFailedTestSuites;
+    // Failed-suite check catches runtime-error suites that have no failed assertions.
+    const derivedSuccess = numFailedTests === 0 && numFailedTestSuites === 0;
     return {
         numTotalTestSuites: results.numTotalTestSuites ?? testResults.length,
         numPassedTestSuites,
@@ -80,7 +82,7 @@ function toJestJsonReport(results, metaByFullName) {
         numPendingTests,
         numTodoTests: numTodoTests ?? 0,
         startTime: results.startTime,
-        success: results.success ?? numFailedTests === 0,
+        success: results.success ?? derivedSuccess,
         testResults,
     };
 }

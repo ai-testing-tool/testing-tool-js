@@ -2,7 +2,7 @@
 
 WebdriverIO reporter + service for **QAnalyzer** (Jira Forge quality hub).
 
-Supports **WebdriverIO 8+** with **Mocha** (`@wdio/mocha-framework`) or **Cucumber** (`@wdio/cucumber-framework`, FR135).
+Supports **WebdriverIO 8+** with **Mocha** (`@wdio/mocha-framework`) or **Cucumber** (`@wdio/cucumber-framework`).
 
 ## Install
 
@@ -32,7 +32,7 @@ exports.config = {
         // Defaults to mode=off (no credentials required)
         // mode: 'ingest' | 'file' | 'off',
         // projectKey: 'DEMO',
-        disableWebdriverStepsReporting: true, // FR127 default
+        disableWebdriverStepsReporting: true, // default
       },
     ],
   ],
@@ -52,7 +52,7 @@ exports.config = {
 };
 ```
 
-## Configure — Cucumber (FR135)
+## Configure — Cucumber
 
 ```js
 // wdio.cucumber.conf.js
@@ -69,7 +69,7 @@ exports.config = {
     [
       QaWdioReporter,
       {
-        useCucumber: true, // scenario → FR41 result; Gherkin steps → meta.qa.steps
+        useCucumber: true, // scenario → one result; Gherkin steps → meta.qa.steps
         disableWebdriverStepsReporting: true,
       },
     ],
@@ -87,15 +87,15 @@ Tag conventions:
 
 See `examples/single/wdio/wdio.cucumber.conf.js`.
 
-**Required for ingest/file:** `onPrepare` → `beforeRunHook` and `onComplete` → `afterRunHook` (NFR33).
+**Required for ingest/file:** `onPrepare` → `beforeRunHook` and `onComplete` → `afterRunHook`.
 
 ### Modes
 
 | Mode | Behavior |
 | ---- | -------- |
 | `off` (default) | No network / file write |
-| `file` | Writes FR41 ingest payload (default `./qanalyzer-results.json`) |
-| `ingest` | POSTs FR41 with `format: jest-json` |
+| `file` | Writes the ingest payload (default `./qanalyzer-results.json`) |
+| `ingest` | POSTs the payload with `format: jest-json` |
 
 Env: `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`, `QANALYZER_LAUNCH_NAME`.
 
@@ -124,7 +124,7 @@ describe('Login', () => {
 });
 ```
 
-Prefer **Jira issue keys in test titles** (FR43). Use **`await qa.step()`** for step timelines (including nested `step.step()`).
+Prefer **Jira issue keys in test titles**. Use **`await qa.step()`** for step timelines (including nested `step.step()`).
 
 `qa.attach({ type: 'text/plain', ... })` uploads via Forge when content/path is set (still-image / small files). Use **`type`**, not `contentType`.
 

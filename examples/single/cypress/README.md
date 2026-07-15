@@ -2,7 +2,7 @@
 
 Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`qa-cypress`**.
 
-Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`) — FR43.
+Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`).
 
 Default mode is **`off`** (no credentials). Graduate to `file` or `ingest` when ready.
 
@@ -51,7 +51,7 @@ cy.login(); // standard_user / secret_sauce
 cy.login('locked_out_user', 'secret_sauce');
 ```
 
-### Sync `qa.step` (FR64)
+### Sync `qa.step`
 
 ```js
 import { qa } from 'qa-cypress/mocha';
@@ -84,7 +84,7 @@ npm run test:file
 npm run upload
 ```
 
-(`mode=file` writes an FR41 payload; CLI re-upload is optional if you already ingest elsewhere.)
+(`mode=file` writes a ready-to-ingest payload; CLI re-upload is optional if you already ingest elsewhere.)
 
 ## Path B — reporter `mode=ingest`
 

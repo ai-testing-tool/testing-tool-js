@@ -1,7 +1,13 @@
 {
   "name": "qa-javascript-commons",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Shared config, models, and Forge ingest client for QAnalyzer JS reporters",
+  "keywords": [
+    "qanalyzer",
+    "testing",
+    "reporter",
+    "jira"
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -12,7 +18,8 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "dist"
+    "dist",
+    "!dist/__tests__"
   ],
   "engines": {
     "node": ">=18"
@@ -20,7 +27,8 @@
   "scripts": {
     "build": "npm run clean && npx tsc --project tsconfig.build.json",
     "clean": "rm -rf dist",
-    "test": "npm run build && node --test dist/__tests__/**/*.test.js"
+    "test": "npm run build && node --test dist/__tests__/**/*.test.js",
+    "prepublishOnly": "npm test"
   },
   "license": "Apache-2.0"
 }

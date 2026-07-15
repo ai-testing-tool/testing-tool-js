@@ -87,7 +87,7 @@ export default defineConfig({
 | ---- | -------- |
 | `off` (default) | No network / file write |
 | `file` | Writes ingest payload (default `./qanalyzer-results.json`) |
-| `ingest` | POSTs FR41 with `format: vitest-json` (needs URL + token + project) |
+| `ingest` | POSTs the payload with `format: vitest-json` (needs URL + token + project) |
 
 Same secrets as Path A for `ingest`. For `file`, upload afterward with `qa-forge-api-client` if you want.
 

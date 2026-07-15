@@ -174,6 +174,87 @@ describe('JestQaReporter modes', () => {
     await reporter.onRunComplete(new Set(), AGGREGATED);
   });
 
+  it('overrides stale success=false from onRunComplete when nothing failed', async () => {
+    // Jest sets aggregatedResults.success after reporters run, so an all-green
+    // run still hands reporters success=false. The published report must not
+    // mirror that stale value.
+    const allPassing: AggregatedResultLike = {
+      startTime: 1_700_000_000_000,
+      success: false,
+      numTotalTestSuites: 1,
+      numPassedTestSuites: 1,
+      numFailedTestSuites: 0,
+      numPendingTestSuites: 0,
+      numTotalTests: 1,
+      numPassedTests: 1,
+      numFailedTests: 0,
+      numPendingTests: 0,
+      numTodoTests: 0,
+      testResults: [
+        {
+          testFilePath: '/tests/auth.test.js',
+          status: 'passed',
+          testResults: [
+            {
+              ancestorTitles: ['Auth'],
+              fullName: 'Auth AUTH-101 login',
+              title: 'AUTH-101 login',
+              status: 'passed',
+              duration: 12,
+              failureMessages: [],
+            },
+          ],
+        },
+      ],
+    };
+
+    const dir = mkdtempSync(join(tmpdir(), 'qa-jest-success-'));
+    const out = join(dir, 'out.json');
+
+    try {
+      const reporter = new JestQaReporter(
+        {},
+        {
+          mode: ModeEnum.file,
+          projectKey: 'AUTH',
+          file: { path: out },
+        },
+      );
+      await reporter.onRunComplete(new Set(), allPassing);
+
+      const written = JSON.parse(readFileSync(out, 'utf8')) as IngestPayload;
+      const report = typeof written.report === 'object' ? written.report : null;
+      assert.equal(report?.success, true);
+    } finally {
+      QAnalyzerReporter.resetInstance();
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  it('keeps success=false via reporter when the run has failures', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'qa-jest-fail-'));
+    const out = join(dir, 'out.json');
+
+    try {
+      const reporter = new JestQaReporter(
+        {},
+        {
+          mode: ModeEnum.file,
+          projectKey: 'AUTH',
+          file: { path: out },
+        },
+      );
+      await reporter.onRunComplete(new Set(), AGGREGATED);
+
+      const written = JSON.parse(readFileSync(out, 'utf8')) as IngestPayload;
+      const report = typeof written.report === 'object' ? written.report : null;
+      assert.equal(report?.success, false);
+    } finally {
+      QAnalyzerReporter.resetInstance();
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
   it('mode=file via reporter writes payload', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-jest-rep-'));
     const out = join(dir, 'out.json');

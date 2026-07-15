@@ -75,7 +75,10 @@ class JestQaReporter {
             if (mode === qa_javascript_commons_1.ModeEnum.off) {
                 return;
             }
-            const report = (0, report_builder_1.toJestJsonReport)(results, this.metaByFullName);
+            // Jest finalizes aggregatedResults.success *after* dispatching onRunComplete
+            // (it folds in reporter errors), so reporters always see a stale `false`.
+            // Drop it and let the builder derive success from failure counts.
+            const report = (0, report_builder_1.toJestJsonReport)({ ...results, success: undefined }, this.metaByFullName);
             await reporter.publishReport(report, {
                 format: 'jest-json',
                 launchName: this.options.launchName,

@@ -28,25 +28,25 @@ module.exports = {
 | Mode | Behavior |
 | ---- | -------- |
 | `off` (default) | No network / file write |
-| `file` | Writes FR41 ingest payload (default `./qanalyzer-results.json`) |
-| `ingest` | POSTs FR41 with `format: jest-json` |
+| `file` | Writes the ingest payload (default `./qanalyzer-results.json`) |
+| `ingest` | POSTs the payload with `format: jest-json` |
 
 Env: `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`, `QANALYZER_LAUNCH_NAME`.
 
 ## Metadata (tags only)
 
-No programmatic `qa` import — use Gherkin tags (FR52 / FR54):
+No programmatic `qa` import — use Gherkin tags:
 
 | Tag | Effect |
 | --- | ------ |
-| `@AUTH-101` | Issue key (FR51); also prefer keys in scenario titles |
+| `@AUTH-101` | Issue key; also prefer keys in scenario titles |
 | `@QaTitle=Custom_title` | Display title (underscores → spaces) |
 | `@QaSuite=API\tUsers\tRead` | Suite hierarchy |
 | `@QaFields={"layer":"api"}` | Custom fields JSON |
 | `@QaParameters={"userId":"1"}` | Parameters JSON |
 | `@QaIgnore` | Skip reporting |
 
-Given/When/Then steps become `meta.qa.steps` (FR49). Use `function()` step defs for World (`this`).
+Given/When/Then steps become `meta.qa.steps`. Use `function()` step defs for World (`this`).
 
 ## Dual path
 

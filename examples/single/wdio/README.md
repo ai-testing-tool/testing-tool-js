@@ -2,7 +2,7 @@
 
 Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`qa-wdio`**.
 
-Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`) — FR43.
+Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`).
 
 Steps use **`await qa.step()`** (including nested `step.step()`). Default mode is **`off`** (no credentials).
 
@@ -32,12 +32,12 @@ npm test
 ```
 test/
   specs/               # Mocha: login, inventory, cart, checkout
-  features/            # Cucumber: login.feature (FR135)
+  features/            # Cucumber: login.feature
   step-definitions/    # Cucumber steps
   pageobjects/         # LoginPage, InventoryPage, CartPage, CheckoutPage (getters)
   helpers/auth.js      # loginAsStandardUser (clears cookies + storage)
 wdio.conf.js           # Mocha + qa-wdio
-wdio.cucumber.conf.js  # Cucumber + useCucumber: true (FR135)
+wdio.cucumber.conf.js  # Cucumber + useCucumber: true
 ```
 
 `LoginPage.open()` clears cookies and `sessionStorage`/`localStorage` so cart state does not leak across tests in one browser session.
@@ -76,7 +76,7 @@ it('AUTH-101 …', async () => {
 
 Use **`type`** (not `contentType`). With content/path, uploads via Forge attach proxy (still images / small files).
 
-## Cucumber path (FR135)
+## Cucumber path
 
 ```bash
 npm run test:cucumber
@@ -126,5 +126,4 @@ npx wdio run ./wdio.conf.js
 
 ## Notes
 
-- Mocha is the default path; Cucumber uses `wdio.cucumber.conf.js` + `useCucumber: true` (FR135).
-- No competitor product names in this example.
+- Mocha is the default path; Cucumber uses `wdio.cucumber.conf.js` + `useCucumber: true`.

@@ -34,7 +34,7 @@ module.exports = {
 | ---- | -------- |
 | `off` (default) | No network / file write |
 | `file` | Writes ingest payload (default `./qanalyzer-results.json`) |
-| `ingest` | POSTs FR41 with `format: jest-json` |
+| `ingest` | POSTs the payload with `format: jest-json` |
 
 Env (same as CLI): `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`, `QANALYZER_LAUNCH_NAME`.
 
@@ -74,4 +74,4 @@ QANALYZER_INGEST_TOKEN=... \
 npx jest
 ```
 
-`mode=file` writes an **FR41 ingest payload** (not raw Jest JSON). Path A and Path B produce schema-equivalent FR41 bodies for the same run (`format: jest-json`, same assertion titles/statuses).
+`mode=file` writes an **ingest payload** (not raw Jest JSON). Path A and Path B produce schema-equivalent ingest payloads for the same run (`format: jest-json`, same assertion titles/statuses).

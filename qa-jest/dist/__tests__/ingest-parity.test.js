@@ -160,6 +160,76 @@ function assertionFingerprint(payload) {
         const reporter = new index_js_1.JestQaReporter({}, { mode: qa_javascript_commons_1.ModeEnum.off });
         await reporter.onRunComplete(new Set(), AGGREGATED);
     });
+    (0, node_test_1.it)('overrides stale success=false from onRunComplete when nothing failed', async () => {
+        // Jest sets aggregatedResults.success after reporters run, so an all-green
+        // run still hands reporters success=false. The published report must not
+        // mirror that stale value.
+        const allPassing = {
+            startTime: 1_700_000_000_000,
+            success: false,
+            numTotalTestSuites: 1,
+            numPassedTestSuites: 1,
+            numFailedTestSuites: 0,
+            numPendingTestSuites: 0,
+            numTotalTests: 1,
+            numPassedTests: 1,
+            numFailedTests: 0,
+            numPendingTests: 0,
+            numTodoTests: 0,
+            testResults: [
+                {
+                    testFilePath: '/tests/auth.test.js',
+                    status: 'passed',
+                    testResults: [
+                        {
+                            ancestorTitles: ['Auth'],
+                            fullName: 'Auth AUTH-101 login',
+                            title: 'AUTH-101 login',
+                            status: 'passed',
+                            duration: 12,
+                            failureMessages: [],
+                        },
+                    ],
+                },
+            ],
+        };
+        const dir = (0, node_fs_1.mkdtempSync)((0, node_path_1.join)((0, node_os_1.tmpdir)(), 'qa-jest-success-'));
+        const out = (0, node_path_1.join)(dir, 'out.json');
+        try {
+            const reporter = new index_js_1.JestQaReporter({}, {
+                mode: qa_javascript_commons_1.ModeEnum.file,
+                projectKey: 'AUTH',
+                file: { path: out },
+            });
+            await reporter.onRunComplete(new Set(), allPassing);
+            const written = JSON.parse((0, node_fs_1.readFileSync)(out, 'utf8'));
+            const report = typeof written.report === 'object' ? written.report : null;
+            strict_1.default.equal(report?.success, true);
+        }
+        finally {
+            qa_javascript_commons_1.QAnalyzerReporter.resetInstance();
+            (0, node_fs_1.rmSync)(dir, { recursive: true, force: true });
+        }
+    });
+    (0, node_test_1.it)('keeps success=false via reporter when the run has failures', async () => {
+        const dir = (0, node_fs_1.mkdtempSync)((0, node_path_1.join)((0, node_os_1.tmpdir)(), 'qa-jest-fail-'));
+        const out = (0, node_path_1.join)(dir, 'out.json');
+        try {
+            const reporter = new index_js_1.JestQaReporter({}, {
+                mode: qa_javascript_commons_1.ModeEnum.file,
+                projectKey: 'AUTH',
+                file: { path: out },
+            });
+            await reporter.onRunComplete(new Set(), AGGREGATED);
+            const written = JSON.parse((0, node_fs_1.readFileSync)(out, 'utf8'));
+            const report = typeof written.report === 'object' ? written.report : null;
+            strict_1.default.equal(report?.success, false);
+        }
+        finally {
+            qa_javascript_commons_1.QAnalyzerReporter.resetInstance();
+            (0, node_fs_1.rmSync)(dir, { recursive: true, force: true });
+        }
+    });
     (0, node_test_1.it)('mode=file via reporter writes payload', async () => {
         const dir = (0, node_fs_1.mkdtempSync)((0, node_path_1.join)((0, node_os_1.tmpdir)(), 'qa-jest-rep-'));
         const out = (0, node_path_1.join)(dir, 'out.json');

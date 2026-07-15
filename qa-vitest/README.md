@@ -37,7 +37,7 @@ export default defineConfig({
 | ---- | -------- |
 | `off` (default) | No network / file write |
 | `file` | Writes ingest payload (default `./qanalyzer-results.json`) |
-| `ingest` | POSTs FR41 with `format: vitest-json` |
+| `ingest` | POSTs the payload with `format: vitest-json` |
 
 Env (same as CLI): `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`, `QANALYZER_LAUNCH_NAME`.
 

@@ -37,8 +37,8 @@ module.exports = defineConfig({
 | Mode | Behavior |
 | ---- | -------- |
 | `off` (default) | No network / file write |
-| `file` | Writes FR41 ingest payload (default `./qanalyzer-results.json`) |
-| `ingest` | POSTs FR41 with `format: jest-json` |
+| `file` | Writes the ingest payload (default `./qanalyzer-results.json`) |
+| `ingest` | POSTs the payload with `format: jest-json` |
 
 Env (same as CLI): `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`, `QANALYZER_LAUNCH_NAME`.
 
@@ -52,7 +52,7 @@ test('AUTH-101 login', async ({ page }) => {
   qa.suite('Auth');
   qa.fields({ layer: 'e2e' });
 
-  // Steps: native Playwright API only (FR112) — no qa.step()
+  // Steps: native Playwright API only — no qa.step()
   await test.step('open login', async () => {
     await page.goto('/login');
   });
@@ -63,7 +63,7 @@ Prefer **Jira issue keys in test titles**. Native `test.step()` hierarchy lands 
 
 `qa.attach({ contentType })` is metadata-only for now (binary upload deferred).
 
-## Dual path (FR109)
+## Dual path
 
 **Path A — Playwright JSON + CLI:**
 
@@ -83,4 +83,4 @@ QANALYZER_INGEST_TOKEN=... \
 npx playwright test
 ```
 
-`mode=file` writes an **FR41 ingest payload** (jest-json shape A) ready for Forge. Path A raw Playwright JSON is a separate dual-path option for teams that already emit Playwright's JSON reporter.
+`mode=file` writes an **ingest payload** (jest-json shape A) ready for Forge. Path A raw Playwright JSON is a separate dual-path option for teams that already emit Playwright's JSON reporter.

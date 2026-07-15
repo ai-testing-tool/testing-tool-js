@@ -17,7 +17,7 @@ cd ../examples/single/mocha && npm install
 # no credentials (default)
 npm test
 
-# write FR41 file
+# write the ingest payload file
 npm run test:file
 
 # ingest
