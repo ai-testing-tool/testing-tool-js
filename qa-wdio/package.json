@@ -1,6 +1,6 @@
 {
   "name": "qa-wdio",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "QAnalyzer WebdriverIO reporter + service — ingest or file modes via qa-javascript-commons",
   "keywords": [
     "qanalyzer",
@@ -38,12 +38,13 @@
     "prepublishOnly": "npm test"
   },
   "dependencies": {
-    "@wdio/reporter": "^8.43.0",
+    "@cucumber/messages": "34.1.0",
+    "@wdio/reporter": "^9.29.1",
     "qa-javascript-commons": "^1.0.0"
   },
   "peerDependencies": {
-    "@wdio/mocha-framework": ">=8.0.0",
-    "@wdio/cucumber-framework": ">=8.0.0"
+    "@wdio/cucumber-framework": ">=8.0.0",
+    "@wdio/mocha-framework": ">=8.0.0"
   },
   "peerDependenciesMeta": {
     "@wdio/mocha-framework": {
