@@ -90,7 +90,7 @@ ${bitbucketScriptLines(ctx, frameworkReporterRun(ctx))}
 }
 
 /**
- * Bitbucket Pipelines — upload path or qa-vitest / qa-jest reporter path.
+ * Bitbucket Pipelines — upload path or qa-forge-vitest / qa-forge-jest reporter path.
  */
 export function renderBitbucketUpload(ctx: CiTemplateContext): CiTemplateResult {
   if (ctx.ingestPath === 'reporter') {

@@ -9,7 +9,7 @@ import {
   QAnalyzerReporter,
   buildIngestPayload,
   type IngestPayload,
-} from 'qa-javascript-commons';
+} from 'qa-forge-commons';
 
 import { JestQaReporter } from '../index.js';
 import { toJestJsonReport, type AggregatedResultLike } from '../report-builder.js';

@@ -1,4 +1,4 @@
-import { type OptionsType } from 'qa-javascript-commons';
+import { type OptionsType } from 'qa-forge-commons';
 /**
  * Tracks onPrepare/onComplete hook pairing (FR123 / NFR33).
  */

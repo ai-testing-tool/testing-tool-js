@@ -1,4 +1,4 @@
-const { qa } = require('qa-mocha/mocha');
+const { qa } = require('qa-forge-mocha/mocha');
 const assert = require('assert');
 
 describe('JSONPlaceholder User CRUD Operations', function () {

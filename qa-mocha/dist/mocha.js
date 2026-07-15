@@ -5,7 +5,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.qa = void 0;
 exports.drainQaMeta = drainQaMeta;
-const qa_javascript_commons_1 = require("qa-javascript-commons");
+const qa_forge_commons_1 = require("qa-forge-commons");
 const localBuffer = [];
 function pushMeta(type, body) {
     const entry = { type, body };
@@ -79,7 +79,7 @@ exports.qa = {
             });
             return;
         }
-        return (0, qa_javascript_commons_1.uploadAttachmentForQa)({
+        return (0, qa_forge_commons_1.uploadAttachmentForQa)({
             fileName: attach.name,
             mimeType: mime,
             content: attach.content,

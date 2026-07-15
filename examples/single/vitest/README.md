@@ -3,7 +3,7 @@
 JSONPlaceholder API scenarios (CRUD, posts, errors, advanced). Jira issue keys live in test titles (e.g. `AUTH-101 GET all users`).
 
 **Default path (recommended for first launch):** native Vitest JSON → `qa-forge-api-client` → Forge ingest.  
-**Optional path:** [`qa-vitest`](../../../qa-vitest) reporter (`mode=off` \| `file` \| `ingest`).
+**Optional path:** [`qa-forge-vitest`](../../../qa-vitest) reporter (`mode=off` \| `file` \| `ingest`).
 
 ## Prerequisites
 
@@ -51,7 +51,7 @@ npm run upload
 
 **Never commit the ingest token.** Prefer CI secrets from the Configure page **CI template** tab.
 
-## Path B — Optional `qa-vitest` reporter
+## Path B — Optional `qa-forge-vitest` reporter
 
 From the monorepo (after `npm run build` in `qanalyzer-js`):
 
@@ -69,7 +69,7 @@ export default defineConfig({
     reporters: [
       'default',
       [
-        'qa-vitest',
+        'qa-forge-vitest',
         {
           // mode defaults to off — no credentials needed for local runs
           // mode: 'off' | 'file' | 'ingest',
@@ -95,7 +95,7 @@ Same secrets as Path A for `ingest`. For `file`, upload afterward with `qa-forge
 
 ```ts
 import { describe, expect, test } from 'vitest';
-import { withQa } from 'qa-vitest/vitest';
+import { withQa } from 'qa-forge-vitest/vitest';
 
 test(
   'AUTH-101 GET all users',
@@ -147,7 +147,7 @@ export QANALYZER_SPRINT="Sprint 42"
 | ---- | ------- | ------------- |
 | Local | `npm test` | None |
 | Path A | `npm run test:json` + `qa-forge-api-client` | Ingest URL + token |
-| Path B | `QANALYZER_MODE=ingest` + `qa-vitest` reporter | Same secrets |
+| Path B | `QANALYZER_MODE=ingest` + `qa-forge-vitest` reporter | Same secrets |
 
 ## Test map
 
@@ -161,5 +161,5 @@ export QANALYZER_SPRINT="Sprint 42"
 ## Manual ingest smoke
 
 1. Deploy/tunnel QAnalyzer with a configured site.
-2. Path A: `npm run test:json` then upload — **or** Path B: `QANALYZER_MODE=ingest` with `qa-vitest`.
+2. Path A: `npm run test:json` then upload — **or** Path B: `QANALYZER_MODE=ingest` with `qa-forge-vitest`.
 3. Open the Jira project page → **Test Launches** and confirm pass/fail counts and issue keys from titles.

@@ -1,5 +1,5 @@
 import { reporters, Runner, type MochaOptions } from 'mocha';
-import { type OptionsType } from 'qa-javascript-commons';
+import { type OptionsType } from 'qa-forge-commons';
 export type CypressQaOptions = OptionsType & {
     /** Override results bridge path (also QANALYZER_CYPRESS_RESULTS_PATH). */
     resultsPath?: string;

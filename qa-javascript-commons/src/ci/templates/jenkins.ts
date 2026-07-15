@@ -96,7 +96,7 @@ ${jenkinsShLines('          ', ctx, frameworkReporterRun(ctx))}
 }
 
 /**
- * Jenkins — upload path or qa-vitest / qa-jest reporter path.
+ * Jenkins — upload path or qa-forge-vitest / qa-forge-jest reporter path.
  */
 export function renderJenkinsUpload(ctx: CiTemplateContext): CiTemplateResult {
   if (ctx.ingestPath === 'reporter') {

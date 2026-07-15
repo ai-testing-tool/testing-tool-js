@@ -1,4 +1,4 @@
-import { type QaMetaWire } from 'qa-javascript-commons';
+import { type QaMetaWire } from 'qa-forge-commons';
 import type { PlaywrightStepLike } from './step-extractor';
 export type PlaywrightAttachmentLike = {
     name: string;

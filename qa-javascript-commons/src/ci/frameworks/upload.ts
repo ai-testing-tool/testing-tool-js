@@ -39,7 +39,7 @@ export function frameworkTestCommand(ctx: CiTemplateContext): string {
     return `npx playwright test --reporter=json > ${reportFile}`;
   }
   throw new Error(
-    'Upload JSON path is not supported for Mocha, CucumberJS, Cypress, or WebdriverIO — use ingestPath: reporter (qa-mocha / qa-cucumberjs / qa-cypress / qa-wdio)',
+    'Upload JSON path is not supported for Mocha, CucumberJS, Cypress, or WebdriverIO — use ingestPath: reporter (qa-forge-mocha / qa-forge-cucumberjs / qa-forge-cypress / qa-forge-wdio)',
   );
 }
 

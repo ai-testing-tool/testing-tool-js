@@ -1,6 +1,6 @@
 # QAnalyzer Playwright Pilot Example
 
-Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`qa-playwright`**.
+Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`qa-forge-playwright`**.
 
 Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`).
 
@@ -44,7 +44,7 @@ playwright.config.js
 
 ```js
 const { test } = require('@playwright/test');
-const { qa } = require('qa-playwright');
+const { qa } = require('qa-forge-playwright');
 
 test('AUTH-101 …', async ({ page }) => {
   qa.suite('E-commerce\tAuthentication\tLogin');
@@ -66,7 +66,7 @@ npx playwright test --reporter=json
 npx qa-forge-api-client --project AUTH --launch "playwright pilot" --report qanalyzer-results.json
 ```
 
-## Path B — `qa-playwright` reporter
+## Path B — `qa-forge-playwright` reporter
 
 **File mode:**
 

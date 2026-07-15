@@ -1,13 +1,13 @@
 "use strict";
 /**
  * Cypress Node plugin — register in cypress.config.js setupNodeEvents:
- *   require('qa-cypress/plugin')(on, config);
+ *   require('qa-forge-cypress/plugin')(on, config);
  *
  * before:run clears the results bridge; after:run publishes FR41
- * (mode=ingest | file) via qa-javascript-commons.
+ * (mode=ingest | file) via qa-forge-commons.
  * after:screenshot captures failure still images for Phase 3 upload (FR71).
  */
-const qa_javascript_commons_1 = require("qa-javascript-commons");
+const qa_forge_commons_1 = require("qa-forge-commons");
 const enrich_screenshots_1 = require("./enrich-screenshots");
 const report_builder_1 = require("./report-builder");
 const resolve_options_1 = require("./resolve-options");
@@ -20,13 +20,13 @@ async function publishCollected(options) {
         screenshots_manager_1.ScreenshotsManager.clear();
         return;
     }
-    qa_javascript_commons_1.QAnalyzerReporter.resetInstance();
-    const reporter = qa_javascript_commons_1.QAnalyzerReporter.getInstance({
+    qa_forge_commons_1.QAnalyzerReporter.resetInstance();
+    const reporter = qa_forge_commons_1.QAnalyzerReporter.getInstance({
         ...options,
-        mode: options.mode ?? qa_javascript_commons_1.ModeEnum.off,
+        mode: options.mode ?? qa_forge_commons_1.ModeEnum.off,
     });
-    const mode = reporter.getConfig().mode ?? qa_javascript_commons_1.ModeEnum.off;
-    if (mode === qa_javascript_commons_1.ModeEnum.off) {
+    const mode = reporter.getConfig().mode ?? qa_forge_commons_1.ModeEnum.off;
+    if (mode === qa_forge_commons_1.ModeEnum.off) {
         results_manager_1.ResultsManager.clear(path);
         screenshots_manager_1.ScreenshotsManager.clear();
         return;

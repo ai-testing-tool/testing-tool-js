@@ -5,7 +5,7 @@
  * `qa.step()` accepts **synchronous** callbacks only (no async/await) —
  * Cypress command-queue safe.
  *
- * In the browser, helpers forward via `cy.task` (requires `qa-cypress/metadata`).
+ * In the browser, helpers forward via `cy.task` (requires `qa-forge-cypress/metadata`).
  * Outside Cypress (unit tests), they use an in-process buffer.
  */
 

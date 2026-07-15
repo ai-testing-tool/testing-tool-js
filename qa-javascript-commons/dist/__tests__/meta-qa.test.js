@@ -25,7 +25,7 @@ const models_1 = require("../models");
         strict_1.default.equal(wire.steps?.[0]?.name, 'fetch users');
         strict_1.default.equal(wire.steps?.[0]?.status, 'failed');
         strict_1.default.equal(wire.steps?.[0]?.stepType, 'text');
-        strict_1.default.equal(wire.host?.reporter, 'qa-vitest');
+        strict_1.default.equal(wire.host?.reporter, 'qa-forge-vitest');
     });
     (0, node_test_1.it)('builds wire shape from helper buffer entries', () => {
         const wire = (0, models_1.qaMetaFromEntries)([

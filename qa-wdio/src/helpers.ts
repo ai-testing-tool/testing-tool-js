@@ -8,7 +8,7 @@
  * attempts Forge upload (FR133).
  */
 
-import { uploadAttachmentForQa } from 'qa-javascript-commons';
+import { uploadAttachmentForQa } from 'qa-forge-commons';
 
 import { MetadataManager } from './metadata-manager';
 

@@ -3,7 +3,7 @@ import type {
   JestTestFileResult,
   JestVitestJsonReport,
   QaMetaWire,
-} from 'qa-javascript-commons';
+} from 'qa-forge-commons';
 
 export type WdioAssertionInput = {
   ancestorTitles: string[];

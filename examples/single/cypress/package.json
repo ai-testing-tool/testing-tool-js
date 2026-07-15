@@ -2,7 +2,7 @@
   "name": "qanalyzer-cypress-pilot",
   "version": "0.1.0",
   "private": true,
-  "description": "QAnalyzer Cypress pilot — saucedemo e-commerce E2E + qa-cypress reporter",
+  "description": "QAnalyzer Cypress pilot — saucedemo e-commerce E2E + qa-forge-cypress reporter",
   "scripts": {
     "test": "QANALYZER_MODE=${QANALYZER_MODE:-off} cypress run --config video=false,screenshotOnRunFailure=false",
     "cypress:open": "QANALYZER_MODE=${QANALYZER_MODE:-off} cypress open",
@@ -15,7 +15,7 @@
   "devDependencies": {
     "cypress": "^14.5.4",
     "cypress-multi-reporters": "^2.0.5",
-    "qa-cypress": "file:../../../qa-cypress",
-    "qa-javascript-commons": "file:../../../qa-javascript-commons"
+    "qa-forge-cypress": "file:../../../qa-cypress",
+    "qa-forge-commons": "file:../../../qa-javascript-commons"
   }
 }

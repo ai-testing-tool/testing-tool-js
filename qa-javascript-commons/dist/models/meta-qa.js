@@ -189,18 +189,18 @@ function applyQaAnnotations(acc, annotations) {
 }
 function defaultReporterName(framework) {
     if (framework === 'jest')
-        return 'qa-jest';
+        return 'qa-forge-jest';
     if (framework === 'mocha')
-        return 'qa-mocha';
+        return 'qa-forge-mocha';
     if (framework === 'cucumberjs')
-        return 'qa-cucumberjs';
+        return 'qa-forge-cucumberjs';
     if (framework === 'cypress')
-        return 'qa-cypress';
+        return 'qa-forge-cypress';
     if (framework === 'playwright')
-        return 'qa-playwright';
+        return 'qa-forge-playwright';
     if (framework === 'wdio')
-        return 'qa-wdio';
-    return 'qa-vitest';
+        return 'qa-forge-wdio';
+    return 'qa-forge-vitest';
 }
 /** Returns undefined when accumulator has no QA data (omit empty meta.qa). */
 function toQaMetaWire(acc, options) {

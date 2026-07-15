@@ -1,6 +1,6 @@
 # QAnalyzer Cypress Pilot Example
 
-Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`qa-cypress`**.
+Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`qa-forge-cypress`**.
 
 Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`).
 
@@ -54,7 +54,7 @@ cy.login('locked_out_user', 'secret_sauce');
 ### Sync `qa.step`
 
 ```js
-import { qa } from 'qa-cypress/mocha';
+import { qa } from 'qa-forge-cypress/mocha';
 
 it('AUTH-101 …', () => {
   qa.suite('E-commerce\tAuthentication\tLogin');
@@ -96,7 +96,7 @@ QANALYZER_INGEST_TOKEN=... \
 npx cypress run --config video=false,screenshotOnRunFailure=false
 ```
 
-Requires `qa-cypress/plugin` + `qa-cypress/metadata` in `setupNodeEvents` (already wired in `cypress.config.js`).
+Requires `qa-forge-cypress/plugin` + `qa-forge-cypress/metadata` in `setupNodeEvents` (already wired in `cypress.config.js`).
 
 ### Environment
 

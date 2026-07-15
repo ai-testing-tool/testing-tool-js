@@ -2,7 +2,7 @@
  * Programmatic helpers for Vitest tests (FR98 + Phase 3 FR107 attach upload).
  */
 
-import { uploadAttachmentForQa } from 'qa-javascript-commons';
+import { uploadAttachmentForQa } from 'qa-forge-commons';
 
 type StepFn = () => Promise<void> | void;
 

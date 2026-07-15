@@ -5,19 +5,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const strict_1 = __importDefault(require("node:assert/strict"));
 const node_test_1 = require("node:test");
-const qa_javascript_commons_1 = require("qa-javascript-commons");
+const qa_forge_commons_1 = require("qa-forge-commons");
 const hooks_js_1 = require("../hooks.js");
 const helpers_js_1 = require("../helpers.js");
 const service_js_1 = require("../service.js");
 const reporter_js_1 = require("../reporter.js");
 const index_js_1 = __importDefault(require("../index.js"));
-(0, node_test_1.describe)('qa-wdio scaffold', () => {
+(0, node_test_1.describe)('qa-forge-wdio scaffold', () => {
     (0, node_test_1.it)('loads reporter module and no-ops when mode=off', async () => {
-        qa_javascript_commons_1.QAnalyzerReporter.resetInstance();
+        qa_forge_commons_1.QAnalyzerReporter.resetInstance();
         hooks_js_1.hooksLifecycle.reset();
-        await (0, hooks_js_1.beforeRunHook)({ mode: qa_javascript_commons_1.ModeEnum.off, projectKey: 'AUTH' });
+        await (0, hooks_js_1.beforeRunHook)({ mode: qa_forge_commons_1.ModeEnum.off, projectKey: 'AUTH' });
         const reporter = new reporter_js_1.QaWdioReporter({
-            mode: qa_javascript_commons_1.ModeEnum.off,
+            mode: qa_forge_commons_1.ModeEnum.off,
             projectKey: 'AUTH',
         });
         strict_1.default.ok(reporter);
@@ -25,8 +25,8 @@ const index_js_1 = __importDefault(require("../index.js"));
         strict_1.default.equal(index_js_1.default, reporter_js_1.QaWdioReporter);
         reporter.onRunnerEnd();
         await (0, hooks_js_1.afterRunHook)();
-        const instance = qa_javascript_commons_1.QAnalyzerReporter.getInstance();
-        strict_1.default.equal(instance.getConfig().mode, qa_javascript_commons_1.ModeEnum.off);
+        const instance = qa_forge_commons_1.QAnalyzerReporter.getInstance();
+        strict_1.default.equal(instance.getConfig().mode, qa_forge_commons_1.ModeEnum.off);
         strict_1.default.equal(hooks_js_1.hooksLifecycle.beforeCalled, true);
         strict_1.default.equal(hooks_js_1.hooksLifecycle.afterCalled, true);
     });
@@ -67,6 +67,6 @@ const index_js_1 = __importDefault(require("../index.js"));
     });
     (0, node_test_1.it)('assertHooksForMode throws in debug when hooks missing (NFR33)', () => {
         hooks_js_1.hooksLifecycle.reset();
-        strict_1.default.throws(() => (0, hooks_js_1.assertHooksForMode)(qa_javascript_commons_1.ModeEnum.ingest, true), /beforeRunHook|afterRunHook|NFR33/);
+        strict_1.default.throws(() => (0, hooks_js_1.assertHooksForMode)(qa_forge_commons_1.ModeEnum.ingest, true), /beforeRunHook|afterRunHook|NFR33/);
     });
 });

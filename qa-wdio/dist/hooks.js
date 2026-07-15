@@ -4,7 +4,7 @@ exports.hooksLifecycle = void 0;
 exports.beforeRunHook = beforeRunHook;
 exports.afterRunHook = afterRunHook;
 exports.assertHooksForMode = assertHooksForMode;
-const qa_javascript_commons_1 = require("qa-javascript-commons");
+const qa_forge_commons_1 = require("qa-forge-commons");
 const publish_1 = require("./publish");
 /**
  * Tracks onPrepare/onComplete hook pairing (FR123 / NFR33).
@@ -18,7 +18,7 @@ exports.hooksLifecycle = {
     },
 };
 function isOff(mode) {
-    return mode === qa_javascript_commons_1.ModeEnum.off || mode === 'off' || mode == null;
+    return mode === qa_forge_commons_1.ModeEnum.off || mode === 'off' || mode == null;
 }
 /**
  * Call from `wdio.conf.js` `onPrepare`.
@@ -26,7 +26,7 @@ function isOff(mode) {
  */
 async function beforeRunHook(options = {}) {
     exports.hooksLifecycle.beforeCalled = true;
-    qa_javascript_commons_1.QAnalyzerReporter.getInstance(options);
+    qa_forge_commons_1.QAnalyzerReporter.getInstance(options);
 }
 /**
  * Call from `wdio.conf.js` `onComplete`.
@@ -52,10 +52,10 @@ function assertHooksForMode(mode, debug = false) {
     // Allow publish from onRunnerEnd before onComplete — only error if before never ran.
     if (exports.hooksLifecycle.beforeCalled)
         return;
-    const message = 'qa-wdio requires onPrepare → beforeRunHook() and onComplete → afterRunHook() when QANALYZER_MODE is ingest or file (NFR33)';
+    const message = 'qa-forge-wdio requires onPrepare → beforeRunHook() and onComplete → afterRunHook() when QANALYZER_MODE is ingest or file (NFR33)';
     if (debug) {
         throw new Error(message);
     }
     // eslint-disable-next-line no-console
-    console.error(`[qa-wdio] ${message}`);
+    console.error(`[qa-forge-wdio] ${message}`);
 }

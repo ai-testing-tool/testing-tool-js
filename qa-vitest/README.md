@@ -1,11 +1,11 @@
-# qa-vitest
+# qa-forge-vitest
 
 Vitest reporter for **QAnalyzer** (Jira Forge quality hub).
 
 ## Install
 
 ```bash
-npm install -D qa-vitest qa-javascript-commons
+npm install -D qa-forge-vitest qa-forge-commons
 ```
 
 ## Configure
@@ -19,7 +19,7 @@ export default defineConfig({
     reporters: [
       'default',
       [
-        'qa-vitest',
+        'qa-forge-vitest',
         {
           // Defaults to mode=off (no credentials required)
           // mode: 'ingest' | 'file' | 'off',
@@ -45,7 +45,7 @@ Env (same as CLI): `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_
 
 ```ts
 import { describe, expect, test } from 'vitest';
-import { withQa } from 'qa-vitest/vitest';
+import { withQa } from 'qa-forge-vitest/vitest';
 
 test(
   'AUTH-101 login',

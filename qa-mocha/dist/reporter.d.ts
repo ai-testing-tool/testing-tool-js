@@ -1,5 +1,5 @@
 import { reporters, Runner, type MochaOptions } from 'mocha';
-import { type OptionsType } from 'qa-javascript-commons';
+import { type OptionsType } from 'qa-forge-commons';
 export type MochaQaOptions = OptionsType;
 export type MochaQaReporterOptions = Omit<MochaOptions, 'reporterOptions'> & {
     reporterOptions?: MochaQaOptions;
@@ -7,11 +7,11 @@ export type MochaQaReporterOptions = Omit<MochaOptions, 'reporterOptions'> & {
 /**
  * Mocha custom reporter for QAnalyzer.
  *
- * Configure: `.mocharc.js` → `reporter: 'qa-mocha'`
+ * Configure: `.mocharc.js` → `reporter: 'qa-forge-mocha'`
  * Options: `reporterOptions: { mode: 'ingest' | 'file' | 'off', … }`
  * Env: `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, …
  *
- * Helpers from `qa-mocha/mocha` forward metadata via a global bridge.
+ * Helpers from `qa-forge-mocha/mocha` forward metadata via a global bridge.
  */
 export declare class MochaQaReporter extends reporters.Spec {
     private readonly options;

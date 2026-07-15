@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { ModeEnum, QAnalyzerReporter } from 'qa-javascript-commons';
+import { ModeEnum, QAnalyzerReporter } from 'qa-forge-commons';
 
 import {
   afterRunHook,
@@ -14,7 +14,7 @@ import { QaWdioService } from '../service.js';
 import { QaWdioReporter } from '../reporter.js';
 import QaWdioReporterDefault from '../index.js';
 
-describe('qa-wdio scaffold', () => {
+describe('qa-forge-wdio scaffold', () => {
   it('loads reporter module and no-ops when mode=off', async () => {
     QAnalyzerReporter.resetInstance();
     hooksLifecycle.reset();

@@ -10,7 +10,7 @@
  * `qa.attach` with binary content/path uploads via Forge when configured (FR119).
  */
 
-import { uploadAttachmentForQa } from 'qa-javascript-commons';
+import { uploadAttachmentForQa } from 'qa-forge-commons';
 
 import {
   MetadataManager,

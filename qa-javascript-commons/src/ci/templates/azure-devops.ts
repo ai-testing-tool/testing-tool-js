@@ -109,7 +109,7 @@ ${azurePreRunScripts(ctx)}  - script: ${frameworkReporterRun(ctx)}
 }
 
 /**
- * Azure DevOps — upload path or qa-vitest / qa-jest reporter path.
+ * Azure DevOps — upload path or qa-forge-vitest / qa-forge-jest reporter path.
  */
 export function renderAzureDevOpsUpload(ctx: CiTemplateContext): CiTemplateResult {
   if (ctx.ingestPath === 'reporter') {

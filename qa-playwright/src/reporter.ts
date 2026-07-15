@@ -11,7 +11,7 @@ import {
   ModeEnum,
   QAnalyzerReporter,
   type OptionsType,
-} from 'qa-javascript-commons';
+} from 'qa-forge-commons';
 
 import { enrichAssertionWithFailureScreenshots } from './enrich-screenshots';
 import { buildQaMetaFromResult } from './metadata-from-result';
@@ -28,7 +28,7 @@ export type PlaywrightQaOptions = OptionsType;
  * Playwright reporter for QAnalyzer.
  *
  * Configure:
- *   reporter: [['list'], ['qa-playwright', { mode: 'off' }]]
+ *   reporter: [['list'], ['qa-forge-playwright', { mode: 'off' }]]
  *
  * Collects each test → FR41 shape A; native `test.step` → `meta.qa.steps`.
  * On failure, still-image attachments are uploaded via Forge (FR119).

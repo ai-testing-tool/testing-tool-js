@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const { qa } = require('qa-playwright');
+const { qa } = require('qa-forge-playwright');
 const LoginPage = require('./pages/LoginPage');
 
 test.describe('Authentication', () => {

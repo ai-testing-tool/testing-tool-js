@@ -1,4 +1,4 @@
-import { qa } from 'qa-cypress/mocha';
+import { qa } from 'qa-forge-cypress/mocha';
 import InventoryPage from '../support/pages/InventoryPage';
 import CartPage from '../support/pages/CartPage';
 

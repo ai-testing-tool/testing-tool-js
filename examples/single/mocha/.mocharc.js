@@ -1,5 +1,5 @@
 module.exports = {
   spec: ['test/**/*.spec.js'],
-  reporter: 'qa-mocha',
+  reporter: 'qa-forge-mocha',
   timeout: 10000,
 };

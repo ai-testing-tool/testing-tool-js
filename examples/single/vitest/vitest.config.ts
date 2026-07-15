@@ -2,7 +2,7 @@ import { defineConfig } from 'vitest/config';
 
 /**
  * Default: native reporters only (Path A — JSON + qa-forge-api-client).
- * Optional Path B: add `qa-vitest` to `reporters` — see README.
+ * Optional Path B: add `qa-forge-vitest` to `reporters` — see README.
  */
 export default defineConfig({
   test: {

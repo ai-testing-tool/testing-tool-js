@@ -3,7 +3,7 @@ import type {
   JestTestFileResult,
   JestVitestJsonReport,
   QaMetaWire,
-} from 'qa-javascript-commons';
+} from 'qa-forge-commons';
 
 /**
  * Minimal AggregatedResult / --json shapes accepted by the mapper.

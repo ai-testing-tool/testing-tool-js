@@ -13,6 +13,6 @@ module.exports = {
     ],
   },
   // Default: native reporters only (Path A — JSON + qa-forge-api-client).
-  // Optional Path B: add `qa-jest` to `reporters` — see README.
+  // Optional Path B: add `qa-forge-jest` to `reporters` — see README.
   reporters: ['default'],
 };

@@ -1,7 +1,7 @@
 {
-  "name": "qa-jest",
-  "version": "1.1.0",
-  "description": "QAnalyzer Jest reporter — ingest or file modes via qa-javascript-commons",
+  "name": "qa-forge-jest",
+  "version": "1.1.1",
+  "description": "QAnalyzer Jest reporter — ingest or file modes via qa-forge-commons",
   "keywords": [
     "qanalyzer",
     "jest",
@@ -37,7 +37,7 @@
     "prepublishOnly": "npm test"
   },
   "dependencies": {
-    "qa-javascript-commons": "^1.0.0"
+    "qa-forge-commons": "^1.0.0"
   },
   "peerDependencies": {
     "jest": ">=29.0.0"

@@ -8,7 +8,7 @@ const node_fs_1 = require("node:fs");
 const node_os_1 = require("node:os");
 const node_path_1 = require("node:path");
 const node_test_1 = require("node:test");
-const qa_javascript_commons_1 = require("qa-javascript-commons");
+const qa_forge_commons_1 = require("qa-forge-commons");
 const plugin_js_1 = __importDefault(require("../plugin.js"));
 const report_builder_js_1 = require("../report-builder.js");
 const resolve_options_js_1 = require("../resolve-options.js");
@@ -37,7 +37,7 @@ const SPECS = [
 (0, node_test_1.describe)('resolveQaOptions', () => {
     (0, node_test_1.it)('unwraps cypress-multi-reporters qaCypressReporterOptions', () => {
         const opts = (0, resolve_options_js_1.resolveQaOptions)({
-            reporterEnabled: 'qa-cypress',
+            reporterEnabled: 'qa-forge-cypress',
             qaCypressReporterOptions: { mode: 'file', projectKey: 'AUTH' },
         });
         strict_1.default.equal(opts.mode, 'file');
@@ -54,9 +54,9 @@ const SPECS = [
         const dir = (0, node_fs_1.mkdtempSync)((0, node_path_1.join)((0, node_os_1.tmpdir)(), 'qa-cypress-'));
         const out = (0, node_path_1.join)(dir, 'qanalyzer-results.json');
         try {
-            qa_javascript_commons_1.QAnalyzerReporter.resetInstance();
-            const reporter = qa_javascript_commons_1.QAnalyzerReporter.getInstance({
-                mode: qa_javascript_commons_1.ModeEnum.file,
+            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
+            const reporter = qa_forge_commons_1.QAnalyzerReporter.getInstance({
+                mode: qa_forge_commons_1.ModeEnum.file,
                 projectKey: 'AUTH',
                 launchName: 'local',
                 file: { path: out },
@@ -72,7 +72,7 @@ const SPECS = [
             strict_1.default.equal(written.report.testResults?.[0]?.assertionResults?.[0]?.title, 'AUTH-101 login');
         }
         finally {
-            qa_javascript_commons_1.QAnalyzerReporter.resetInstance();
+            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
             (0, node_fs_1.rmSync)(dir, { recursive: true, force: true });
         }
     });
@@ -94,7 +94,7 @@ const SPECS = [
                 projectRoot: dir,
                 reporterOptions: {
                     qaCypressReporterOptions: {
-                        mode: qa_javascript_commons_1.ModeEnum.file,
+                        mode: qa_forge_commons_1.ModeEnum.file,
                         projectKey: 'AUTH',
                         resultsPath: bridge,
                         file: { path: out },
@@ -111,7 +111,7 @@ const SPECS = [
             strict_1.default.equal(written.report.numFailedTests, 1);
         }
         finally {
-            qa_javascript_commons_1.QAnalyzerReporter.resetInstance();
+            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
             delete process.env.QANALYZER_CYPRESS_RESULTS_PATH;
             (0, node_fs_1.rmSync)(dir, { recursive: true, force: true });
         }
@@ -128,7 +128,7 @@ const SPECS = [
             };
             (0, plugin_js_1.default)(on, {
                 reporterOptions: {
-                    mode: qa_javascript_commons_1.ModeEnum.off,
+                    mode: qa_forge_commons_1.ModeEnum.off,
                     projectKey: 'AUTH',
                     resultsPath: bridge,
                 },
@@ -137,7 +137,7 @@ const SPECS = [
             strict_1.default.equal(results_manager_js_1.ResultsManager.getSpecs(bridge).length, 0);
         }
         finally {
-            qa_javascript_commons_1.QAnalyzerReporter.resetInstance();
+            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
             (0, node_fs_1.rmSync)(dir, { recursive: true, force: true });
         }
     });

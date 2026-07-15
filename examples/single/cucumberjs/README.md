@@ -1,6 +1,6 @@
-# CucumberJS pilot — JSONPlaceholder + qa-cucumberjs
+# CucumberJS pilot — JSONPlaceholder + qa-forge-cucumberjs
 
-BDD features against [JSONPlaceholder](https://jsonplaceholder.typicode.com/) using **qa-cucumberjs**.
+BDD features against [JSONPlaceholder](https://jsonplaceholder.typicode.com/) using **qa-forge-cucumberjs**.
 
 ## Setup
 

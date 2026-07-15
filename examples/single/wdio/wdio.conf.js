@@ -1,5 +1,5 @@
-const QaWdioReporter = require('qa-wdio').default;
-const { afterRunHook, beforeRunHook, QaWdioService } = require('qa-wdio');
+const QaWdioReporter = require('qa-forge-wdio').default;
+const { afterRunHook, beforeRunHook, QaWdioService } = require('qa-forge-wdio');
 
 exports.config = {
   runner: 'local',

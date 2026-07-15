@@ -68,7 +68,7 @@ ${gitlabScriptLines(ctx, (0, reporter_1.frameworkReporterRun)(ctx))}
     };
 }
 /**
- * GitLab CI — upload path or qa-vitest / qa-jest reporter path.
+ * GitLab CI — upload path or qa-forge-vitest / qa-forge-jest reporter path.
  */
 function renderGitlabUpload(ctx) {
     if (ctx.ingestPath === 'reporter') {

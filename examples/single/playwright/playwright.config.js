@@ -12,7 +12,7 @@ module.exports = defineConfig({
   reporter: [
     ['list'],
     [
-      'qa-playwright',
+      'qa-forge-playwright',
       {
         // Defaults to mode=off (no credentials). Override with QANALYZER_MODE.
         // mode: 'off' | 'file' | 'ingest',

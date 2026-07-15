@@ -1,13 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { ModeEnum, QAnalyzerReporter } from 'qa-javascript-commons';
+import { ModeEnum, QAnalyzerReporter } from 'qa-forge-commons';
 
 import { MetadataManager, qa } from '../helpers.js';
 import { PlaywrightQaReporter } from '../reporter.js';
 import PlaywrightQaReporterDefault from '../index.js';
 
-describe('qa-playwright scaffold', () => {
+describe('qa-forge-playwright scaffold', () => {
   it('loads reporter module and no-ops publish when mode=off', async () => {
     QAnalyzerReporter.resetInstance();
 

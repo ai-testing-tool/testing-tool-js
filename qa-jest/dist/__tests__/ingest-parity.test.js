@@ -8,7 +8,7 @@ const node_fs_1 = require("node:fs");
 const node_os_1 = require("node:os");
 const node_path_1 = require("node:path");
 const node_test_1 = require("node:test");
-const qa_javascript_commons_1 = require("qa-javascript-commons");
+const qa_forge_commons_1 = require("qa-forge-commons");
 const index_js_1 = require("../index.js");
 const report_builder_js_1 = require("../report-builder.js");
 /** Same logical run as AggregatedResult (onRunComplete) vs native --json output. */
@@ -104,13 +104,13 @@ function assertionFingerprint(payload) {
 }
 (0, node_test_1.describe)('dual-path FR41 parity (NFR24)', () => {
     (0, node_test_1.it)('AggregatedResult and native --json yield schema-equivalent payloads', () => {
-        const fromReporter = (0, qa_javascript_commons_1.buildIngestPayload)({
+        const fromReporter = (0, qa_forge_commons_1.buildIngestPayload)({
             projectKey: 'AUTH',
             report: (0, report_builder_js_1.toJestJsonReport)(AGGREGATED),
             format: 'jest-json',
             launchName: 'ci #1',
         });
-        const fromCli = (0, qa_javascript_commons_1.buildIngestPayload)({
+        const fromCli = (0, qa_forge_commons_1.buildIngestPayload)({
             projectKey: 'AUTH',
             report: (0, report_builder_js_1.toJestJsonReport)(NATIVE_JSON),
             format: 'jest-json',
@@ -132,9 +132,9 @@ function assertionFingerprint(payload) {
         const dir = (0, node_fs_1.mkdtempSync)((0, node_path_1.join)((0, node_os_1.tmpdir)(), 'qa-jest-'));
         const out = (0, node_path_1.join)(dir, 'qanalyzer-results.json');
         try {
-            qa_javascript_commons_1.QAnalyzerReporter.resetInstance();
-            const reporter = qa_javascript_commons_1.QAnalyzerReporter.getInstance({
-                mode: qa_javascript_commons_1.ModeEnum.file,
+            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
+            const reporter = qa_forge_commons_1.QAnalyzerReporter.getInstance({
+                mode: qa_forge_commons_1.ModeEnum.file,
                 projectKey: 'AUTH',
                 launchName: 'local',
                 file: { path: out },
@@ -150,14 +150,14 @@ function assertionFingerprint(payload) {
             strict_1.default.equal(written.report.testResults?.[0]?.assertionResults?.[0]?.title, 'AUTH-101 login');
         }
         finally {
-            qa_javascript_commons_1.QAnalyzerReporter.resetInstance();
+            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
             (0, node_fs_1.rmSync)(dir, { recursive: true, force: true });
         }
     });
 });
 (0, node_test_1.describe)('JestQaReporter modes', () => {
     (0, node_test_1.it)('mode=off completes without credentials', async () => {
-        const reporter = new index_js_1.JestQaReporter({}, { mode: qa_javascript_commons_1.ModeEnum.off });
+        const reporter = new index_js_1.JestQaReporter({}, { mode: qa_forge_commons_1.ModeEnum.off });
         await reporter.onRunComplete(new Set(), AGGREGATED);
     });
     (0, node_test_1.it)('overrides stale success=false from onRunComplete when nothing failed', async () => {
@@ -197,7 +197,7 @@ function assertionFingerprint(payload) {
         const out = (0, node_path_1.join)(dir, 'out.json');
         try {
             const reporter = new index_js_1.JestQaReporter({}, {
-                mode: qa_javascript_commons_1.ModeEnum.file,
+                mode: qa_forge_commons_1.ModeEnum.file,
                 projectKey: 'AUTH',
                 file: { path: out },
             });
@@ -207,7 +207,7 @@ function assertionFingerprint(payload) {
             strict_1.default.equal(report?.success, true);
         }
         finally {
-            qa_javascript_commons_1.QAnalyzerReporter.resetInstance();
+            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
             (0, node_fs_1.rmSync)(dir, { recursive: true, force: true });
         }
     });
@@ -216,7 +216,7 @@ function assertionFingerprint(payload) {
         const out = (0, node_path_1.join)(dir, 'out.json');
         try {
             const reporter = new index_js_1.JestQaReporter({}, {
-                mode: qa_javascript_commons_1.ModeEnum.file,
+                mode: qa_forge_commons_1.ModeEnum.file,
                 projectKey: 'AUTH',
                 file: { path: out },
             });
@@ -226,7 +226,7 @@ function assertionFingerprint(payload) {
             strict_1.default.equal(report?.success, false);
         }
         finally {
-            qa_javascript_commons_1.QAnalyzerReporter.resetInstance();
+            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
             (0, node_fs_1.rmSync)(dir, { recursive: true, force: true });
         }
     });
@@ -235,7 +235,7 @@ function assertionFingerprint(payload) {
         const out = (0, node_path_1.join)(dir, 'out.json');
         try {
             const reporter = new index_js_1.JestQaReporter({}, {
-                mode: qa_javascript_commons_1.ModeEnum.file,
+                mode: qa_forge_commons_1.ModeEnum.file,
                 projectKey: 'AUTH',
                 file: { path: out },
             });
@@ -245,7 +245,7 @@ function assertionFingerprint(payload) {
             strict_1.default.equal(written.projectKey, 'AUTH');
         }
         finally {
-            qa_javascript_commons_1.QAnalyzerReporter.resetInstance();
+            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
             (0, node_fs_1.rmSync)(dir, { recursive: true, force: true });
         }
     });

@@ -1,11 +1,11 @@
-# qa-mocha
+# qa-forge-mocha
 
 Mocha reporter for **QAnalyzer** (Jira Forge quality hub).
 
 ## Install
 
 ```bash
-npm install -D qa-mocha qa-javascript-commons mocha
+npm install -D qa-forge-mocha qa-forge-commons mocha
 ```
 
 Peer: `mocha` ≥10.
@@ -16,7 +16,7 @@ Peer: `mocha` ≥10.
 // .mocharc.js
 module.exports = {
   spec: ['test/**/*.spec.js'],
-  reporter: 'qa-mocha',
+  reporter: 'qa-forge-mocha',
   reporterOptions: {
     // Defaults to mode=off (no credentials required)
     // mode: 'ingest' | 'file' | 'off',
@@ -39,7 +39,7 @@ Env (same as CLI): `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_
 ## Helpers
 
 ```js
-const { qa } = require('qa-mocha/mocha');
+const { qa } = require('qa-forge-mocha/mocha');
 const assert = require('assert');
 
 describe('JSONPlaceholder User CRUD', function () {

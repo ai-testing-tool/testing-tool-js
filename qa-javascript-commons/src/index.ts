@@ -68,4 +68,4 @@ export {
   type CiVariableHint,
 } from './ci';
 
-export const PACKAGE_NAME = 'qa-javascript-commons';
+export const PACKAGE_NAME = 'qa-forge-commons';

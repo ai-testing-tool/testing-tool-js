@@ -56,4 +56,4 @@ Object.defineProperty(exports, "listCiTemplateVariants", { enumerable: true, get
 Object.defineProperty(exports, "UnsupportedVariantError", { enumerable: true, get: function () { return ci_1.UnsupportedVariantError; } });
 Object.defineProperty(exports, "vitestJsonRun", { enumerable: true, get: function () { return ci_1.vitestJsonRun; } });
 Object.defineProperty(exports, "jestJsonRun", { enumerable: true, get: function () { return ci_1.jestJsonRun; } });
-exports.PACKAGE_NAME = 'qa-javascript-commons';
+exports.PACKAGE_NAME = 'qa-forge-commons';

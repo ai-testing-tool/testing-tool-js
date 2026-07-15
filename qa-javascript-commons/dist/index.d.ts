@@ -9,4 +9,4 @@ export { FsWriter } from './writer';
 export { FallbackCoordinator, IngestReporter, FileReporter } from './reporters';
 export { Logger, sanitizeOptionsForLog, extractIssueKeys, firstIssueKey, projectKeyFromIssueKey, uploadAttachmentForQa, EnvAttachEnum, } from './utils';
 export { generateCiTemplate, buildCiTemplateContext, listCiTemplateVariants, UnsupportedVariantError, vitestJsonRun, jestJsonRun, type CiTemplateContext, type CiTemplateResult, type CiTemplateVariant, type CiPlatform, type CiFramework, type CiIngestPath, type CiSecretHint, type CiVariableHint, } from './ci';
-export declare const PACKAGE_NAME = "qa-javascript-commons";
+export declare const PACKAGE_NAME = "qa-forge-commons";

@@ -2,14 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CucumberQaFormatter = void 0;
 const cucumber_1 = require("@cucumber/cucumber");
-const qa_javascript_commons_1 = require("qa-javascript-commons");
+const qa_forge_commons_1 = require("qa-forge-commons");
 const event_storage_1 = require("./modules/event-storage");
 const report_builder_1 = require("./report-builder");
 /**
  * CucumberJS custom formatter for QAnalyzer.
  *
  * Configure (`cucumber.js`):
- *   format: ['progress', 'qa-cucumberjs']
+ *   format: ['progress', 'qa-forge-cucumberjs']
  *
  * Modes via env (`QANALYZER_MODE`) or formatOptions.
  * Helpers are tag-based (`@QaTitle`, `@QaSuite`, `@QaIgnore`, `@AUTH-101`) — no programmatic import (FR54).
@@ -33,7 +33,7 @@ class CucumberQaFormatter extends cucumber_1.Formatter {
             file,
             frameworkPackage: frameworkPackage ?? '@cucumber/cucumber',
             frameworkName: frameworkName ?? 'cucumberjs',
-            reporterName: reporterName ?? 'qa-cucumberjs',
+            reporterName: reporterName ?? 'qa-forge-cucumberjs',
             fallback,
         };
         options.eventBroadcaster.on('envelope', (envelope) => {
@@ -79,13 +79,13 @@ class CucumberQaFormatter extends cucumber_1.Formatter {
     async publish() {
         try {
             await Promise.all(this.pendingScenarios);
-            qa_javascript_commons_1.QAnalyzerReporter.resetInstance();
-            const reporter = qa_javascript_commons_1.QAnalyzerReporter.getInstance({
+            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
+            const reporter = qa_forge_commons_1.QAnalyzerReporter.getInstance({
                 ...this.options,
-                mode: this.options.mode ?? qa_javascript_commons_1.ModeEnum.off,
+                mode: this.options.mode ?? qa_forge_commons_1.ModeEnum.off,
             });
-            const mode = reporter.getConfig().mode ?? qa_javascript_commons_1.ModeEnum.off;
-            if (mode === qa_javascript_commons_1.ModeEnum.off) {
+            const mode = reporter.getConfig().mode ?? qa_forge_commons_1.ModeEnum.off;
+            if (mode === qa_forge_commons_1.ModeEnum.off) {
                 this.byUri.clear();
                 return;
             }

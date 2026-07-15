@@ -6,15 +6,15 @@ JavaScript / TypeScript client SDK for **QAnalyzer** (Jira Forge quality hub): s
 
 | Package | Description |
 | ------- | ----------- |
-| [`qa-javascript-commons`](./qa-javascript-commons/) | Shared config, models, and Forge ingest client |
+| [`qa-forge-commons`](./qa-javascript-commons/) | Shared config, models, and Forge ingest client |
 | [`qa-forge-api-client`](./qa-forge-api-client/) | CLI — uploads Jest/Vitest JSON or JUnit XML reports |
-| [`qa-jest`](./qa-jest/) | Jest reporter |
-| [`qa-vitest`](./qa-vitest/) | Vitest reporter |
-| [`qa-mocha`](./qa-mocha/) | Mocha reporter |
-| [`qa-cypress`](./qa-cypress/) | Cypress reporter + plugin |
-| [`qa-playwright`](./qa-playwright/) | Playwright reporter |
-| [`qa-wdio`](./qa-wdio/) | WebdriverIO reporter + service (Mocha or Cucumber) |
-| [`qa-cucumberjs`](./qa-cucumberjs/) | CucumberJS formatter |
+| [`qa-forge-jest`](./qa-jest/) | Jest reporter |
+| [`qa-forge-vitest`](./qa-vitest/) | Vitest reporter |
+| [`qa-forge-mocha`](./qa-mocha/) | Mocha reporter |
+| [`qa-forge-cypress`](./qa-cypress/) | Cypress reporter + plugin |
+| [`qa-forge-playwright`](./qa-playwright/) | Playwright reporter |
+| [`qa-forge-wdio`](./qa-wdio/) | WebdriverIO reporter + service (Mocha or Cucumber) |
+| [`qa-forge-cucumberjs`](./qa-cucumberjs/) | CucumberJS formatter |
 
 Ingest schema: [`schemas/ingest-payload.schema.json`](./schemas/ingest-payload.schema.json). Runnable projects for every runner live in [`examples/single/`](./examples/single/).
 
@@ -61,7 +61,7 @@ npm workspaces monorepo; all `qa-*` directories are workspaces.
 
 ## Releasing
 
-Packages are versioned in **lockstep** — every `qa-*` package carries the same version, and a `v<version>` git tag triggers the npm publish pipeline. The pipeline refuses to publish if any package version doesn't match the tag, publishes in dependency order (`qa-javascript-commons` first), and skips already-published versions, so retrying a failed pipeline is safe.
+Packages are versioned in **lockstep** — every `qa-*` package carries the same version, and a `v<version>` git tag triggers the npm publish pipeline. The pipeline refuses to publish if any package version doesn't match the tag, publishes in dependency order (`qa-forge-commons` first), and skips already-published versions, so retrying a failed pipeline is safe.
 
 ### Git flow
 

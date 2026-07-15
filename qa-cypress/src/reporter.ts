@@ -3,7 +3,7 @@ import {
   ModeEnum,
   qaMetaFromEntries,
   type OptionsType,
-} from 'qa-javascript-commons';
+} from 'qa-forge-commons';
 
 import { MetadataManager } from './metadata-manager';
 import type { CypressAssertionInput, CypressSpecInput } from './report-builder';
@@ -104,7 +104,7 @@ export class CypressQaReporter extends reporters.Base {
       const entries = MetadataManager.getEntries();
       const wire = qaMetaFromEntries(entries, {
         framework: 'cypress',
-        reporter: 'qa-cypress',
+        reporter: 'qa-forge-cypress',
       });
       MetadataManager.clear();
 

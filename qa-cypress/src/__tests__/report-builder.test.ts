@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, it } from 'node:test';
 
-import { qaMetaFromEntries } from 'qa-javascript-commons';
+import { qaMetaFromEntries } from 'qa-forge-commons';
 
 import {
   toJestJsonReport,
@@ -44,7 +44,7 @@ function loadSaucedemoFixture(): CypressSpecInput[] {
       }
       const wire = qaMetaFromEntries(entries, {
         framework: 'cypress',
-        reporter: 'qa-cypress',
+        reporter: 'qa-forge-cypress',
       });
       return {
         ancestorTitles: a.ancestorTitles,
@@ -66,7 +66,7 @@ describe('toJestJsonReport', () => {
         { type: 'qa-step', body: 'Fill in username' },
         { type: 'qa-step-end', body: { name: 'Fill in username', status: 'passed' } },
       ],
-      { framework: 'cypress', reporter: 'qa-cypress' },
+      { framework: 'cypress', reporter: 'qa-forge-cypress' },
     );
 
     const report = toJestJsonReport(

@@ -356,7 +356,7 @@ steps:
 `);
     });
 });
-(0, node_test_1.describe)('reporter path (qa-vitest / qa-jest / qa-mocha / qa-cucumberjs / qa-cypress / qa-playwright / qa-wdio)', () => {
+(0, node_test_1.describe)('reporter path (qa-forge-vitest / qa-forge-jest / qa-forge-mocha / qa-forge-cucumberjs / qa-forge-cypress / qa-forge-playwright / qa-forge-wdio)', () => {
     for (const platform of PLATFORMS) {
         for (const framework of REPORTER_FRAMEWORKS) {
             (0, node_test_1.it)(`${platform} / ${framework} / reporter`, () => {
@@ -385,18 +385,18 @@ steps:
                 strict_1.default.match(result.content, runPattern);
                 if (framework === 'playwright') {
                     strict_1.default.match(result.content, /npx playwright install --with-deps/);
-                    strict_1.default.match(result.content, /qa-playwright/);
+                    strict_1.default.match(result.content, /qa-forge-playwright/);
                 }
                 if (framework === 'wdio') {
-                    strict_1.default.match(result.content, /qa-wdio/);
+                    strict_1.default.match(result.content, /qa-forge-wdio/);
                     strict_1.default.match(result.content, /headless Chrome/);
                 }
                 if (framework === 'mocha') {
-                    strict_1.default.match(result.content, /qa-mocha/);
+                    strict_1.default.match(result.content, /qa-forge-mocha/);
                     strict_1.default.match(result.content, /\.mocharc\.js/);
                 }
                 if (framework === 'cucumberjs') {
-                    strict_1.default.match(result.content, /qa-cucumberjs/);
+                    strict_1.default.match(result.content, /qa-forge-cucumberjs/);
                     strict_1.default.match(result.content, /cucumber\.js/);
                 }
                 strict_1.default.doesNotMatch(result.content, /qa-forge-api-client/);

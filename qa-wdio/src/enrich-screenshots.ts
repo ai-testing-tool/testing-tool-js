@@ -1,7 +1,7 @@
 /**
  * Merge buffered failure screenshots onto WDIO assertions before FR41 publish (FR133).
  */
-import type { QaMetaWire } from 'qa-javascript-commons';
+import type { QaMetaWire } from 'qa-forge-commons';
 
 import { FailureScreenshotBuffer } from './failure-screenshot-buffer';
 import type { WdioAssertionInput, WdioSpecInput } from './report-builder';
@@ -11,7 +11,7 @@ function ensureQaMeta(assertion: WdioAssertionInput): QaMetaWire {
   if (!assertion.meta.qa) {
     assertion.meta.qa = {
       framework: 'wdio',
-      host: { framework: 'wdio', reporter: 'qa-wdio' },
+      host: { framework: 'wdio', reporter: 'qa-forge-wdio' },
     };
   }
   return assertion.meta.qa;

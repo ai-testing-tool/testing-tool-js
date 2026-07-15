@@ -1,9 +1,9 @@
 /**
  * Cypress Node plugin — register in cypress.config.js setupNodeEvents:
- *   require('qa-cypress/plugin')(on, config);
+ *   require('qa-forge-cypress/plugin')(on, config);
  *
  * before:run clears the results bridge; after:run publishes FR41
- * (mode=ingest | file) via qa-javascript-commons.
+ * (mode=ingest | file) via qa-forge-commons.
  * after:screenshot captures failure still images for Phase 3 upload (FR71).
  */
 
@@ -11,7 +11,7 @@ import {
   ModeEnum,
   QAnalyzerReporter,
   type OptionsType,
-} from 'qa-javascript-commons';
+} from 'qa-forge-commons';
 
 import { enrichSpecsWithFailureScreenshots } from './enrich-screenshots';
 import { toJestJsonReport } from './report-builder';

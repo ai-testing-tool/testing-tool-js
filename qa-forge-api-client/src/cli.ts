@@ -11,7 +11,7 @@ import {
   composeOptions,
   type IngestFormat,
   type JestVitestJsonReport,
-} from 'qa-javascript-commons';
+} from 'qa-forge-commons';
 
 type CliArgs = {
   project?: string;

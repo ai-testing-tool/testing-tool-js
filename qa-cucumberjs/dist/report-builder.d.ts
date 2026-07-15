@@ -1,4 +1,4 @@
-import type { JestVitestJsonReport, QaMetaWire } from 'qa-javascript-commons';
+import type { JestVitestJsonReport, QaMetaWire } from 'qa-forge-commons';
 import type { ConvertedScenario } from './modules/event-storage';
 export type CucumberAssertionInput = {
     ancestorTitles: string[];

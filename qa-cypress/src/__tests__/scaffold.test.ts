@@ -2,14 +2,14 @@ import assert from 'node:assert/strict';
 import { EventEmitter } from 'node:events';
 import { describe, it } from 'node:test';
 
-import { ModeEnum, QAnalyzerReporter } from 'qa-javascript-commons';
+import { ModeEnum, QAnalyzerReporter } from 'qa-forge-commons';
 
 import metadata from '../metadata.js';
 import { MetadataManager, qa } from '../mocha.js';
 import plugin from '../plugin.js';
 import { CypressQaReporter } from '../reporter.js';
 
-describe('qa-cypress scaffold', () => {
+describe('qa-forge-cypress scaffold', () => {
   it('loads reporter module and no-ops publish when mode=off', async () => {
     QAnalyzerReporter.resetInstance();
 

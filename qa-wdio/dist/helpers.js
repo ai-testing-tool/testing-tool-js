@@ -10,7 +10,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MetadataManager = exports.qa = void 0;
-const qa_javascript_commons_1 = require("qa-javascript-commons");
+const qa_forge_commons_1 = require("qa-forge-commons");
 const metadata_manager_1 = require("./metadata-manager");
 Object.defineProperty(exports, "MetadataManager", { enumerable: true, get: function () { return metadata_manager_1.MetadataManager; } });
 function push(type, body) {
@@ -75,7 +75,7 @@ exports.qa = {
             });
             return;
         }
-        return (0, qa_javascript_commons_1.uploadAttachmentForQa)({
+        return (0, qa_forge_commons_1.uploadAttachmentForQa)({
             fileName: attach.name,
             mimeType: mime,
             content: attach.content,

@@ -7,7 +7,7 @@ import {
   createQaMetaAccumulator,
   toQaMetaWire,
   type OptionsType,
-} from 'qa-javascript-commons';
+} from 'qa-forge-commons';
 
 import {
   buildJestCompatibleReport,
@@ -105,7 +105,7 @@ function collectFromTestCase(testCase: TestCase): CollectedCase {
 
 /**
  * Vitest custom reporter for QAnalyzer.
- * Configure: `reporters: ['default', 'qa-vitest']` or `['qa-vitest', { mode: 'ingest', ... }]`.
+ * Configure: `reporters: ['default', 'qa-forge-vitest']` or `['qa-forge-vitest', { mode: 'ingest', ... }]`.
  */
 export class VitestQaReporter implements Reporter {
   private readonly options: VitestQaOptions;

@@ -39,7 +39,7 @@ function frameworkTestCommand(ctx) {
         // Native Playwright JSON reporter → stdout (FR109 Path A)
         return `npx playwright test --reporter=json > ${reportFile}`;
     }
-    throw new Error('Upload JSON path is not supported for Mocha, CucumberJS, Cypress, or WebdriverIO — use ingestPath: reporter (qa-mocha / qa-cucumberjs / qa-cypress / qa-wdio)');
+    throw new Error('Upload JSON path is not supported for Mocha, CucumberJS, Cypress, or WebdriverIO — use ingestPath: reporter (qa-forge-mocha / qa-forge-cucumberjs / qa-forge-cypress / qa-forge-wdio)');
 }
 function frameworkLabel(ctx) {
     if (ctx.framework === 'vitest')

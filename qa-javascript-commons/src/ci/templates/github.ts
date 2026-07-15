@@ -117,7 +117,7 @@ ${preRun ? `${preRun}\n` : ''}      - name: Run ${label} with QAnalyzer reporter
 
 /**
  * GitHub Actions — upload (Vitest/Jest/Playwright) or reporter
- * (qa-vitest / qa-jest / qa-mocha / qa-cucumberjs / qa-cypress / qa-playwright / qa-wdio).
+ * (qa-forge-vitest / qa-forge-jest / qa-forge-mocha / qa-forge-cucumberjs / qa-forge-cypress / qa-forge-playwright / qa-forge-wdio).
  */
 export function renderGithubUpload(ctx: CiTemplateContext): CiTemplateResult {
   if (ctx.ingestPath === 'reporter') {

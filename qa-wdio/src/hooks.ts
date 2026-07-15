@@ -1,4 +1,4 @@
-import { ModeEnum, QAnalyzerReporter, type OptionsType } from 'qa-javascript-commons';
+import { ModeEnum, QAnalyzerReporter, type OptionsType } from 'qa-forge-commons';
 
 import { publishBufferedResults } from './publish';
 
@@ -52,11 +52,11 @@ export function assertHooksForMode(mode: unknown, debug = false): void {
   if (hooksLifecycle.beforeCalled) return;
 
   const message =
-    'qa-wdio requires onPrepare → beforeRunHook() and onComplete → afterRunHook() when QANALYZER_MODE is ingest or file (NFR33)';
+    'qa-forge-wdio requires onPrepare → beforeRunHook() and onComplete → afterRunHook() when QANALYZER_MODE is ingest or file (NFR33)';
 
   if (debug) {
     throw new Error(message);
   }
   // eslint-disable-next-line no-console
-  console.error(`[qa-wdio] ${message}`);
+  console.error(`[qa-forge-wdio] ${message}`);
 }

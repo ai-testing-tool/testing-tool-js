@@ -7,7 +7,7 @@ const strict_1 = __importDefault(require("node:assert/strict"));
 const node_fs_1 = require("node:fs");
 const node_path_1 = require("node:path");
 const node_test_1 = require("node:test");
-const qa_javascript_commons_1 = require("qa-javascript-commons");
+const qa_forge_commons_1 = require("qa-forge-commons");
 const report_builder_js_1 = require("../report-builder.js");
 function loadSaucedemoFixture() {
     const raw = JSON.parse((0, node_fs_1.readFileSync)((0, node_path_1.join)(__dirname, '../__fixtures__/saucedemo-13.json'), 'utf8'));
@@ -22,9 +22,9 @@ function loadSaucedemoFixture() {
             if (a.ignore) {
                 entries.push({ type: 'qa-ignore', body: true });
             }
-            const wire = (0, qa_javascript_commons_1.qaMetaFromEntries)(entries, {
+            const wire = (0, qa_forge_commons_1.qaMetaFromEntries)(entries, {
                 framework: 'wdio',
-                reporter: 'qa-wdio',
+                reporter: 'qa-forge-wdio',
             });
             return {
                 ancestorTitles: a.ancestorTitles,
@@ -62,13 +62,13 @@ function loadSaucedemoFixture() {
 });
 (0, node_test_1.describe)('qa.step → meta.qa.steps (FR125)', () => {
     (0, node_test_1.it)('preserves nested step order via qaMetaFromEntries', () => {
-        const wire = (0, qa_javascript_commons_1.qaMetaFromEntries)([
+        const wire = (0, qa_forge_commons_1.qaMetaFromEntries)([
             { type: 'qa-step-start', body: 'outer' },
             { type: 'qa-step-start', body: 'inner' },
             { type: 'qa-step-end', body: { name: 'inner', status: 'passed' } },
             { type: 'qa-step-end', body: { name: 'outer', status: 'passed' } },
             { type: 'qa-suite', body: 'E-commerce\tLogin' },
-        ], { framework: 'wdio', reporter: 'qa-wdio' });
+        ], { framework: 'wdio', reporter: 'qa-forge-wdio' });
         strict_1.default.ok(wire);
         strict_1.default.equal(wire?.framework, 'wdio');
         strict_1.default.equal(wire?.steps?.length, 2);

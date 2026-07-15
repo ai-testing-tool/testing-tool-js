@@ -2,7 +2,7 @@
   "name": "qanalyzer-playwright-pilot",
   "version": "0.1.0",
   "private": true,
-  "description": "QAnalyzer Playwright pilot — saucedemo e-commerce E2E + qa-playwright reporter",
+  "description": "QAnalyzer Playwright pilot — saucedemo e-commerce E2E + qa-forge-playwright reporter",
   "scripts": {
     "test": "QANALYZER_MODE=${QANALYZER_MODE:-off} npx playwright test",
     "test:headed": "QANALYZER_MODE=${QANALYZER_MODE:-off} npx playwright test --headed",
@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.54.1",
-    "qa-javascript-commons": "file:../../../qa-javascript-commons",
-    "qa-playwright": "file:../../../qa-playwright"
+    "qa-forge-commons": "file:../../../qa-javascript-commons",
+    "qa-forge-playwright": "file:../../../qa-playwright"
   }
 }

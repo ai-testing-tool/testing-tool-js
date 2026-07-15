@@ -1,11 +1,11 @@
-# qa-cypress
+# qa-forge-cypress
 
 Cypress reporter + plugin for **QAnalyzer** (Jira Forge quality hub).
 
 ## Install
 
 ```bash
-npm install -D qa-cypress qa-javascript-commons cypress-multi-reporters
+npm install -D qa-forge-cypress qa-forge-commons cypress-multi-reporters
 ```
 
 Peer: `cypress` ≥12, `mocha` ≥10 (Cypress ships Mocha).
@@ -19,7 +19,7 @@ const { defineConfig } = require('cypress');
 module.exports = defineConfig({
   reporter: 'cypress-multi-reporters',
   reporterOptions: {
-    reporterEnabled: 'qa-cypress',
+    reporterEnabled: 'qa-forge-cypress',
     qaCypressReporterOptions: {
       // Defaults to mode=off (no credentials required)
       // mode: 'ingest' | 'file' | 'off',
@@ -29,8 +29,8 @@ module.exports = defineConfig({
   },
   e2e: {
     setupNodeEvents(on, config) {
-      require('qa-cypress/plugin')(on, config);
-      require('qa-cypress/metadata')(on);
+      require('qa-forge-cypress/plugin')(on, config);
+      require('qa-forge-cypress/metadata')(on);
       return config;
     },
   },
@@ -40,10 +40,10 @@ module.exports = defineConfig({
 Direct reporter (no multi-reporters):
 
 ```js
-reporter: 'qa-cypress',
+reporter: 'qa-forge-cypress',
 ```
 
-**Required:** register `qa-cypress/plugin` so `after:run` publishes one launch for the whole `cypress run` (results are buffered across specs).
+**Required:** register `qa-forge-cypress/plugin` so `after:run` publishes one launch for the whole `cypress run` (results are buffered across specs).
 
 ### Modes
 
@@ -60,7 +60,7 @@ Results bridge path: `resultsPath` reporter option or `QANALYZER_CYPRESS_RESULTS
 ## Helpers
 
 ```js
-const { qa } = require('qa-cypress/mocha');
+const { qa } = require('qa-forge-cypress/mocha');
 
 it('AUTH-101 login', () => {
   qa.suite('Auth');
@@ -73,11 +73,11 @@ it('AUTH-101 login', () => {
 
 All helpers: `qa.title(value)`, `qa.comment(value)`, `qa.suite(value)`, `qa.parameters({ key: value })`, `qa.ignore()`, `qa.step(name, syncFn)`. `qa.step()` throws if the callback returns a Promise — keep it synchronous and let Cypress commands queue as usual.
 
-Prefer **Jira issue keys in test titles**. Requires `qa-cypress/metadata` so `cy.task` bridges metadata to the Node reporter. Step hierarchy lands on `assertionResults[].meta.qa.steps`.
+Prefer **Jira issue keys in test titles**. Requires `qa-forge-cypress/metadata` so `cy.task` bridges metadata to the Node reporter. Step hierarchy lands on `assertionResults[].meta.qa.steps`.
 
 ## Failure screenshots
 
-With `qa-cypress/plugin` registered, the `after:screenshot` hook records Cypress failure screenshots automatically. On publish (`mode=ingest` or `file`), each failed assertion gets a matching still image (png/jpeg/webp — videos are skipped) uploaded to Forge and attached as `meta.qa.attachments`. Screenshots are matched to assertions by test title, falling back to spec order; each screenshot is used at most once. Upload errors never fail the Cypress run.
+With `qa-forge-cypress/plugin` registered, the `after:screenshot` hook records Cypress failure screenshots automatically. On publish (`mode=ingest` or `file`), each failed assertion gets a matching still image (png/jpeg/webp — videos are skipped) uploaded to Forge and attached as `meta.qa.attachments`. Screenshots are matched to assertions by test title, falling back to spec order; each screenshot is used at most once. Upload errors never fail the Cypress run.
 
 ## Dual path
 

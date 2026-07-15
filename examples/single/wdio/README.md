@@ -1,6 +1,6 @@
 # QAnalyzer WebdriverIO Pilot Example
 
-Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`qa-wdio`**.
+Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`qa-forge-wdio`**.
 
 Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`).
 
@@ -36,7 +36,7 @@ test/
   step-definitions/    # Cucumber steps
   pageobjects/         # LoginPage, InventoryPage, CartPage, CheckoutPage (getters)
   helpers/auth.js      # loginAsStandardUser (clears cookies + storage)
-wdio.conf.js           # Mocha + qa-wdio
+wdio.conf.js           # Mocha + qa-forge-wdio
 wdio.cucumber.conf.js  # Cucumber + useCucumber: true
 ```
 
@@ -45,8 +45,8 @@ wdio.cucumber.conf.js  # Cucumber + useCucumber: true
 ### Config sketch
 
 ```js
-const QaWdioReporter = require('qa-wdio').default;
-const { beforeRunHook, afterRunHook, QaWdioService } = require('qa-wdio');
+const QaWdioReporter = require('qa-forge-wdio').default;
+const { beforeRunHook, afterRunHook, QaWdioService } = require('qa-forge-wdio');
 
 exports.config = {
   reporters: [[QaWdioReporter, { disableWebdriverStepsReporting: true }]],
@@ -61,7 +61,7 @@ exports.config = {
 ### `await qa.step()`
 
 ```js
-const { qa } = require('qa-wdio');
+const { qa } = require('qa-forge-wdio');
 
 it('AUTH-101 …', async () => {
   qa.suite('E-commerce\\tAuthentication\\tLogin');
@@ -92,7 +92,7 @@ test/step-definitions/login.steps.js
 wdio.cucumber.conf.js
 ```
 
-## Path B — `qa-wdio` reporter
+## Path B — `qa-forge-wdio` reporter
 
 **File mode:**
 

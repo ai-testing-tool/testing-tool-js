@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MochaQaReporter = void 0;
 const mocha_1 = require("mocha");
-const qa_javascript_commons_1 = require("qa-javascript-commons");
+const qa_forge_commons_1 = require("qa-forge-commons");
 const report_builder_1 = require("./report-builder");
 function mapStatus(state) {
     if (state === 'failed')
@@ -52,11 +52,11 @@ function failureMessages(test) {
 /**
  * Mocha custom reporter for QAnalyzer.
  *
- * Configure: `.mocharc.js` → `reporter: 'qa-mocha'`
+ * Configure: `.mocharc.js` → `reporter: 'qa-forge-mocha'`
  * Options: `reporterOptions: { mode: 'ingest' | 'file' | 'off', … }`
  * Env: `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, …
  *
- * Helpers from `qa-mocha/mocha` forward metadata via a global bridge.
+ * Helpers from `qa-forge-mocha/mocha` forward metadata via a global bridge.
  */
 class MochaQaReporter extends mocha_1.reporters.Spec {
     options;
@@ -112,9 +112,9 @@ class MochaQaReporter extends mocha_1.reporters.Spec {
     record(test, state) {
         try {
             const entries = this.bridgeBuffer.splice(0, this.bridgeBuffer.length);
-            const wire = (0, qa_javascript_commons_1.qaMetaFromEntries)(entries, {
+            const wire = (0, qa_forge_commons_1.qaMetaFromEntries)(entries, {
                 framework: 'mocha',
-                reporter: 'qa-mocha',
+                reporter: 'qa-forge-mocha',
             });
             const ancestors = ancestorTitles(test);
             const assertion = {
@@ -139,16 +139,16 @@ class MochaQaReporter extends mocha_1.reporters.Spec {
     }
     async publish() {
         try {
-            qa_javascript_commons_1.QAnalyzerReporter.resetInstance();
-            const reporter = qa_javascript_commons_1.QAnalyzerReporter.getInstance({
+            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
+            const reporter = qa_forge_commons_1.QAnalyzerReporter.getInstance({
                 ...this.options,
-                mode: this.options.mode ?? qa_javascript_commons_1.ModeEnum.off,
+                mode: this.options.mode ?? qa_forge_commons_1.ModeEnum.off,
                 frameworkName: this.options.frameworkName ?? 'mocha',
-                reporterName: this.options.reporterName ?? 'qa-mocha',
+                reporterName: this.options.reporterName ?? 'qa-forge-mocha',
                 frameworkPackage: this.options.frameworkPackage ?? 'mocha',
             });
-            const mode = reporter.getConfig().mode ?? qa_javascript_commons_1.ModeEnum.off;
-            if (mode === qa_javascript_commons_1.ModeEnum.off) {
+            const mode = reporter.getConfig().mode ?? qa_forge_commons_1.ModeEnum.off;
+            if (mode === qa_forge_commons_1.ModeEnum.off) {
                 this.byFile.clear();
                 return;
             }

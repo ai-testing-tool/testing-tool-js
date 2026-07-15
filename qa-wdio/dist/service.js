@@ -9,7 +9,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.QaWdioService = void 0;
-const qa_javascript_commons_1 = require("qa-javascript-commons");
+const qa_forge_commons_1 = require("qa-forge-commons");
 const failure_screenshot_buffer_1 = require("./failure-screenshot-buffer");
 function resolveTitle(test) {
     if (typeof test.fullTitle === 'function') {
@@ -47,7 +47,7 @@ async function captureFailureScreenshot(label, issueKeySources) {
     if (!b64)
         return;
     const content = Buffer.from(b64, 'base64');
-    const outcome = await (0, qa_javascript_commons_1.uploadAttachmentForQa)({
+    const outcome = await (0, qa_forge_commons_1.uploadAttachmentForQa)({
         fileName: 'screenshot.png',
         mimeType: 'image/png',
         content,

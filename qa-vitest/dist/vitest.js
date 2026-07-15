@@ -5,7 +5,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.qa = void 0;
 exports.withQa = withQa;
-const qa_javascript_commons_1 = require("qa-javascript-commons");
+const qa_forge_commons_1 = require("qa-forge-commons");
 function vitestCurrentTitle(ctx) {
     const task = ctx?.task;
     if (task?.fullName)
@@ -66,7 +66,7 @@ function createQaHelpers(annotate, titleSources) {
         },
         async attach(attach) {
             const mime = attach.type ?? attach.contentType;
-            const outcome = await (0, qa_javascript_commons_1.uploadAttachmentForQa)({
+            const outcome = await (0, qa_forge_commons_1.uploadAttachmentForQa)({
                 fileName: attach.name,
                 mimeType: mime,
                 content: attach.content,

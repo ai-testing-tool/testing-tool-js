@@ -30,7 +30,7 @@ describe('meta.qa enrichment', () => {
     assert.equal(wire.steps?.[0]?.name, 'fetch users');
     assert.equal(wire.steps?.[0]?.status, 'failed');
     assert.equal(wire.steps?.[0]?.stepType, 'text');
-    assert.equal(wire.host?.reporter, 'qa-vitest');
+    assert.equal(wire.host?.reporter, 'qa-forge-vitest');
   });
 
   it('builds wire shape from helper buffer entries', () => {

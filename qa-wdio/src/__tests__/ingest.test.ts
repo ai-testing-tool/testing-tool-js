@@ -8,7 +8,7 @@ import {
   ModeEnum,
   QAnalyzerReporter,
   type IngestPayload,
-} from 'qa-javascript-commons';
+} from 'qa-forge-commons';
 
 import { MetadataManager, qa } from '../helpers.js';
 import {

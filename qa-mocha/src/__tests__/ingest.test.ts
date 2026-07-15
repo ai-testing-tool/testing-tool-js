@@ -9,7 +9,7 @@ import {
   QAnalyzerReporter,
   buildIngestPayload,
   type IngestPayload,
-} from 'qa-javascript-commons';
+} from 'qa-forge-commons';
 
 import { MochaQaReporter } from '../reporter.js';
 import { qa } from '../mocha.js';

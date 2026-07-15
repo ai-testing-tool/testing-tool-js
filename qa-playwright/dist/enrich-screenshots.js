@@ -6,7 +6,7 @@ exports.enrichAssertionWithFailureScreenshots = enrichAssertionWithFailureScreen
  * Upload Playwright still-image attachments on failure (FR119).
  * Skips video/trace; never throws into the test run.
  */
-const qa_javascript_commons_1 = require("qa-javascript-commons");
+const qa_forge_commons_1 = require("qa-forge-commons");
 const metadata_manager_1 = require("./metadata-manager");
 function ensureQaMeta(assertion) {
     if (!assertion.meta)
@@ -14,7 +14,7 @@ function ensureQaMeta(assertion) {
     if (!assertion.meta.qa) {
         assertion.meta.qa = {
             framework: 'playwright',
-            host: { framework: 'playwright', reporter: 'qa-playwright' },
+            host: { framework: 'playwright', reporter: 'qa-forge-playwright' },
         };
     }
     return assertion.meta.qa;
@@ -69,7 +69,7 @@ async function enrichAssertionWithFailureScreenshots(assertion, attachments) {
             const fileName = att.name ||
                 att.path?.split(/[/\\]/).pop() ||
                 'screenshot.png';
-            const outcome = await (0, qa_javascript_commons_1.uploadAttachmentForQa)({
+            const outcome = await (0, qa_forge_commons_1.uploadAttachmentForQa)({
                 fileName,
                 mimeType: mimeFor(att),
                 content: att.body,
