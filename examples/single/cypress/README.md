@@ -1,6 +1,6 @@
 # QAnalyzer Cypress Pilot Example
 
-Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`qa-forge-cypress`**.
+Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`@qanalyzer/forge-cypress`**.
 
 Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`).
 
@@ -54,7 +54,7 @@ cy.login('locked_out_user', 'secret_sauce');
 ### Sync `qa.step`
 
 ```js
-import { qa } from 'qa-forge-cypress/mocha';
+import { qa } from '@qanalyzer/forge-cypress/mocha';
 
 it('AUTH-101 …', () => {
   qa.suite('E-commerce\tAuthentication\tLogin');
@@ -71,7 +71,7 @@ QANALYZER_MODE=file \
 QANALYZER_PROJECT_KEY=AUTH \
 npx cypress run --config video=false,screenshotOnRunFailure=false
 
-npx qa-forge-api-client \
+npx @qanalyzer/forge-api-client \
   --project AUTH \
   --launch "cypress pilot" \
   --report qanalyzer-results.json
@@ -96,7 +96,7 @@ QANALYZER_INGEST_TOKEN=... \
 npx cypress run --config video=false,screenshotOnRunFailure=false
 ```
 
-Requires `qa-forge-cypress/plugin` + `qa-forge-cypress/metadata` in `setupNodeEvents` (already wired in `cypress.config.js`).
+Requires `@qanalyzer/forge-cypress/plugin` + `@qanalyzer/forge-cypress/metadata` in `setupNodeEvents` (already wired in `cypress.config.js`).
 
 ### Environment
 

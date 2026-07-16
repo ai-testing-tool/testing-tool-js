@@ -1,4 +1,4 @@
-const { qa } = require('qa-forge-wdio');
+const { qa } = require('@qanalyzer/forge-wdio');
 const LoginPage = require('../pageobjects/LoginPage');
 
 describe('Login Scenarios', () => {

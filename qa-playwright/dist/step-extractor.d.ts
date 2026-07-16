@@ -1,4 +1,4 @@
-import type { QaMetaStepWire } from 'qa-forge-commons';
+import type { QaMetaStepWire } from '@qanalyzer/forge-commons';
 /** Minimal Playwright TestStep shape used by the extractor (avoids tight coupling in tests). */
 export type PlaywrightStepLike = {
     category: string;

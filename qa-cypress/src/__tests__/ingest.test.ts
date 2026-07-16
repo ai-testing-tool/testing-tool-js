@@ -8,7 +8,7 @@ import {
   ModeEnum,
   QAnalyzerReporter,
   type IngestPayload,
-} from 'qa-forge-commons';
+} from '@qanalyzer/forge-commons';
 
 import plugin from '../plugin.js';
 import { toJestJsonReport, type CypressSpecInput } from '../report-builder.js';
@@ -40,7 +40,7 @@ const SPECS: CypressSpecInput[] = [
 describe('resolveQaOptions', () => {
   it('unwraps cypress-multi-reporters qaCypressReporterOptions', () => {
     const opts = resolveQaOptions({
-      reporterEnabled: 'qa-forge-cypress',
+      reporterEnabled: '@qanalyzer/forge-cypress',
       qaCypressReporterOptions: { mode: 'file', projectKey: 'AUTH' },
     });
     assert.equal(opts.mode, 'file');

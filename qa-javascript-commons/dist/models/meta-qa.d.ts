@@ -25,6 +25,11 @@ export type QaMetaWire = {
     suite?: Array<{
         title: string;
     }>;
+    /**
+     * Explicit Jira issue keys for FR43 (preferred over embedding keys in titles).
+     * Roles (test_case / requirement / …) are classified server-side via TMS type map.
+     */
+    issueKeys?: string[];
     steps?: QaMetaStepWire[];
     attachments?: QaMetaAttachmentWire[];
     ignore?: boolean;
@@ -44,6 +49,7 @@ export type QaMetaAccumulator = {
     suite?: string;
     fields?: Record<string, string>;
     parameters?: Record<string, string>;
+    issueKeys: string[];
     steps: Array<{
         name: string;
         status: QaMetaStepWire['status'];

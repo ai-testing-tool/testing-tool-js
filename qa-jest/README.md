@@ -1,11 +1,11 @@
-# qa-forge-jest
+# @qanalyzer/forge-jest
 
 Jest reporter for **QAnalyzer** (Jira Forge quality hub).
 
 ## Install
 
 ```bash
-npm install -D qa-forge-jest qa-forge-commons
+npm install -D @qanalyzer/forge-jest @qanalyzer/forge-commons
 ```
 
 ## Configure
@@ -17,7 +17,7 @@ module.exports = {
   reporters: [
     'default',
     [
-      'qa-forge-jest',
+      '@qanalyzer/forge-jest',
       {
         // Defaults to mode=off (no credentials required)
         // mode: 'ingest' | 'file' | 'off',
@@ -41,7 +41,7 @@ Env (same as CLI): `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_
 ## Helpers
 
 ```js
-const { qa } = require('qa-forge-jest/jest');
+const { qa } = require('@qanalyzer/forge-jest/jest');
 
 test('AUTH-101 login', async () => {
   await qa.suite('Auth');
@@ -53,7 +53,7 @@ test('AUTH-101 login', async () => {
 
 Prefer **Jira issue keys in test titles**.
 
-With the `qa-forge-jest` reporter loaded (use `--runInBand` so helpers share the reporter bridge), `qa.*` metadata is attached as `assertionResults[].meta.qa` on Path B ingest/file.
+With the `@qanalyzer/forge-jest` reporter loaded (use `--runInBand` so helpers share the reporter bridge), `qa.*` metadata is attached as `assertionResults[].meta.qa` on Path B ingest/file.
 
 ## Dual path
 
@@ -61,10 +61,10 @@ With the `qa-forge-jest` reporter loaded (use `--runInBand` so helpers share the
 
 ```bash
 npx jest --json --outputFile=qanalyzer-results.json
-npx qa-forge-api-client --project DEMO --report qanalyzer-results.json
+npx @qanalyzer/forge-api-client --project DEMO --report qanalyzer-results.json
 ```
 
-**Path B — qa-forge-jest reporter** (`mode=ingest` or `mode=file`):
+**Path B — @qanalyzer/forge-jest reporter** (`mode=ingest` or `mode=file`):
 
 ```bash
 QANALYZER_MODE=ingest \

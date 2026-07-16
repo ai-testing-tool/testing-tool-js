@@ -6,7 +6,7 @@
 #   DRY_RUN=true npm run release
 #
 # Behavior:
-#   - qa-forge-commons goes first; every other package depends only on it.
+#   - @qanalyzer/forge-commons goes first; every other package depends only on it.
 #   - Idempotent: versions already on the registry are skipped, so a failed
 #     pipeline can be retried without erroring on the packages that made it.
 #   - If RELEASE_TAG is set (e.g. v1.0.0 from CI_COMMIT_TAG), every package

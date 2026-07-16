@@ -3,7 +3,7 @@ import type {
   JestTestFileResult,
   JestVitestJsonReport,
   QaMetaWire,
-} from 'qa-forge-commons';
+} from '@qanalyzer/forge-commons';
 
 export type MochaAssertionInput = {
   ancestorTitles: string[];

@@ -16,6 +16,10 @@ export type QaHelpers = {
     suite(value: string): void;
     fields(values: Record<string, string>): void;
     parameters(values: Record<string, string>): void;
+    /** Explicit FR43 issue key (preferred over embedding in titles). */
+    issueKey(key: string): void;
+    /** Explicit FR43 issue keys (preferred over embedding in titles). */
+    issueKeys(keys: string[]): void;
     ignore(): void;
     step(name: string, body: StepFn): void | Promise<void>;
     /** Sync metadata-only when no content; returns Promise when uploading. */

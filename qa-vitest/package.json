@@ -1,7 +1,7 @@
 {
-  "name": "qa-forge-vitest",
-  "version": "1.1.2",
-  "description": "QAnalyzer Vitest reporter — ingest or file modes via qa-forge-commons",
+  "name": "@qanalyzer/forge-vitest",
+  "version": "1.2.0",
+  "description": "QAnalyzer Vitest reporter — ingest or file modes via @qanalyzer/forge-commons",
   "keywords": [
     "qanalyzer",
     "vitest",
@@ -37,7 +37,7 @@
     "prepublishOnly": "npm test"
   },
   "dependencies": {
-    "qa-forge-commons": "^1.0.0"
+    "@qanalyzer/forge-commons": "^1.1.1"
   },
   "peerDependencies": {
     "vitest": ">=3.0.0"

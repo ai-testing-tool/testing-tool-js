@@ -7,7 +7,7 @@
  * Forge when configured (FR133). Cucumber: `afterScenario` (FR135). Never fails the WDIO run.
  */
 
-import { uploadAttachmentForQa } from 'qa-forge-commons';
+import { uploadAttachmentForQa } from '@qanalyzer/forge-commons';
 
 import { FailureScreenshotBuffer } from './failure-screenshot-buffer';
 

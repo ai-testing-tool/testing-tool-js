@@ -5,15 +5,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const strict_1 = __importDefault(require("node:assert/strict"));
 const node_test_1 = require("node:test");
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const helpers_js_1 = require("../helpers.js");
 const reporter_js_1 = require("../reporter.js");
 const index_js_1 = __importDefault(require("../index.js"));
-(0, node_test_1.describe)('qa-forge-playwright scaffold', () => {
+(0, node_test_1.describe)('@qanalyzer/forge-playwright scaffold', () => {
     (0, node_test_1.it)('loads reporter module and no-ops publish when mode=off', async () => {
-        qa_forge_commons_1.QAnalyzerReporter.resetInstance();
+        forge_commons_1.QAnalyzerReporter.resetInstance();
         const reporter = new reporter_js_1.PlaywrightQaReporter({
-            mode: qa_forge_commons_1.ModeEnum.off,
+            mode: forge_commons_1.ModeEnum.off,
             projectKey: 'AUTH',
         });
         strict_1.default.ok(reporter);
@@ -21,8 +21,8 @@ const index_js_1 = __importDefault(require("../index.js"));
         reporter.onBegin({}, {});
         reporter.onTestEnd({}, {});
         await reporter.onEnd({});
-        const instance = qa_forge_commons_1.QAnalyzerReporter.getInstance({ mode: qa_forge_commons_1.ModeEnum.off });
-        strict_1.default.equal(instance.getConfig().mode, qa_forge_commons_1.ModeEnum.off);
+        const instance = forge_commons_1.QAnalyzerReporter.getInstance({ mode: forge_commons_1.ModeEnum.off });
+        strict_1.default.equal(instance.getConfig().mode, forge_commons_1.ModeEnum.off);
     });
     (0, node_test_1.it)('qa helpers record metadata without Playwright context', () => {
         helpers_js_1.MetadataManager.clear();

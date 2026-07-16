@@ -3,7 +3,7 @@ const { defineConfig } = require('cypress');
 module.exports = defineConfig({
   reporter: './cypress-multi-reporters.js',
   reporterOptions: {
-    reporterEnabled: 'qa-forge-cypress',
+    reporterEnabled: '@qanalyzer/forge-cypress',
     qaCypressReporterOptions: {
       // Defaults to mode=off (no credentials). Override with QANALYZER_MODE.
       // mode: 'off' | 'file' | 'ingest',
@@ -15,8 +15,8 @@ module.exports = defineConfig({
   e2e: {
     baseUrl: 'https://www.saucedemo.com',
     setupNodeEvents(on, config) {
-      require('qa-forge-cypress/plugin')(on, config);
-      require('qa-forge-cypress/metadata')(on);
+      require('@qanalyzer/forge-cypress/plugin')(on, config);
+      require('@qanalyzer/forge-cypress/metadata')(on);
       return config;
     },
   },

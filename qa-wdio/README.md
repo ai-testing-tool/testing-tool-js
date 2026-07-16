@@ -1,4 +1,4 @@
-# qa-forge-wdio
+# @qanalyzer/forge-wdio
 
 WebdriverIO reporter + service for **QAnalyzer** (Jira Forge quality hub).
 
@@ -8,18 +8,18 @@ Supports **WebdriverIO 8+** with **Mocha** (`@wdio/mocha-framework`) or **Cucumb
 
 ```bash
 # Mocha (default)
-npm install -D qa-forge-wdio qa-forge-commons @wdio/mocha-framework
+npm install -D @qanalyzer/forge-wdio @qanalyzer/forge-commons @wdio/mocha-framework
 
 # Cucumber
-npm install -D qa-forge-wdio qa-forge-commons @wdio/cucumber-framework
+npm install -D @qanalyzer/forge-wdio @qanalyzer/forge-commons @wdio/cucumber-framework
 ```
 
 ## Configure — Mocha
 
 ```js
 // wdio.conf.js
-const QaWdioReporter = require('qa-forge-wdio').default;
-const { beforeRunHook, afterRunHook, QaWdioService } = require('qa-forge-wdio');
+const QaWdioReporter = require('@qanalyzer/forge-wdio').default;
+const { beforeRunHook, afterRunHook, QaWdioService } = require('@qanalyzer/forge-wdio');
 
 exports.config = {
   specs: ['./test/specs/**/*.spec.js'],
@@ -56,8 +56,8 @@ exports.config = {
 
 ```js
 // wdio.cucumber.conf.js
-const QaWdioReporter = require('qa-forge-wdio').default;
-const { beforeRunHook, afterRunHook, QaWdioService } = require('qa-forge-wdio');
+const QaWdioReporter = require('@qanalyzer/forge-wdio').default;
+const { beforeRunHook, afterRunHook, QaWdioService } = require('@qanalyzer/forge-wdio');
 
 exports.config = {
   specs: ['./test/features/**/*.feature'],
@@ -102,7 +102,7 @@ Env: `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_URL`, `QANALYZ
 ## Helpers (Mocha)
 
 ```js
-const { qa } = require('qa-forge-wdio');
+const { qa } = require('@qanalyzer/forge-wdio');
 const LoginPage = require('../pageobjects/LoginPage');
 
 describe('Login', () => {

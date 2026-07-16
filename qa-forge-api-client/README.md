@@ -1,18 +1,18 @@
-# qa-forge-api-client
+# @qanalyzer/forge-api-client
 
 CLI client for the **QAnalyzer** Forge ingest API. Uploads Jest/Vitest JSON reports (Path A).
 
 ## Install
 
 ```bash
-npm install -D qa-forge-api-client
+npm install -D @qanalyzer/forge-api-client
 ```
 
 ## Usage
 
 ```bash
 npx jest --json --outputFile=qanalyzer-results.json
-npx qa-forge-api-client --project DEMO --report qanalyzer-results.json
+npx @qanalyzer/forge-api-client --project DEMO --report qanalyzer-results.json
 ```
 
 ## Options

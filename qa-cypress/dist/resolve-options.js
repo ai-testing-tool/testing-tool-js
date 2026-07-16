@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolveQaOptions = resolveQaOptions;
 /**
- * Resolve qa-forge-cypress options from Cypress reporterOptions.
+ * Resolve @qanalyzer/forge-cypress options from Cypress reporterOptions.
  * Supports cypress-multi-reporters wrapper and direct reporter config.
  */
 function resolveQaOptions(reporterOptions) {

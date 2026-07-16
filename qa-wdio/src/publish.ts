@@ -1,7 +1,7 @@
 import {
   ModeEnum,
   QAnalyzerReporter,
-} from 'qa-forge-commons';
+} from '@qanalyzer/forge-commons';
 
 import { enrichSpecsWithFailureScreenshots } from './enrich-screenshots';
 import { FailureScreenshotBuffer } from './failure-screenshot-buffer';
@@ -47,7 +47,7 @@ export async function publishBufferedResults(): Promise<void> {
     mode: options.mode ?? ModeEnum.off,
     frameworkPackage: options.frameworkPackage ?? '@wdio/cli',
     frameworkName: options.frameworkName ?? 'wdio',
-    reporterName: options.reporterName ?? 'qa-forge-wdio',
+    reporterName: options.reporterName ?? '@qanalyzer/forge-wdio',
   });
 
   const report = toJestJsonReport(specs, ResultsBuffer.runStart);

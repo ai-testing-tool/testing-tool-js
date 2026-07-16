@@ -180,7 +180,7 @@ describe('generateCiTemplate — all platforms × frameworks', () => {
         assert.equal(result.framework, framework);
         assert.equal(result.ingestPath, 'upload');
         assert.equal(result.filename, EXPECTED_FILENAMES[platform](framework));
-        assert.match(result.content, /npx qa-forge-api-client/);
+        assert.match(result.content, /npx @qanalyzer\/forge-api-client/);
         assert.doesNotMatch(result.content, /Bearer\s+\S+/);
         assert.doesNotMatch(result.content, /qanalyzer-upload\.js/);
         assert.ok(result.secretsSetup.length >= 2);
@@ -245,7 +245,7 @@ jobs:
           QANALYZER_INGEST_URL: \${{ secrets.QANALYZER_INGEST_URL }}
           QANALYZER_INGEST_TOKEN: \${{ secrets.QANALYZER_INGEST_TOKEN }}
         run: |
-          npx qa-forge-api-client \\
+          npx @qanalyzer/forge-api-client \\
             --project "\${{ vars.JIRA_PROJECT_KEY }}" \\
             --launch "\${{ github.workflow }} #\${{ github.run_number }}" \\
             --report qanalyzer-results.json
@@ -295,7 +295,7 @@ qanalyzer_upload:
     QANALYZER_INGEST_TOKEN: $QANALYZER_INGEST_TOKEN
   script:
     - |
-      npx qa-forge-api-client \\
+      npx @qanalyzer/forge-api-client \\
         --project "$JIRA_PROJECT_KEY" \\
         --launch "$CI_PIPELINE_ID" \\
         --report qanalyzer-results.json
@@ -337,7 +337,7 @@ pipeline {
         string(credentialsId: 'qanalyzer-ingest-token', variable: 'QANALYZER_INGEST_TOKEN'),
       ]) {
         sh '''
-          npx qa-forge-api-client \\
+          npx @qanalyzer/forge-api-client \\
             --project "\${JIRA_PROJECT_KEY}" \\
             --launch "\${JOB_NAME} #\${BUILD_NUMBER}" \\
             --report qanalyzer-results.json
@@ -379,7 +379,7 @@ pipelines:
         name: Upload QAnalyzer
         script:
           - |
-            npx qa-forge-api-client \\
+            npx @qanalyzer/forge-api-client \\
               --project "$JIRA_PROJECT_KEY" \\
               --launch "build-$BITBUCKET_BUILD_NUMBER" \\
               --report qanalyzer-results.json
@@ -422,7 +422,7 @@ steps:
     displayName: Run Vitest
 
   - script: |
-      npx qa-forge-api-client \\
+      npx @qanalyzer/forge-api-client \\
         --project "$(JiraProjectKey)" \\
         --launch "$(Build.DefinitionName) #$(Build.BuildNumber)" \\
         --report qanalyzer-results.json
@@ -436,7 +436,7 @@ steps:
   });
 });
 
-describe('reporter path (qa-forge-vitest / qa-forge-jest / qa-forge-mocha / qa-forge-cucumberjs / qa-forge-cypress / qa-forge-playwright / qa-forge-wdio)', () => {
+describe('reporter path (@qanalyzer/forge-vitest / @qanalyzer/forge-jest / @qanalyzer/forge-mocha / @qanalyzer/forge-cucumberjs / @qanalyzer/forge-cypress / @qanalyzer/forge-playwright / @qanalyzer/forge-wdio)', () => {
   for (const platform of PLATFORMS) {
     for (const framework of REPORTER_FRAMEWORKS) {
       it(`${platform} / ${framework} / reporter`, () => {
@@ -466,21 +466,21 @@ describe('reporter path (qa-forge-vitest / qa-forge-jest / qa-forge-mocha / qa-f
         assert.match(result.content, runPattern);
         if (framework === 'playwright') {
           assert.match(result.content, /npx playwright install --with-deps/);
-          assert.match(result.content, /qa-forge-playwright/);
+          assert.match(result.content, /@qanalyzer\/forge-playwright/);
         }
         if (framework === 'wdio') {
-          assert.match(result.content, /qa-forge-wdio/);
+          assert.match(result.content, /@qanalyzer\/forge-wdio/);
           assert.match(result.content, /headless Chrome/);
         }
         if (framework === 'mocha') {
-          assert.match(result.content, /qa-forge-mocha/);
+          assert.match(result.content, /@qanalyzer\/forge-mocha/);
           assert.match(result.content, /\.mocharc\.js/);
         }
         if (framework === 'cucumberjs') {
-          assert.match(result.content, /qa-forge-cucumberjs/);
+          assert.match(result.content, /@qanalyzer\/forge-cucumberjs/);
           assert.match(result.content, /cucumber\.js/);
         }
-        assert.doesNotMatch(result.content, /qa-forge-api-client/);
+        assert.doesNotMatch(result.content, /@qanalyzer\/forge-api-client/);
         assert.doesNotMatch(result.content, /Bearer\s+\S+/i);
         assert.ok(
           result.variablesSetup.some((v) => v.name === 'QANALYZER_PLAN_NAME'),
@@ -555,7 +555,7 @@ describe('reporter path (qa-forge-vitest / qa-forge-jest / qa-forge-mocha / qa-f
     });
     assert.match(result.content, /npx playwright test --reporter=json/);
     assert.match(result.content, /npx playwright install --with-deps/);
-    assert.match(result.content, /qa-forge-api-client/);
+    assert.match(result.content, /@qanalyzer\/forge-api-client/);
     assert.doesNotMatch(result.content, /Bearer\s+\S+/i);
   });
 });

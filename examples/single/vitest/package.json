@@ -8,7 +8,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:json": "vitest run --reporter=json --outputFile=qanalyzer-results.json",
-    "upload": "npx qa-forge-api-client --project AUTH --launch \"vitest pilot\" --report qanalyzer-results.json"
+    "upload": "npx @qanalyzer/forge-api-client --project AUTH --launch \"vitest pilot\" --report qanalyzer-results.json"
   },
   "engines": {
     "node": ">=18"

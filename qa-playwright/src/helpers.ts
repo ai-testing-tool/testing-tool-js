@@ -1,6 +1,6 @@
 /**
  * Programmatic helpers for Playwright tests (FR111).
- * Prefer Jira issue keys in `test('AUTH-101 ...')` titles (FR43).
+ * Prefer `qa.issueKey()` / `qa.issueKeys()` for FR43 (title keys remain a fallback).
  *
  * Steps: use Playwright native `test.step()` — do **not** use `qa.step` (FR112).
  *
@@ -10,7 +10,7 @@
  * `qa.attach` with binary content/path uploads via Forge when configured (FR119).
  */
 
-import { uploadAttachmentForQa } from 'qa-forge-commons';
+import { uploadAttachmentForQa } from '@qanalyzer/forge-commons';
 
 import {
   MetadataManager,
@@ -23,6 +23,10 @@ export type QaHelpers = {
   suite(value: string): void;
   fields(values: Record<string, string>): void;
   parameters(values: Record<string, string>): void;
+  /** Explicit FR43 issue key (preferred over embedding in titles). */
+  issueKey(key: string): void;
+  /** Explicit FR43 issue keys (preferred over embedding in titles). */
+  issueKeys(keys: string[]): void;
   ignore(): void;
   /** Attach metadata; with content/path, attempts Forge upload (FR119). */
   attach(attach: {
@@ -40,6 +44,7 @@ type MetadataMessage = {
   suite?: string;
   fields?: Record<string, string>;
   parameters?: Record<string, string>;
+  issueKeys?: string[];
   ignore?: boolean;
   attachments?: Array<{
     name?: string;
@@ -111,6 +116,12 @@ export const qa: QaHelpers = {
   },
   parameters(values: Record<string, string>) {
     pushMeta('qa-parameters', values, { parameters: values });
+  },
+  issueKey(key: string) {
+    pushMeta('qa-issue-key', key, { issueKeys: [key] });
+  },
+  issueKeys(keys: string[]) {
+    pushMeta('qa-issue-keys', keys, { issueKeys: keys });
   },
   ignore() {
     pushMeta('qa-ignore', true, { ignore: true });

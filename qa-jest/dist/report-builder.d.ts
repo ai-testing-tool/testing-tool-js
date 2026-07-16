@@ -1,4 +1,4 @@
-import type { JestVitestJsonReport, QaMetaWire } from 'qa-forge-commons';
+import type { JestVitestJsonReport, QaMetaWire } from '@qanalyzer/forge-commons';
 /**
  * Minimal AggregatedResult / --json shapes accepted by the mapper.
  * Jest onRunComplete uses `testFilePath` + nested `testResults`;

@@ -1,4 +1,4 @@
-const { qa } = require('qa-forge-wdio');
+const { qa } = require('@qanalyzer/forge-wdio');
 const InventoryPage = require('../pageobjects/InventoryPage');
 const { loginAsStandardUser } = require('../helpers/auth');
 

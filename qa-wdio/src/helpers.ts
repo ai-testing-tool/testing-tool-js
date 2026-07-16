@@ -1,6 +1,6 @@
 /**
  * Programmatic helpers for WebdriverIO Mocha specs (FR125–FR126).
- * Prefer Jira issue keys in `it('AUTH-101 ...')` titles (FR43).
+ * Prefer `qa.issueKey()` / `qa.issueKeys()` for FR43 (title keys remain a fallback).
  *
  * Steps: `await qa.step('name', async (step) => { await step.step('nested', ...) })`.
  *
@@ -8,7 +8,7 @@
  * attempts Forge upload (FR133).
  */
 
-import { uploadAttachmentForQa } from 'qa-forge-commons';
+import { uploadAttachmentForQa } from '@qanalyzer/forge-commons';
 
 import { MetadataManager } from './metadata-manager';
 
@@ -24,6 +24,10 @@ export type QaHelpers = {
   suite(value: string): void;
   fields(values: Record<string, string>): void;
   parameters(values: Record<string, string>): void;
+  /** Explicit FR43 issue key (preferred over embedding in titles). */
+  issueKey(key: string): void;
+  /** Explicit FR43 issue keys (preferred over embedding in titles). */
+  issueKeys(keys: string[]): void;
   ignore(): void;
   /** Async step with nested `step.step()` (FR125). */
   step(name: string, body: QaStepFn): Promise<void>;
@@ -83,6 +87,12 @@ export const qa: QaHelpers = {
   },
   parameters(values: Record<string, string>) {
     push('qa-parameters', values);
+  },
+  issueKey(key: string) {
+    push('qa-issue-key', key);
+  },
+  issueKeys(keys: string[]) {
+    push('qa-issue-keys', keys);
   },
   ignore() {
     push('qa-ignore', true);

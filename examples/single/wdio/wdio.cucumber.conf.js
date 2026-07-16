@@ -1,5 +1,5 @@
-const QaWdioReporter = require('qa-forge-wdio').default;
-const { afterRunHook, beforeRunHook, QaWdioService } = require('qa-forge-wdio');
+const QaWdioReporter = require('@qanalyzer/forge-wdio').default;
+const { afterRunHook, beforeRunHook, QaWdioService } = require('@qanalyzer/forge-wdio');
 
 /**
  * FR135 — WebdriverIO + Cucumber/Gherkin (`useCucumber: true`).

@@ -10,7 +10,32 @@ exports.applyQaAnnotations = applyQaAnnotations;
 exports.toQaMetaWire = toQaMetaWire;
 exports.qaMetaFromEntries = qaMetaFromEntries;
 function createQaMetaAccumulator() {
-    return { steps: [], attachments: [] };
+    return { issueKeys: [], steps: [], attachments: [] };
+}
+const ISSUE_KEY_BODY_RE = /^[A-Z][A-Z0-9]+-\d+$/i;
+/** Normalize and append unique issue keys (preserve first-seen order). */
+function appendIssueKeys(acc, raw) {
+    const parts = [];
+    if (typeof raw === 'string') {
+        parts.push(...raw
+            .split(/[\s,]+/)
+            .map((s) => s.trim())
+            .filter(Boolean));
+    }
+    else if (Array.isArray(raw)) {
+        for (const item of raw) {
+            if (typeof item === 'string' && item.trim())
+                parts.push(item.trim());
+        }
+    }
+    for (const part of parts) {
+        const key = part.toUpperCase();
+        if (!ISSUE_KEY_BODY_RE.test(key))
+            continue;
+        if (acc.issueKeys.includes(key))
+            continue;
+        acc.issueKeys.push(key);
+    }
 }
 function isRecord(value) {
     return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -40,6 +65,10 @@ function resolveType(ann) {
         return 'qa-fields';
     if (message.startsWith('QA Parameters:'))
         return 'qa-parameters';
+    if (message.startsWith('QA IssueKeys:'))
+        return 'qa-issue-keys';
+    if (message.startsWith('QA IssueKey:'))
+        return 'qa-issue-key';
     if (message.startsWith('QA Step Failed:'))
         return 'qa-step-failed';
     if (message.startsWith('QA Step End:'))
@@ -111,6 +140,16 @@ function applyQaAnnotation(acc, ann) {
             catch {
                 // ignore malformed
             }
+            break;
+        }
+        case 'qa-issue-key':
+        case 'qa-issue-keys': {
+            if (ann.body !== undefined && ann.body !== null) {
+                appendIssueKeys(acc, ann.body);
+                break;
+            }
+            const prefix = type === 'qa-issue-keys' ? 'QA IssueKeys:' : 'QA IssueKey:';
+            appendIssueKeys(acc, stripPrefix(message, prefix));
             break;
         }
         case 'qa-step': {
@@ -189,18 +228,18 @@ function applyQaAnnotations(acc, annotations) {
 }
 function defaultReporterName(framework) {
     if (framework === 'jest')
-        return 'qa-forge-jest';
+        return '@qanalyzer/forge-jest';
     if (framework === 'mocha')
-        return 'qa-forge-mocha';
+        return '@qanalyzer/forge-mocha';
     if (framework === 'cucumberjs')
-        return 'qa-forge-cucumberjs';
+        return '@qanalyzer/forge-cucumberjs';
     if (framework === 'cypress')
-        return 'qa-forge-cypress';
+        return '@qanalyzer/forge-cypress';
     if (framework === 'playwright')
-        return 'qa-forge-playwright';
+        return '@qanalyzer/forge-playwright';
     if (framework === 'wdio')
-        return 'qa-forge-wdio';
-    return 'qa-forge-vitest';
+        return '@qanalyzer/forge-wdio';
+    return '@qanalyzer/forge-vitest';
 }
 /** Returns undefined when accumulator has no QA data (omit empty meta.qa). */
 function toQaMetaWire(acc, options) {
@@ -209,6 +248,7 @@ function toQaMetaWire(acc, options) {
         acc.suite !== undefined ||
         (acc.fields && Object.keys(acc.fields).length > 0) ||
         (acc.parameters && Object.keys(acc.parameters).length > 0) ||
+        acc.issueKeys.length > 0 ||
         acc.steps.length > 0 ||
         acc.attachments.length > 0 ||
         acc.ignore === true;
@@ -230,6 +270,8 @@ function toQaMetaWire(acc, options) {
     if (acc.parameters && Object.keys(acc.parameters).length > 0) {
         wire.parameters = acc.parameters;
     }
+    if (acc.issueKeys.length > 0)
+        wire.issueKeys = [...acc.issueKeys];
     if (acc.suite) {
         wire.suite = acc.suite.split('\t').filter(Boolean).map((title) => ({ title }));
     }

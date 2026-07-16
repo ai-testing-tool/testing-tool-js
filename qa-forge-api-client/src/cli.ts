@@ -11,7 +11,7 @@ import {
   composeOptions,
   type IngestFormat,
   type JestVitestJsonReport,
-} from 'qa-forge-commons';
+} from '@qanalyzer/forge-commons';
 
 type CliArgs = {
   project?: string;
@@ -83,11 +83,11 @@ function parseArgs(argv: string[]): CliArgs {
 }
 
 function printHelp(): void {
-  console.log(`qa-forge-api-client
+  console.log(`@qanalyzer/forge-api-client
 
 Usage:
-  qa-forge-api-client --project <KEY> --report <path>
-  qa-forge-api-client --project <KEY> --report results.xml --format junit-xml
+  @qanalyzer/forge-api-client --project <KEY> --report <path>
+  @qanalyzer/forge-api-client --project <KEY> --report results.xml --format junit-xml
 
 Options:
   --project, -p   Jira project key

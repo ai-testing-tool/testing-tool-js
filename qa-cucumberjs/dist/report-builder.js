@@ -5,7 +5,7 @@ exports.scenarioToAssertion = scenarioToAssertion;
 exports.scenarioToAssertionAsync = scenarioToAssertionAsync;
 exports.toJestJsonReport = toJestJsonReport;
 exports.specsFromAssertions = specsFromAssertions;
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const tag_parser_1 = require("./modules/tag-parser");
 function mapStepStatus(status) {
     if (status === 'FAILED' || status === 'AMBIGUOUS')
@@ -48,7 +48,7 @@ async function uploadScenarioAttachments(scenario, title, tagIssueKeys) {
         try {
             const content = decodeAttachmentBody(att.body, att.contentEncoding);
             const fileName = defaultFileName(att, i);
-            const outcome = await (0, qa_forge_commons_1.uploadAttachmentForQa)({
+            const outcome = await (0, forge_commons_1.uploadAttachmentForQa)({
                 fileName,
                 mimeType: att.mediaType,
                 content,
@@ -119,9 +119,9 @@ function scenarioToAssertion(scenario, attachEntries = []) {
         }
     }
     entries.push(...attachEntries);
-    const wire = (0, qa_forge_commons_1.qaMetaFromEntries)(entries, {
+    const wire = (0, forge_commons_1.qaMetaFromEntries)(entries, {
         framework: 'cucumberjs',
-        reporter: 'qa-forge-cucumberjs',
+        reporter: '@qanalyzer/forge-cucumberjs',
     });
     const assertion = {
         ancestorTitles: ancestors,

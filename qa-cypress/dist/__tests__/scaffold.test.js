@@ -6,18 +6,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const strict_1 = __importDefault(require("node:assert/strict"));
 const node_events_1 = require("node:events");
 const node_test_1 = require("node:test");
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const metadata_js_1 = __importDefault(require("../metadata.js"));
 const mocha_js_1 = require("../mocha.js");
 const plugin_js_1 = __importDefault(require("../plugin.js"));
 const reporter_js_1 = require("../reporter.js");
-(0, node_test_1.describe)('qa-forge-cypress scaffold', () => {
+(0, node_test_1.describe)('@qanalyzer/forge-cypress scaffold', () => {
     (0, node_test_1.it)('loads reporter module and no-ops publish when mode=off', async () => {
-        qa_forge_commons_1.QAnalyzerReporter.resetInstance();
+        forge_commons_1.QAnalyzerReporter.resetInstance();
         const runner = new node_events_1.EventEmitter();
         // Mocha Runner shape: EventEmitter with constants used in constructor
         const reporter = new reporter_js_1.CypressQaReporter(runner, {
-            reporterOptions: { mode: qa_forge_commons_1.ModeEnum.off, projectKey: 'AUTH' },
+            reporterOptions: { mode: forge_commons_1.ModeEnum.off, projectKey: 'AUTH' },
         });
         strict_1.default.ok(reporter);
         runner.emit('test'); // Mocha EVENT_TEST_BEGIN
@@ -25,8 +25,8 @@ const reporter_js_1 = require("../reporter.js");
         // Allow async onRunEnd to settle
         await new Promise((r) => setImmediate(r));
         await new Promise((r) => setImmediate(r));
-        const instance = qa_forge_commons_1.QAnalyzerReporter.getInstance({ mode: qa_forge_commons_1.ModeEnum.off });
-        strict_1.default.equal(instance.getConfig().mode, qa_forge_commons_1.ModeEnum.off);
+        const instance = forge_commons_1.QAnalyzerReporter.getInstance({ mode: forge_commons_1.ModeEnum.off });
+        strict_1.default.equal(instance.getConfig().mode, forge_commons_1.ModeEnum.off);
     });
     (0, node_test_1.it)('plugin registration does not throw', () => {
         const events = [];

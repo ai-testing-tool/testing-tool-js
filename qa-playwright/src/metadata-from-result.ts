@@ -3,7 +3,7 @@ import {
   applyQaAnnotation,
   toQaMetaWire,
   type QaMetaWire,
-} from 'qa-forge-commons';
+} from '@qanalyzer/forge-commons';
 
 import { QA_METADATA_CONTENT_TYPE } from './metadata-manager';
 import type { PlaywrightStepLike } from './step-extractor';
@@ -23,6 +23,7 @@ type MetadataMessage = {
   suite?: string;
   fields?: Record<string, string>;
   parameters?: Record<string, string>;
+  issueKeys?: string[];
   ignore?: boolean;
   attachments?: Array<{ name?: string; contentType?: string }>;
 };
@@ -56,6 +57,9 @@ export function buildQaMetaFromResult(input: {
       if (message.parameters) {
         applyQaAnnotation(acc, { type: 'qa-parameters', body: message.parameters });
       }
+      if (message.issueKeys?.length) {
+        applyQaAnnotation(acc, { type: 'qa-issue-keys', body: message.issueKeys });
+      }
       if (message.ignore) applyQaAnnotation(acc, { type: 'qa-ignore', body: true });
       for (const att of message.attachments ?? []) {
         applyQaAnnotation(acc, {
@@ -73,5 +77,5 @@ export function buildQaMetaFromResult(input: {
     acc.steps.push({ name: step.name, status: step.status });
   }
 
-  return toQaMetaWire(acc, { framework: 'playwright', reporter: 'qa-forge-playwright' });
+  return toQaMetaWire(acc, { framework: 'playwright', reporter: '@qanalyzer/forge-playwright' });
 }

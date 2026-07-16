@@ -7,7 +7,7 @@ const strict_1 = __importDefault(require("node:assert/strict"));
 const node_fs_1 = require("node:fs");
 const node_path_1 = require("node:path");
 const node_test_1 = require("node:test");
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const report_builder_js_1 = require("../report-builder.js");
 function loadSaucedemoFixture() {
     const raw = JSON.parse((0, node_fs_1.readFileSync)((0, node_path_1.join)(__dirname, '../__fixtures__/saucedemo-13.json'), 'utf8'));
@@ -22,9 +22,9 @@ function loadSaucedemoFixture() {
             if (a.ignore) {
                 entries.push({ type: 'qa-ignore', body: true });
             }
-            const wire = (0, qa_forge_commons_1.qaMetaFromEntries)(entries, {
+            const wire = (0, forge_commons_1.qaMetaFromEntries)(entries, {
                 framework: 'cypress',
-                reporter: 'qa-forge-cypress',
+                reporter: '@qanalyzer/forge-cypress',
             });
             return {
                 ancestorTitles: a.ancestorTitles,
@@ -39,11 +39,11 @@ function loadSaucedemoFixture() {
 }
 (0, node_test_1.describe)('toJestJsonReport', () => {
     (0, node_test_1.it)('maps Mocha-like specs to FR41 shape A with meta.qa steps', () => {
-        const wire = (0, qa_forge_commons_1.qaMetaFromEntries)([
+        const wire = (0, forge_commons_1.qaMetaFromEntries)([
             { type: 'qa-suite', body: 'E-commerce\tLogin' },
             { type: 'qa-step', body: 'Fill in username' },
             { type: 'qa-step-end', body: { name: 'Fill in username', status: 'passed' } },
-        ], { framework: 'cypress', reporter: 'qa-forge-cypress' });
+        ], { framework: 'cypress', reporter: '@qanalyzer/forge-cypress' });
         const report = (0, report_builder_js_1.toJestJsonReport)([
             {
                 name: 'cypress/e2e/login.cy.js',

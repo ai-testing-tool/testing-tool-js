@@ -1,4 +1,4 @@
-import type { JestVitestJsonReport, QaMetaWire } from 'qa-forge-commons';
+import type { JestVitestJsonReport, QaMetaWire } from '@qanalyzer/forge-commons';
 export type MochaAssertionInput = {
     ancestorTitles: string[];
     title: string;

@@ -1,6 +1,6 @@
 {
-  "name": "qa-forge-api-client",
-  "version": "1.1.2",
+  "name": "@qanalyzer/forge-api-client",
+  "version": "1.2.0",
   "description": "CLI client for QAnalyzer Forge ingest API (Jest/Vitest JSON upload)",
   "keywords": [
     "qanalyzer",
@@ -10,7 +10,7 @@
     "jira"
   ],
   "bin": {
-    "qa-forge-api-client": "./dist/cli.js"
+    "forge-api-client": "./dist/cli.js"
   },
   "main": "./dist/cli.js",
   "files": [
@@ -28,7 +28,7 @@
     "prepublishOnly": "npm run build && npm test"
   },
   "dependencies": {
-    "qa-forge-commons": "^1.0.0"
+    "@qanalyzer/forge-commons": "^1.1.1"
   },
   "license": "Apache-2.0"
 }

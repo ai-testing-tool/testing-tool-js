@@ -1,6 +1,6 @@
 import type { CiTemplateContext, CiTemplateResult } from '../types';
 /**
  * GitHub Actions — upload (Vitest/Jest/Playwright) or reporter
- * (qa-forge-vitest / qa-forge-jest / qa-forge-mocha / qa-forge-cucumberjs / qa-forge-cypress / qa-forge-playwright / qa-forge-wdio).
+ * (@qanalyzer/forge-vitest / @qanalyzer/forge-jest / @qanalyzer/forge-mocha / @qanalyzer/forge-cucumberjs / @qanalyzer/forge-cypress / @qanalyzer/forge-playwright / @qanalyzer/forge-wdio).
  */
 export declare function renderGithubUpload(ctx: CiTemplateContext): CiTemplateResult;

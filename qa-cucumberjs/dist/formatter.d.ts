@@ -1,12 +1,12 @@
 import { Formatter, type IFormatterOptions } from '@cucumber/cucumber';
-import { type OptionsType } from 'qa-forge-commons';
+import { type OptionsType } from '@qanalyzer/forge-commons';
 export type CucumberQaOptions = OptionsType;
 export type CucumberQaFormatterOptions = IFormatterOptions & CucumberQaOptions;
 /**
  * CucumberJS custom formatter for QAnalyzer.
  *
  * Configure (`cucumber.js`):
- *   format: ['progress', 'qa-forge-cucumberjs']
+ *   format: ['progress', '@qanalyzer/forge-cucumberjs']
  *
  * Modes via env (`QANALYZER_MODE`) or formatOptions.
  * Helpers are tag-based (`@QaTitle`, `@QaSuite`, `@QaIgnore`, `@AUTH-101`) — no programmatic import (FR54).

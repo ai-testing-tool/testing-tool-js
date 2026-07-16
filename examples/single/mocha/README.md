@@ -1,11 +1,11 @@
-# Mocha pilot — JSONPlaceholder + qa-forge-mocha
+# Mocha pilot — JSONPlaceholder + @qanalyzer/forge-mocha
 
-API tests against [JSONPlaceholder](https://jsonplaceholder.typicode.com/) using **qa-forge-mocha**.
+API tests against [JSONPlaceholder](https://jsonplaceholder.typicode.com/) using **@qanalyzer/forge-mocha**.
 
 ## Setup
 
 ```bash
-# from qanalyzer-js: build commons + qa-forge-mocha first
+# from qanalyzer-js: build commons + @qanalyzer/forge-mocha first
 cd ../../qa-javascript-commons && npm run build
 cd ../qa-mocha && npm run build
 cd ../examples/single/mocha && npm install
@@ -37,4 +37,4 @@ npm test
 | `api-errors.spec.js` | 404 handling |
 | `api-advanced.spec.js` | Nested steps, suite, ignore |
 
-Jira keys live in titles (`AUTH-101` …). Helpers: `require('qa-forge-mocha/mocha')`.
+Jira keys live in titles (`AUTH-101` …). Helpers: `require('@qanalyzer/forge-mocha/mocha')`.

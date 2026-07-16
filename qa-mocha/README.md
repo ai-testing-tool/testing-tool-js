@@ -1,11 +1,11 @@
-# qa-forge-mocha
+# @qanalyzer/forge-mocha
 
 Mocha reporter for **QAnalyzer** (Jira Forge quality hub).
 
 ## Install
 
 ```bash
-npm install -D qa-forge-mocha qa-forge-commons mocha
+npm install -D @qanalyzer/forge-mocha @qanalyzer/forge-commons mocha
 ```
 
 Peer: `mocha` ≥10.
@@ -16,7 +16,7 @@ Peer: `mocha` ≥10.
 // .mocharc.js
 module.exports = {
   spec: ['test/**/*.spec.js'],
-  reporter: 'qa-forge-mocha',
+  reporter: '@qanalyzer/forge-mocha',
   reporterOptions: {
     // Defaults to mode=off (no credentials required)
     // mode: 'ingest' | 'file' | 'off',
@@ -39,7 +39,7 @@ Env (same as CLI): `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_
 ## Helpers
 
 ```js
-const { qa } = require('qa-forge-mocha/mocha');
+const { qa } = require('@qanalyzer/forge-mocha/mocha');
 const assert = require('assert');
 
 describe('JSONPlaceholder User CRUD', function () {
@@ -67,7 +67,7 @@ Prefer **Jira issue keys in test titles** (no case-ID wrapper). Step hierarchy l
 QANALYZER_MODE=file \
 QANALYZER_PROJECT_KEY=DEMO \
 npx mocha
-npx qa-forge-api-client --project DEMO --report qanalyzer-results.json
+npx @qanalyzer/forge-api-client --project DEMO --report qanalyzer-results.json
 ```
 
 **Path B — reporter ingest:**

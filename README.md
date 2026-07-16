@@ -6,15 +6,15 @@ JavaScript / TypeScript client SDK for **QAnalyzer** (Jira Forge quality hub): s
 
 | Package | Description |
 | ------- | ----------- |
-| [`qa-forge-commons`](./qa-javascript-commons/) | Shared config, models, and Forge ingest client |
-| [`qa-forge-api-client`](./qa-forge-api-client/) | CLI — uploads Jest/Vitest JSON or JUnit XML reports |
-| [`qa-forge-jest`](./qa-jest/) | Jest reporter |
-| [`qa-forge-vitest`](./qa-vitest/) | Vitest reporter |
-| [`qa-forge-mocha`](./qa-mocha/) | Mocha reporter |
-| [`qa-forge-cypress`](./qa-cypress/) | Cypress reporter + plugin |
-| [`qa-forge-playwright`](./qa-playwright/) | Playwright reporter |
-| [`qa-forge-wdio`](./qa-wdio/) | WebdriverIO reporter + service (Mocha or Cucumber) |
-| [`qa-forge-cucumberjs`](./qa-cucumberjs/) | CucumberJS formatter |
+| [`@qanalyzer/forge-commons`](./qa-javascript-commons/) | Shared config, models, and Forge ingest client |
+| [`@qanalyzer/forge-api-client`](./qa-forge-api-client/) | CLI — uploads Jest/Vitest JSON or JUnit XML reports |
+| [`@qanalyzer/forge-jest`](./qa-jest/) | Jest reporter |
+| [`@qanalyzer/forge-vitest`](./qa-vitest/) | Vitest reporter |
+| [`@qanalyzer/forge-mocha`](./qa-mocha/) | Mocha reporter |
+| [`@qanalyzer/forge-cypress`](./qa-cypress/) | Cypress reporter + plugin |
+| [`@qanalyzer/forge-playwright`](./qa-playwright/) | Playwright reporter |
+| [`@qanalyzer/forge-wdio`](./qa-wdio/) | WebdriverIO reporter + service (Mocha or Cucumber) |
+| [`@qanalyzer/forge-cucumberjs`](./qa-cucumberjs/) | CucumberJS formatter |
 
 Ingest schema: [`schemas/ingest-payload.schema.json`](./schemas/ingest-payload.schema.json). Runnable projects for every runner live in [`examples/single/`](./examples/single/).
 
@@ -24,7 +24,7 @@ Pick the reporter for your test runner (see its README for setup), or upload an 
 
 ```bash
 npx jest --json --outputFile=qanalyzer-results.json
-npx qa-forge-api-client --project AUTH --report qanalyzer-results.json
+npx @qanalyzer/forge-api-client --project AUTH --report qanalyzer-results.json
 ```
 
 Env: `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN` (from the QAnalyzer configure page), `QANALYZER_PROJECT_KEY`.
@@ -37,7 +37,7 @@ Jest/Vitest JSON is the primary ingest format. For legacy JVM runners:
 
 ```bash
 # Surefire / Gradle JUnit XML → Forge (server normalizes it)
-npx qa-forge-api-client --project AUTH --report target/surefire-reports/TEST-*.xml --format junit-xml
+npx @qanalyzer/forge-api-client --project AUTH --report target/surefire-reports/TEST-*.xml --format junit-xml
 ```
 
 Or curl the JSON envelope directly:
@@ -61,7 +61,7 @@ npm workspaces monorepo; all `qa-*` directories are workspaces.
 
 ## Releasing
 
-Packages are versioned in **lockstep** — every `qa-*` package carries the same version, and a `v<version>` git tag triggers the npm publish pipeline. The pipeline refuses to publish if any package version doesn't match the tag, publishes in dependency order (`qa-forge-commons` first), and skips already-published versions, so retrying a failed pipeline is safe.
+Packages are versioned in **lockstep** — every `qa-*` package carries the same version, and a `v<version>` git tag triggers the npm publish pipeline. The pipeline refuses to publish if any package version doesn't match the tag, publishes in dependency order (`@qanalyzer/forge-commons` first), and skips already-published versions, so retrying a failed pipeline is safe.
 
 ### Git flow
 
@@ -73,27 +73,27 @@ git checkout develop && git pull
 
 # 2. Bump every workspace to the release version (also updates
 #    package-lock.json and version references in the READMEs)
-npm run release:bump 1.1.2
+npm run release:bump 1.2.0
 
 # 3. Verify locally
 npm test
 npm run release:dry
 
 # 4. Commit the bump and merge to main
-git commit -am "release: v1.1.2"
+git commit -am "release: v1.2.0"
 git checkout main && git pull
 git merge --no-ff develop
 
 # 5. Tag and push — the tag pipeline publishes to npm
-git tag v1.1.2
-git push origin main develop v1.1.2
+git tag v1.2.0
+git push origin main develop v1.2.0
 ```
 
 ### Hotfixes
 
-Branch from `main`, fix, bump the patch version (step 2 above), tag `v1.1.3`, then merge `main` back into `develop` so the fix and version bump aren't lost.
+Branch from `main`, fix, bump the patch version (step 2 above), tag `v1.2.1`, then merge `main` back into `develop` so the fix and version bump aren't lost.
 
-Manual publish (bypassing CI): `npm run release` with an npm token configured. `RELEASE_TAG=v1.1.2 npm run release` additionally enforces the version check the pipeline uses.
+Manual publish (bypassing CI): `npm run release` with an npm token configured. `RELEASE_TAG=v1.2.0 npm run release` additionally enforces the version check the pipeline uses.
 
 ## License
 

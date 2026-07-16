@@ -1,6 +1,6 @@
 # QAnalyzer Playwright Pilot Example
 
-Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`qa-forge-playwright`**.
+Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`@qanalyzer/forge-playwright`**.
 
 Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`).
 
@@ -44,7 +44,7 @@ playwright.config.js
 
 ```js
 const { test } = require('@playwright/test');
-const { qa } = require('qa-forge-playwright');
+const { qa } = require('@qanalyzer/forge-playwright');
 
 test('AUTH-101 …', async ({ page }) => {
   qa.suite('E-commerce\tAuthentication\tLogin');
@@ -63,10 +63,10 @@ Metadata-only stub in the cart spec — binary screenshot/video/trace upload is 
 ```bash
 npx playwright test --reporter=json
 # Prefer Path B file mode for the jest-json ingest shape, or upload a converted report:
-npx qa-forge-api-client --project AUTH --launch "playwright pilot" --report qanalyzer-results.json
+npx @qanalyzer/forge-api-client --project AUTH --launch "playwright pilot" --report qanalyzer-results.json
 ```
 
-## Path B — `qa-forge-playwright` reporter
+## Path B — `@qanalyzer/forge-playwright` reporter
 
 **File mode:**
 

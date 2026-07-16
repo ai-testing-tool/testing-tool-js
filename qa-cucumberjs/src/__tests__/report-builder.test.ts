@@ -9,7 +9,7 @@ import {
   QAnalyzerReporter,
   buildIngestPayload,
   type IngestPayload,
-} from 'qa-forge-commons';
+} from '@qanalyzer/forge-commons';
 
 import type { ConvertedScenario } from '../modules/event-storage.js';
 import {

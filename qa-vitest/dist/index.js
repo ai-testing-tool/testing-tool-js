@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VitestQaReporter = void 0;
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const report_builder_1 = require("./report-builder");
 function mapState(state) {
     switch ((state ?? '').toLowerCase()) {
@@ -46,10 +46,10 @@ function collectFromTestCase(testCase) {
     catch {
         // ignore suite walk failures
     }
-    const acc = (0, qa_forge_commons_1.createQaMetaAccumulator)();
+    const acc = (0, forge_commons_1.createQaMetaAccumulator)();
     try {
         const annotations = typeof testCase.annotations === 'function' ? testCase.annotations() : [];
-        (0, qa_forge_commons_1.applyQaAnnotations)(acc, annotations.map((a) => ({
+        (0, forge_commons_1.applyQaAnnotations)(acc, annotations.map((a) => ({
             message: a.message,
             type: a.type,
             body: a.body,
@@ -58,7 +58,7 @@ function collectFromTestCase(testCase) {
     catch {
         // ignore annotation parse failures
     }
-    const metaQa = (0, qa_forge_commons_1.toQaMetaWire)(acc, { framework: 'vitest' });
+    const metaQa = (0, forge_commons_1.toQaMetaWire)(acc, { framework: 'vitest' });
     return {
         id: testCase.id,
         name: testCase.name,
@@ -76,7 +76,7 @@ function collectFromTestCase(testCase) {
 }
 /**
  * Vitest custom reporter for QAnalyzer.
- * Configure: `reporters: ['default', 'qa-forge-vitest']` or `['qa-forge-vitest', { mode: 'ingest', ... }]`.
+ * Configure: `reporters: ['default', '@qanalyzer/forge-vitest']` or `['@qanalyzer/forge-vitest', { mode: 'ingest', ... }]`.
  */
 class VitestQaReporter {
     options;
@@ -103,13 +103,13 @@ class VitestQaReporter {
         await this.publishPromise;
     }
     async publish() {
-        qa_forge_commons_1.QAnalyzerReporter.resetInstance();
-        const reporter = qa_forge_commons_1.QAnalyzerReporter.getInstance({
+        forge_commons_1.QAnalyzerReporter.resetInstance();
+        const reporter = forge_commons_1.QAnalyzerReporter.getInstance({
             ...this.options,
-            mode: this.options.mode ?? qa_forge_commons_1.ModeEnum.off,
+            mode: this.options.mode ?? forge_commons_1.ModeEnum.off,
         });
-        const mode = reporter.getConfig().mode ?? qa_forge_commons_1.ModeEnum.off;
-        if (mode === qa_forge_commons_1.ModeEnum.off) {
+        const mode = reporter.getConfig().mode ?? forge_commons_1.ModeEnum.off;
+        if (mode === forge_commons_1.ModeEnum.off) {
             return;
         }
         const report = (0, report_builder_1.buildJestCompatibleReport)((0, report_builder_1.groupCasesByFile)(this.cases), {

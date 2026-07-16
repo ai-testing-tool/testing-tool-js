@@ -1,6 +1,6 @@
 import WDIOReporter from '@wdio/reporter';
 import type { SuiteStats, TestStats } from '@wdio/reporter';
-import { type OptionsType } from 'qa-forge-commons';
+import { type OptionsType } from '@qanalyzer/forge-commons';
 export type QaWdioReporterOptions = OptionsType & {
     /** Prefer programmatic `qa.step` over auto WebDriver commands (FR127). Default true. */
     disableWebdriverStepsReporting?: boolean;

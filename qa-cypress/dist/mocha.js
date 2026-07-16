@@ -1,12 +1,12 @@
 "use strict";
 /**
  * Programmatic helpers for Cypress Mocha specs (FR63–FR64).
- * Prefer Jira issue keys in `it('AUTH-101 ...')` titles (FR43).
+ * Prefer `qa.issueKey()` / `qa.issueKeys()` for FR43 (title keys remain a fallback).
  *
  * `qa.step()` accepts **synchronous** callbacks only (no async/await) —
  * Cypress command-queue safe.
  *
- * In the browser, helpers forward via `cy.task` (requires `qa-forge-cypress/metadata`).
+ * In the browser, helpers forward via `cy.task` (requires `@qanalyzer/forge-cypress/metadata`).
  * Outside Cypress (unit tests), they use an in-process buffer.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -60,6 +60,22 @@ exports.qa = {
             return;
         }
         pushLocal('qa-parameters', values);
+    },
+    issueKey(key) {
+        const cy = cyRef();
+        if (cy) {
+            pushTask('qaIssueKey', key);
+            return;
+        }
+        pushLocal('qa-issue-key', key);
+    },
+    issueKeys(keys) {
+        const cy = cyRef();
+        if (cy) {
+            pushTask('qaIssueKeys', keys);
+            return;
+        }
+        pushLocal('qa-issue-keys', keys);
     },
     ignore() {
         const cy = cyRef();

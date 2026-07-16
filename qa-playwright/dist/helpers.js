@@ -1,7 +1,7 @@
 "use strict";
 /**
  * Programmatic helpers for Playwright tests (FR111).
- * Prefer Jira issue keys in `test('AUTH-101 ...')` titles (FR43).
+ * Prefer `qa.issueKey()` / `qa.issueKeys()` for FR43 (title keys remain a fallback).
  *
  * Steps: use Playwright native `test.step()` — do **not** use `qa.step` (FR112).
  *
@@ -12,7 +12,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.QA_METADATA_CONTENT_TYPE = exports.MetadataManager = exports.qa = void 0;
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const metadata_manager_1 = require("./metadata-manager");
 Object.defineProperty(exports, "MetadataManager", { enumerable: true, get: function () { return metadata_manager_1.MetadataManager; } });
 Object.defineProperty(exports, "QA_METADATA_CONTENT_TYPE", { enumerable: true, get: function () { return metadata_manager_1.QA_METADATA_CONTENT_TYPE; } });
@@ -69,6 +69,12 @@ exports.qa = {
     parameters(values) {
         pushMeta('qa-parameters', values, { parameters: values });
     },
+    issueKey(key) {
+        pushMeta('qa-issue-key', key, { issueKeys: [key] });
+    },
+    issueKeys(keys) {
+        pushMeta('qa-issue-keys', keys, { issueKeys: keys });
+    },
     ignore() {
         pushMeta('qa-ignore', true, { ignore: true });
     },
@@ -83,7 +89,7 @@ exports.qa = {
             pushMeta('qa-attach', body, { attachments: [body] });
             return;
         }
-        return (0, qa_forge_commons_1.uploadAttachmentForQa)({
+        return (0, forge_commons_1.uploadAttachmentForQa)({
             fileName: attach.name,
             mimeType: mime,
             content: attach.content,

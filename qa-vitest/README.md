@@ -1,11 +1,11 @@
-# qa-forge-vitest
+# @qanalyzer/forge-vitest
 
 Vitest reporter for **QAnalyzer** (Jira Forge quality hub).
 
 ## Install
 
 ```bash
-npm install -D qa-forge-vitest qa-forge-commons
+npm install -D @qanalyzer/forge-vitest @qanalyzer/forge-commons
 ```
 
 ## Configure
@@ -19,7 +19,7 @@ export default defineConfig({
     reporters: [
       'default',
       [
-        'qa-forge-vitest',
+        '@qanalyzer/forge-vitest',
         {
           // Defaults to mode=off (no credentials required)
           // mode: 'ingest' | 'file' | 'off',
@@ -45,7 +45,7 @@ Env (same as CLI): `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_
 
 ```ts
 import { describe, expect, test } from 'vitest';
-import { withQa } from 'qa-forge-vitest/vitest';
+import { withQa } from '@qanalyzer/forge-vitest/vitest';
 
 test(
   'AUTH-101 login',
@@ -68,5 +68,5 @@ You can still use native JSON + CLI:
 
 ```bash
 npx vitest run --reporter=json --outputFile=qanalyzer-results.json
-npx qa-forge-api-client --project DEMO --report qanalyzer-results.json
+npx @qanalyzer/forge-api-client --project DEMO --report qanalyzer-results.json
 ```

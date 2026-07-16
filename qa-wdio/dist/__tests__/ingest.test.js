@@ -8,7 +8,7 @@ const node_fs_1 = require("node:fs");
 const node_os_1 = require("node:os");
 const node_path_1 = require("node:path");
 const node_test_1 = require("node:test");
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const helpers_js_1 = require("../helpers.js");
 const hooks_js_1 = require("../hooks.js");
 const reporter_js_1 = require("../reporter.js");
@@ -19,9 +19,9 @@ const results_buffer_js_1 = require("../results-buffer.js");
         const dir = (0, node_fs_1.mkdtempSync)((0, node_path_1.join)((0, node_os_1.tmpdir)(), 'qa-wdio-'));
         const out = (0, node_path_1.join)(dir, 'qanalyzer-results.json');
         try {
-            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
-            const reporter = qa_forge_commons_1.QAnalyzerReporter.getInstance({
-                mode: qa_forge_commons_1.ModeEnum.file,
+            forge_commons_1.QAnalyzerReporter.resetInstance();
+            const reporter = forge_commons_1.QAnalyzerReporter.getInstance({
+                mode: forge_commons_1.ModeEnum.file,
                 projectKey: 'AUTH',
                 launchName: 'local',
                 file: { path: out },
@@ -46,18 +46,18 @@ const results_buffer_js_1 = require("../results-buffer.js");
             strict_1.default.equal(written.report.testResults?.[0]?.assertionResults?.[0]?.title, 'AUTH-101 login');
         }
         finally {
-            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
+            forge_commons_1.QAnalyzerReporter.resetInstance();
             (0, node_fs_1.rmSync)(dir, { recursive: true, force: true });
         }
     });
 });
 (0, node_test_1.describe)('QaWdioReporter modes', () => {
     (0, node_test_1.it)('mode=off completes without credentials', async () => {
-        qa_forge_commons_1.QAnalyzerReporter.resetInstance();
+        forge_commons_1.QAnalyzerReporter.resetInstance();
         hooks_js_1.hooksLifecycle.reset();
-        results_buffer_js_1.ResultsBuffer.reset({ mode: qa_forge_commons_1.ModeEnum.off });
-        await (0, hooks_js_1.beforeRunHook)({ mode: qa_forge_commons_1.ModeEnum.off });
-        const reporter = new reporter_js_1.QaWdioReporter({ mode: qa_forge_commons_1.ModeEnum.off });
+        results_buffer_js_1.ResultsBuffer.reset({ mode: forge_commons_1.ModeEnum.off });
+        await (0, hooks_js_1.beforeRunHook)({ mode: forge_commons_1.ModeEnum.off });
+        const reporter = new reporter_js_1.QaWdioReporter({ mode: forge_commons_1.ModeEnum.off });
         reporter.onTestStart({ title: 'AUTH-101' });
         reporter.onTestPass({
             title: 'AUTH-101',
@@ -72,16 +72,16 @@ const results_buffer_js_1 = require("../results-buffer.js");
         const dir = (0, node_fs_1.mkdtempSync)((0, node_path_1.join)((0, node_os_1.tmpdir)(), 'qa-wdio-rep-'));
         const out = (0, node_path_1.join)(dir, 'out.json');
         try {
-            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
+            forge_commons_1.QAnalyzerReporter.resetInstance();
             hooks_js_1.hooksLifecycle.reset();
             results_buffer_js_1.ResultsBuffer.reset();
             await (0, hooks_js_1.beforeRunHook)({
-                mode: qa_forge_commons_1.ModeEnum.file,
+                mode: forge_commons_1.ModeEnum.file,
                 projectKey: 'AUTH',
                 file: { path: out },
             });
             const reporter = new reporter_js_1.QaWdioReporter({
-                mode: qa_forge_commons_1.ModeEnum.file,
+                mode: forge_commons_1.ModeEnum.file,
                 projectKey: 'AUTH',
                 file: { path: out },
             });
@@ -122,7 +122,7 @@ const results_buffer_js_1 = require("../results-buffer.js");
             ]);
         }
         finally {
-            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
+            forge_commons_1.QAnalyzerReporter.resetInstance();
             hooks_js_1.hooksLifecycle.reset();
             results_buffer_js_1.ResultsBuffer.reset();
             (0, node_fs_1.rmSync)(dir, { recursive: true, force: true });

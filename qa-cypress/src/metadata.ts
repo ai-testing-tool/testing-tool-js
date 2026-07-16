@@ -1,9 +1,9 @@
 import { MetadataManager } from './metadata-manager';
 
 /**
- * Cypress task bridge for `qa-forge-cypress/mocha` helpers.
+ * Cypress task bridge for `@qanalyzer/forge-cypress/mocha` helpers.
  * Register in setupNodeEvents:
- *   require('qa-forge-cypress/metadata')(on);
+ *   require('@qanalyzer/forge-cypress/metadata')(on);
  */
 
 type TaskOn = {
@@ -26,6 +26,14 @@ function metadata(on: TaskOn): void {
     },
     qaParameters(value: unknown) {
       MetadataManager.push('qa-parameters', value);
+      return null;
+    },
+    qaIssueKey(value: unknown) {
+      MetadataManager.push('qa-issue-key', value);
+      return null;
+    },
+    qaIssueKeys(value: unknown) {
+      MetadataManager.push('qa-issue-keys', value);
       return null;
     },
     qaIgnore() {

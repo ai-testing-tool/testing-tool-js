@@ -1,4 +1,4 @@
-import type { OptionsType } from 'qa-forge-commons';
+import type { OptionsType } from '@qanalyzer/forge-commons';
 import type { WdioSpecInput } from './report-builder';
 /**
  * In-process collection of specs for publish from reporter and/or afterRunHook.

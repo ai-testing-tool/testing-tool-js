@@ -17,31 +17,31 @@ exports.reporterIngestEnvLines = reporterIngestEnvLines;
 exports.planCiVariableHints = planCiVariableHints;
 exports.versionTagCiVariableHints = versionTagCiVariableHints;
 exports.assertReporterFramework = assertReporterFramework;
-/** Vitest run when qa-forge-vitest is configured in vitest.config.ts. */
+/** Vitest run when @qanalyzer/forge-vitest is configured in vitest.config.ts. */
 function vitestReporterRun() {
     return 'npx vitest run';
 }
-/** Jest run when qa-forge-jest is configured in jest.config.js. */
+/** Jest run when @qanalyzer/forge-jest is configured in jest.config.js. */
 function jestReporterRun() {
     return 'npx jest --runInBand';
 }
-/** Cypress run when qa-forge-cypress is configured in cypress.config.js. */
+/** Cypress run when @qanalyzer/forge-cypress is configured in cypress.config.js. */
 function cypressReporterRun() {
     return 'npx cypress run';
 }
-/** Playwright run when qa-forge-playwright is configured in playwright.config.ts. */
+/** Playwright run when @qanalyzer/forge-playwright is configured in playwright.config.ts. */
 function playwrightReporterRun() {
     return 'npx playwright test';
 }
-/** WebdriverIO run when qa-forge-wdio is configured in wdio.conf.js. */
+/** WebdriverIO run when @qanalyzer/forge-wdio is configured in wdio.conf.js. */
 function wdioReporterRun() {
     return 'npx wdio run wdio.conf.js';
 }
-/** Mocha run when qa-forge-mocha is configured in .mocharc.js. */
+/** Mocha run when @qanalyzer/forge-mocha is configured in .mocharc.js. */
 function mochaReporterRun() {
     return 'npx mocha';
 }
-/** CucumberJS run when qa-forge-cucumberjs is configured in cucumber.js. */
+/** CucumberJS run when @qanalyzer/forge-cucumberjs is configured in cucumber.js. */
 function cucumberjsReporterRun() {
     return 'npx cucumber-js';
 }
@@ -73,18 +73,18 @@ function frameworkReporterRun(ctx) {
 }
 function reporterPackageName(ctx) {
     if (ctx.framework === 'jest')
-        return 'qa-forge-jest';
+        return '@qanalyzer/forge-jest';
     if (ctx.framework === 'mocha')
-        return 'qa-forge-mocha';
+        return '@qanalyzer/forge-mocha';
     if (ctx.framework === 'cucumberjs')
-        return 'qa-forge-cucumberjs';
+        return '@qanalyzer/forge-cucumberjs';
     if (ctx.framework === 'cypress')
-        return 'qa-forge-cypress';
+        return '@qanalyzer/forge-cypress';
     if (ctx.framework === 'playwright')
-        return 'qa-forge-playwright';
+        return '@qanalyzer/forge-playwright';
     if (ctx.framework === 'wdio')
-        return 'qa-forge-wdio';
-    return 'qa-forge-vitest';
+        return '@qanalyzer/forge-wdio';
+    return '@qanalyzer/forge-vitest';
 }
 function reporterFrameworkLabel(ctx) {
     if (ctx.framework === 'jest')
@@ -104,24 +104,24 @@ function reporterFrameworkLabel(ctx) {
 /** Short config hint for CI comments. */
 function reporterConfigHint(ctx) {
     if (ctx.framework === 'jest') {
-        return "jest.config.js reporters: ['default', 'qa-forge-jest']";
+        return "jest.config.js reporters: ['default', '@qanalyzer/forge-jest']";
     }
     if (ctx.framework === 'mocha') {
-        return ".mocharc.js reporter: 'qa-forge-mocha'";
+        return ".mocharc.js reporter: '@qanalyzer/forge-mocha'";
     }
     if (ctx.framework === 'cucumberjs') {
-        return "cucumber.js format: ['progress', 'qa-forge-cucumberjs']";
+        return "cucumber.js format: ['progress', '@qanalyzer/forge-cucumberjs']";
     }
     if (ctx.framework === 'cypress') {
-        return 'cypress.config.js reporter: qa-forge-cypress (+ plugin/metadata in setupNodeEvents)';
+        return 'cypress.config.js reporter: @qanalyzer/forge-cypress (+ plugin/metadata in setupNodeEvents)';
     }
     if (ctx.framework === 'playwright') {
-        return "playwright.config.ts reporter: [['list'], ['qa-forge-playwright']] (+ npx playwright install)";
+        return "playwright.config.ts reporter: [['list'], ['@qanalyzer/forge-playwright']] (+ npx playwright install)";
     }
     if (ctx.framework === 'wdio') {
-        return 'wdio.conf.js: qa-forge-wdio reporter + QaWdioService + hooks; headless Chrome (goog:chromeOptions --headless=new)';
+        return 'wdio.conf.js: @qanalyzer/forge-wdio reporter + QaWdioService + hooks; headless Chrome (goog:chromeOptions --headless=new)';
     }
-    return "vitest.config.ts reporters: ['default', 'qa-forge-vitest']";
+    return "vitest.config.ts reporters: ['default', '@qanalyzer/forge-vitest']";
 }
 /**
  * Env block lines for reporter ingest (platform supplies expression values).
@@ -179,6 +179,6 @@ function assertReporterFramework(ctx) {
         ctx.framework !== 'cypress' &&
         ctx.framework !== 'playwright' &&
         ctx.framework !== 'wdio') {
-        throw new Error('Reporter path requires Vitest (qa-forge-vitest), Jest (qa-forge-jest), Mocha (qa-forge-mocha), CucumberJS (qa-forge-cucumberjs), Cypress (qa-forge-cypress), Playwright (qa-forge-playwright), or WebdriverIO (qa-forge-wdio)');
+        throw new Error('Reporter path requires Vitest (@qanalyzer/forge-vitest), Jest (@qanalyzer/forge-jest), Mocha (@qanalyzer/forge-mocha), CucumberJS (@qanalyzer/forge-cucumberjs), Cypress (@qanalyzer/forge-cypress), Playwright (@qanalyzer/forge-playwright), or WebdriverIO (@qanalyzer/forge-wdio)');
     }
 }

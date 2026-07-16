@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlaywrightQaReporter = void 0;
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const enrich_screenshots_1 = require("./enrich-screenshots");
 const metadata_from_result_1 = require("./metadata-from-result");
 const report_builder_1 = require("./report-builder");
@@ -9,7 +9,7 @@ const report_builder_1 = require("./report-builder");
  * Playwright reporter for QAnalyzer.
  *
  * Configure:
- *   reporter: [['list'], ['qa-forge-playwright', { mode: 'off' }]]
+ *   reporter: [['list'], ['@qanalyzer/forge-playwright', { mode: 'off' }]]
  *
  * Collects each test → FR41 shape A; native `test.step` → `meta.qa.steps`.
  * On failure, still-image attachments are uploaded via Forge (FR119).
@@ -90,13 +90,13 @@ class PlaywrightQaReporter {
     async publish() {
         try {
             await Promise.all(this.pendingUploads);
-            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
-            const reporter = qa_forge_commons_1.QAnalyzerReporter.getInstance({
+            forge_commons_1.QAnalyzerReporter.resetInstance();
+            const reporter = forge_commons_1.QAnalyzerReporter.getInstance({
                 ...this.options,
-                mode: this.options.mode ?? qa_forge_commons_1.ModeEnum.off,
+                mode: this.options.mode ?? forge_commons_1.ModeEnum.off,
             });
-            const mode = reporter.getConfig().mode ?? qa_forge_commons_1.ModeEnum.off;
-            if (mode === qa_forge_commons_1.ModeEnum.off) {
+            const mode = reporter.getConfig().mode ?? forge_commons_1.ModeEnum.off;
+            if (mode === forge_commons_1.ModeEnum.off) {
                 this.byFile.clear();
                 return;
             }

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { qaMetaFromEntries } from 'qa-forge-commons';
+import { qaMetaFromEntries } from '@qanalyzer/forge-commons';
 
 import { toJestJsonReport } from '../report-builder.js';
 
@@ -13,7 +13,7 @@ describe('toJestJsonReport', () => {
         { type: 'qa-step', body: 'GET /users' },
         { type: 'qa-step-end', body: { name: 'GET /users', status: 'passed' } },
       ],
-      { framework: 'mocha', reporter: 'qa-forge-mocha' },
+      { framework: 'mocha', reporter: '@qanalyzer/forge-mocha' },
     );
 
     const report = toJestJsonReport(
@@ -51,7 +51,7 @@ describe('toJestJsonReport', () => {
       | { framework?: string; host?: { reporter?: string }; steps?: Array<{ name: string }> }
       | undefined;
     assert.equal(qaMeta?.framework, 'mocha');
-    assert.equal(qaMeta?.host?.reporter, 'qa-forge-mocha');
+    assert.equal(qaMeta?.host?.reporter, '@qanalyzer/forge-mocha');
     assert.equal(qaMeta?.steps?.[0]?.name, 'GET /users');
   });
 });

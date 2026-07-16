@@ -16,6 +16,12 @@ describe('meta.qa enrichment', () => {
     applyQaAnnotations(acc, [
       { message: 'QA Suite: Auth\tLogin', type: 'qa-suite', body: 'Auth\tLogin' },
       { message: 'QA Fields: {"layer":"api"}', type: 'qa-fields', body: { layer: 'api' } },
+      { message: 'QA IssueKey: AUTH-101', type: 'qa-issue-key', body: 'AUTH-101' },
+      {
+        message: 'QA IssueKeys: AUTH-10,AUTH-11',
+        type: 'qa-issue-keys',
+        body: ['AUTH-10', 'AUTH-11'],
+      },
       { message: 'QA Step: fetch users', type: 'qa-step', body: 'fetch users' },
       { message: 'QA Step Failed: fetch users', type: 'qa-step-failed', body: { name: 'fetch users' } },
       { message: 'QA Comment: flaky env', type: 'qa-comment', body: 'flaky env' },
@@ -26,11 +32,12 @@ describe('meta.qa enrichment', () => {
     assert.equal(wire.framework, 'vitest');
     assert.deepEqual(wire.suite, [{ title: 'Auth' }, { title: 'Login' }]);
     assert.deepEqual(wire.fields, { layer: 'api' });
+    assert.deepEqual(wire.issueKeys, ['AUTH-101', 'AUTH-10', 'AUTH-11']);
     assert.equal(wire.comment, 'flaky env');
     assert.equal(wire.steps?.[0]?.name, 'fetch users');
     assert.equal(wire.steps?.[0]?.status, 'failed');
     assert.equal(wire.steps?.[0]?.stepType, 'text');
-    assert.equal(wire.host?.reporter, 'qa-forge-vitest');
+    assert.equal(wire.host?.reporter, '@qanalyzer/forge-vitest');
   });
 
   it('builds wire shape from helper buffer entries', () => {

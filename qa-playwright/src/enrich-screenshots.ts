@@ -6,7 +6,7 @@ import {
   type QaMetaAttachmentWire,
   type QaMetaWire,
   uploadAttachmentForQa,
-} from 'qa-forge-commons';
+} from '@qanalyzer/forge-commons';
 
 import { QA_METADATA_CONTENT_TYPE } from './metadata-manager';
 import type { PlaywrightAssertionInput } from './report-builder';
@@ -23,7 +23,7 @@ function ensureQaMeta(assertion: PlaywrightAssertionInput): QaMetaWire {
   if (!assertion.meta.qa) {
     assertion.meta.qa = {
       framework: 'playwright',
-      host: { framework: 'playwright', reporter: 'qa-forge-playwright' },
+      host: { framework: 'playwright', reporter: '@qanalyzer/forge-playwright' },
     };
   }
   return assertion.meta.qa;

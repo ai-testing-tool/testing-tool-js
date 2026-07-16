@@ -2,7 +2,7 @@
  * Programmatic helpers for Vitest tests (FR98 + Phase 3 FR107 attach upload).
  */
 
-import { uploadAttachmentForQa } from 'qa-forge-commons';
+import { uploadAttachmentForQa } from '@qanalyzer/forge-commons';
 
 type StepFn = () => Promise<void> | void;
 
@@ -23,6 +23,10 @@ export type QaHelpers = {
   suite(value: string): Promise<void>;
   fields(values: Record<string, string>): Promise<void>;
   parameters(values: Record<string, string>): Promise<void>;
+  /** Explicit FR43 issue key (preferred over embedding in titles). */
+  issueKey(key: string): Promise<void>;
+  /** Explicit FR43 issue keys (preferred over embedding in titles). */
+  issueKeys(keys: string[]): Promise<void>;
   ignore(): void;
   step(name: string, body: StepFn): Promise<void>;
   attach(attach: QaAttachInput): Promise<void>;
@@ -72,6 +76,15 @@ function createQaHelpers(
       await annotate(`QA Parameters: ${JSON.stringify(values)}`, {
         type: 'qa-parameters',
         body: values,
+      });
+    },
+    async issueKey(key: string) {
+      await annotate(`QA IssueKey: ${key}`, { type: 'qa-issue-key', body: key });
+    },
+    async issueKeys(keys: string[]) {
+      await annotate(`QA IssueKeys: ${keys.join(',')}`, {
+        type: 'qa-issue-keys',
+        body: keys,
       });
     },
     ignore() {

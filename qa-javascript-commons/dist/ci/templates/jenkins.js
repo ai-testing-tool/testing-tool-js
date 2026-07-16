@@ -73,7 +73,7 @@ ${jenkinsShLines('          ', ctx, (0, reporter_1.frameworkReporterRun)(ctx))}
     };
 }
 /**
- * Jenkins — upload path or qa-forge-vitest / qa-forge-jest reporter path.
+ * Jenkins — upload path or @qanalyzer/forge-vitest / @qanalyzer/forge-jest reporter path.
  */
 function renderJenkinsUpload(ctx) {
     if (ctx.ingestPath === 'reporter') {

@@ -129,7 +129,7 @@ const EXPECTED_FILENAMES = {
                 strict_1.default.equal(result.framework, framework);
                 strict_1.default.equal(result.ingestPath, 'upload');
                 strict_1.default.equal(result.filename, EXPECTED_FILENAMES[platform](framework));
-                strict_1.default.match(result.content, /npx qa-forge-api-client/);
+                strict_1.default.match(result.content, /npx @qanalyzer\/forge-api-client/);
                 strict_1.default.doesNotMatch(result.content, /Bearer\s+\S+/);
                 strict_1.default.doesNotMatch(result.content, /qanalyzer-upload\.js/);
                 strict_1.default.ok(result.secretsSetup.length >= 2);
@@ -183,7 +183,7 @@ jobs:
           QANALYZER_INGEST_URL: \${{ secrets.QANALYZER_INGEST_URL }}
           QANALYZER_INGEST_TOKEN: \${{ secrets.QANALYZER_INGEST_TOKEN }}
         run: |
-          npx qa-forge-api-client \\
+          npx @qanalyzer/forge-api-client \\
             --project "\${{ vars.JIRA_PROJECT_KEY }}" \\
             --launch "\${{ github.workflow }} #\${{ github.run_number }}" \\
             --report qanalyzer-results.json
@@ -229,7 +229,7 @@ qanalyzer_upload:
     QANALYZER_INGEST_TOKEN: $QANALYZER_INGEST_TOKEN
   script:
     - |
-      npx qa-forge-api-client \\
+      npx @qanalyzer/forge-api-client \\
         --project "$JIRA_PROJECT_KEY" \\
         --launch "$CI_PIPELINE_ID" \\
         --report qanalyzer-results.json
@@ -267,7 +267,7 @@ pipeline {
         string(credentialsId: 'qanalyzer-ingest-token', variable: 'QANALYZER_INGEST_TOKEN'),
       ]) {
         sh '''
-          npx qa-forge-api-client \\
+          npx @qanalyzer/forge-api-client \\
             --project "\${JIRA_PROJECT_KEY}" \\
             --launch "\${JOB_NAME} #\${BUILD_NUMBER}" \\
             --report qanalyzer-results.json
@@ -305,7 +305,7 @@ pipelines:
         name: Upload QAnalyzer
         script:
           - |
-            npx qa-forge-api-client \\
+            npx @qanalyzer/forge-api-client \\
               --project "$JIRA_PROJECT_KEY" \\
               --launch "build-$BITBUCKET_BUILD_NUMBER" \\
               --report qanalyzer-results.json
@@ -344,7 +344,7 @@ steps:
     displayName: Run Vitest
 
   - script: |
-      npx qa-forge-api-client \\
+      npx @qanalyzer/forge-api-client \\
         --project "$(JiraProjectKey)" \\
         --launch "$(Build.DefinitionName) #$(Build.BuildNumber)" \\
         --report qanalyzer-results.json
@@ -356,7 +356,7 @@ steps:
 `);
     });
 });
-(0, node_test_1.describe)('reporter path (qa-forge-vitest / qa-forge-jest / qa-forge-mocha / qa-forge-cucumberjs / qa-forge-cypress / qa-forge-playwright / qa-forge-wdio)', () => {
+(0, node_test_1.describe)('reporter path (@qanalyzer/forge-vitest / @qanalyzer/forge-jest / @qanalyzer/forge-mocha / @qanalyzer/forge-cucumberjs / @qanalyzer/forge-cypress / @qanalyzer/forge-playwright / @qanalyzer/forge-wdio)', () => {
     for (const platform of PLATFORMS) {
         for (const framework of REPORTER_FRAMEWORKS) {
             (0, node_test_1.it)(`${platform} / ${framework} / reporter`, () => {
@@ -385,21 +385,21 @@ steps:
                 strict_1.default.match(result.content, runPattern);
                 if (framework === 'playwright') {
                     strict_1.default.match(result.content, /npx playwright install --with-deps/);
-                    strict_1.default.match(result.content, /qa-forge-playwright/);
+                    strict_1.default.match(result.content, /@qanalyzer\/forge-playwright/);
                 }
                 if (framework === 'wdio') {
-                    strict_1.default.match(result.content, /qa-forge-wdio/);
+                    strict_1.default.match(result.content, /@qanalyzer\/forge-wdio/);
                     strict_1.default.match(result.content, /headless Chrome/);
                 }
                 if (framework === 'mocha') {
-                    strict_1.default.match(result.content, /qa-forge-mocha/);
+                    strict_1.default.match(result.content, /@qanalyzer\/forge-mocha/);
                     strict_1.default.match(result.content, /\.mocharc\.js/);
                 }
                 if (framework === 'cucumberjs') {
-                    strict_1.default.match(result.content, /qa-forge-cucumberjs/);
+                    strict_1.default.match(result.content, /@qanalyzer\/forge-cucumberjs/);
                     strict_1.default.match(result.content, /cucumber\.js/);
                 }
-                strict_1.default.doesNotMatch(result.content, /qa-forge-api-client/);
+                strict_1.default.doesNotMatch(result.content, /@qanalyzer\/forge-api-client/);
                 strict_1.default.doesNotMatch(result.content, /Bearer\s+\S+/i);
                 strict_1.default.ok(result.variablesSetup.some((v) => v.name === 'QANALYZER_PLAN_NAME'), 'documents QANALYZER_PLAN_NAME for Test Plans (FR158)');
                 strict_1.default.ok(result.variablesSetup.some((v) => v.name === 'QANALYZER_FIX_VERSION'), 'documents QANALYZER_FIX_VERSION for version tags (FR21)');
@@ -447,7 +447,7 @@ steps:
         });
         strict_1.default.match(result.content, /npx playwright test --reporter=json/);
         strict_1.default.match(result.content, /npx playwright install --with-deps/);
-        strict_1.default.match(result.content, /qa-forge-api-client/);
+        strict_1.default.match(result.content, /@qanalyzer\/forge-api-client/);
         strict_1.default.doesNotMatch(result.content, /Bearer\s+\S+/i);
     });
 });

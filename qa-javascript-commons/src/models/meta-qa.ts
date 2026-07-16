@@ -34,6 +34,11 @@ export type QaMetaWire = {
   fields?: Record<string, string>;
   parameters?: Record<string, string>;
   suite?: Array<{ title: string }>;
+  /**
+   * Explicit Jira issue keys for FR43 (preferred over embedding keys in titles).
+   * Roles (test_case / requirement / …) are classified server-side via TMS type map.
+   */
+  issueKeys?: string[];
   steps?: QaMetaStepWire[];
   attachments?: QaMetaAttachmentWire[];
   ignore?: boolean;
@@ -55,13 +60,39 @@ export type QaMetaAccumulator = {
   suite?: string;
   fields?: Record<string, string>;
   parameters?: Record<string, string>;
+  issueKeys: string[];
   steps: Array<{ name: string; status: QaMetaStepWire['status'] }>;
   attachments: QaMetaAttachmentWire[];
   ignore?: boolean;
 };
 
 export function createQaMetaAccumulator(): QaMetaAccumulator {
-  return { steps: [], attachments: [] };
+  return { issueKeys: [], steps: [], attachments: [] };
+}
+
+const ISSUE_KEY_BODY_RE = /^[A-Z][A-Z0-9]+-\d+$/i;
+
+/** Normalize and append unique issue keys (preserve first-seen order). */
+function appendIssueKeys(acc: QaMetaAccumulator, raw: unknown): void {
+  const parts: string[] = [];
+  if (typeof raw === 'string') {
+    parts.push(
+      ...raw
+        .split(/[\s,]+/)
+        .map((s) => s.trim())
+        .filter(Boolean),
+    );
+  } else if (Array.isArray(raw)) {
+    for (const item of raw) {
+      if (typeof item === 'string' && item.trim()) parts.push(item.trim());
+    }
+  }
+  for (const part of parts) {
+    const key = part.toUpperCase();
+    if (!ISSUE_KEY_BODY_RE.test(key)) continue;
+    if (acc.issueKeys.includes(key)) continue;
+    acc.issueKeys.push(key);
+  }
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -87,6 +118,8 @@ function resolveType(ann: QaAnnotationLike): string | undefined {
   if (message.startsWith('QA Suite:')) return 'qa-suite';
   if (message.startsWith('QA Fields:')) return 'qa-fields';
   if (message.startsWith('QA Parameters:')) return 'qa-parameters';
+  if (message.startsWith('QA IssueKeys:')) return 'qa-issue-keys';
+  if (message.startsWith('QA IssueKey:')) return 'qa-issue-key';
   if (message.startsWith('QA Step Failed:')) return 'qa-step-failed';
   if (message.startsWith('QA Step End:')) return 'qa-step-end';
   if (message.startsWith('QA Step Start:')) return 'qa-step-start';
@@ -154,6 +187,17 @@ export function applyQaAnnotation(
       } catch {
         // ignore malformed
       }
+      break;
+    }
+    case 'qa-issue-key':
+    case 'qa-issue-keys': {
+      if (ann.body !== undefined && ann.body !== null) {
+        appendIssueKeys(acc, ann.body);
+        break;
+      }
+      const prefix =
+        type === 'qa-issue-keys' ? 'QA IssueKeys:' : 'QA IssueKey:';
+      appendIssueKeys(acc, stripPrefix(message, prefix));
       break;
     }
     case 'qa-step': {
@@ -242,13 +286,13 @@ export type ToQaMetaWireOptions = {
 };
 
 function defaultReporterName(framework: QaMetaFramework): string {
-  if (framework === 'jest') return 'qa-forge-jest';
-  if (framework === 'mocha') return 'qa-forge-mocha';
-  if (framework === 'cucumberjs') return 'qa-forge-cucumberjs';
-  if (framework === 'cypress') return 'qa-forge-cypress';
-  if (framework === 'playwright') return 'qa-forge-playwright';
-  if (framework === 'wdio') return 'qa-forge-wdio';
-  return 'qa-forge-vitest';
+  if (framework === 'jest') return '@qanalyzer/forge-jest';
+  if (framework === 'mocha') return '@qanalyzer/forge-mocha';
+  if (framework === 'cucumberjs') return '@qanalyzer/forge-cucumberjs';
+  if (framework === 'cypress') return '@qanalyzer/forge-cypress';
+  if (framework === 'playwright') return '@qanalyzer/forge-playwright';
+  if (framework === 'wdio') return '@qanalyzer/forge-wdio';
+  return '@qanalyzer/forge-vitest';
 }
 
 /** Returns undefined when accumulator has no QA data (omit empty meta.qa). */
@@ -262,6 +306,7 @@ export function toQaMetaWire(
     acc.suite !== undefined ||
     (acc.fields && Object.keys(acc.fields).length > 0) ||
     (acc.parameters && Object.keys(acc.parameters).length > 0) ||
+    acc.issueKeys.length > 0 ||
     acc.steps.length > 0 ||
     acc.attachments.length > 0 ||
     acc.ignore === true;
@@ -282,6 +327,7 @@ export function toQaMetaWire(
   if (acc.parameters && Object.keys(acc.parameters).length > 0) {
     wire.parameters = acc.parameters;
   }
+  if (acc.issueKeys.length > 0) wire.issueKeys = [...acc.issueKeys];
   if (acc.suite) {
     wire.suite = acc.suite.split('\t').filter(Boolean).map((title) => ({ title }));
   }

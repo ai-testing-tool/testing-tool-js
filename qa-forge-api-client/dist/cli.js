@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const path_1 = require("path");
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 function parseArgs(argv) {
     const args = {};
     for (let i = 0; i < argv.length; i += 1) {
@@ -59,11 +59,11 @@ function parseArgs(argv) {
     return args;
 }
 function printHelp() {
-    console.log(`qa-forge-api-client
+    console.log(`@qanalyzer/forge-api-client
 
 Usage:
-  qa-forge-api-client --project <KEY> --report <path>
-  qa-forge-api-client --project <KEY> --report results.xml --format junit-xml
+  @qanalyzer/forge-api-client --project <KEY> --report <path>
+  @qanalyzer/forge-api-client --project <KEY> --report results.xml --format junit-xml
 
 Options:
   --project, -p   Jira project key
@@ -94,9 +94,9 @@ async function main() {
         printHelp();
         process.exit(args.help ? 0 : 1);
     }
-    const fileConfig = (0, qa_forge_commons_1.loadConfig)() ?? {};
-    const envConfig = (0, qa_forge_commons_1.envToConfig)();
-    const merged = (0, qa_forge_commons_1.composeOptions)(fileConfig, envConfig);
+    const fileConfig = (0, forge_commons_1.loadConfig)() ?? {};
+    const envConfig = (0, forge_commons_1.envToConfig)();
+    const merged = (0, forge_commons_1.composeOptions)(fileConfig, envConfig);
     const projectKey = args.project ?? merged.projectKey;
     if (!projectKey) {
         console.error('Missing --project (or projectKey in qanalyzer.config.json / QANALYZER_PROJECT_KEY)');
@@ -106,7 +106,7 @@ async function main() {
     const format = args.format ?? 'jest-json';
     const report = format === 'junit-xml' ? readText(reportPath) : readJsonReport(reportPath);
     // CLI flags override env (FR158)
-    const payload = (0, qa_forge_commons_1.buildIngestPayload)({
+    const payload = (0, forge_commons_1.buildIngestPayload)({
         projectKey,
         report,
         format,
@@ -116,9 +116,9 @@ async function main() {
         planName: args.plan ?? merged.planName,
         fixVersion: args.fixVersion ?? merged.fixVersion,
         sprintName: args.sprint ?? merged.sprintName,
-        ci: (0, qa_forge_commons_1.detectCiEnvironment)(),
+        ci: (0, forge_commons_1.detectCiEnvironment)(),
     });
-    const client = new qa_forge_commons_1.IngestClient({
+    const client = new forge_commons_1.IngestClient({
         url: args.url ?? merged.ingest?.url,
         token: args.token ?? merged.ingest?.token,
         timeoutMs: merged.ingest?.timeoutMs,

@@ -5,7 +5,7 @@ import {
   qaMetaFromEntries,
   type OptionsType,
   type QaMetaWire,
-} from 'qa-forge-commons';
+} from '@qanalyzer/forge-commons';
 
 import { applyCucumberTags, type TagLike } from './cucumber-tags';
 import { MetadataManager } from './metadata-manager';
@@ -129,7 +129,7 @@ export class QaWdioReporter extends WDIOReporter {
       file,
       frameworkPackage: frameworkPackage ?? '@wdio/cli',
       frameworkName: frameworkName ?? 'wdio',
-      reporterName: reporterName ?? 'qa-forge-wdio',
+      reporterName: reporterName ?? '@qanalyzer/forge-wdio',
       fallback,
     };
 
@@ -286,7 +286,7 @@ export class QaWdioReporter extends WDIOReporter {
       const entries = MetadataManager.getEntries();
       let wire = qaMetaFromEntries(entries, {
         framework: 'wdio',
-        reporter: 'qa-forge-wdio',
+        reporter: '@qanalyzer/forge-wdio',
       });
       MetadataManager.clear();
 
@@ -310,7 +310,7 @@ export class QaWdioReporter extends WDIOReporter {
         wire = {
           ...(wire ?? {}),
           framework: 'wdio',
-          reporter: 'qa-forge-wdio',
+          reporter: '@qanalyzer/forge-wdio',
           steps: stepsWire,
         } as QaMetaWire;
       }
@@ -344,7 +344,7 @@ export class QaWdioReporter extends WDIOReporter {
       const entries = MetadataManager.getEntries();
       const wire = qaMetaFromEntries(entries, {
         framework: 'wdio',
-        reporter: 'qa-forge-wdio',
+        reporter: '@qanalyzer/forge-wdio',
       });
       MetadataManager.clear();
 

@@ -6,7 +6,7 @@ import {
   type QaMetaAttachmentWire,
   type QaMetaWire,
   uploadAttachmentForQa,
-} from 'qa-forge-commons';
+} from '@qanalyzer/forge-commons';
 
 import type { CypressAssertionInput, CypressSpecInput } from './report-builder';
 import {
@@ -22,7 +22,7 @@ function ensureQaMeta(assertion: CypressAssertionInput): QaMetaWire {
   if (!assertion.meta.qa) {
     assertion.meta.qa = {
       framework: 'cypress',
-      host: { framework: 'cypress', reporter: 'qa-forge-cypress' },
+      host: { framework: 'cypress', reporter: '@qanalyzer/forge-cypress' },
     };
   }
   return assertion.meta.qa;

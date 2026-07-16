@@ -1,4 +1,4 @@
-import type { JestVitestJsonReport, QaMetaWire } from 'qa-forge-commons';
+import type { JestVitestJsonReport, QaMetaWire } from '@qanalyzer/forge-commons';
 /** Minimal case shape collected by the Vitest reporter (testable without Vitest runtime). */
 export type CollectedCase = {
     id: string;

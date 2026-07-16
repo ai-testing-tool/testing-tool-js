@@ -8,7 +8,7 @@ const node_fs_1 = require("node:fs");
 const node_os_1 = require("node:os");
 const node_path_1 = require("node:path");
 const node_test_1 = require("node:test");
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const reporter_js_1 = require("../reporter.js");
 const mocha_js_1 = require("../mocha.js");
 const report_builder_js_1 = require("../report-builder.js");
@@ -39,7 +39,7 @@ const SPECS = [
 ];
 (0, node_test_1.describe)('FR41 jest-json emit (FR93)', () => {
     (0, node_test_1.it)('buildIngestPayload uses format jest-json', () => {
-        const payload = (0, qa_forge_commons_1.buildIngestPayload)({
+        const payload = (0, forge_commons_1.buildIngestPayload)({
             projectKey: 'AUTH',
             report: (0, report_builder_js_1.toJestJsonReport)(SPECS),
             format: 'jest-json',
@@ -55,9 +55,9 @@ const SPECS = [
         const dir = (0, node_fs_1.mkdtempSync)((0, node_path_1.join)((0, node_os_1.tmpdir)(), 'qa-mocha-'));
         const out = (0, node_path_1.join)(dir, 'qanalyzer-results.json');
         try {
-            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
-            const reporter = qa_forge_commons_1.QAnalyzerReporter.getInstance({
-                mode: qa_forge_commons_1.ModeEnum.file,
+            forge_commons_1.QAnalyzerReporter.resetInstance();
+            const reporter = forge_commons_1.QAnalyzerReporter.getInstance({
+                mode: forge_commons_1.ModeEnum.file,
                 projectKey: 'AUTH',
                 launchName: 'local',
                 file: { path: out },
@@ -72,7 +72,7 @@ const SPECS = [
             strict_1.default.equal(written.projectKey, 'AUTH');
         }
         finally {
-            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
+            forge_commons_1.QAnalyzerReporter.resetInstance();
             (0, node_fs_1.rmSync)(dir, { recursive: true, force: true });
         }
     });
@@ -112,7 +112,7 @@ const SPECS = [
             try {
                 // eslint-disable-next-line no-new
                 new reporter_js_1.MochaQaReporter(fakeRunner, {
-                    reporterOptions: { mode: qa_forge_commons_1.ModeEnum.off },
+                    reporterOptions: { mode: forge_commons_1.ModeEnum.off },
                 });
             }
             catch (err) {

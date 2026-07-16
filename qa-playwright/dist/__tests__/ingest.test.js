@@ -8,7 +8,7 @@ const node_fs_1 = require("node:fs");
 const node_os_1 = require("node:os");
 const node_path_1 = require("node:path");
 const node_test_1 = require("node:test");
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const metadata_manager_js_1 = require("../metadata-manager.js");
 const reporter_js_1 = require("../reporter.js");
 const report_builder_js_1 = require("../report-builder.js");
@@ -17,9 +17,9 @@ const report_builder_js_1 = require("../report-builder.js");
         const dir = (0, node_fs_1.mkdtempSync)((0, node_path_1.join)((0, node_os_1.tmpdir)(), 'qa-playwright-'));
         const out = (0, node_path_1.join)(dir, 'qanalyzer-results.json');
         try {
-            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
-            const reporter = qa_forge_commons_1.QAnalyzerReporter.getInstance({
-                mode: qa_forge_commons_1.ModeEnum.file,
+            forge_commons_1.QAnalyzerReporter.resetInstance();
+            const reporter = forge_commons_1.QAnalyzerReporter.getInstance({
+                mode: forge_commons_1.ModeEnum.file,
                 projectKey: 'AUTH',
                 launchName: 'local',
                 file: { path: out },
@@ -45,14 +45,14 @@ const report_builder_js_1 = require("../report-builder.js");
                 .testResults?.[0]?.assertionResults?.[0]?.title, 'AUTH-101 login');
         }
         finally {
-            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
+            forge_commons_1.QAnalyzerReporter.resetInstance();
             (0, node_fs_1.rmSync)(dir, { recursive: true, force: true });
         }
     });
 });
 (0, node_test_1.describe)('PlaywrightQaReporter modes', () => {
     (0, node_test_1.it)('mode=off completes without credentials', async () => {
-        const reporter = new reporter_js_1.PlaywrightQaReporter({ mode: qa_forge_commons_1.ModeEnum.off });
+        const reporter = new reporter_js_1.PlaywrightQaReporter({ mode: forge_commons_1.ModeEnum.off });
         reporter.onBegin({}, {});
         reporter.onTestEnd({
             title: 'AUTH-101',
@@ -66,7 +66,7 @@ const report_builder_js_1 = require("../report-builder.js");
         const out = (0, node_path_1.join)(dir, 'out.json');
         try {
             const reporter = new reporter_js_1.PlaywrightQaReporter({
-                mode: qa_forge_commons_1.ModeEnum.file,
+                mode: forge_commons_1.ModeEnum.file,
                 projectKey: 'AUTH',
                 file: { path: out },
             });
@@ -112,7 +112,7 @@ const report_builder_js_1 = require("../report-builder.js");
             strict_1.default.deepEqual(qa?.suite, [{ title: 'E-commerce' }, { title: 'Login' }]);
         }
         finally {
-            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
+            forge_commons_1.QAnalyzerReporter.resetInstance();
             (0, node_fs_1.rmSync)(dir, { recursive: true, force: true });
         }
     });

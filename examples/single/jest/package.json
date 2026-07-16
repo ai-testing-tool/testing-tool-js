@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --runInBand",
     "test:json": "jest --runInBand --json --outputFile=qanalyzer-results.json",
-    "upload": "npx qa-forge-api-client --project AUTH --launch \"jest pilot\" --report qanalyzer-results.json"
+    "upload": "npx @qanalyzer/forge-api-client --project AUTH --launch \"jest pilot\" --report qanalyzer-results.json"
   },
   "engines": {
     "node": ">=18"

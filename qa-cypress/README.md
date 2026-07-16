@@ -1,11 +1,11 @@
-# qa-forge-cypress
+# @qanalyzer/forge-cypress
 
 Cypress reporter + plugin for **QAnalyzer** (Jira Forge quality hub).
 
 ## Install
 
 ```bash
-npm install -D qa-forge-cypress@1.1.2 qa-forge-commons@1.1.2 cypress-multi-reporters
+npm install -D @qanalyzer/forge-cypress@1.2.0 @qanalyzer/forge-commons@1.2.0 cypress-multi-reporters
 ```
 
 The pinned versions above track the latest release; `npm run release:bump` keeps them in sync.
@@ -21,7 +21,7 @@ const { defineConfig } = require('cypress');
 module.exports = defineConfig({
   reporter: 'cypress-multi-reporters',
   reporterOptions: {
-    reporterEnabled: 'qa-forge-cypress',
+    reporterEnabled: '@qanalyzer/forge-cypress',
     qaCypressReporterOptions: {
       // Defaults to mode=off (no credentials required)
       // mode: 'ingest' | 'file' | 'off',
@@ -31,8 +31,8 @@ module.exports = defineConfig({
   },
   e2e: {
     setupNodeEvents(on, config) {
-      require('qa-forge-cypress/plugin')(on, config);
-      require('qa-forge-cypress/metadata')(on);
+      require('@qanalyzer/forge-cypress/plugin')(on, config);
+      require('@qanalyzer/forge-cypress/metadata')(on);
       return config;
     },
   },
@@ -42,10 +42,10 @@ module.exports = defineConfig({
 Direct reporter (no multi-reporters):
 
 ```js
-reporter: 'qa-forge-cypress',
+reporter: '@qanalyzer/forge-cypress',
 ```
 
-**Required:** register `qa-forge-cypress/plugin` so `after:run` publishes one launch for the whole `cypress run` (results are buffered across specs).
+**Required:** register `@qanalyzer/forge-cypress/plugin` so `after:run` publishes one launch for the whole `cypress run` (results are buffered across specs).
 
 ### Modes
 
@@ -62,7 +62,7 @@ Results bridge path: `resultsPath` reporter option or `QANALYZER_CYPRESS_RESULTS
 ## Helpers
 
 ```js
-const { qa } = require('qa-forge-cypress/mocha');
+const { qa } = require('@qanalyzer/forge-cypress/mocha');
 
 it('AUTH-101 login', () => {
   qa.suite('Auth');
@@ -75,11 +75,11 @@ it('AUTH-101 login', () => {
 
 All helpers: `qa.title(value)`, `qa.comment(value)`, `qa.suite(value)`, `qa.parameters({ key: value })`, `qa.ignore()`, `qa.step(name, syncFn)`. `qa.step()` throws if the callback returns a Promise — keep it synchronous and let Cypress commands queue as usual.
 
-Prefer **Jira issue keys in test titles**. Requires `qa-forge-cypress/metadata` so `cy.task` bridges metadata to the Node reporter. Step hierarchy lands on `assertionResults[].meta.qa.steps`.
+Prefer **Jira issue keys in test titles**. Requires `@qanalyzer/forge-cypress/metadata` so `cy.task` bridges metadata to the Node reporter. Step hierarchy lands on `assertionResults[].meta.qa.steps`.
 
 ## Failure screenshots
 
-With `qa-forge-cypress/plugin` registered, the `after:screenshot` hook records Cypress failure screenshots automatically. On publish (`mode=ingest` or `file`), each failed assertion gets a matching still image (png/jpeg/webp — videos are skipped) uploaded to Forge and attached as `meta.qa.attachments`. Screenshots are matched to assertions by test title, falling back to spec order; each screenshot is used at most once. Upload errors never fail the Cypress run.
+With `@qanalyzer/forge-cypress/plugin` registered, the `after:screenshot` hook records Cypress failure screenshots automatically. On publish (`mode=ingest` or `file`), each failed assertion gets a matching still image (png/jpeg/webp — videos are skipped) uploaded to Forge and attached as `meta.qa.attachments`. Screenshots are matched to assertions by test title, falling back to spec order; each screenshot is used at most once. Upload errors never fail the Cypress run.
 
 ## Dual path
 
@@ -89,7 +89,7 @@ With `qa-forge-cypress/plugin` registered, the `after:screenshot` hook records C
 QANALYZER_MODE=file \
 QANALYZER_PROJECT_KEY=DEMO \
 npx cypress run
-npx qa-forge-api-client --project DEMO --report qanalyzer-results.json
+npx @qanalyzer/forge-api-client --project DEMO --report qanalyzer-results.json
 ```
 
 (`mode=file` already writes a ready-to-ingest payload; CLI re-upload is optional if you prefer the upload workflow.)

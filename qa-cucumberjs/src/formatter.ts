@@ -4,7 +4,7 @@ import {
   ModeEnum,
   QAnalyzerReporter,
   type OptionsType,
-} from 'qa-forge-commons';
+} from '@qanalyzer/forge-commons';
 
 import { EventStorage } from './modules/event-storage';
 import {
@@ -22,7 +22,7 @@ export type CucumberQaFormatterOptions = IFormatterOptions & CucumberQaOptions;
  * CucumberJS custom formatter for QAnalyzer.
  *
  * Configure (`cucumber.js`):
- *   format: ['progress', 'qa-forge-cucumberjs']
+ *   format: ['progress', '@qanalyzer/forge-cucumberjs']
  *
  * Modes via env (`QANALYZER_MODE`) or formatOptions.
  * Helpers are tag-based (`@QaTitle`, `@QaSuite`, `@QaIgnore`, `@AUTH-101`) — no programmatic import (FR54).
@@ -60,7 +60,7 @@ export class CucumberQaFormatter extends Formatter {
       file,
       frameworkPackage: frameworkPackage ?? '@cucumber/cucumber',
       frameworkName: frameworkName ?? 'cucumberjs',
-      reporterName: reporterName ?? 'qa-forge-cucumberjs',
+      reporterName: reporterName ?? '@qanalyzer/forge-cucumberjs',
       fallback,
     };
 

@@ -22,7 +22,7 @@ jobs:
           QANALYZER_INGEST_URL: ${{ secrets.QANALYZER_INGEST_URL }}
           QANALYZER_INGEST_TOKEN: ${{ secrets.QANALYZER_INGEST_TOKEN }}
         run: |
-          npx qa-forge-api-client \
+          npx @qanalyzer/forge-api-client \
             --project "${{ vars.JIRA_PROJECT_KEY }}" \
             --launch "${{ github.workflow }} #${{ github.run_number }}" \
             --report qanalyzer-results.json

@@ -66,7 +66,7 @@ ${bitbucketScriptLines(ctx, (0, reporter_1.frameworkReporterRun)(ctx))}
     };
 }
 /**
- * Bitbucket Pipelines — upload path or qa-forge-vitest / qa-forge-jest reporter path.
+ * Bitbucket Pipelines — upload path or @qanalyzer/forge-vitest / @qanalyzer/forge-jest reporter path.
  */
 function renderBitbucketUpload(ctx) {
     if (ctx.ingestPath === 'reporter') {

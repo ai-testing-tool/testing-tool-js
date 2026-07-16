@@ -13,7 +13,7 @@ function uploadCliCommand(ctx) {
     const project = ctx.projectKeyExpr ?? ctx.projectKey;
     const launch = ctx.launchNameExpr ?? 'qanalyzer';
     return [
-        'npx qa-forge-api-client \\',
+        'npx @qanalyzer/forge-api-client \\',
         `  --project "${project}" \\`,
         `  --launch "${launch}" \\`,
         `  --report ${reportFile}`,
@@ -39,7 +39,7 @@ function frameworkTestCommand(ctx) {
         // Native Playwright JSON reporter → stdout (FR109 Path A)
         return `npx playwright test --reporter=json > ${reportFile}`;
     }
-    throw new Error('Upload JSON path is not supported for Mocha, CucumberJS, Cypress, or WebdriverIO — use ingestPath: reporter (qa-forge-mocha / qa-forge-cucumberjs / qa-forge-cypress / qa-forge-wdio)');
+    throw new Error('Upload JSON path is not supported for Mocha, CucumberJS, Cypress, or WebdriverIO — use ingestPath: reporter (@qanalyzer/forge-mocha / @qanalyzer/forge-cucumberjs / @qanalyzer/forge-cypress / @qanalyzer/forge-wdio)');
 }
 function frameworkLabel(ctx) {
     if (ctx.framework === 'vitest')

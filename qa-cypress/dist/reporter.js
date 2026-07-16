@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CypressQaReporter = void 0;
 const mocha_1 = require("mocha");
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const metadata_manager_1 = require("./metadata-manager");
 const results_manager_1 = require("./results-manager");
 function mapStatus(state) {
@@ -85,9 +85,9 @@ class CypressQaReporter extends mocha_1.reporters.Base {
     record(test, state) {
         try {
             const entries = metadata_manager_1.MetadataManager.getEntries();
-            const wire = (0, qa_forge_commons_1.qaMetaFromEntries)(entries, {
+            const wire = (0, forge_commons_1.qaMetaFromEntries)(entries, {
                 framework: 'cypress',
-                reporter: 'qa-forge-cypress',
+                reporter: '@qanalyzer/forge-cypress',
             });
             metadata_manager_1.MetadataManager.clear();
             const ancestors = ancestorTitles(test);
@@ -113,7 +113,7 @@ class CypressQaReporter extends mocha_1.reporters.Base {
     }
     flushToResultsManager() {
         try {
-            const mode = this.options.mode ?? qa_forge_commons_1.ModeEnum.off;
+            const mode = this.options.mode ?? forge_commons_1.ModeEnum.off;
             // Always buffer when not off so after:run can publish; also buffer when
             // off so local debugging of the bridge still works without publish.
             const path = results_manager_1.ResultsManager.resolvePath(this.options.resultsPath);

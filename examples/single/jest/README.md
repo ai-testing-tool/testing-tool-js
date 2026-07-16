@@ -2,8 +2,8 @@
 
 JSONPlaceholder API scenarios (CRUD, posts, errors, advanced). Jira issue keys live in test titles (e.g. `AUTH-101 GET all users`).
 
-**Default path (recommended for first launch):** native Jest JSON → `qa-forge-api-client` → Forge ingest.  
-**Optional path:** [`qa-forge-jest`](../../../qa-jest) reporter (`mode=off` \| `file` \| `ingest`).
+**Default path (recommended for first launch):** native Jest JSON → `@qanalyzer/forge-api-client` → Forge ingest.  
+**Optional path:** [`@qanalyzer/forge-jest`](../../../qa-jest) reporter (`mode=off` \| `file` \| `ingest`).
 
 ## Prerequisites
 
@@ -28,7 +28,7 @@ Generate JSON, then upload with the Forge CLI client:
 ```bash
 npx jest --runInBand --json --outputFile=qanalyzer-results.json
 
-npx qa-forge-api-client \
+npx @qanalyzer/forge-api-client \
   --project AUTH \
   --launch "local smoke" \
   --report qanalyzer-results.json
@@ -51,7 +51,7 @@ npm run upload
 
 **Never commit the ingest token.** Prefer CI secrets from the Configure page **CI template** tab.
 
-## Path B — Optional `qa-forge-jest` reporter
+## Path B — Optional `@qanalyzer/forge-jest` reporter
 
 From the monorepo (after `npm run build` in `qanalyzer-js`):
 
@@ -68,7 +68,7 @@ module.exports = {
   reporters: [
     'default',
     [
-      'qa-forge-jest',
+      '@qanalyzer/forge-jest',
       {
         // mode defaults to off — no credentials needed for local runs
         // mode: 'off' | 'file' | 'ingest',
@@ -92,7 +92,7 @@ Same secrets as Path A for `ingest`.
 ### `qa` helpers
 
 ```js
-const { qa } = require('qa-forge-jest/jest');
+const { qa } = require('@qanalyzer/forge-jest/jest');
 
 test('AUTH-101 GET all users', async () => {
   await qa.suite('User CRUD');
@@ -138,15 +138,15 @@ export QANALYZER_SPRINT="Sprint 42"
 
 1. Jira → Manage apps → **QAnalyzer** (configure)
 2. **Connection** — token + allowlist + connection test
-3. **CI template** — pick Jest + project → Copy YAML (upload or qa-forge-jest reporter)
+3. **CI template** — pick Jest + project → Copy YAML (upload or @qanalyzer/forge-jest reporter)
 
 ## Local vs CI
 
 | Mode | Command | Forge contact |
 | ---- | ------- | ------------- |
 | Local | `npm test` | None |
-| Path A | `npm run test:json` + `qa-forge-api-client` | Ingest URL + token |
-| Path B | `QANALYZER_MODE=ingest` + `qa-forge-jest` reporter | Same secrets |
+| Path A | `npm run test:json` + `@qanalyzer/forge-api-client` | Ingest URL + token |
+| Path B | `QANALYZER_MODE=ingest` + `@qanalyzer/forge-jest` reporter | Same secrets |
 
 ## Test map
 
@@ -160,5 +160,5 @@ export QANALYZER_SPRINT="Sprint 42"
 ## Manual ingest smoke
 
 1. Deploy/tunnel QAnalyzer with a configured site.
-2. Path A: `npm run test:json` then upload — **or** Path B: `QANALYZER_MODE=ingest` with `qa-forge-jest`.
+2. Path A: `npm run test:json` then upload — **or** Path B: `QANALYZER_MODE=ingest` with `@qanalyzer/forge-jest`.
 3. Open the Jira project page → **Test Launches** and confirm pass/fail counts and issue keys from titles.

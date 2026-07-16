@@ -5,7 +5,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.qa = void 0;
 exports.drainQaMeta = drainQaMeta;
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const localBuffer = [];
 function pushMeta(type, body) {
     const entry = { type, body };
@@ -47,6 +47,12 @@ exports.qa = {
     parameters(values) {
         pushMeta('qa-parameters', values);
     },
+    issueKey(key) {
+        pushMeta('qa-issue-key', key);
+    },
+    issueKeys(keys) {
+        pushMeta('qa-issue-keys', keys);
+    },
     ignore() {
         pushMeta('qa-ignore', true);
     },
@@ -79,7 +85,7 @@ exports.qa = {
             });
             return;
         }
-        return (0, qa_forge_commons_1.uploadAttachmentForQa)({
+        return (0, forge_commons_1.uploadAttachmentForQa)({
             fileName: attach.name,
             mimeType: mime,
             content: attach.content,

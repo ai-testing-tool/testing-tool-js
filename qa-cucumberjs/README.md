@@ -1,11 +1,11 @@
-# qa-forge-cucumberjs
+# @qanalyzer/forge-cucumberjs
 
 CucumberJS formatter for **QAnalyzer** (Jira Forge quality hub).
 
 ## Install
 
 ```bash
-npm install -D qa-forge-cucumberjs qa-forge-commons @cucumber/cucumber
+npm install -D @qanalyzer/forge-cucumberjs @qanalyzer/forge-commons @cucumber/cucumber
 ```
 
 Peer: `@cucumber/cucumber` ≥10.
@@ -16,7 +16,7 @@ Peer: `@cucumber/cucumber` ≥10.
 // cucumber.js
 module.exports = {
   default: {
-    format: ['progress', 'qa-forge-cucumberjs'],
+    format: ['progress', '@qanalyzer/forge-cucumberjs'],
     require: ['step_definitions/**/*.js'],
     // formatOptions: { mode: 'ingest', projectKey: 'DEMO' },
   },

@@ -5,7 +5,7 @@ exports.enrichSpecsWithFailureScreenshots = enrichSpecsWithFailureScreenshots;
  * Enrich failed Cypress assertions with Forge-uploaded still-image screenshots (FR71).
  * Never throws — skipped / failed uploads still allow the run to finish.
  */
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const screenshots_manager_1 = require("./screenshots-manager");
 function ensureQaMeta(assertion) {
     if (!assertion.meta)
@@ -13,7 +13,7 @@ function ensureQaMeta(assertion) {
     if (!assertion.meta.qa) {
         assertion.meta.qa = {
             framework: 'cypress',
-            host: { framework: 'cypress', reporter: 'qa-forge-cypress' },
+            host: { framework: 'cypress', reporter: '@qanalyzer/forge-cypress' },
         };
     }
     return assertion.meta.qa;
@@ -34,7 +34,7 @@ async function uploadShot(shot, assertion) {
             : /\.webp$/i.test(fileName)
                 ? 'image/webp'
                 : 'image/png';
-        const outcome = await (0, qa_forge_commons_1.uploadAttachmentForQa)({
+        const outcome = await (0, forge_commons_1.uploadAttachmentForQa)({
             path: shot.path,
             fileName,
             mimeType,

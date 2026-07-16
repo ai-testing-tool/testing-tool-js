@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, it } from 'node:test';
 
-import { qaMetaFromEntries } from 'qa-forge-commons';
+import { qaMetaFromEntries } from '@qanalyzer/forge-commons';
 
 import {
   toJestJsonReport,
@@ -44,7 +44,7 @@ function loadSaucedemoFixture(): WdioSpecInput[] {
       }
       const wire = qaMetaFromEntries(entries, {
         framework: 'wdio',
-        reporter: 'qa-forge-wdio',
+        reporter: '@qanalyzer/forge-wdio',
       });
       return {
         ancestorTitles: a.ancestorTitles,
@@ -100,7 +100,7 @@ describe('qa.step → meta.qa.steps (FR125)', () => {
         { type: 'qa-step-end', body: { name: 'outer', status: 'passed' } },
         { type: 'qa-suite', body: 'E-commerce\tLogin' },
       ],
-      { framework: 'wdio', reporter: 'qa-forge-wdio' },
+      { framework: 'wdio', reporter: '@qanalyzer/forge-wdio' },
     );
     assert.ok(wire);
     assert.equal(wire?.framework, 'wdio');

@@ -1,4 +1,4 @@
-import type { JestVitestJsonReport, QaMetaWire } from 'qa-forge-commons';
+import type { JestVitestJsonReport, QaMetaWire } from '@qanalyzer/forge-commons';
 export type CypressAssertionInput = {
     ancestorTitles: string[];
     title: string;

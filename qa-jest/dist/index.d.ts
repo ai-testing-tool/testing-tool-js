@@ -1,4 +1,4 @@
-import { type OptionsType } from 'qa-forge-commons';
+import { type OptionsType } from '@qanalyzer/forge-commons';
 import { type AggregatedResultLike } from './report-builder';
 export type JestQaOptions = OptionsType;
 type JestTestCaseResultLike = {
@@ -7,9 +7,9 @@ type JestTestCaseResultLike = {
 };
 /**
  * Jest custom reporter for QAnalyzer.
- * Configure: `reporters: ['default', 'qa-forge-jest']` or `['qa-forge-jest', { mode: 'ingest', ... }]`.
+ * Configure: `reporters: ['default', '@qanalyzer/forge-jest']` or `['@qanalyzer/forge-jest', { mode: 'ingest', ... }]`.
  *
- * Helpers from `qa-forge-jest/jest` forward metadata via a global bridge (works with `--runInBand`).
+ * Helpers from `@qanalyzer/forge-jest/jest` forward metadata via a global bridge (works with `--runInBand`).
  */
 export declare class JestQaReporter {
     private readonly options;

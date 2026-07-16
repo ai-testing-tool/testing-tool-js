@@ -83,7 +83,7 @@ ${azurePreRunScripts(ctx)}  - script: ${(0, reporter_1.frameworkReporterRun)(ctx
     };
 }
 /**
- * Azure DevOps — upload path or qa-forge-vitest / qa-forge-jest reporter path.
+ * Azure DevOps — upload path or @qanalyzer/forge-vitest / @qanalyzer/forge-jest reporter path.
  */
 function renderAzureDevOpsUpload(ctx) {
     if (ctx.ingestPath === 'reporter') {

@@ -4,7 +4,7 @@ import {
   qaMetaFromEntries,
   type OptionsType,
   type QaMetaWire,
-} from 'qa-forge-commons';
+} from '@qanalyzer/forge-commons';
 
 import type { QaJestBridge, QaMetaEntry } from './jest';
 import { toJestJsonReport, type AggregatedResultLike } from './report-builder';
@@ -18,9 +18,9 @@ type JestTestCaseResultLike = {
 
 /**
  * Jest custom reporter for QAnalyzer.
- * Configure: `reporters: ['default', 'qa-forge-jest']` or `['qa-forge-jest', { mode: 'ingest', ... }]`.
+ * Configure: `reporters: ['default', '@qanalyzer/forge-jest']` or `['@qanalyzer/forge-jest', { mode: 'ingest', ... }]`.
  *
- * Helpers from `qa-forge-jest/jest` forward metadata via a global bridge (works with `--runInBand`).
+ * Helpers from `@qanalyzer/forge-jest/jest` forward metadata via a global bridge (works with `--runInBand`).
  */
 export class JestQaReporter {
   private readonly options: JestQaOptions;

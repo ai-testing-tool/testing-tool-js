@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.publishBufferedResults = publishBufferedResults;
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const enrich_screenshots_1 = require("./enrich-screenshots");
 const failure_screenshot_buffer_1 = require("./failure-screenshot-buffer");
 const hooks_1 = require("./hooks");
@@ -16,7 +16,7 @@ async function publishBufferedResults() {
     if (results_buffer_1.ResultsBuffer.published)
         return;
     const options = results_buffer_1.ResultsBuffer.options;
-    const mode = String(options.mode ?? qa_forge_commons_1.ModeEnum.off);
+    const mode = String(options.mode ?? forge_commons_1.ModeEnum.off);
     (0, hooks_1.assertHooksForMode)(mode, Boolean(options.debug));
     if (mode === 'off') {
         results_buffer_1.ResultsBuffer.published = true;
@@ -36,13 +36,13 @@ async function publishBufferedResults() {
     catch {
         // Never fail the WDIO run because of attach errors
     }
-    qa_forge_commons_1.QAnalyzerReporter.resetInstance();
-    const reporter = qa_forge_commons_1.QAnalyzerReporter.getInstance({
+    forge_commons_1.QAnalyzerReporter.resetInstance();
+    const reporter = forge_commons_1.QAnalyzerReporter.getInstance({
         ...options,
-        mode: options.mode ?? qa_forge_commons_1.ModeEnum.off,
+        mode: options.mode ?? forge_commons_1.ModeEnum.off,
         frameworkPackage: options.frameworkPackage ?? '@wdio/cli',
         frameworkName: options.frameworkName ?? 'wdio',
-        reporterName: options.reporterName ?? 'qa-forge-wdio',
+        reporterName: options.reporterName ?? '@qanalyzer/forge-wdio',
     });
     const report = (0, report_builder_1.toJestJsonReport)(specs, results_buffer_1.ResultsBuffer.runStart);
     await reporter.publishReport(report, {

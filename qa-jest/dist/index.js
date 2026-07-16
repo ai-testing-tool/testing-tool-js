@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JestQaReporter = void 0;
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const report_builder_1 = require("./report-builder");
 /**
  * Jest custom reporter for QAnalyzer.
- * Configure: `reporters: ['default', 'qa-forge-jest']` or `['qa-forge-jest', { mode: 'ingest', ... }]`.
+ * Configure: `reporters: ['default', '@qanalyzer/forge-jest']` or `['@qanalyzer/forge-jest', { mode: 'ingest', ... }]`.
  *
- * Helpers from `qa-forge-jest/jest` forward metadata via a global bridge (works with `--runInBand`).
+ * Helpers from `@qanalyzer/forge-jest/jest` forward metadata via a global bridge (works with `--runInBand`).
  */
 class JestQaReporter {
     options;
@@ -46,7 +46,7 @@ class JestQaReporter {
     onTestCaseResult(_test, testCaseResult) {
         try {
             const entries = this.bridgeBuffer.splice(0, this.bridgeBuffer.length);
-            const wire = (0, qa_forge_commons_1.qaMetaFromEntries)(entries, { framework: 'jest' });
+            const wire = (0, forge_commons_1.qaMetaFromEntries)(entries, { framework: 'jest' });
             const key = testCaseResult.fullName ?? testCaseResult.title;
             if (wire && key) {
                 this.metaByFullName.set(key, wire);
@@ -66,13 +66,13 @@ class JestQaReporter {
     }
     async publish(results) {
         try {
-            qa_forge_commons_1.QAnalyzerReporter.resetInstance();
-            const reporter = qa_forge_commons_1.QAnalyzerReporter.getInstance({
+            forge_commons_1.QAnalyzerReporter.resetInstance();
+            const reporter = forge_commons_1.QAnalyzerReporter.getInstance({
                 ...this.options,
-                mode: this.options.mode ?? qa_forge_commons_1.ModeEnum.off,
+                mode: this.options.mode ?? forge_commons_1.ModeEnum.off,
             });
-            const mode = reporter.getConfig().mode ?? qa_forge_commons_1.ModeEnum.off;
-            if (mode === qa_forge_commons_1.ModeEnum.off) {
+            const mode = reporter.getConfig().mode ?? forge_commons_1.ModeEnum.off;
+            if (mode === forge_commons_1.ModeEnum.off) {
                 return;
             }
             // Jest finalizes aggregatedResults.success *after* dispatching onRunComplete

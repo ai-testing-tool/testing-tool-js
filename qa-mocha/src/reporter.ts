@@ -4,7 +4,7 @@ import {
   QAnalyzerReporter,
   qaMetaFromEntries,
   type OptionsType,
-} from 'qa-forge-commons';
+} from '@qanalyzer/forge-commons';
 
 import type { QaMochaBridge, QaMetaEntry } from './mocha';
 import {
@@ -65,11 +65,11 @@ function failureMessages(test: Test): string[] {
 /**
  * Mocha custom reporter for QAnalyzer.
  *
- * Configure: `.mocharc.js` → `reporter: 'qa-forge-mocha'`
+ * Configure: `.mocharc.js` → `reporter: '@qanalyzer/forge-mocha'`
  * Options: `reporterOptions: { mode: 'ingest' | 'file' | 'off', … }`
  * Env: `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, …
  *
- * Helpers from `qa-forge-mocha/mocha` forward metadata via a global bridge.
+ * Helpers from `@qanalyzer/forge-mocha/mocha` forward metadata via a global bridge.
  */
 export class MochaQaReporter extends reporters.Spec {
   private readonly options: MochaQaOptions;
@@ -133,7 +133,7 @@ export class MochaQaReporter extends reporters.Spec {
       const entries = this.bridgeBuffer.splice(0, this.bridgeBuffer.length);
       const wire = qaMetaFromEntries(entries, {
         framework: 'mocha',
-        reporter: 'qa-forge-mocha',
+        reporter: '@qanalyzer/forge-mocha',
       });
 
       const ancestors = ancestorTitles(test);
@@ -166,7 +166,7 @@ export class MochaQaReporter extends reporters.Spec {
         ...this.options,
         mode: this.options.mode ?? ModeEnum.off,
         frameworkName: this.options.frameworkName ?? 'mocha',
-        reporterName: this.options.reporterName ?? 'qa-forge-mocha',
+        reporterName: this.options.reporterName ?? '@qanalyzer/forge-mocha',
         frameworkPackage: this.options.frameworkPackage ?? 'mocha',
       });
 

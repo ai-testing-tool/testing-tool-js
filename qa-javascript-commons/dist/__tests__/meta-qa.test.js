@@ -12,6 +12,12 @@ const models_1 = require("../models");
         (0, models_1.applyQaAnnotations)(acc, [
             { message: 'QA Suite: Auth\tLogin', type: 'qa-suite', body: 'Auth\tLogin' },
             { message: 'QA Fields: {"layer":"api"}', type: 'qa-fields', body: { layer: 'api' } },
+            { message: 'QA IssueKey: AUTH-101', type: 'qa-issue-key', body: 'AUTH-101' },
+            {
+                message: 'QA IssueKeys: AUTH-10,AUTH-11',
+                type: 'qa-issue-keys',
+                body: ['AUTH-10', 'AUTH-11'],
+            },
             { message: 'QA Step: fetch users', type: 'qa-step', body: 'fetch users' },
             { message: 'QA Step Failed: fetch users', type: 'qa-step-failed', body: { name: 'fetch users' } },
             { message: 'QA Comment: flaky env', type: 'qa-comment', body: 'flaky env' },
@@ -21,11 +27,12 @@ const models_1 = require("../models");
         strict_1.default.equal(wire.framework, 'vitest');
         strict_1.default.deepEqual(wire.suite, [{ title: 'Auth' }, { title: 'Login' }]);
         strict_1.default.deepEqual(wire.fields, { layer: 'api' });
+        strict_1.default.deepEqual(wire.issueKeys, ['AUTH-101', 'AUTH-10', 'AUTH-11']);
         strict_1.default.equal(wire.comment, 'flaky env');
         strict_1.default.equal(wire.steps?.[0]?.name, 'fetch users');
         strict_1.default.equal(wire.steps?.[0]?.status, 'failed');
         strict_1.default.equal(wire.steps?.[0]?.stepType, 'text');
-        strict_1.default.equal(wire.host?.reporter, 'qa-forge-vitest');
+        strict_1.default.equal(wire.host?.reporter, '@qanalyzer/forge-vitest');
     });
     (0, node_test_1.it)('builds wire shape from helper buffer entries', () => {
         const wire = (0, models_1.qaMetaFromEntries)([

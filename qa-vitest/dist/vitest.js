@@ -5,7 +5,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.qa = void 0;
 exports.withQa = withQa;
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 function vitestCurrentTitle(ctx) {
     const task = ctx?.task;
     if (task?.fullName)
@@ -44,6 +44,15 @@ function createQaHelpers(annotate, titleSources) {
                 body: values,
             });
         },
+        async issueKey(key) {
+            await annotate(`QA IssueKey: ${key}`, { type: 'qa-issue-key', body: key });
+        },
+        async issueKeys(keys) {
+            await annotate(`QA IssueKeys: ${keys.join(',')}`, {
+                type: 'qa-issue-keys',
+                body: keys,
+            });
+        },
         ignore() {
             // Sync only
         },
@@ -66,7 +75,7 @@ function createQaHelpers(annotate, titleSources) {
         },
         async attach(attach) {
             const mime = attach.type ?? attach.contentType;
-            const outcome = await (0, qa_forge_commons_1.uploadAttachmentForQa)({
+            const outcome = await (0, forge_commons_1.uploadAttachmentForQa)({
                 fileName: attach.name,
                 mimeType: mime,
                 content: attach.content,

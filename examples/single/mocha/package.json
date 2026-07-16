@@ -2,18 +2,18 @@
   "name": "qanalyzer-mocha-pilot",
   "version": "0.1.0",
   "private": true,
-  "description": "QAnalyzer Mocha pilot — JSONPlaceholder API tests + qa-forge-mocha reporter",
+  "description": "QAnalyzer Mocha pilot — JSONPlaceholder API tests + @qanalyzer/forge-mocha reporter",
   "scripts": {
     "test": "QANALYZER_MODE=${QANALYZER_MODE:-off} mocha",
     "test:file": "QANALYZER_MODE=file QANALYZER_PROJECT_KEY=AUTH mocha",
-    "upload": "npx qa-forge-api-client --project AUTH --launch \"mocha pilot\" --report qanalyzer-results.json"
+    "upload": "npx @qanalyzer/forge-api-client --project AUTH --launch \"mocha pilot\" --report qanalyzer-results.json"
   },
   "engines": {
     "node": ">=18"
   },
   "devDependencies": {
     "mocha": "^11.7.1",
-    "qa-forge-commons": "file:../../../qa-javascript-commons",
-    "qa-forge-mocha": "file:../../../qa-mocha"
+    "@qanalyzer/forge-commons": "file:../../../qa-javascript-commons",
+    "@qanalyzer/forge-mocha": "file:../../../qa-mocha"
   }
 }

@@ -3,11 +3,11 @@ import type {
   JestTestFileResult,
   JestVitestJsonReport,
   QaMetaWire,
-} from 'qa-forge-commons';
+} from '@qanalyzer/forge-commons';
 import {
   qaMetaFromEntries,
   uploadAttachmentForQa,
-} from 'qa-forge-commons';
+} from '@qanalyzer/forge-commons';
 
 import type {
   ConvertedScenario,
@@ -166,7 +166,7 @@ export function scenarioToAssertion(
 
   const wire = qaMetaFromEntries(entries, {
     framework: 'cucumberjs',
-    reporter: 'qa-forge-cucumberjs',
+    reporter: '@qanalyzer/forge-cucumberjs',
   });
 
   const assertion: CucumberAssertionInput = {

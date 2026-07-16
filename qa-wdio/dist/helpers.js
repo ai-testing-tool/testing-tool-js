@@ -1,7 +1,7 @@
 "use strict";
 /**
  * Programmatic helpers for WebdriverIO Mocha specs (FR125–FR126).
- * Prefer Jira issue keys in `it('AUTH-101 ...')` titles (FR43).
+ * Prefer `qa.issueKey()` / `qa.issueKeys()` for FR43 (title keys remain a fallback).
  *
  * Steps: `await qa.step('name', async (step) => { await step.step('nested', ...) })`.
  *
@@ -10,7 +10,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MetadataManager = exports.qa = void 0;
-const qa_forge_commons_1 = require("qa-forge-commons");
+const forge_commons_1 = require("@qanalyzer/forge-commons");
 const metadata_manager_1 = require("./metadata-manager");
 Object.defineProperty(exports, "MetadataManager", { enumerable: true, get: function () { return metadata_manager_1.MetadataManager; } });
 function push(type, body) {
@@ -58,6 +58,12 @@ exports.qa = {
     parameters(values) {
         push('qa-parameters', values);
     },
+    issueKey(key) {
+        push('qa-issue-key', key);
+    },
+    issueKeys(keys) {
+        push('qa-issue-keys', keys);
+    },
     ignore() {
         push('qa-ignore', true);
     },
@@ -75,7 +81,7 @@ exports.qa = {
             });
             return;
         }
-        return (0, qa_forge_commons_1.uploadAttachmentForQa)({
+        return (0, forge_commons_1.uploadAttachmentForQa)({
             fileName: attach.name,
             mimeType: mime,
             content: attach.content,

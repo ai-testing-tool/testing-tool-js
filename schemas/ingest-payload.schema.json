@@ -55,11 +55,18 @@
                         "status": { "type": "string" },
                         "meta": {
                           "type": "object",
-                          "description": "Optional extensions; meta.qa carries reporter-rich metadata (FR41)",
+                          "description": "Optional extensions; meta.qa carries reporter-rich metadata (FR41). Prefer meta.qa.issueKeys for FR43 over embedding keys in titles.",
                           "properties": {
                             "qa": {
                               "type": "object",
-                              "description": "Serialized QA metadata: suite, fields, steps, comments, attachments",
+                              "description": "Serialized QA metadata: suite, issueKeys, fields, steps, comments, attachments",
+                              "properties": {
+                                "issueKeys": {
+                                  "type": "array",
+                                  "items": { "type": "string" },
+                                  "description": "Explicit Jira issue keys (FR43). Roles classified via TMS type map. Title keys remain a fallback."
+                                }
+                              },
                               "additionalProperties": true
                             }
                           },

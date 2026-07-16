@@ -1,11 +1,11 @@
-# qa-forge-playwright
+# @qanalyzer/forge-playwright
 
 Playwright reporter for **QAnalyzer** (Jira Forge quality hub).
 
 ## Install
 
 ```bash
-npm install -D qa-forge-playwright qa-forge-commons @playwright/test
+npm install -D @qanalyzer/forge-playwright @qanalyzer/forge-commons @playwright/test
 ```
 
 Peer: `@playwright/test` ≥1.40.
@@ -21,7 +21,7 @@ module.exports = defineConfig({
   reporter: [
     ['list'],
     [
-      'qa-forge-playwright',
+      '@qanalyzer/forge-playwright',
       {
         // Defaults to mode=off (no credentials required)
         // mode: 'ingest' | 'file' | 'off',
@@ -46,7 +46,7 @@ Env (same as CLI): `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_
 
 ```js
 const { test } = require('@playwright/test');
-const { qa } = require('qa-forge-playwright');
+const { qa } = require('@qanalyzer/forge-playwright');
 
 test('AUTH-101 login', async ({ page }) => {
   qa.suite('Auth');
@@ -70,10 +70,10 @@ Prefer **Jira issue keys in test titles**. Native `test.step()` hierarchy lands 
 ```bash
 npx playwright test --reporter=json --output=qanalyzer-playwright.json
 # Convert / upload with CLI when using raw Playwright JSON, or prefer Path B file mode:
-npx qa-forge-api-client --project DEMO --report qanalyzer-results.json
+npx @qanalyzer/forge-api-client --project DEMO --report qanalyzer-results.json
 ```
 
-**Path B — qa-forge-playwright reporter** (`mode=ingest` or `mode=file`):
+**Path B — @qanalyzer/forge-playwright reporter** (`mode=ingest` or `mode=file`):
 
 ```bash
 QANALYZER_MODE=ingest \

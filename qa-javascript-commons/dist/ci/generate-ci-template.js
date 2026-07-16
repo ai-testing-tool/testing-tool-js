@@ -27,7 +27,7 @@ const REPORTER_FRAMEWORKS = [
     'wdio',
 ];
 /**
- * Upload path: Vitest, Jest, Playwright (JSON + qa-forge-api-client).
+ * Upload path: Vitest, Jest, Playwright (JSON + @qanalyzer/forge-api-client).
  * Reporter path: Vitest, Jest, Mocha, CucumberJS, Cypress, Playwright, WebdriverIO.
  * Mocha / CucumberJS / Cypress / WDIO have no upload JSON dual-path — use mode=file via reporter instead.
  */
