@@ -1,6 +1,6 @@
 {
   "name": "qa-vitest",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "QAnalyzer Vitest reporter — ingest or file modes via qa-javascript-commons",
   "keywords": [
     "qanalyzer",

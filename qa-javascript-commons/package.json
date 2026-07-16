@@ -1,6 +1,6 @@
 {
   "name": "qa-javascript-commons",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "Shared config, models, and Forge ingest client for QAnalyzer JS reporters",
   "keywords": [
     "qanalyzer",
