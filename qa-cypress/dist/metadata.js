@@ -18,6 +18,14 @@ function metadata(on) {
             metadata_manager_1.MetadataManager.push('qa-parameters', value);
             return null;
         },
+        qaIssueKey(value) {
+            metadata_manager_1.MetadataManager.push('qa-issue-key', value);
+            return null;
+        },
+        qaIssueKeys(value) {
+            metadata_manager_1.MetadataManager.push('qa-issue-keys', value);
+            return null;
+        },
         qaIgnore() {
             metadata_manager_1.MetadataManager.push('qa-ignore', true);
             return null;
