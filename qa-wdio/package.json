@@ -1,6 +1,6 @@
 {
   "name": "qa-forge-wdio",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "QAnalyzer WebdriverIO reporter + service — ingest or file modes via qa-forge-commons",
   "keywords": [
     "qanalyzer",

@@ -5,8 +5,10 @@ Cypress reporter + plugin for **QAnalyzer** (Jira Forge quality hub).
 ## Install
 
 ```bash
-npm install -D qa-forge-cypress qa-forge-commons cypress-multi-reporters
+npm install -D qa-forge-cypress@1.1.2 qa-forge-commons@1.1.2 cypress-multi-reporters
 ```
+
+The pinned versions above track the latest release; `npm run release:bump` keeps them in sync.
 
 Peer: `cypress` ≥12, `mocha` ≥10 (Cypress ships Mocha).
 

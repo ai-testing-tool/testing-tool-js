@@ -71,29 +71,29 @@ Day-to-day work happens on feature branches merged into `develop` via merge requ
 # 1. Start from an up-to-date develop
 git checkout develop && git pull
 
-# 2. Bump every workspace to the release version (also updates package-lock.json)
-npm version 1.1.0 --workspaces --no-git-tag-version
-npm install
+# 2. Bump every workspace to the release version (also updates
+#    package-lock.json and version references in the READMEs)
+npm run release:bump 1.1.2
 
 # 3. Verify locally
 npm test
 npm run release:dry
 
 # 4. Commit the bump and merge to main
-git commit -am "release: v1.1.0"
+git commit -am "release: v1.1.2"
 git checkout main && git pull
 git merge --no-ff develop
 
 # 5. Tag and push — the tag pipeline publishes to npm
-git tag v1.1.0
-git push origin main develop v1.1.0
+git tag v1.1.2
+git push origin main develop v1.1.2
 ```
 
 ### Hotfixes
 
-Branch from `main`, fix, bump the patch version (step 2 above), tag `v1.1.1`, then merge `main` back into `develop` so the fix and version bump aren't lost.
+Branch from `main`, fix, bump the patch version (step 2 above), tag `v1.1.3`, then merge `main` back into `develop` so the fix and version bump aren't lost.
 
-Manual publish (bypassing CI): `npm run release` with an npm token configured. `RELEASE_TAG=v1.1.0 npm run release` additionally enforces the version check the pipeline uses.
+Manual publish (bypassing CI): `npm run release` with an npm token configured. `RELEASE_TAG=v1.1.2 npm run release` additionally enforces the version check the pipeline uses.
 
 ## License
 
