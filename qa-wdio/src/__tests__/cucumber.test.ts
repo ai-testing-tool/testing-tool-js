@@ -103,7 +103,8 @@ describe('QaWdioReporter useCucumber (FR135)', () => {
     assert.equal(specs[0]!.assertions.length, 1);
     const a = specs[0]!.assertions[0]!;
     assert.equal(a.status, 'failed');
-    assert.match(a.title, /AUTH-101/);
+    assert.equal(a.title, 'User can login');
+    assert.deepEqual(a.meta?.qa?.issueKeys, ['AUTH-101']);
     assert.ok(a.meta?.qa?.steps);
     assert.equal(a.meta!.qa!.steps!.length, 2);
     assert.equal(a.meta!.qa!.steps![0]!.stepType, 'gherkin');

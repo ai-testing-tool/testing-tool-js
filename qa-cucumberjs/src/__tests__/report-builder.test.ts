@@ -67,12 +67,17 @@ describe('scenarioToAssertion', () => {
   it('maps scenario to assertion with Gherkin steps in meta.qa (FR49)', () => {
     const assertion = scenarioToAssertion(fixtureScenario());
     assert.ok(assertion);
-    assert.equal(assertion!.title, 'AUTH-101 Get all users');
+    assert.equal(assertion!.title, 'Get all users');
     assert.deepEqual(assertion!.ancestorTitles, ['API', 'Users', 'Read']);
     const qa = assertion!.meta?.qa as
-      | { framework?: string; steps?: Array<{ name: string }> }
+      | {
+          framework?: string;
+          steps?: Array<{ name: string }>;
+          issueKeys?: string[];
+        }
       | undefined;
     assert.equal(qa?.framework, 'cucumberjs');
+    assert.deepEqual(qa?.issueKeys, ['AUTH-101']);
     assert.equal(qa?.steps?.length, 2);
     assert.equal(qa?.steps?.[0]?.name, 'I send a GET request to "/users"');
   });

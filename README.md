@@ -73,27 +73,27 @@ git checkout develop && git pull
 
 # 2. Bump every workspace to the release version (also updates
 #    package-lock.json and version references in the READMEs)
-npm run release:bump 1.2.0
+npm run release:bump 1.2.1
 
 # 3. Verify locally
 npm test
 npm run release:dry
 
 # 4. Commit the bump and merge to main
-git commit -am "release: v1.2.0"
+git commit -am "release: v1.2.1"
 git checkout main && git pull
 git merge --no-ff develop
 
 # 5. Tag and push — the tag pipeline publishes to npm
-git tag v1.2.0
-git push origin main develop v1.2.0
+git tag v1.2.1
+git push origin main develop v1.2.1
 ```
 
 ### Hotfixes
 
-Branch from `main`, fix, bump the patch version (step 2 above), tag `v1.2.1`, then merge `main` back into `develop` so the fix and version bump aren't lost.
+Branch from `main`, fix, bump the patch version (step 2 above), tag `v1.2.2`, then merge `main` back into `develop` so the fix and version bump aren't lost.
 
-Manual publish (bypassing CI): `npm run release` with an npm token configured. `RELEASE_TAG=v1.2.0 npm run release` additionally enforces the version check the pipeline uses.
+Manual publish (bypassing CI): `npm run release` with an npm token configured. `RELEASE_TAG=v1.2.1 npm run release` additionally enforces the version check the pipeline uses.
 
 ## License
 

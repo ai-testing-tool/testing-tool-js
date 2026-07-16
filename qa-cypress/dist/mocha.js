@@ -1,7 +1,7 @@
 "use strict";
 /**
  * Programmatic helpers for Cypress Mocha specs (FR63–FR64).
- * Prefer `qa.issueKey()` / `qa.issueKeys()` for FR43 (title keys remain a fallback).
+ * Prefer `qa.issueKey()` / `qa.issueKeys()` for FR43 (do not embed keys in titles).
  *
  * `qa.step()` accepts **synchronous** callbacks only (no async/await) —
  * Cypress command-queue safe.

@@ -1,7 +1,7 @@
 "use strict";
 /**
  * Programmatic helpers for Playwright tests (FR111).
- * Prefer `qa.issueKey()` / `qa.issueKeys()` for FR43 (title keys remain a fallback).
+ * Prefer `qa.issueKey()` / `qa.issueKeys()` for FR43 (do not embed keys in titles).
  *
  * Steps: use Playwright native `test.step()` — do **not** use `qa.step` (FR112).
  *

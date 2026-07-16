@@ -64,7 +64,7 @@
                                 "issueKeys": {
                                   "type": "array",
                                   "items": { "type": "string" },
-                                  "description": "Explicit Jira issue keys (FR43). Roles classified via TMS type map. Title keys remain a fallback."
+                                  "description": "Explicit Jira issue keys (FR43). Roles classified via TMS type map. Required for linking — titles are not scraped."
                                 }
                               },
                               "additionalProperties": true

@@ -5,7 +5,7 @@ Cypress reporter + plugin for **QAnalyzer** (Jira Forge quality hub).
 ## Install
 
 ```bash
-npm install -D @qanalyzer/forge-cypress@1.2.0 @qanalyzer/forge-commons@1.2.0 cypress-multi-reporters
+npm install -D @qanalyzer/forge-cypress@1.2.1 @qanalyzer/forge-commons@1.2.1 cypress-multi-reporters
 ```
 
 The pinned versions above track the latest release; `npm run release:bump` keeps them in sync.

@@ -45,7 +45,7 @@ describe('resolveScenarioTitle', () => {
     );
   });
 
-  it('prefixes issue key when missing from pickle name', () => {
+  it('keeps pickle name when no @QaTitle (issue keys go to meta.qa.issueKeys)', () => {
     assert.equal(
       resolveScenarioTitle('Get all users', {
         title: null,
@@ -55,7 +55,7 @@ describe('resolveScenarioTitle', () => {
         parameters: {},
         issueKeys: ['AUTH-101'],
       }),
-      'AUTH-101 Get all users',
+      'Get all users',
     );
   });
 });

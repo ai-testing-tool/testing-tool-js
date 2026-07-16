@@ -291,10 +291,15 @@ export class QaWdioReporter extends WDIOReporter {
       MetadataManager.clear();
 
       if (scenario.issueKeys.length > 0) {
-        const key = scenario.issueKeys[0]!;
-        if (!scenario.title.includes(key)) {
-          scenario.title = `${scenario.issueKeys.join(' ')} ${scenario.title}`;
-        }
+        wire = {
+          ...(wire ?? {}),
+          framework: 'wdio',
+          host: {
+            framework: 'wdio',
+            reporter: '@qanalyzer/forge-wdio',
+          },
+          issueKeys: [...scenario.issueKeys],
+        } as QaMetaWire;
       }
 
       // Prefer buffered Gherkin step outcomes (includes skipped)
@@ -310,7 +315,10 @@ export class QaWdioReporter extends WDIOReporter {
         wire = {
           ...(wire ?? {}),
           framework: 'wdio',
-          reporter: '@qanalyzer/forge-wdio',
+          host: {
+            framework: 'wdio',
+            reporter: '@qanalyzer/forge-wdio',
+          },
           steps: stepsWire,
         } as QaMetaWire;
       }

@@ -56,10 +56,11 @@ function fixtureScenario(overrides = {}) {
     (0, node_test_1.it)('maps scenario to assertion with Gherkin steps in meta.qa (FR49)', () => {
         const assertion = (0, report_builder_js_1.scenarioToAssertion)(fixtureScenario());
         strict_1.default.ok(assertion);
-        strict_1.default.equal(assertion.title, 'AUTH-101 Get all users');
+        strict_1.default.equal(assertion.title, 'Get all users');
         strict_1.default.deepEqual(assertion.ancestorTitles, ['API', 'Users', 'Read']);
         const qa = assertion.meta?.qa;
         strict_1.default.equal(qa?.framework, 'cucumberjs');
+        strict_1.default.deepEqual(qa?.issueKeys, ['AUTH-101']);
         strict_1.default.equal(qa?.steps?.length, 2);
         strict_1.default.equal(qa?.steps?.[0]?.name, 'I send a GET request to "/users"');
     });

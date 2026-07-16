@@ -102,6 +102,9 @@ function scenarioToAssertion(scenario, attachEntries = []) {
     if (tagMeta.title) {
         entries.push({ type: 'qa-title', body: tagMeta.title });
     }
+    if (tagMeta.issueKeys.length > 0) {
+        entries.push({ type: 'qa-issue-keys', body: tagMeta.issueKeys });
+    }
     for (const step of scenario.steps) {
         entries.push({ type: 'qa-step', body: step.text });
         const stepStatus = mapStepStatus(step.status);

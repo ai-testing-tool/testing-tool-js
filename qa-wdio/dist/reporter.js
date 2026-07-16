@@ -214,10 +214,15 @@ class QaWdioReporter extends reporter_1.default {
             });
             metadata_manager_1.MetadataManager.clear();
             if (scenario.issueKeys.length > 0) {
-                const key = scenario.issueKeys[0];
-                if (!scenario.title.includes(key)) {
-                    scenario.title = `${scenario.issueKeys.join(' ')} ${scenario.title}`;
-                }
+                wire = {
+                    ...(wire ?? {}),
+                    framework: 'wdio',
+                    host: {
+                        framework: 'wdio',
+                        reporter: '@qanalyzer/forge-wdio',
+                    },
+                    issueKeys: [...scenario.issueKeys],
+                };
             }
             // Prefer buffered Gherkin step outcomes (includes skipped)
             if (scenario.steps.length > 0) {
@@ -232,7 +237,10 @@ class QaWdioReporter extends reporter_1.default {
                 wire = {
                     ...(wire ?? {}),
                     framework: 'wdio',
-                    reporter: '@qanalyzer/forge-wdio',
+                    host: {
+                        framework: 'wdio',
+                        reporter: '@qanalyzer/forge-wdio',
+                    },
                     steps: stepsWire,
                 };
             }

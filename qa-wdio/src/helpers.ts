@@ -1,6 +1,6 @@
 /**
  * Programmatic helpers for WebdriverIO Mocha specs (FR125–FR126).
- * Prefer `qa.issueKey()` / `qa.issueKeys()` for FR43 (title keys remain a fallback).
+ * Prefer `qa.issueKey()` / `qa.issueKeys()` for FR43 (do not embed keys in titles).
  *
  * Steps: `await qa.step('name', async (step) => { await step.step('nested', ...) })`.
  *

@@ -98,15 +98,11 @@ export function parseQaTags(tags: readonly TagLike[]): CucumberQaTagMeta {
   return meta;
 }
 
-/** Prefer tag title; else prefix issue keys onto pickle name when missing. */
+/** Prefer `@title:` tag value; otherwise keep the pickle name as-is (no issue-key prefix). */
 export function resolveScenarioTitle(
   pickleName: string,
   meta: CucumberQaTagMeta,
 ): string {
   if (meta.title) return meta.title;
-  const key = meta.issueKeys[0];
-  if (key && !pickleName.includes(key)) {
-    return `${key} ${pickleName}`;
-  }
   return pickleName;
 }

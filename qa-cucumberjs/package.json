@@ -1,6 +1,6 @@
 {
   "name": "@qanalyzer/forge-cucumberjs",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "QAnalyzer CucumberJS formatter — ingest or file modes via @qanalyzer/forge-commons",
   "keywords": [
     "qanalyzer",

@@ -35,7 +35,7 @@ export type QaMetaWire = {
   parameters?: Record<string, string>;
   suite?: Array<{ title: string }>;
   /**
-   * Explicit Jira issue keys for FR43 (preferred over embedding keys in titles).
+   * Explicit Jira issue keys for FR43 (required for linking — titles are not scraped).
    * Roles (test_case / requirement / …) are classified server-side via TMS type map.
    */
   issueKeys?: string[];

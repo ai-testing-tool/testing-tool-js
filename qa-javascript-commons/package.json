@@ -1,6 +1,6 @@
 {
   "name": "@qanalyzer/forge-commons",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Shared config, models, and Forge ingest client for QAnalyzer JS reporters",
   "keywords": [
     "qanalyzer",
