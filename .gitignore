@@ -89,3 +89,6 @@ examples/**/package-lock.json
 # Integration test report output
 build/
 **/build/report/
+
+# Vitest JSON reports (one per qa-* package + pilot example)
+qa-*/qanalyzer-results.json

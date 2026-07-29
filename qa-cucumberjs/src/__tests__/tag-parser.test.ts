@@ -1,13 +1,12 @@
-import assert from 'node:assert/strict';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import {
   parseQaTags,
   resolveScenarioTitle,
 } from '../modules/tag-parser.js';
 
-describe('parseQaTags', () => {
-  it('parses @Qa* tags and issue keys (FR51/FR52)', () => {
+qaDescribe('parseQaTags', () => {
+  qaItAuto('parses @Qa* tags and issue keys (FR51/FR52)', () => {
     const meta = parseQaTags([
       { name: '@AUTH-101' },
       { name: '@QaTitle=Get_all_users' },
@@ -16,46 +15,40 @@ describe('parseQaTags', () => {
       { name: '@QaParameters={"userId":"1"}' },
     ]);
 
-    assert.equal(meta.title, 'Get all users');
-    assert.equal(meta.suite, 'API\tUsers\tRead');
-    assert.equal(meta.fields.layer, 'api');
-    assert.equal(meta.parameters.userId, '1');
-    assert.deepEqual(meta.issueKeys, ['AUTH-101']);
-    assert.equal(meta.ignore, false);
+    expect(meta.title).toBe('Get all users');
+    expect(meta.suite).toBe('API\tUsers\tRead');
+    expect(meta.fields.layer).toBe('api');
+    expect(meta.parameters.userId).toBe('1');
+    expect(meta.issueKeys).toEqual(['AUTH-101']);
+    expect(meta.ignore).toBe(false);
   });
 
-  it('detects @QaIgnore', () => {
+  qaItAuto('detects @QaIgnore', () => {
     const meta = parseQaTags([{ name: '@QaIgnore' }]);
-    assert.equal(meta.ignore, true);
+    expect(meta.ignore).toBe(true);
   });
 });
 
-describe('resolveScenarioTitle', () => {
-  it('uses @QaTitle when present', () => {
-    assert.equal(
-      resolveScenarioTitle('Get all users', {
+qaDescribe('resolveScenarioTitle', () => {
+  qaItAuto('uses @QaTitle when present', () => {
+    expect(resolveScenarioTitle('Get all users', {
         title: 'Custom title',
         ignore: false,
         suite: null,
         fields: {},
         parameters: {},
         issueKeys: ['AUTH-101'],
-      }),
-      'Custom title',
-    );
+      })).toBe('Custom title',);
   });
 
-  it('keeps pickle name when no @QaTitle (issue keys go to meta.qa.issueKeys)', () => {
-    assert.equal(
-      resolveScenarioTitle('Get all users', {
+  qaItAuto('keeps pickle name when no @QaTitle (issue keys go to meta.qa.issueKeys)', () => {
+    expect(resolveScenarioTitle('Get all users', {
         title: null,
         ignore: false,
         suite: null,
         fields: {},
         parameters: {},
         issueKeys: ['AUTH-101'],
-      }),
-      'Get all users',
-    );
+      })).toBe('Get all users',);
   });
 });

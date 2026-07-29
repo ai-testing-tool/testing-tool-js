@@ -1,11 +1,10 @@
-import assert from 'node:assert/strict';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import { toJestJsonReport } from '../report-builder.js';
 import { drainQaMeta, qa } from '../jest.js';
 
-describe('toJestJsonReport', () => {
-  it('maps AggregatedResult nested testResults to assertionResults', () => {
+qaDescribe('toJestJsonReport', () => {
+  qaItAuto('maps AggregatedResult nested testResults to assertionResults', () => {
     const report = toJestJsonReport({
       startTime: 1_700_000_000_000,
       success: false,
@@ -47,17 +46,17 @@ describe('toJestJsonReport', () => {
       ],
     });
 
-    assert.equal(report.numTotalTests, 3);
-    assert.equal(report.numPassedTests, 1);
-    assert.equal(report.numFailedTests, 1);
-    assert.equal(report.numPendingTests, 1);
-    assert.equal(report.success, false);
-    assert.equal(report.testResults?.length, 2);
-    assert.equal(report.testResults?.[0]?.name, '/tests/a.test.js');
-    assert.equal(report.testResults?.[0]?.assertionResults?.[1]?.title, 'AUTH-102 fails');
+    expect(report.numTotalTests).toBe(3);
+    expect(report.numPassedTests).toBe(1);
+    expect(report.numFailedTests).toBe(1);
+    expect(report.numPendingTests).toBe(1);
+    expect(report.success).toBe(false);
+    expect(report.testResults?.length).toBe(2);
+    expect(report.testResults?.[0]?.name).toBe('/tests/a.test.js');
+    expect(report.testResults?.[0]?.assertionResults?.[1]?.title).toBe('AUTH-102 fails');
   });
 
-  it('passes through native --json assertionResults shape', () => {
+  qaItAuto('passes through native --json assertionResults shape', () => {
     const report = toJestJsonReport({
       numTotalTests: 1,
       numPassedTests: 1,
@@ -84,11 +83,11 @@ describe('toJestJsonReport', () => {
       ],
     });
 
-    assert.equal(report.numTotalTests, 1);
-    assert.equal(report.testResults?.[0]?.name, '/tests/c.test.js');
-    assert.equal(report.testResults?.[0]?.assertionResults?.[0]?.title, 'AUTH-200 ok');
+    expect(report.numTotalTests).toBe(1);
+    expect(report.testResults?.[0]?.name).toBe('/tests/c.test.js');
+    expect(report.testResults?.[0]?.assertionResults?.[0]?.title).toBe('AUTH-200 ok');
   });
-  it('attaches meta.qa from helper map by fullName', () => {
+  qaItAuto('attaches meta.qa from helper map by fullName', () => {
     const metaByFullName = new Map([
       [
         'Suite AUTH-101 passes',
@@ -121,19 +120,16 @@ describe('toJestJsonReport', () => {
     const qa = report.testResults?.[0]?.assertionResults?.[0]?.meta?.qa as
       | { suite?: Array<{ title: string }> }
       | undefined;
-    assert.deepEqual(qa?.suite, [{ title: 'Auth' }]);
+    expect(qa?.suite).toEqual([{ title: 'Auth' }]);
   });
 });
 
-describe('qa helpers', () => {
-  it('records step and suite metadata', async () => {
+qaDescribe('qa helpers', () => {
+  qaItAuto('records step and suite metadata', async () => {
     drainQaMeta();
     await qa.suite('Auth');
     await qa.step('open form', async () => undefined);
     const meta = drainQaMeta();
-    assert.deepEqual(
-      meta.map((m) => m.type),
-      ['qa-suite', 'qa-step', 'qa-step-end'],
-    );
+    expect(meta.map((m) => m.type)).toEqual(['qa-suite', 'qa-step', 'qa-step-end'],);
   });
 });

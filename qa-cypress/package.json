@@ -41,7 +41,7 @@
   "scripts": {
     "build": "npm run clean && npx tsc --project tsconfig.build.json && cp -R src/__fixtures__ dist/__fixtures__",
     "clean": "rm -rf dist",
-    "test": "npm run build && node --test dist/__tests__/**/*.test.js",
+    "test": "vitest run --config ../examples/single/vitest/vitest.config.ts --project qa-cypress",
     "prepublishOnly": "npm test"
   },
   "dependencies": {

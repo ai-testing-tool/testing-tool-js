@@ -3,6 +3,9 @@ import type { ModeEnum } from '../options';
 export type IngestOptionsType = {
   url?: string;
   token?: string;
+  /** When set, included in gateway ingest payload for auto-provisioning. */
+  forgeIngestUrl?: string;
+  forgeIngestToken?: string;
   timeoutMs?: number;
   maxPayloadBytes?: number;
 };

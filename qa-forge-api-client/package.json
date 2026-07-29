@@ -24,7 +24,7 @@
   "scripts": {
     "build": "npm run clean && npx tsc --project tsconfig.build.json && chmod +x dist/cli.js",
     "clean": "rm -rf dist",
-    "test": "echo 'tests: pending'",
+    "test": "vitest run --config ../examples/single/vitest/vitest.config.ts --project qa-forge-api-client",
     "prepublishOnly": "npm run build && npm test"
   },
   "dependencies": {

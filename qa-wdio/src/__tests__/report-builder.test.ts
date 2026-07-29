@@ -1,7 +1,6 @@
-import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import { qaMetaFromEntries } from '@qanalyzer/forge-commons';
 
@@ -58,40 +57,40 @@ function loadSaucedemoFixture(): WdioSpecInput[] {
   }));
 }
 
-describe('toJestJsonReport (FR124 / FR134)', () => {
-  it('normalizes saucedemo fixture to 13 tests with AUTH keys and steps', () => {
+qaDescribe('toJestJsonReport (FR124 / FR134)', () => {
+  qaItAuto('normalizes saucedemo fixture to 13 tests with AUTH keys and steps', () => {
     const specs = loadSaucedemoFixture();
     const report = toJestJsonReport(specs, 1_700_000_000_000);
 
-    assert.equal(report.numTotalTests, 13);
-    assert.equal(report.numPassedTests, 12);
-    assert.equal(report.numPendingTests, 1);
-    assert.equal(report.success, true);
-    assert.equal(report.testResults?.length, 4);
+    expect(report.numTotalTests).toBe(13);
+    expect(report.numPassedTests).toBe(12);
+    expect(report.numPendingTests).toBe(1);
+    expect(report.success).toBe(true);
+    expect(report.testResults?.length).toBe(4);
 
     const titles = (report.testResults ?? []).flatMap(
       (f) => (f.assertionResults ?? []).map((a) => a.title),
     );
-    assert.ok(titles.some((t) => t?.includes('AUTH-101')));
-    assert.ok(titles.some((t) => t?.includes('AUTH-113')));
+    expect(titles.some((t) => t?.includes('AUTH-101'))).toBeTruthy();
+    expect(titles.some((t) => t?.includes('AUTH-113'))).toBeTruthy();
 
     const login = report.testResults?.[0]?.assertionResults?.[0];
     const loginQa = login?.meta?.qa as
       | { framework?: string; steps?: unknown[] }
       | undefined;
-    assert.equal(loginQa?.framework, 'wdio');
-    assert.ok((loginQa?.steps?.length ?? 0) >= 1);
+    expect(loginQa?.framework).toBe('wdio');
+    expect((loginQa?.steps?.length ?? 0) >= 1).toBeTruthy();
 
     const ignored = report.testResults
       ?.flatMap((f) => f.assertionResults ?? [])
       .find((a) => a.title?.includes('AUTH-113'));
     const ignoredQa = ignored?.meta?.qa as { ignore?: boolean } | undefined;
-    assert.equal(ignoredQa?.ignore, true);
+    expect(ignoredQa?.ignore).toBe(true);
   });
 });
 
-describe('qa.step → meta.qa.steps (FR125)', () => {
-  it('preserves nested step order via qaMetaFromEntries', () => {
+qaDescribe('qa.step → meta.qa.steps (FR125)', () => {
+  qaItAuto('preserves nested step order via qaMetaFromEntries', () => {
     const wire = qaMetaFromEntries(
       [
         { type: 'qa-step-start', body: 'outer' },
@@ -102,11 +101,11 @@ describe('qa.step → meta.qa.steps (FR125)', () => {
       ],
       { framework: 'wdio', reporter: '@qanalyzer/forge-wdio' },
     );
-    assert.ok(wire);
-    assert.equal(wire?.framework, 'wdio');
-    assert.equal(wire?.steps?.length, 2);
-    assert.equal(wire?.steps?.[0]?.name, 'outer');
-    assert.equal(wire?.steps?.[1]?.name, 'inner');
-    assert.deepEqual(wire?.suite, [{ title: 'E-commerce' }, { title: 'Login' }]);
+    expect(wire).toBeTruthy();
+    expect(wire?.framework).toBe('wdio');
+    expect(wire?.steps?.length).toBe(2);
+    expect(wire?.steps?.[0]?.name).toBe('outer');
+    expect(wire?.steps?.[1]?.name).toBe('inner');
+    expect(wire?.suite).toEqual([{ title: 'E-commerce' }, { title: 'Login' }]);
   });
 });

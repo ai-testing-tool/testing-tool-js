@@ -1,8 +1,7 @@
-import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import {
   ModeEnum,
@@ -14,8 +13,8 @@ import { QA_METADATA_CONTENT_TYPE } from '../metadata-manager.js';
 import { PlaywrightQaReporter } from '../reporter.js';
 import { toJestJsonReport } from '../report-builder.js';
 
-describe('mode=file publish', () => {
-  it('writes FR41 payload with format jest-json', async () => {
+qaDescribe('mode=file publish', () => {
+  qaItAuto('writes FR41 payload with format jest-json', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-playwright-'));
     const out = join(dir, 'qanalyzer-results.json');
 
@@ -45,16 +44,13 @@ describe('mode=file publish', () => {
         { format: 'jest-json' },
       );
 
-      assert.ok(payload);
-      assert.equal(payload.format, 'jest-json');
+      expect(payload).toBeTruthy();
+      expect(payload.format).toBe('jest-json');
 
       const written = JSON.parse(readFileSync(out, 'utf8')) as IngestPayload;
-      assert.equal(written.projectKey, 'AUTH');
-      assert.equal(
-        (written.report as { testResults?: Array<{ assertionResults?: Array<{ title?: string }> }> })
-          .testResults?.[0]?.assertionResults?.[0]?.title,
-        'AUTH-101 login',
-      );
+      expect(written.projectKey).toBe('AUTH');
+      expect((written.report as { testResults?: Array<{ assertionResults?: Array<{ title?: string }> }> })
+          .testResults?.[0]?.assertionResults?.[0]?.title).toBe('AUTH-101 login',);
     } finally {
       QAnalyzerReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
@@ -62,8 +58,8 @@ describe('mode=file publish', () => {
   });
 });
 
-describe('PlaywrightQaReporter modes', () => {
-  it('mode=off completes without credentials', async () => {
+qaDescribe('PlaywrightQaReporter modes', () => {
+  qaItAuto('mode=off completes without credentials', async () => {
     const reporter = new PlaywrightQaReporter({ mode: ModeEnum.off });
     reporter.onBegin({} as never, {} as never);
     reporter.onTestEnd(
@@ -77,7 +73,7 @@ describe('PlaywrightQaReporter modes', () => {
     await reporter.onEnd({} as never);
   });
 
-  it('mode=file via reporter writes payload with native steps', async () => {
+  qaItAuto('mode=file via reporter writes payload with native steps', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-pw-rep-'));
     const out = join(dir, 'out.json');
 
@@ -126,8 +122,8 @@ describe('PlaywrightQaReporter modes', () => {
       await reporter.onEnd({} as never);
 
       const written = JSON.parse(readFileSync(out, 'utf8')) as IngestPayload;
-      assert.equal(written.format, 'jest-json');
-      assert.equal(written.projectKey, 'AUTH');
+      expect(written.format).toBe('jest-json');
+      expect(written.projectKey).toBe('AUTH');
       const report = written.report as {
         testResults?: Array<{
           assertionResults?: Array<{
@@ -137,15 +133,15 @@ describe('PlaywrightQaReporter modes', () => {
         }>;
       };
       const assertion = report.testResults?.[0]?.assertionResults?.[0];
-      assert.equal(assertion?.title, 'AUTH-101 login');
+      expect(assertion?.title).toBe('AUTH-101 login');
       const qa = assertion?.meta?.qa as {
         framework?: string;
         steps?: Array<{ name: string }>;
         suite?: Array<{ title: string }>;
       };
-      assert.equal(qa?.framework, 'playwright');
-      assert.equal(qa?.steps?.length, 2);
-      assert.deepEqual(qa?.suite, [{ title: 'E-commerce' }, { title: 'Login' }]);
+      expect(qa?.framework).toBe('playwright');
+      expect(qa?.steps?.length).toBe(2);
+      expect(qa?.suite).toEqual([{ title: 'E-commerce' }, { title: 'Login' }]);
     } finally {
       QAnalyzerReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });

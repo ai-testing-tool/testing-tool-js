@@ -1,5 +1,4 @@
-import assert from 'node:assert/strict';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import {
   enrichAssertionWithFailureScreenshots,
@@ -7,25 +6,19 @@ import {
 } from '../enrich-screenshots.js';
 import type { PlaywrightAssertionInput } from '../report-builder.js';
 
-describe('Playwright failure screenshot enrich (FR119)', () => {
-  it('isStillImageAttachment accepts png and rejects video', () => {
-    assert.equal(
-      isStillImageAttachment({
+qaDescribe('Playwright failure screenshot enrich (FR119)', () => {
+  qaItAuto('isStillImageAttachment accepts png and rejects video', () => {
+    expect(isStillImageAttachment({
         name: 'screenshot',
         contentType: 'image/png',
-      }),
-      true,
-    );
-    assert.equal(
-      isStillImageAttachment({
+      })).toBe(true);
+    expect(isStillImageAttachment({
         name: 'video',
         contentType: 'video/webm',
-      }),
-      false,
-    );
+      })).toBe(false);
   });
 
-  it('uploads metadata for failed test png body (no attach URL → no content_ref)', async () => {
+  qaItAuto('uploads metadata for failed test png body (no attach URL → no content_ref)', async () => {
     const assertion: PlaywrightAssertionInput = {
       ancestorTitles: ['Suite'],
       title: 'AUTH-101 fails',
@@ -48,14 +41,14 @@ describe('Playwright failure screenshot enrich (FR119)', () => {
     ]);
 
     const atts = assertion.meta?.qa?.attachments ?? [];
-    assert.equal(atts.length, 1);
-    assert.equal(atts[0]!.file_name, 'screenshot');
-    assert.equal(atts[0]!.mime_type, 'image/png');
-    assert.equal(atts[0]!.size, 48);
-    assert.equal(atts[0]!.content_ref, undefined);
+    expect(atts.length).toBe(1);
+    expect(atts[0]!.file_name).toBe('screenshot');
+    expect(atts[0]!.mime_type).toBe('image/png');
+    expect(atts[0]!.size).toBe(48);
+    expect(atts[0]!.content_ref).toBeUndefined();
   });
 
-  it('skips uploads for passed tests', async () => {
+  qaItAuto('skips uploads for passed tests', async () => {
     const assertion: PlaywrightAssertionInput = {
       ancestorTitles: [],
       title: 'AUTH-101 ok',
@@ -64,6 +57,6 @@ describe('Playwright failure screenshot enrich (FR119)', () => {
     await enrichAssertionWithFailureScreenshots(assertion, [
       { name: 'screenshot', contentType: 'image/png', body: Buffer.alloc(8) },
     ]);
-    assert.equal(assertion.meta?.qa?.attachments, undefined);
+    expect(assertion.meta?.qa?.attachments).toBeUndefined();
   });
 });

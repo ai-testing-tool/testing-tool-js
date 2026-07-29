@@ -1,7 +1,6 @@
-import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import { QA_METADATA_CONTENT_TYPE } from '../metadata-manager.js';
 import { buildQaMetaFromResult } from '../metadata-from-result.js';
@@ -64,8 +63,8 @@ function loadSaucedemoFixture(): PlaywrightSpecInput[] {
   }));
 }
 
-describe('extractNativeSteps (FR112)', () => {
-  it('flattens test.step hierarchy and skips hooks', () => {
+qaDescribe('extractNativeSteps (FR112)', () => {
+  qaItAuto('flattens test.step hierarchy and skips hooks', () => {
     const steps = extractNativeSteps([
       {
         category: 'hook',
@@ -91,17 +90,17 @@ describe('extractNativeSteps (FR112)', () => {
       },
     ]);
 
-    assert.equal(steps.length, 3);
-    assert.equal(steps[0]?.name, 'open login');
-    assert.equal(steps[0]?.status, 'passed');
-    assert.equal(steps[1]?.name, 'type username');
-    assert.equal(steps[2]?.name, 'submit');
-    assert.equal(steps[2]?.status, 'failed');
+    expect(steps.length).toBe(3);
+    expect(steps[0]?.name).toBe('open login');
+    expect(steps[0]?.status).toBe('passed');
+    expect(steps[1]?.name).toBe('type username');
+    expect(steps[2]?.name).toBe('submit');
+    expect(steps[2]?.status).toBe('failed');
   });
 });
 
-describe('buildQaMetaFromResult', () => {
-  it('merges helper metadata attachments with native steps', () => {
+qaDescribe('buildQaMetaFromResult', () => {
+  qaItAuto('merges helper metadata attachments with native steps', () => {
     const wire = buildQaMetaFromResult({
       attachments: [
         {
@@ -118,17 +117,17 @@ describe('buildQaMetaFromResult', () => {
       ],
     });
 
-    assert.ok(wire);
-    assert.equal(wire.framework, 'playwright');
-    assert.deepEqual(wire.suite, [{ title: 'Auth' }, { title: 'Login' }]);
-    assert.deepEqual(wire.fields, { layer: 'e2e' });
-    assert.equal(wire.steps?.length, 1);
-    assert.equal(wire.steps?.[0]?.name, 'open form');
+    expect(wire).toBeTruthy();
+    expect(wire.framework).toBe('playwright');
+    expect(wire.suite).toEqual([{ title: 'Auth' }, { title: 'Login' }]);
+    expect(wire.fields).toEqual({ layer: 'e2e' });
+    expect(wire.steps?.length).toBe(1);
+    expect(wire.steps?.[0]?.name).toBe('open form');
   });
 });
 
-describe('toJestJsonReport', () => {
-  it('maps Playwright-like specs to FR41 shape A', () => {
+qaDescribe('toJestJsonReport', () => {
+  qaItAuto('maps Playwright-like specs to FR41 shape A', () => {
     const report = toJestJsonReport(
       [
         {
@@ -153,23 +152,23 @@ describe('toJestJsonReport', () => {
       1_700_000_000_000,
     );
 
-    assert.equal(report.numTotalTests, 2);
-    assert.equal(report.numPassedTests, 1);
-    assert.equal(report.numFailedTests, 1);
-    assert.equal(report.success, false);
+    expect(report.numTotalTests).toBe(2);
+    expect(report.numPassedTests).toBe(1);
+    expect(report.numFailedTests).toBe(1);
+    expect(report.success).toBe(false);
   });
 });
 
-describe('saucedemo fixture (FR118)', () => {
-  it('normalizes 13 reference tests with AUTH titles and steps', () => {
+qaDescribe('saucedemo fixture (FR118)', () => {
+  qaItAuto('normalizes 13 reference tests with AUTH titles and steps', () => {
     const specs = loadSaucedemoFixture();
     const report = toJestJsonReport(specs, 1_700_000_000_000);
 
-    assert.equal(report.numTotalTestSuites, 4);
-    assert.equal(report.numTotalTests, 13);
-    assert.equal(report.numPassedTests, 12);
-    assert.equal(report.numPendingTests, 1);
-    assert.equal(report.success, true);
+    expect(report.numTotalTestSuites).toBe(4);
+    expect(report.numTotalTests).toBe(13);
+    expect(report.numPassedTests).toBe(12);
+    expect(report.numPendingTests).toBe(1);
+    expect(report.success).toBe(true);
 
     const titles: string[] = [];
     for (const file of report.testResults ?? []) {
@@ -177,15 +176,15 @@ describe('saucedemo fixture (FR118)', () => {
         titles.push(String(a.title));
       }
     }
-    assert.equal(titles.length, 13);
-    assert.ok(titles.every((t) => /^AUTH-\d+/.test(t)));
+    expect(titles.length).toBe(13);
+    expect(titles.every((t) => /^AUTH-\d+/.test(t))).toBeTruthy();
 
     const login = report.testResults?.find((f) => f.name?.includes('login'));
     const firstQa = login?.assertionResults?.[0]?.meta?.qa as {
       steps?: Array<{ name: string }>;
       framework?: string;
     };
-    assert.equal(firstQa?.framework, 'playwright');
-    assert.ok(firstQa?.steps && firstQa.steps.length >= 3);
+    expect(firstQa?.framework).toBe('playwright');
+    expect(firstQa?.steps && firstQa.steps.length >= 3).toBeTruthy();
   });
 });

@@ -1,7 +1,6 @@
-import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import { qaMetaFromEntries } from '@qanalyzer/forge-commons';
 
@@ -58,8 +57,8 @@ function loadSaucedemoFixture(): CypressSpecInput[] {
   }));
 }
 
-describe('toJestJsonReport', () => {
-  it('maps Mocha-like specs to FR41 shape A with meta.qa steps', () => {
+qaDescribe('toJestJsonReport', () => {
+  qaItAuto('maps Mocha-like specs to FR41 shape A with meta.qa steps', () => {
     const wire = qaMetaFromEntries(
       [
         { type: 'qa-suite', body: 'E-commerce\tLogin' },
@@ -94,35 +93,29 @@ describe('toJestJsonReport', () => {
       1_700_000_000_000,
     );
 
-    assert.equal(report.numTotalTests, 2);
-    assert.equal(report.numPassedTests, 1);
-    assert.equal(report.numFailedTests, 1);
-    assert.equal(report.success, false);
-    assert.equal(report.testResults?.[0]?.assertionResults?.[0]?.title, 'AUTH-101 User can login with valid credentials');
-    assert.equal(
-      (report.testResults?.[0]?.assertionResults?.[0]?.meta?.qa as { framework?: string })
-        ?.framework,
-      'cypress',
-    );
-    assert.equal(
-      (report.testResults?.[0]?.assertionResults?.[0]?.meta?.qa as { steps?: unknown[] })
-        ?.steps?.length,
-      1,
-    );
+    expect(report.numTotalTests).toBe(2);
+    expect(report.numPassedTests).toBe(1);
+    expect(report.numFailedTests).toBe(1);
+    expect(report.success).toBe(false);
+    expect(report.testResults?.[0]?.assertionResults?.[0]?.title).toBe('AUTH-101 User can login with valid credentials');
+    expect((report.testResults?.[0]?.assertionResults?.[0]?.meta?.qa as { framework?: string })
+        ?.framework).toBe('cypress',);
+    expect((report.testResults?.[0]?.assertionResults?.[0]?.meta?.qa as { steps?: unknown[] })
+        ?.steps?.length).toBe(1,);
   });
 });
 
-describe('saucedemo fixture (FR69)', () => {
-  it('normalizes 13 reference tests with counts and AUTH titles', () => {
+qaDescribe('saucedemo fixture (FR69)', () => {
+  qaItAuto('normalizes 13 reference tests with counts and AUTH titles', () => {
     const specs = loadSaucedemoFixture();
     const report = toJestJsonReport(specs, 1_700_000_000_000);
 
-    assert.equal(report.numTotalTestSuites, 4);
-    assert.equal(report.numTotalTests, 13);
-    assert.equal(report.numPassedTests, 12);
-    assert.equal(report.numPendingTests, 1);
-    assert.equal(report.numFailedTests, 0);
-    assert.equal(report.success, true);
+    expect(report.numTotalTestSuites).toBe(4);
+    expect(report.numTotalTests).toBe(13);
+    expect(report.numPassedTests).toBe(12);
+    expect(report.numPendingTests).toBe(1);
+    expect(report.numFailedTests).toBe(0);
+    expect(report.success).toBe(true);
 
     const titles: string[] = [];
     for (const file of report.testResults ?? []) {
@@ -130,15 +123,15 @@ describe('saucedemo fixture (FR69)', () => {
         titles.push(String(a.title));
       }
     }
-    assert.equal(titles.length, 13);
-    assert.ok(titles.every((t) => /^AUTH-\d+/.test(t)));
-    assert.ok(titles.includes('AUTH-101 User can login with valid credentials'));
-    assert.ok(titles.includes('AUTH-113 Demo test that will be ignored in reporting'));
+    expect(titles.length).toBe(13);
+    expect(titles.every((t) => /^AUTH-\d+/.test(t))).toBeTruthy();
+    expect(titles.includes('AUTH-101 User can login with valid credentials')).toBeTruthy();
+    expect(titles.includes('AUTH-113 Demo test that will be ignored in reporting')).toBeTruthy();
 
     const login = report.testResults?.find((f) => f.name?.includes('login'));
     const firstQa = login?.assertionResults?.[0]?.meta?.qa as {
       steps?: Array<{ name: string }>;
     };
-    assert.ok(firstQa?.steps && firstQa.steps.length >= 3);
+    expect(firstQa?.steps && firstQa.steps.length >= 3).toBeTruthy();
   });
 });

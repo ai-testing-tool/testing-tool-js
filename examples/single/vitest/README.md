@@ -145,9 +145,24 @@ export QANALYZER_SPRINT="Sprint 42"
 
 | Mode | Command | Forge contact |
 | ---- | ------- | ------------- |
-| Local | `npm test` | None |
+| Local pilot | `npm test` (in this dir) or `npm test` (monorepo root — all `qa-*` + pilot) | None for pilot; unit setup clears ingest env |
 | Path A | `npm run test:json` + `@qanalyzer/forge-api-client` | Ingest URL + token |
 | Path B | `QANALYZER_MODE=ingest` + `@qanalyzer/forge-vitest` reporter | Same secrets |
+
+### Monorepo test runner
+
+[`vitest.config.ts`](./vitest.config.ts) defines one Vitest **project** per package. `npm test` at the monorepo root runs [`scripts/test-with-reports.sh`](../../scripts/test-with-reports.sh) and writes:
+
+| Project | Report path |
+| ------- | ----------- |
+| `pilot` | `examples/single/vitest/qanalyzer-results.json` |
+| `qa-jest` | `qa-jest/qanalyzer-results.json` |
+| `qa-vitest` | `qa-vitest/qanalyzer-results.json` |
+| … | `qa-<name>/qanalyzer-results.json` |
+
+Single package: `npm test -w @qanalyzer/forge-jest` → `qa-jest/qanalyzer-results.json`.
+
+Upload every report: `sh scripts/upload-package-reports.sh` (needs ingest env).
 
 ## Test map
 

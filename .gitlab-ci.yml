@@ -1,0 +1,81 @@
+# QAnalyzer JS SDK pipeline
+# Builds and tests all workspaces, pushes a Vitest pilot launch to Forge on main/develop,
+# and publishes packages to npm on lockstep release tags (v1.2.3).
+#
+# Ingest credentials — use the same values as qanalyzer-app/.env:
+#   QANALYZER_INGEST_URL
+#   QANALYZER_INGEST_TOKEN
+#   JIRA_PROJECT_KEY  (optional, defaults to AUTH)
+#
+# GitLab: Settings → CI/CD → Variables (Masked + Protected recommended).
+# Monorepo / local: scripts/load-ingest-env.sh reads ../qanalyzer-app/.env automatically.
+#
+# npm publish also needs NPM_TOKEN (see scripts/publish.sh).
+
+stages:
+  - verify
+  - ingest
+  - release
+
+variables:
+  NODE_IMAGE: node:22-alpine
+  JIRA_PROJECT_KEY: AUTH
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "develop"
+    - if: $CI_COMMIT_TAG
+
+.node_cache:
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules/
+
+test:
+  stage: verify
+  image: $NODE_IMAGE
+  extends: .node_cache
+  before_script:
+    - npm ci
+  script:
+    - npm test
+  artifacts:
+    when: always
+    paths:
+      - qa-*/qanalyzer-results.json
+      - examples/single/vitest/qanalyzer-results.json
+    expire_in: 7 days
+
+# Dogfood ingest: upload each package's qanalyzer-results.json to Forge.
+vitest_pilot_ingest:
+  stage: ingest
+  image: $NODE_IMAGE
+  extends: .node_cache
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "develop"
+  before_script:
+    - npm ci
+  script:
+    - npm test
+    - . scripts/load-ingest-env.sh
+    - QANALYZER_LAUNCH_PREFIX="gitlab" sh scripts/upload-package-reports.sh
+
+npm_publish:
+  stage: release
+  image: $NODE_IMAGE
+  extends: .node_cache
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/'
+  variables:
+    RELEASE_TAG: $CI_COMMIT_TAG
+  before_script:
+    - npm ci
+  script:
+    - npm config set "//registry.npmjs.org/:_authToken=${NPM_TOKEN}"
+    - npm run release

@@ -1,15 +1,14 @@
-import assert from 'node:assert/strict';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import { extractIssueKeys, firstIssueKey, projectKeyFromIssueKey } from '../utils/issue-keys.js';
 
-describe('issue-keys', () => {
-  it('extracts keys in order', () => {
-    assert.deepEqual(extractIssueKeys('AUTH-101 login', 'also PROJ-2'), [
+qaDescribe('issue-keys', () => {
+  qaItAuto('extracts keys in order', () => {
+    expect(extractIssueKeys('AUTH-101 login', 'also PROJ-2')).toEqual([
       'AUTH-101',
       'PROJ-2',
     ]);
-    assert.equal(firstIssueKey('no keys', 'AUTH-55 title'), 'AUTH-55');
-    assert.equal(projectKeyFromIssueKey('AUTH-101'), 'AUTH');
+    expect(firstIssueKey('no keys', 'AUTH-55 title')).toBe('AUTH-55');
+    expect(projectKeyFromIssueKey('AUTH-101')).toBe('AUTH');
   });
 });

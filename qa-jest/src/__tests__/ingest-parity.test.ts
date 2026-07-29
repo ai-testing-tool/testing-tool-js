@@ -1,8 +1,7 @@
-import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import {
   ModeEnum,
@@ -109,8 +108,8 @@ function assertionFingerprint(payload: IngestPayload): string[] {
   return rows.sort();
 }
 
-describe('dual-path FR41 parity (NFR24)', () => {
-  it('AggregatedResult and native --json yield schema-equivalent payloads', () => {
+qaDescribe('dual-path FR41 parity (NFR24)', () => {
+  qaItAuto('AggregatedResult and native --json yield schema-equivalent payloads', () => {
     const fromReporter = buildIngestPayload({
       projectKey: 'AUTH',
       report: toJestJsonReport(AGGREGATED),
@@ -124,20 +123,20 @@ describe('dual-path FR41 parity (NFR24)', () => {
       launchName: 'ci #1',
     });
 
-    assert.equal(fromReporter.format, 'jest-json');
-    assert.equal(fromCli.format, 'jest-json');
-    assert.equal(fromReporter.projectKey, fromCli.projectKey);
-    assert.equal(fromReporter.launchName, fromCli.launchName);
-    assert.equal(fromReporter.report.numTotalTests, fromCli.report.numTotalTests);
-    assert.equal(fromReporter.report.numPassedTests, fromCli.report.numPassedTests);
-    assert.equal(fromReporter.report.numFailedTests, fromCli.report.numFailedTests);
-    assert.equal(fromReporter.report.success, fromCli.report.success);
-    assert.deepEqual(assertionFingerprint(fromReporter), assertionFingerprint(fromCli));
+    expect(fromReporter.format).toBe('jest-json');
+    expect(fromCli.format).toBe('jest-json');
+    expect(fromReporter.projectKey).toBe(fromCli.projectKey);
+    expect(fromReporter.launchName).toBe(fromCli.launchName);
+    expect(fromReporter.report.numTotalTests).toBe(fromCli.report.numTotalTests);
+    expect(fromReporter.report.numPassedTests).toBe(fromCli.report.numPassedTests);
+    expect(fromReporter.report.numFailedTests).toBe(fromCli.report.numFailedTests);
+    expect(fromReporter.report.success).toBe(fromCli.report.success);
+    expect(assertionFingerprint(fromReporter)).toEqual(assertionFingerprint(fromCli));
   });
 });
 
-describe('mode=file publish', () => {
-  it('writes FR41 payload with format jest-json', async () => {
+qaDescribe('mode=file publish', () => {
+  qaItAuto('writes FR41 payload with format jest-json', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-jest-'));
     const out = join(dir, 'qanalyzer-results.json');
 
@@ -154,13 +153,13 @@ describe('mode=file publish', () => {
         format: 'jest-json',
       });
 
-      assert.ok(payload);
-      assert.equal(payload.format, 'jest-json');
+      expect(payload).toBeTruthy();
+      expect(payload.format).toBe('jest-json');
 
       const written = JSON.parse(readFileSync(out, 'utf8')) as IngestPayload;
-      assert.equal(written.format, 'jest-json');
-      assert.equal(written.projectKey, 'AUTH');
-      assert.equal(written.report.testResults?.[0]?.assertionResults?.[0]?.title, 'AUTH-101 login');
+      expect(written.format).toBe('jest-json');
+      expect(written.projectKey).toBe('AUTH');
+      expect(written.report.testResults?.[0]?.assertionResults?.[0]?.title).toBe('AUTH-101 login');
     } finally {
       QAnalyzerReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
@@ -168,13 +167,13 @@ describe('mode=file publish', () => {
   });
 });
 
-describe('JestQaReporter modes', () => {
-  it('mode=off completes without credentials', async () => {
+qaDescribe('JestQaReporter modes', () => {
+  qaItAuto('mode=off completes without credentials', async () => {
     const reporter = new JestQaReporter({}, { mode: ModeEnum.off });
     await reporter.onRunComplete(new Set(), AGGREGATED);
   });
 
-  it('overrides stale success=false from onRunComplete when nothing failed', async () => {
+  qaItAuto('overrides stale success=false from onRunComplete when nothing failed', async () => {
     // Jest sets aggregatedResults.success after reporters run, so an all-green
     // run still hands reporters success=false. The published report must not
     // mirror that stale value.
@@ -224,14 +223,14 @@ describe('JestQaReporter modes', () => {
 
       const written = JSON.parse(readFileSync(out, 'utf8')) as IngestPayload;
       const report = typeof written.report === 'object' ? written.report : null;
-      assert.equal(report?.success, true);
+      expect(report?.success).toBe(true);
     } finally {
       QAnalyzerReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
     }
   });
 
-  it('keeps success=false via reporter when the run has failures', async () => {
+  qaItAuto('keeps success=false via reporter when the run has failures', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-jest-fail-'));
     const out = join(dir, 'out.json');
 
@@ -248,14 +247,14 @@ describe('JestQaReporter modes', () => {
 
       const written = JSON.parse(readFileSync(out, 'utf8')) as IngestPayload;
       const report = typeof written.report === 'object' ? written.report : null;
-      assert.equal(report?.success, false);
+      expect(report?.success).toBe(false);
     } finally {
       QAnalyzerReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
     }
   });
 
-  it('mode=file via reporter writes payload', async () => {
+  qaItAuto('mode=file via reporter writes payload', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-jest-rep-'));
     const out = join(dir, 'out.json');
 
@@ -271,8 +270,8 @@ describe('JestQaReporter modes', () => {
       await reporter.onRunComplete(new Set(), AGGREGATED);
 
       const written = JSON.parse(readFileSync(out, 'utf8')) as IngestPayload;
-      assert.equal(written.format, 'jest-json');
-      assert.equal(written.projectKey, 'AUTH');
+      expect(written.format).toBe('jest-json');
+      expect(written.projectKey).toBe('AUTH');
     } finally {
       QAnalyzerReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });

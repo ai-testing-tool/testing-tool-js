@@ -35,6 +35,8 @@ function envToConfig() {
         ingest: {
             url: readEnv(env_enum_1.EnvIngestEnum.url),
             token: readEnv(env_enum_1.EnvIngestEnum.token),
+            forgeIngestUrl: readEnv(env_enum_1.EnvIngestEnum.forgeUrl),
+            forgeIngestToken: readEnv(env_enum_1.EnvIngestEnum.forgeToken),
             timeoutMs: readNumber(env_enum_1.EnvIngestEnum.timeoutMs),
             maxPayloadBytes: readNumber(env_enum_1.EnvIngestEnum.maxPayloadBytes),
         },

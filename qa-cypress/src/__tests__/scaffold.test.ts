@@ -1,6 +1,5 @@
-import assert from 'node:assert/strict';
 import { EventEmitter } from 'node:events';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import { ModeEnum, QAnalyzerReporter } from '@qanalyzer/forge-commons';
 
@@ -9,8 +8,8 @@ import { MetadataManager, qa } from '../mocha.js';
 import plugin from '../plugin.js';
 import { CypressQaReporter } from '../reporter.js';
 
-describe('@qanalyzer/forge-cypress scaffold', () => {
-  it('loads reporter module and no-ops publish when mode=off', async () => {
+qaDescribe('@qanalyzer/forge-cypress scaffold', () => {
+  qaItAuto('loads reporter module and no-ops publish when mode=off', async () => {
     QAnalyzerReporter.resetInstance();
 
     const runner = new EventEmitter() as EventEmitter & {
@@ -22,7 +21,7 @@ describe('@qanalyzer/forge-cypress scaffold', () => {
     const reporter = new CypressQaReporter(runner as never, {
       reporterOptions: { mode: ModeEnum.off, projectKey: 'AUTH' },
     });
-    assert.ok(reporter);
+    expect(reporter).toBeTruthy();
 
     runner.emit('test'); // Mocha EVENT_TEST_BEGIN
     runner.emit('end'); // Mocha EVENT_RUN_END
@@ -32,62 +31,57 @@ describe('@qanalyzer/forge-cypress scaffold', () => {
     await new Promise((r) => setImmediate(r));
 
     const instance = QAnalyzerReporter.getInstance({ mode: ModeEnum.off });
-    assert.equal(instance.getConfig().mode, ModeEnum.off);
+    expect(instance.getConfig().mode).toBe(ModeEnum.off);
   });
 
-  it('plugin registration does not throw', () => {
+  qaItAuto('plugin registration does not throw', () => {
     const events: string[] = [];
     const on = (event: string) => {
       events.push(event);
     };
     const config = { projectRoot: '/tmp' };
     const out = plugin(on, config);
-    assert.equal(out, config);
-    assert.ok(events.includes('before:run'));
-    assert.ok(events.includes('after:run'));
-    assert.ok(events.includes('after:screenshot'));
+    expect(out).toBe(config);
+    expect(events.includes('before:run')).toBeTruthy();
+    expect(events.includes('after:run')).toBeTruthy();
+    expect(events.includes('after:screenshot')).toBeTruthy();
   });
 
-  it('metadata registration does not throw and records tasks', () => {
+  qaItAuto('metadata registration does not throw and records tasks', () => {
     MetadataManager.clear();
     const tasks: Record<string, (value?: unknown) => unknown> = {};
     const on = (_event: 'task', map: Record<string, (value?: unknown) => unknown>) => {
       Object.assign(tasks, map);
     };
     metadata(on);
-    assert.equal(typeof tasks.qaTitle, 'function');
-    assert.equal(tasks.qaTitle?.('AUTH-101'), null);
-    assert.deepEqual(MetadataManager.getEntries(), [
+    expect(typeof tasks.qaTitle).toBe('function');
+    expect(tasks.qaTitle?.('AUTH-101')).toBe(null);
+    expect(MetadataManager.getEntries()).toEqual([
       { type: 'qa-title', body: 'AUTH-101' },
     ]);
   });
 
-  it('qa.step rejects async callbacks (FR64)', () => {
+  qaItAuto('qa.step rejects async callbacks (FR64)', () => {
     MetadataManager.clear();
-    assert.throws(
-      () =>
+    expect(() =>
         qa.step('bad', () => {
           return Promise.resolve() as unknown as void;
-        }),
-      /synchronous callback/,
-    );
+        })).toThrow(/synchronous callback/);
   });
 
-  it('qa helpers record sync step metadata without Cypress', () => {
+  qaItAuto('qa helpers record sync step metadata without Cypress', () => {
     MetadataManager.clear();
     qa.suite('Login');
     qa.step('open', () => {
       // sync only
     });
     const entries = MetadataManager.getEntries();
-    assert.ok(entries.some((e) => e.type === 'qa-suite' && e.body === 'Login'));
-    assert.ok(entries.some((e) => e.type === 'qa-step' && e.body === 'open'));
-    assert.ok(
-      entries.some(
+    expect(entries.some((e) => e.type === 'qa-suite' && e.body === 'Login')).toBeTruthy();
+    expect(entries.some((e) => e.type === 'qa-step' && e.body === 'open')).toBeTruthy();
+    expect(entries.some(
         (e) =>
           e.type === 'qa-step-end' &&
           (e.body as { status: string }).status === 'passed',
-      ),
-    );
+      ),).toBeTruthy();
   });
 });

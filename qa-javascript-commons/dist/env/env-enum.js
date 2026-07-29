@@ -18,6 +18,8 @@ var EnvIngestEnum;
 (function (EnvIngestEnum) {
     EnvIngestEnum["url"] = "QANALYZER_INGEST_URL";
     EnvIngestEnum["token"] = "QANALYZER_INGEST_TOKEN";
+    EnvIngestEnum["forgeUrl"] = "QANALYZER_FORGE_INGEST_URL";
+    EnvIngestEnum["forgeToken"] = "QANALYZER_FORGE_INGEST_TOKEN";
     EnvIngestEnum["timeoutMs"] = "QANALYZER_INGEST_TIMEOUT_MS";
     EnvIngestEnum["maxPayloadBytes"] = "QANALYZER_INGEST_MAX_PAYLOAD_BYTES";
 })(EnvIngestEnum || (exports.EnvIngestEnum = EnvIngestEnum = {}));

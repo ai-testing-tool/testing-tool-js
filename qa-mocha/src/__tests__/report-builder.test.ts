@@ -1,12 +1,11 @@
-import assert from 'node:assert/strict';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import { qaMetaFromEntries } from '@qanalyzer/forge-commons';
 
 import { toJestJsonReport } from '../report-builder.js';
 
-describe('toJestJsonReport', () => {
-  it('maps Mocha specs to FR41 shape A with meta.qa steps', () => {
+qaDescribe('toJestJsonReport', () => {
+  qaItAuto('maps Mocha specs to FR41 shape A with meta.qa steps', () => {
     const wire = qaMetaFromEntries(
       [
         { type: 'qa-suite', body: 'API\tCRUD' },
@@ -42,16 +41,16 @@ describe('toJestJsonReport', () => {
       1_700_000_000_000,
     );
 
-    assert.equal(report.numTotalTests, 2);
-    assert.equal(report.numPassedTests, 1);
-    assert.equal(report.numFailedTests, 1);
-    assert.equal(report.success, false);
-    assert.equal(report.testResults?.[0]?.status, 'failed');
+    expect(report.numTotalTests).toBe(2);
+    expect(report.numPassedTests).toBe(1);
+    expect(report.numFailedTests).toBe(1);
+    expect(report.success).toBe(false);
+    expect(report.testResults?.[0]?.status).toBe('failed');
     const qaMeta = report.testResults?.[0]?.assertionResults?.[0]?.meta?.qa as
       | { framework?: string; host?: { reporter?: string }; steps?: Array<{ name: string }> }
       | undefined;
-    assert.equal(qaMeta?.framework, 'mocha');
-    assert.equal(qaMeta?.host?.reporter, '@qanalyzer/forge-mocha');
-    assert.equal(qaMeta?.steps?.[0]?.name, 'GET /users');
+    expect(qaMeta?.framework).toBe('mocha');
+    expect(qaMeta?.host?.reporter).toBe('@qanalyzer/forge-mocha');
+    expect(qaMeta?.steps?.[0]?.name).toBe('GET /users');
   });
 });

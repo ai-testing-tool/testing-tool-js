@@ -1,0 +1,136 @@
+{
+  "projectKey": "AUTH",
+  "launchName": "sdk",
+  "format": "vitest-json",
+  "report": {
+    "numTotalTestSuites": 1,
+    "numPassedTestSuites": 1,
+    "numFailedTestSuites": 0,
+    "numPendingTestSuites": 0,
+    "numTotalTests": 3,
+    "numPassedTests": 3,
+    "numFailedTests": 0,
+    "numPendingTests": 0,
+    "numTodoTests": 0,
+    "startTime": 1785298180839,
+    "success": true,
+    "testResults": [
+      {
+        "name": "unknown",
+        "status": "passed",
+        "startTime": 1785298180839,
+        "endTime": 1785298181137,
+        "assertionResults": [
+          {
+            "ancestorTitles": [
+              "@qanalyzer/forge-api-client CLI"
+            ],
+            "fullName": "@qanalyzer/forge-api-client CLI > prints help and exits 0",
+            "title": "prints help and exits 0",
+            "status": "passed",
+            "duration": 36,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@qanalyzer/forge-vitest"
+                },
+                "title": "prints help and exits 0",
+                "issueKeys": [
+                  "AUTH-301"
+                ],
+                "suite": [
+                  {
+                    "title": "@qanalyzer/forge-api-client CLI"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "ancestorTitles": [
+              "@qanalyzer/forge-api-client CLI"
+            ],
+            "fullName": "@qanalyzer/forge-api-client CLI > requires --project when uploading a report",
+            "title": "requires --project when uploading a report",
+            "status": "passed",
+            "duration": 33,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@qanalyzer/forge-vitest"
+                },
+                "title": "requires --project when uploading a report",
+                "issueKeys": [
+                  "AUTH-302"
+                ],
+                "suite": [
+                  {
+                    "title": "@qanalyzer/forge-api-client CLI"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "ancestorTitles": [
+              "@qanalyzer/forge-api-client CLI"
+            ],
+            "fullName": "@qanalyzer/forge-api-client CLI > builds payload from jest-json report (dry — no network)",
+            "title": "builds payload from jest-json report (dry — no network)",
+            "status": "passed",
+            "duration": 43,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@qanalyzer/forge-vitest"
+                },
+                "title": "builds payload from jest-json report (dry — no network)",
+                "issueKeys": [
+                  "AUTH-303"
+                ],
+                "suite": [
+                  {
+                    "title": "@qanalyzer/forge-api-client CLI"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

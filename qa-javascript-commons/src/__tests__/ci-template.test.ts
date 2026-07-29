@@ -1,5 +1,4 @@
-import assert from 'node:assert/strict';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import {
   buildCiTemplateContext,
@@ -37,8 +36,8 @@ const EXPECTED_FILENAMES: Record<CiPlatform, (fw: CiFramework) => string> = {
   bitbucket: () => 'bitbucket-pipelines.yml',
 };
 
-describe('buildCiTemplateContext', () => {
-  it('fills GitHub secret and launch expressions (proposal §3.2)', () => {
+qaDescribe('buildCiTemplateContext', () => {
+  qaItAuto('fills GitHub secret and launch expressions (proposal §3.2)', () => {
     const ctx = buildCiTemplateContext({
       platform: 'github',
       framework: 'vitest',
@@ -46,27 +45,27 @@ describe('buildCiTemplateContext', () => {
       projectKey: 'AUTH',
     });
 
-    assert.equal(ctx.nodeVersion, '22');
-    assert.equal(ctx.reportFile, 'qanalyzer-results.json');
-    assert.equal(ctx.ingestUrlSecret, 'QANALYZER_INGEST_URL');
-    assert.equal(ctx.ingestTokenSecret, 'QANALYZER_INGEST_TOKEN');
-    assert.equal(ctx.projectKeyExpr, '${{ vars.JIRA_PROJECT_KEY }}');
-    assert.equal(ctx.ingestUrlExpr, '${{ secrets.QANALYZER_INGEST_URL }}');
-    assert.equal(ctx.ingestTokenExpr, '${{ secrets.QANALYZER_INGEST_TOKEN }}');
-    assert.equal(ctx.launchNameExpr, '${{ github.workflow }} #${{ github.run_number }}');
-    assert.equal(ctx.alwaysGuard, 'if: always()');
+    expect(ctx.nodeVersion).toBe('22');
+    expect(ctx.reportFile).toBe('qanalyzer-results.json');
+    expect(ctx.ingestUrlSecret).toBe('QANALYZER_INGEST_URL');
+    expect(ctx.ingestTokenSecret).toBe('QANALYZER_INGEST_TOKEN');
+    expect(ctx.projectKeyExpr).toBe('${{ vars.JIRA_PROJECT_KEY }}');
+    expect(ctx.ingestUrlExpr).toBe('${{ secrets.QANALYZER_INGEST_URL }}');
+    expect(ctx.ingestTokenExpr).toBe('${{ secrets.QANALYZER_INGEST_TOKEN }}');
+    expect(ctx.launchNameExpr).toBe('${{ github.workflow }} #${{ github.run_number }}');
+    expect(ctx.alwaysGuard).toBe('if: always()');
   });
 
-  it('fills GitLab / Azure / Jenkins / Bitbucket defaults', () => {
+  qaItAuto('fills GitLab / Azure / Jenkins / Bitbucket defaults', () => {
     const gitlab = buildCiTemplateContext({
       platform: 'gitlab',
       framework: 'vitest',
       ingestPath: 'upload',
       projectKey: 'AUTH',
     });
-    assert.equal(gitlab.launchNameExpr, '$CI_PIPELINE_ID');
-    assert.equal(gitlab.alwaysGuard, 'when: always');
-    assert.equal(gitlab.projectKeyExpr, '$JIRA_PROJECT_KEY');
+    expect(gitlab.launchNameExpr).toBe('$CI_PIPELINE_ID');
+    expect(gitlab.alwaysGuard).toBe('when: always');
+    expect(gitlab.projectKeyExpr).toBe('$JIRA_PROJECT_KEY');
 
     const azure = buildCiTemplateContext({
       platform: 'azure-devops',
@@ -74,8 +73,8 @@ describe('buildCiTemplateContext', () => {
       ingestPath: 'upload',
       projectKey: 'AUTH',
     });
-    assert.equal(azure.alwaysGuard, 'condition: always()');
-    assert.equal(azure.projectKeyExpr, '$(JiraProjectKey)');
+    expect(azure.alwaysGuard).toBe('condition: always()');
+    expect(azure.projectKeyExpr).toBe('$(JiraProjectKey)');
 
     const jenkins = buildCiTemplateContext({
       platform: 'jenkins',
@@ -83,9 +82,9 @@ describe('buildCiTemplateContext', () => {
       ingestPath: 'upload',
       projectKey: 'AUTH',
     });
-    assert.equal(jenkins.launchNameExpr, '${JOB_NAME} #${BUILD_NUMBER}');
-    assert.ok(jenkins.alwaysGuard);
-    assert.match(jenkins.alwaysGuard, /post \{ always/);
+    expect(jenkins.launchNameExpr).toBe('${JOB_NAME} #${BUILD_NUMBER}');
+    expect(jenkins.alwaysGuard).toBeTruthy();
+    expect(jenkins.alwaysGuard).toMatch(/post \{ always/);
 
     const bitbucket = buildCiTemplateContext({
       platform: 'bitbucket',
@@ -93,82 +92,64 @@ describe('buildCiTemplateContext', () => {
       ingestPath: 'upload',
       projectKey: 'AUTH',
     });
-    assert.equal(bitbucket.launchNameExpr, 'build-$BITBUCKET_BUILD_NUMBER');
+    expect(bitbucket.launchNameExpr).toBe('build-$BITBUCKET_BUILD_NUMBER');
   });
 });
 
-describe('listCiTemplateVariants', () => {
-  it('returns upload (Vitest/Jest/Playwright) + reporter (… + WDIO) matrix', () => {
+qaDescribe('listCiTemplateVariants', () => {
+  qaItAuto('returns upload (Vitest/Jest/Playwright) + reporter (… + WDIO) matrix', () => {
     const variants = listCiTemplateVariants();
     // 5 platforms × 3 upload + 5 × 7 reporter = 50
-    assert.equal(variants.length, 50);
+    expect(variants.length).toBe(50);
     for (const platform of PLATFORMS) {
       for (const framework of FRAMEWORKS) {
-        assert.ok(
-          variants.some(
+        expect(variants.some(
             (v) =>
               v.platform === platform &&
               v.framework === framework &&
               v.ingestPath === 'upload',
-          ),
-          `missing ${platform}/${framework}/upload`,
-        );
+          )).toBeTruthy();
       }
       for (const framework of REPORTER_FRAMEWORKS) {
-        assert.ok(
-          variants.some(
+        expect(variants.some(
             (v) =>
               v.platform === platform &&
               v.framework === framework &&
               v.ingestPath === 'reporter',
-          ),
-          `missing ${platform}/${framework}/reporter`,
-        );
+          )).toBeTruthy();
       }
-      assert.ok(
-        !variants.some(
+      expect(!variants.some(
           (v) =>
             v.platform === platform &&
             v.framework === 'cypress' &&
             v.ingestPath === 'upload',
-        ),
-        `Cypress upload must be unsupported (${platform})`,
-      );
-      assert.ok(
-        !variants.some(
+        )).toBeTruthy();
+      expect(!variants.some(
           (v) =>
             v.platform === platform &&
             v.framework === 'wdio' &&
             v.ingestPath === 'upload',
-        ),
-        `WDIO upload must be unsupported (${platform})`,
-      );
-      assert.ok(
-        !variants.some(
+        )).toBeTruthy();
+      expect(!variants.some(
           (v) =>
             v.platform === platform &&
             v.framework === 'mocha' &&
             v.ingestPath === 'upload',
-        ),
-        `Mocha upload must be unsupported (${platform})`,
-      );
-      assert.ok(
-        !variants.some(
+        )).toBeTruthy();
+      expect(!variants.some(
           (v) =>
             v.platform === platform &&
             v.framework === 'cucumberjs' &&
             v.ingestPath === 'upload',
-        ),
-        `CucumberJS upload must be unsupported (${platform})`,
-      );
+        )).toBeTruthy();
     }
   });
 });
 
-describe('generateCiTemplate — all platforms × frameworks', () => {
+qaDescribe('generateCiTemplate — all platforms × frameworks', () => {
   for (const platform of PLATFORMS) {
     for (const framework of FRAMEWORKS) {
-      it(`${platform} / ${framework} / upload`, () => {
+      qaItAuto(`${platform} / ${framework} / upload`, () => {
         const result = generateCiTemplate({
           platform,
           framework,
@@ -176,52 +157,41 @@ describe('generateCiTemplate — all platforms × frameworks', () => {
           projectKey: 'AUTH',
         });
 
-        assert.equal(result.platform, platform);
-        assert.equal(result.framework, framework);
-        assert.equal(result.ingestPath, 'upload');
-        assert.equal(result.filename, EXPECTED_FILENAMES[platform](framework));
-        assert.match(result.content, /npx @qanalyzer\/forge-api-client/);
-        assert.doesNotMatch(result.content, /Bearer\s+\S+/);
-        assert.doesNotMatch(result.content, /qanalyzer-upload\.js/);
-        assert.ok(result.secretsSetup.length >= 2);
-        assert.ok(result.variablesSetup.length >= 1);
-        assert.ok(
-          result.variablesSetup.some((v) => v.name === 'QANALYZER_PLAN_NAME'),
-          'documents QANALYZER_PLAN_NAME for Test Plans (FR158)',
-        );
-        assert.ok(
-          result.variablesSetup.some((v) => v.name === 'QANALYZER_FIX_VERSION'),
-          'documents QANALYZER_FIX_VERSION for version tags (FR21)',
-        );
+        expect(result.platform).toBe(platform);
+        expect(result.framework).toBe(framework);
+        expect(result.ingestPath).toBe('upload');
+        expect(result.filename).toBe(EXPECTED_FILENAMES[platform](framework));
+        expect(result.content).toMatch(/npx @qanalyzer\/forge-api-client/);
+        expect(result.content).not.toMatch(/Bearer\s+\S+/);
+        expect(result.content).not.toMatch(/qanalyzer-upload\.js/);
+        expect(result.secretsSetup.length >= 2).toBeTruthy();
+        expect(result.variablesSetup.length >= 1).toBeTruthy();
+        expect(result.variablesSetup.some((v) => v.name === 'QANALYZER_PLAN_NAME')).toBeTruthy();
+        expect(result.variablesSetup.some((v) => v.name === 'QANALYZER_FIX_VERSION')).toBeTruthy();
 
         if (framework === 'vitest') {
-          assert.match(
-            result.content,
-            /npx vitest run --reporter=json --outputFile=qanalyzer-results\.json/,
-          );
+          expect(result.content).toMatch(/npx vitest run --reporter=json --outputFile=qanalyzer-results\.json/);
         } else if (framework === 'jest') {
-          assert.match(result.content, /npx jest --json --outputFile=qanalyzer-results\.json/);
+          expect(result.content).toMatch(/npx jest --json --outputFile=qanalyzer-results\.json/);
         } else {
-          assert.match(result.content, /npx playwright test --reporter=json/);
-          assert.match(result.content, /npx playwright install --with-deps/);
+          expect(result.content).toMatch(/npx playwright test --reporter=json/);
+          expect(result.content).toMatch(/npx playwright install --with-deps/);
         }
       });
     }
   }
 });
 
-describe('generateCiTemplate — Vitest upload snapshots (proposal §5)', () => {
-  it('§5.1 GitHub', () => {
+qaDescribe('generateCiTemplate — Vitest upload snapshots (proposal §5)', () => {
+  qaItAuto('§5.1 GitHub', () => {
     const { content, filename } = generateCiTemplate({
       platform: 'github',
       framework: 'vitest',
       ingestPath: 'upload',
       projectKey: 'AUTH',
     });
-    assert.equal(filename, '.github/workflows/qanalyzer-vitest.yml');
-    assert.equal(
-      content,
-      `name: QAnalyzer Vitest
+    expect(filename).toBe('.github/workflows/qanalyzer-vitest.yml');
+    expect(content).toBe(`name: QAnalyzer Vitest
 
 on:
   push:
@@ -249,26 +219,23 @@ jobs:
             --project "\${{ vars.JIRA_PROJECT_KEY }}" \\
             --launch "\${{ github.workflow }} #\${{ github.run_number }}" \\
             --report qanalyzer-results.json
-`,
-    );
+`,);
   });
 
-  it('§5.2 GitLab', () => {
+  qaItAuto('§5.2 GitLab', () => {
     const { content, filename } = generateCiTemplate({
       platform: 'gitlab',
       framework: 'vitest',
       ingestPath: 'upload',
       projectKey: 'AUTH',
     });
-    assert.equal(filename, '.gitlab-ci.yml');
-    assert.match(content, /# QAnalyzer fragment/);
-    assert.match(content, /when: always/);
-    assert.match(content, /needs: \[vitest\]/);
-    assert.match(content, /--project "\$JIRA_PROJECT_KEY"/);
-    assert.match(content, /--launch "\$CI_PIPELINE_ID"/);
-    assert.equal(
-      content,
-      `# QAnalyzer fragment — merge into your .gitlab-ci.yml
+    expect(filename).toBe('.gitlab-ci.yml');
+    expect(content).toMatch(/# QAnalyzer fragment/);
+    expect(content).toMatch(/when: always/);
+    expect(content).toMatch(/needs: \[vitest\]/);
+    expect(content).toMatch(/--project "\$JIRA_PROJECT_KEY"/);
+    expect(content).toMatch(/--launch "\$CI_PIPELINE_ID"/);
+    expect(content).toBe(`# QAnalyzer fragment — merge into your .gitlab-ci.yml
 # Vitest upload path
 stages:
   - test
@@ -299,24 +266,21 @@ qanalyzer_upload:
         --project "$JIRA_PROJECT_KEY" \\
         --launch "$CI_PIPELINE_ID" \\
         --report qanalyzer-results.json
-`,
-    );
+`,);
   });
 
-  it('§5.3 Jenkins', () => {
+  qaItAuto('§5.3 Jenkins', () => {
     const { content, filename } = generateCiTemplate({
       platform: 'jenkins',
       framework: 'vitest',
       ingestPath: 'upload',
       projectKey: 'AUTH',
     });
-    assert.equal(filename, 'Jenkinsfile');
-    assert.match(content, /withCredentials/);
-    assert.match(content, /credentialsId: 'qanalyzer-ingest-url'/);
-    assert.match(content, /JIRA_PROJECT_KEY = 'AUTH'/);
-    assert.equal(
-      content,
-      `// QAnalyzer fragment — Vitest upload path — merge into your Jenkinsfile
+    expect(filename).toBe('Jenkinsfile');
+    expect(content).toMatch(/withCredentials/);
+    expect(content).toMatch(/credentialsId: 'qanalyzer-ingest-url'/);
+    expect(content).toMatch(/JIRA_PROJECT_KEY = 'AUTH'/);
+    expect(content).toBe(`// QAnalyzer fragment — Vitest upload path — merge into your Jenkinsfile
 pipeline {
   agent any
   environment {
@@ -346,21 +310,18 @@ pipeline {
     }
   }
 }
-`,
-    );
+`,);
   });
 
-  it('§5.4 Bitbucket', () => {
+  qaItAuto('§5.4 Bitbucket', () => {
     const { content, filename } = generateCiTemplate({
       platform: 'bitbucket',
       framework: 'vitest',
       ingestPath: 'upload',
       projectKey: 'AUTH',
     });
-    assert.equal(filename, 'bitbucket-pipelines.yml');
-    assert.equal(
-      content,
-      `# QAnalyzer fragment — merge into your bitbucket-pipelines.yml
+    expect(filename).toBe('bitbucket-pipelines.yml');
+    expect(content).toBe(`# QAnalyzer fragment — merge into your bitbucket-pipelines.yml
 # Vitest upload path — set secured vars QANALYZER_INGEST_URL / QANALYZER_INGEST_TOKEN
 image: node:22
 
@@ -383,21 +344,18 @@ pipelines:
               --project "$JIRA_PROJECT_KEY" \\
               --launch "build-$BITBUCKET_BUILD_NUMBER" \\
               --report qanalyzer-results.json
-`,
-    );
+`,);
   });
 
-  it('§5.5 Azure DevOps', () => {
+  qaItAuto('§5.5 Azure DevOps', () => {
     const { content, filename } = generateCiTemplate({
       platform: 'azure-devops',
       framework: 'vitest',
       ingestPath: 'upload',
       projectKey: 'AUTH',
     });
-    assert.equal(filename, 'azure-pipelines.yml');
-    assert.equal(
-      content,
-      `# QAnalyzer fragment — Vitest upload path
+    expect(filename).toBe('azure-pipelines.yml');
+    expect(content).toBe(`# QAnalyzer fragment — Vitest upload path
 trigger:
   - main
 
@@ -431,24 +389,23 @@ steps:
     env:
       QANALYZER_INGEST_URL: $(QANALYZER_INGEST_URL)
       QANALYZER_INGEST_TOKEN: $(QANALYZER_INGEST_TOKEN)
-`,
-    );
+`,);
   });
 });
 
-describe('reporter path (@qanalyzer/forge-vitest / @qanalyzer/forge-jest / @qanalyzer/forge-mocha / @qanalyzer/forge-cucumberjs / @qanalyzer/forge-cypress / @qanalyzer/forge-playwright / @qanalyzer/forge-wdio)', () => {
+qaDescribe('reporter path (@qanalyzer/forge-vitest / @qanalyzer/forge-jest / @qanalyzer/forge-mocha / @qanalyzer/forge-cucumberjs / @qanalyzer/forge-cypress / @qanalyzer/forge-playwright / @qanalyzer/forge-wdio)', () => {
   for (const platform of PLATFORMS) {
     for (const framework of REPORTER_FRAMEWORKS) {
-      it(`${platform} / ${framework} / reporter`, () => {
+      qaItAuto(`${platform} / ${framework} / reporter`, () => {
         const result = generateCiTemplate({
           platform,
           framework,
           ingestPath: 'reporter',
           projectKey: 'AUTH',
         });
-        assert.equal(result.ingestPath, 'reporter');
-        assert.equal(result.framework, framework);
-        assert.match(result.content, /QANALYZER_MODE/);
+        expect(result.ingestPath).toBe('reporter');
+        expect(result.framework).toBe(framework);
+        expect(result.content).toMatch(/QANALYZER_MODE/);
         const runPattern =
           framework === 'jest'
             ? /npx jest --runInBand/
@@ -463,108 +420,87 @@ describe('reporter path (@qanalyzer/forge-vitest / @qanalyzer/forge-jest / @qana
                     : framework === 'wdio'
                       ? /npx wdio run wdio\.conf\.js/
                       : /npx vitest run/;
-        assert.match(result.content, runPattern);
+        expect(result.content).toMatch(runPattern);
         if (framework === 'playwright') {
-          assert.match(result.content, /npx playwright install --with-deps/);
-          assert.match(result.content, /@qanalyzer\/forge-playwright/);
+          expect(result.content).toMatch(/npx playwright install --with-deps/);
+          expect(result.content).toMatch(/@qanalyzer\/forge-playwright/);
         }
         if (framework === 'wdio') {
-          assert.match(result.content, /@qanalyzer\/forge-wdio/);
-          assert.match(result.content, /headless Chrome/);
+          expect(result.content).toMatch(/@qanalyzer\/forge-wdio/);
+          expect(result.content).toMatch(/headless Chrome/);
         }
         if (framework === 'mocha') {
-          assert.match(result.content, /@qanalyzer\/forge-mocha/);
-          assert.match(result.content, /\.mocharc\.js/);
+          expect(result.content).toMatch(/@qanalyzer\/forge-mocha/);
+          expect(result.content).toMatch(/\.mocharc\.js/);
         }
         if (framework === 'cucumberjs') {
-          assert.match(result.content, /@qanalyzer\/forge-cucumberjs/);
-          assert.match(result.content, /cucumber\.js/);
+          expect(result.content).toMatch(/@qanalyzer\/forge-cucumberjs/);
+          expect(result.content).toMatch(/cucumber\.js/);
         }
-        assert.doesNotMatch(result.content, /@qanalyzer\/forge-api-client/);
-        assert.doesNotMatch(result.content, /Bearer\s+\S+/i);
-        assert.ok(
-          result.variablesSetup.some((v) => v.name === 'QANALYZER_PLAN_NAME'),
-          'documents QANALYZER_PLAN_NAME for Test Plans (FR158)',
-        );
-        assert.ok(
-          result.variablesSetup.some((v) => v.name === 'QANALYZER_FIX_VERSION'),
-          'documents QANALYZER_FIX_VERSION for version tags (FR21)',
-        );
+        expect(result.content).not.toMatch(/@qanalyzer\/forge-api-client/);
+        expect(result.content).not.toMatch(/Bearer\s+\S+/i);
+        expect(result.variablesSetup.some((v) => v.name === 'QANALYZER_PLAN_NAME')).toBeTruthy();
+        expect(result.variablesSetup.some((v) => v.name === 'QANALYZER_FIX_VERSION')).toBeTruthy();
       });
     }
   }
 
-  it('rejects Cypress upload path', () => {
-    assert.throws(
-      () =>
+  qaItAuto('rejects Cypress upload path', () => {
+    expect(() =>
         generateCiTemplate({
           platform: 'github',
           framework: 'cypress',
           ingestPath: 'upload',
           projectKey: 'AUTH',
-        }),
-      /Unsupported CI template variant/,
-    );
+        })).toThrow(/Unsupported CI template variant/);
   });
 
-  it('rejects WDIO upload path', () => {
-    assert.throws(
-      () =>
+  qaItAuto('rejects WDIO upload path', () => {
+    expect(() =>
         generateCiTemplate({
           platform: 'github',
           framework: 'wdio',
           ingestPath: 'upload',
           projectKey: 'AUTH',
-        }),
-      /Unsupported CI template variant/,
-    );
+        })).toThrow(/Unsupported CI template variant/);
   });
 
-  it('rejects Mocha upload path', () => {
-    assert.throws(
-      () =>
+  qaItAuto('rejects Mocha upload path', () => {
+    expect(() =>
         generateCiTemplate({
           platform: 'github',
           framework: 'mocha',
           ingestPath: 'upload',
           projectKey: 'AUTH',
-        }),
-      /Unsupported CI template variant/,
-    );
+        })).toThrow(/Unsupported CI template variant/);
   });
 
-  it('rejects CucumberJS upload path', () => {
-    assert.throws(
-      () =>
+  qaItAuto('rejects CucumberJS upload path', () => {
+    expect(() =>
         generateCiTemplate({
           platform: 'github',
           framework: 'cucumberjs',
           ingestPath: 'upload',
           projectKey: 'AUTH',
-        }),
-      /Unsupported CI template variant/,
-    );
+        })).toThrow(/Unsupported CI template variant/);
   });
 
-  it('supports Playwright upload JSON path', () => {
+  qaItAuto('supports Playwright upload JSON path', () => {
     const result = generateCiTemplate({
       platform: 'github',
       framework: 'playwright',
       ingestPath: 'upload',
       projectKey: 'AUTH',
     });
-    assert.match(result.content, /npx playwright test --reporter=json/);
-    assert.match(result.content, /npx playwright install --with-deps/);
-    assert.match(result.content, /@qanalyzer\/forge-api-client/);
-    assert.doesNotMatch(result.content, /Bearer\s+\S+/i);
+    expect(result.content).toMatch(/npx playwright test --reporter=json/);
+    expect(result.content).toMatch(/npx playwright install --with-deps/);
+    expect(result.content).toMatch(/@qanalyzer\/forge-api-client/);
+    expect(result.content).not.toMatch(/Bearer\s+\S+/i);
   });
 });
 
-describe('vitestJsonRun', () => {
-  it('builds the Vitest JSON reporter command', () => {
-    assert.equal(
-      vitestJsonRun('out.json'),
-      'npx vitest run --reporter=json --outputFile=out.json',
-    );
+qaDescribe('vitestJsonRun', () => {
+  qaItAuto('builds the Vitest JSON reporter command', () => {
+    expect(vitestJsonRun('out.json')).toBe('npx vitest run --reporter=json --outputFile=out.json',);
   });
 });

@@ -35,6 +35,8 @@ export function envToConfig(): ConfigType {
     ingest: {
       url: readEnv(EnvIngestEnum.url),
       token: readEnv(EnvIngestEnum.token),
+      forgeIngestUrl: readEnv(EnvIngestEnum.forgeUrl),
+      forgeIngestToken: readEnv(EnvIngestEnum.forgeToken),
       timeoutMs: readNumber(EnvIngestEnum.timeoutMs),
       maxPayloadBytes: readNumber(EnvIngestEnum.maxPayloadBytes),
     },

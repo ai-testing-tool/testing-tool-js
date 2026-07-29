@@ -11,6 +11,8 @@ export type IngestResponse = {
 export declare class IngestClient {
     private readonly url?;
     private readonly token?;
+    private readonly forgeIngestUrl?;
+    private readonly forgeIngestToken?;
     private readonly timeoutMs;
     private readonly maxPayloadBytes;
     private readonly logger?;

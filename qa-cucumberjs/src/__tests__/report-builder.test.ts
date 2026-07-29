@@ -1,8 +1,7 @@
-import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import {
   ModeEnum,
@@ -63,12 +62,12 @@ function fixtureScenario(
   };
 }
 
-describe('scenarioToAssertion', () => {
-  it('maps scenario to assertion with Gherkin steps in meta.qa (FR49)', () => {
+qaDescribe('scenarioToAssertion', () => {
+  qaItAuto('maps scenario to assertion with Gherkin steps in meta.qa (FR49)', () => {
     const assertion = scenarioToAssertion(fixtureScenario());
-    assert.ok(assertion);
-    assert.equal(assertion!.title, 'Get all users');
-    assert.deepEqual(assertion!.ancestorTitles, ['API', 'Users', 'Read']);
+    expect(assertion).toBeTruthy();
+    expect(assertion!.title).toBe('Get all users');
+    expect(assertion!.ancestorTitles).toEqual(['API', 'Users', 'Read']);
     const qa = assertion!.meta?.qa as
       | {
           framework?: string;
@@ -76,13 +75,13 @@ describe('scenarioToAssertion', () => {
           issueKeys?: string[];
         }
       | undefined;
-    assert.equal(qa?.framework, 'cucumberjs');
-    assert.deepEqual(qa?.issueKeys, ['AUTH-101']);
-    assert.equal(qa?.steps?.length, 2);
-    assert.equal(qa?.steps?.[0]?.name, 'I send a GET request to "/users"');
+    expect(qa?.framework).toBe('cucumberjs');
+    expect(qa?.issueKeys).toEqual(['AUTH-101']);
+    expect(qa?.steps?.length).toBe(2);
+    expect(qa?.steps?.[0]?.name).toBe('I send a GET request to "/users"');
   });
 
-  it('returns null for @QaIgnore', () => {
+  qaItAuto('returns null for @QaIgnore', () => {
     const assertion = scenarioToAssertion(
       fixtureScenario({
         pickle: {
@@ -91,10 +90,10 @@ describe('scenarioToAssertion', () => {
         },
       }),
     );
-    assert.equal(assertion, null);
+    expect(assertion).toBe(null);
   });
 
-  it('includes this.attach metadata in meta.qa.attachments (FR58)', async () => {
+  qaItAuto('includes this.attach metadata in meta.qa.attachments (FR58)', async () => {
     const assertion = await scenarioToAssertionAsync(
       fixtureScenario({
         attachments: [
@@ -108,7 +107,7 @@ describe('scenarioToAssertion', () => {
         ],
       }),
     );
-    assert.ok(assertion);
+    expect(assertion).toBeTruthy();
     const qa = assertion!.meta?.qa as
       | {
           attachments?: Array<{
@@ -119,19 +118,19 @@ describe('scenarioToAssertion', () => {
           }>;
         }
       | undefined;
-    assert.equal(qa?.attachments?.length, 1);
-    assert.equal(qa?.attachments?.[0]?.file_name, 'body.json');
-    assert.equal(qa?.attachments?.[0]?.mime_type, 'application/json');
-    assert.ok(typeof qa?.attachments?.[0]?.size === 'number');
+    expect(qa?.attachments?.length).toBe(1);
+    expect(qa?.attachments?.[0]?.file_name).toBe('body.json');
+    expect(qa?.attachments?.[0]?.mime_type).toBe('application/json');
+    expect(typeof qa?.attachments?.[0]?.size === 'number').toBeTruthy();
     // No attach URL/token in unit test → metadata only (no content_ref)
-    assert.equal(qa?.attachments?.[0]?.content_ref, undefined);
+    expect(qa?.attachments?.[0]?.content_ref).toBeUndefined();
   });
 });
 
-describe('FR41 jest-json (FR50)', () => {
-  it('buildIngestPayload uses format jest-json', () => {
+qaDescribe('FR41 jest-json (FR50)', () => {
+  qaItAuto('buildIngestPayload uses format jest-json', () => {
     const assertion = scenarioToAssertion(fixtureScenario());
-    assert.ok(assertion);
+    expect(assertion).toBeTruthy();
     const report = toJestJsonReport([
       {
         name: 'features/api-crud.feature',
@@ -144,11 +143,11 @@ describe('FR41 jest-json (FR50)', () => {
       format: 'jest-json',
       launchName: 'cucumber #1',
     });
-    assert.equal(payload.format, 'jest-json');
-    assert.equal(payload.report.numTotalTests, 1);
+    expect(payload.format).toBe('jest-json');
+    expect(payload.report.numTotalTests).toBe(1);
   });
 
-  it('mode=file writes FR41 payload', async () => {
+  qaItAuto('mode=file writes FR41 payload', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-cucumberjs-'));
     const out = join(dir, 'qanalyzer-results.json');
     try {
@@ -159,7 +158,7 @@ describe('FR41 jest-json (FR50)', () => {
         file: { path: out },
       });
       const assertion = scenarioToAssertion(fixtureScenario());
-      assert.ok(assertion);
+      expect(assertion).toBeTruthy();
       await reporter.publishReport(
         toJestJsonReport([
           { name: 'features/api-crud.feature', assertions: [assertion!] },
@@ -167,8 +166,8 @@ describe('FR41 jest-json (FR50)', () => {
         { format: 'jest-json' },
       );
       const written = JSON.parse(readFileSync(out, 'utf8')) as IngestPayload;
-      assert.equal(written.format, 'jest-json');
-      assert.equal(written.projectKey, 'AUTH');
+      expect(written.format).toBe('jest-json');
+      expect(written.projectKey).toBe('AUTH');
     } finally {
       QAnalyzerReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });

@@ -76,13 +76,9 @@ function parseQaTags(tags) {
     }
     return meta;
 }
-/** Prefer tag title; else prefix issue keys onto pickle name when missing. */
+/** Prefer `@title:` tag value; otherwise keep the pickle name as-is (no issue-key prefix). */
 function resolveScenarioTitle(pickleName, meta) {
     if (meta.title)
         return meta.title;
-    const key = meta.issueKeys[0];
-    if (key && !pickleName.includes(key)) {
-        return `${key} ${pickleName}`;
-    }
     return pickleName;
 }

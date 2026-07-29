@@ -10,6 +10,7 @@ import {
   loadConfig,
   composeOptions,
   type IngestFormat,
+  type IngestPayload,
   type JestVitestJsonReport,
 } from '@qanalyzer/forge-commons';
 
@@ -112,7 +113,21 @@ function readText(path: string): string {
 }
 
 function readJsonReport(path: string): JestVitestJsonReport {
-  return JSON.parse(readText(path)) as JestVitestJsonReport;
+  const parsed = JSON.parse(readText(path)) as unknown;
+  if (
+    parsed &&
+    typeof parsed === 'object' &&
+    'report' in parsed &&
+    'projectKey' in parsed
+  ) {
+    return (parsed as IngestPayload).report as JestVitestJsonReport;
+  }
+  return parsed as JestVitestJsonReport;
+}
+
+function readReportFile(path: string, format: IngestFormat): JestVitestJsonReport | string {
+  if (format === 'junit-xml') return readText(path);
+  return readJsonReport(path);
 }
 
 async function main(): Promise<void> {
@@ -125,34 +140,59 @@ async function main(): Promise<void> {
   const fileConfig = loadConfig() ?? {};
   const envConfig = envToConfig();
   const merged = composeOptions(fileConfig, envConfig);
-  const projectKey = args.project ?? merged.projectKey;
-  if (!projectKey) {
+  const reportPath = args.report ?? './qanalyzer-results.json';
+  const format: IngestFormat = args.format ?? 'jest-json';
+  const raw = readText(reportPath);
+  const parsed = JSON.parse(raw) as unknown;
+  const existingPayload =
+    parsed &&
+    typeof parsed === 'object' &&
+    parsed !== null &&
+    'report' in parsed &&
+    'projectKey' in parsed
+      ? (parsed as IngestPayload)
+      : undefined;
+
+  const resolvedProjectKey = args.project ?? merged.projectKey ?? existingPayload?.projectKey;
+  if (!resolvedProjectKey) {
     console.error('Missing --project (or projectKey in qanalyzer.config.json / QANALYZER_PROJECT_KEY)');
     process.exit(1);
   }
 
-  const reportPath = args.report ?? './qanalyzer-results.json';
-  const format: IngestFormat = args.format ?? 'jest-json';
-  const report =
-    format === 'junit-xml' ? readText(reportPath) : readJsonReport(reportPath);
+  const report: JestVitestJsonReport | string = existingPayload
+    ? (existingPayload.report as JestVitestJsonReport)
+    : readReportFile(reportPath, format);
 
-  // CLI flags override env (FR158)
-  const payload = buildIngestPayload({
-    projectKey,
-    report,
-    format,
-    launchName: args.launch ?? merged.launchName,
-    planId: args.planId ?? merged.planId,
-    planKey: args.planKey ?? merged.planKey,
-    planName: args.plan ?? merged.planName,
-    fixVersion: args.fixVersion ?? merged.fixVersion,
-    sprintName: args.sprint ?? merged.sprintName,
-    ci: detectCiEnvironment(),
-  });
+  const payload = existingPayload
+    ? {
+        ...existingPayload,
+        projectKey: resolvedProjectKey,
+        launchName: args.launch ?? merged.launchName ?? existingPayload.launchName,
+        planId: args.planId ?? merged.planId ?? existingPayload.planId,
+        planKey: args.planKey ?? merged.planKey ?? existingPayload.planKey,
+        planName: args.plan ?? merged.planName ?? existingPayload.planName,
+        fixVersion: args.fixVersion ?? merged.fixVersion ?? existingPayload.fixVersion,
+        sprintName: args.sprint ?? merged.sprintName ?? existingPayload.sprintName,
+        ci: detectCiEnvironment(),
+      }
+    : buildIngestPayload({
+        projectKey: resolvedProjectKey,
+        report,
+        format,
+        launchName: args.launch ?? merged.launchName,
+        planId: args.planId ?? merged.planId,
+        planKey: args.planKey ?? merged.planKey,
+        planName: args.plan ?? merged.planName,
+        fixVersion: args.fixVersion ?? merged.fixVersion,
+        sprintName: args.sprint ?? merged.sprintName,
+        ci: detectCiEnvironment(),
+      });
 
   const client = new IngestClient({
     url: args.url ?? merged.ingest?.url,
     token: args.token ?? merged.ingest?.token,
+    forgeIngestUrl: merged.ingest?.forgeIngestUrl,
+    forgeIngestToken: merged.ingest?.forgeIngestToken,
     timeoutMs: merged.ingest?.timeoutMs,
     maxPayloadBytes: merged.ingest?.maxPayloadBytes,
   });

@@ -1,8 +1,7 @@
-import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import {
   ModeEnum,
@@ -41,25 +40,22 @@ const SPECS: MochaSpecInput[] = [
   },
 ];
 
-describe('FR41 jest-json emit (FR93)', () => {
-  it('buildIngestPayload uses format jest-json', () => {
+qaDescribe('FR41 jest-json emit (FR93)', () => {
+  qaItAuto('buildIngestPayload uses format jest-json', () => {
     const payload = buildIngestPayload({
       projectKey: 'AUTH',
       report: toJestJsonReport(SPECS),
       format: 'jest-json',
       launchName: 'mocha #1',
     });
-    assert.equal(payload.format, 'jest-json');
-    assert.equal(payload.report.numFailedTests, 1);
-    assert.equal(
-      payload.report.testResults?.[0]?.assertionResults?.[0]?.title,
-      'AUTH-101 login',
-    );
+    expect(payload.format).toBe('jest-json');
+    expect(payload.report.numFailedTests).toBe(1);
+    expect(payload.report.testResults?.[0]?.assertionResults?.[0]?.title).toBe('AUTH-101 login',);
   });
 });
 
-describe('mode=file publish', () => {
-  it('writes FR41 payload with format jest-json', async () => {
+qaDescribe('mode=file publish', () => {
+  qaItAuto('writes FR41 payload with format jest-json', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-mocha-'));
     const out = join(dir, 'qanalyzer-results.json');
 
@@ -76,12 +72,12 @@ describe('mode=file publish', () => {
         format: 'jest-json',
       });
 
-      assert.ok(payload);
-      assert.equal(payload.format, 'jest-json');
+      expect(payload).toBeTruthy();
+      expect(payload.format).toBe('jest-json');
 
       const written = JSON.parse(readFileSync(out, 'utf8')) as IngestPayload;
-      assert.equal(written.format, 'jest-json');
-      assert.equal(written.projectKey, 'AUTH');
+      expect(written.format).toBe('jest-json');
+      expect(written.projectKey).toBe('AUTH');
     } finally {
       QAnalyzerReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
@@ -89,8 +85,8 @@ describe('mode=file publish', () => {
   });
 });
 
-describe('qa.step sync/async (NFR26)', () => {
-  it('sync step completes before return; async returns Promise', async () => {
+qaDescribe('qa.step sync/async (NFR26)', () => {
+  qaItAuto('sync step completes before return; async returns Promise', async () => {
     const order: string[] = [];
     qa.step('sync', () => {
       order.push('sync-body');
@@ -102,7 +98,7 @@ describe('qa.step sync/async (NFR26)', () => {
     });
     order.push('after-async');
 
-    assert.deepEqual(order, [
+    expect(order).toEqual([
       'sync-body',
       'after-sync',
       'async-body',
@@ -111,8 +107,8 @@ describe('qa.step sync/async (NFR26)', () => {
   });
 });
 
-describe('MochaQaReporter mode=off', () => {
-  it('constructs without credentials', () => {
+qaDescribe('MochaQaReporter mode=off', () => {
+  qaItAuto('constructs without credentials', () => {
     const fakeRunner = {
       on() {
         return fakeRunner;
@@ -123,19 +119,16 @@ describe('MochaQaReporter mode=off', () => {
       stats: { suites: 0, tests: 0, passes: 0, pending: 0, failures: 0 },
     };
     // Spec constructor needs a Runner-like object; mode=off path must not throw.
-    assert.doesNotThrow(() => {
+    expect(() => {
       try {
         // eslint-disable-next-line no-new
         new MochaQaReporter(fakeRunner as never, {
           reporterOptions: { mode: ModeEnum.off },
-        });
+        }).not.toThrow();
       } catch (err) {
         // Spec may require more Runner shape — accept that and smoke the options path
         const message = err instanceof Error ? err.message : String(err);
-        assert.ok(
-          !/credentials|ingest|token/i.test(message),
-          `unexpected credential error: ${message}`,
-        );
+        expect(!/credentials|ingest|token/i.test(message)).toBeTruthy();
       }
     });
   });

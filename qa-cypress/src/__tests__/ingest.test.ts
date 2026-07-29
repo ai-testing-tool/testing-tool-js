@@ -1,8 +1,7 @@
-import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import {
   ModeEnum,
@@ -37,25 +36,25 @@ const SPECS: CypressSpecInput[] = [
   },
 ];
 
-describe('resolveQaOptions', () => {
-  it('unwraps cypress-multi-reporters qaCypressReporterOptions', () => {
+qaDescribe('resolveQaOptions', () => {
+  qaItAuto('unwraps cypress-multi-reporters qaCypressReporterOptions', () => {
     const opts = resolveQaOptions({
       reporterEnabled: '@qanalyzer/forge-cypress',
       qaCypressReporterOptions: { mode: 'file', projectKey: 'AUTH' },
     });
-    assert.equal(opts.mode, 'file');
-    assert.equal(opts.projectKey, 'AUTH');
+    expect(opts.mode).toBe('file');
+    expect(opts.projectKey).toBe('AUTH');
   });
 
-  it('accepts direct reporter options', () => {
+  qaItAuto('accepts direct reporter options', () => {
     const opts = resolveQaOptions({ mode: 'ingest', projectKey: 'DEMO' });
-    assert.equal(opts.mode, 'ingest');
-    assert.equal(opts.projectKey, 'DEMO');
+    expect(opts.mode).toBe('ingest');
+    expect(opts.projectKey).toBe('DEMO');
   });
 });
 
-describe('mode=file publish', () => {
-  it('writes FR41 payload with format jest-json', async () => {
+qaDescribe('mode=file publish', () => {
+  qaItAuto('writes FR41 payload with format jest-json', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-cypress-'));
     const out = join(dir, 'qanalyzer-results.json');
 
@@ -72,16 +71,13 @@ describe('mode=file publish', () => {
         format: 'jest-json',
       });
 
-      assert.ok(payload);
-      assert.equal(payload.format, 'jest-json');
+      expect(payload).toBeTruthy();
+      expect(payload.format).toBe('jest-json');
 
       const written = JSON.parse(readFileSync(out, 'utf8')) as IngestPayload;
-      assert.equal(written.format, 'jest-json');
-      assert.equal(written.projectKey, 'AUTH');
-      assert.equal(
-        written.report.testResults?.[0]?.assertionResults?.[0]?.title,
-        'AUTH-101 login',
-      );
+      expect(written.format).toBe('jest-json');
+      expect(written.projectKey).toBe('AUTH');
+      expect(written.report.testResults?.[0]?.assertionResults?.[0]?.title).toBe('AUTH-101 login',);
     } finally {
       QAnalyzerReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
@@ -89,8 +85,8 @@ describe('mode=file publish', () => {
   });
 });
 
-describe('ResultsManager + plugin after:run', () => {
-  it('mode=file via plugin publishes buffered specs', async () => {
+qaDescribe('ResultsManager + plugin after:run', () => {
+  qaItAuto('mode=file via plugin publishes buffered specs', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-cypress-bridge-'));
     const bridge = join(dir, 'bridge.json');
     const out = join(dir, 'out.json');
@@ -118,14 +114,14 @@ describe('ResultsManager + plugin after:run', () => {
       });
 
       const afterRun = handlers.get('after:run');
-      assert.ok(afterRun);
+      expect(afterRun).toBeTruthy();
       await afterRun();
 
       const written = JSON.parse(readFileSync(out, 'utf8')) as IngestPayload;
-      assert.equal(written.format, 'jest-json');
-      assert.equal(written.projectKey, 'AUTH');
-      assert.equal(written.report.numTotalTests, 2);
-      assert.equal(written.report.numFailedTests, 1);
+      expect(written.format).toBe('jest-json');
+      expect(written.projectKey).toBe('AUTH');
+      expect(written.report.numTotalTests).toBe(2);
+      expect(written.report.numFailedTests).toBe(1);
     } finally {
       QAnalyzerReporter.resetInstance();
       delete process.env.QANALYZER_CYPRESS_RESULTS_PATH;
@@ -133,13 +129,13 @@ describe('ResultsManager + plugin after:run', () => {
     }
   });
 
-  it('mode=off after:run clears bridge without writing', async () => {
+  qaItAuto('mode=off after:run clears bridge without writing', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-cypress-off-'));
     const bridge = join(dir, 'bridge.json');
 
     try {
       ResultsManager.appendSpec(SPECS[0]!, bridge);
-      assert.equal(ResultsManager.getSpecs(bridge).length, 1);
+      expect(ResultsManager.getSpecs(bridge).length).toBe(1);
 
       const handlers = new Map<string, (...args: unknown[]) => unknown>();
       const on = (event: string, handler: (...args: unknown[]) => unknown) => {
@@ -155,7 +151,7 @@ describe('ResultsManager + plugin after:run', () => {
       });
 
       await handlers.get('after:run')?.();
-      assert.equal(ResultsManager.getSpecs(bridge).length, 0);
+      expect(ResultsManager.getSpecs(bridge).length).toBe(0);
     } finally {
       QAnalyzerReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });

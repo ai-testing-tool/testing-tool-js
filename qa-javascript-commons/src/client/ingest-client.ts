@@ -15,6 +15,8 @@ export type IngestResponse = {
 export class IngestClient {
   private readonly url?: string;
   private readonly token?: string;
+  private readonly forgeIngestUrl?: string;
+  private readonly forgeIngestToken?: string;
   private readonly timeoutMs: number;
   private readonly maxPayloadBytes: number;
   private readonly logger?: LoggerInterface;
@@ -22,6 +24,8 @@ export class IngestClient {
   constructor(options: IngestClientOptions = {}) {
     this.url = options.url;
     this.token = options.token;
+    this.forgeIngestUrl = options.forgeIngestUrl;
+    this.forgeIngestToken = options.forgeIngestToken ?? options.token;
     this.timeoutMs = options.timeoutMs ?? 30_000;
     this.maxPayloadBytes = options.maxPayloadBytes ?? 4_500_000;
     this.logger = options.logger;
@@ -35,10 +39,22 @@ export class IngestClient {
       throw new Error('ingest.token (or QANALYZER_INGEST_TOKEN) is required in ingest mode');
     }
 
-    const bytes = estimatePayloadBytes(payload);
-    if (bytes > this.maxPayloadBytes) {
+    const body: Record<string, unknown> = { ...payload };
+    if (this.forgeIngestUrl) {
+      if (!this.forgeIngestToken) {
+        throw new Error(
+          'ingest.forgeIngestToken (or QANALYZER_FORGE_INGEST_TOKEN / QANALYZER_INGEST_TOKEN) is required when forgeIngestUrl is set',
+        );
+      }
+      body.forgeIngestUrl = this.forgeIngestUrl;
+      body.forgeIngestToken = this.forgeIngestToken;
+    }
+
+    const bytes = estimatePayloadBytes(body as IngestPayload);
+    const effectiveMax = this.forgeIngestUrl ? 50_000_000 : this.maxPayloadBytes;
+    if (bytes > effectiveMax) {
       throw new Error(
-        `Ingest payload is ${bytes} bytes; max allowed is ${this.maxPayloadBytes} bytes`,
+        `Ingest payload is ${bytes} bytes; max allowed is ${effectiveMax} bytes`,
       );
     }
 
@@ -52,26 +68,26 @@ export class IngestClient {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${this.token}`,
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(body),
         signal: controller.signal,
       });
 
       const text = await response.text();
-      let body: unknown = text;
+      let responseBody: unknown = text;
       try {
-        body = text ? (JSON.parse(text) as unknown) : null;
+        responseBody = text ? (JSON.parse(text) as unknown) : null;
       } catch {
         // keep raw text
       }
 
       if (!response.ok) {
         throw new Error(
-          `Forge ingest failed with HTTP ${response.status}: ${typeof body === 'string' ? body : JSON.stringify(body)}`,
+          `Forge ingest failed with HTTP ${response.status}: ${typeof responseBody === 'string' ? responseBody : JSON.stringify(responseBody)}`,
         );
       }
 
       this.logger?.log(`Ingest accepted (HTTP ${response.status})`);
-      return { status: response.status, body };
+      return { status: response.status, body: responseBody };
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
         throw new Error(`Forge ingest timed out after ${this.timeoutMs}ms`);

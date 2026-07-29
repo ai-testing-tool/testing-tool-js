@@ -1,5 +1,4 @@
-import assert from 'node:assert/strict';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import { applyCucumberTags } from '../cucumber-tags.js';
 import { MetadataManager } from '../metadata-manager.js';
@@ -18,8 +17,8 @@ function fakeTest(
   return partial as unknown as Parameters<QaWdioReporter['onTestPass']>[0];
 }
 
-describe('cucumber tags (FR135)', () => {
-  it('applies suite/title/tags and collects bare issue keys', () => {
+qaDescribe('cucumber tags (FR135)', () => {
+  qaItAuto('applies suite/title/tags and collects bare issue keys', () => {
     MetadataManager.clear();
     const { issueKeys } = applyCucumberTags([
       { name: '@AUTH-101' },
@@ -27,25 +26,23 @@ describe('cucumber tags (FR135)', () => {
       { name: '@title=Buy stuff' },
       { name: '@tags=smoke,e2e' },
     ]);
-    assert.deepEqual(issueKeys, ['AUTH-101']);
+    expect(issueKeys).toEqual(['AUTH-101']);
     const entries = MetadataManager.getEntries();
-    assert.ok(entries.some((e) => e.type === 'qa-suite' && e.body === 'Checkout'));
-    assert.ok(entries.some((e) => e.type === 'qa-title' && e.body === 'Buy stuff'));
-    assert.ok(
-      entries.some(
+    expect(entries.some((e) => e.type === 'qa-suite' && e.body === 'Checkout')).toBeTruthy();
+    expect(entries.some((e) => e.type === 'qa-title' && e.body === 'Buy stuff')).toBeTruthy();
+    expect(entries.some(
         (e) =>
           e.type === 'qa-fields' &&
           typeof e.body === 'object' &&
           e.body !== null &&
           (e.body as { tags?: string }).tags === 'smoke,e2e',
-      ),
-    );
+      ),).toBeTruthy();
     MetadataManager.clear();
   });
 });
 
-describe('QaWdioReporter useCucumber (FR135)', () => {
-  it('records one assertion per scenario with gherkin steps', () => {
+qaDescribe('QaWdioReporter useCucumber (FR135)', () => {
+  qaItAuto('records one assertion per scenario with gherkin steps', () => {
     ResultsBuffer.reset({ mode: 'off', projectKey: 'AUTH' });
     const reporter = new QaWdioReporter({
       useCucumber: true,
@@ -99,20 +96,20 @@ describe('QaWdioReporter useCucumber (FR135)', () => {
     );
 
     const specs = ResultsBuffer.takeSpecs();
-    assert.equal(specs.length, 1);
-    assert.equal(specs[0]!.assertions.length, 1);
+    expect(specs.length).toBe(1);
+    expect(specs[0]!.assertions.length).toBe(1);
     const a = specs[0]!.assertions[0]!;
-    assert.equal(a.status, 'failed');
-    assert.equal(a.title, 'User can login');
-    assert.deepEqual(a.meta?.qa?.issueKeys, ['AUTH-101']);
-    assert.ok(a.meta?.qa?.steps);
-    assert.equal(a.meta!.qa!.steps!.length, 2);
-    assert.equal(a.meta!.qa!.steps![0]!.stepType, 'gherkin');
-    assert.equal(a.meta!.qa!.steps![1]!.status, 'failed');
-    assert.ok((a.failureMessages ?? []).some((m) => m.includes('boom')));
+    expect(a.status).toBe('failed');
+    expect(a.title).toBe('User can login');
+    expect(a.meta?.qa?.issueKeys).toEqual(['AUTH-101']);
+    expect(a.meta?.qa?.steps).toBeTruthy();
+    expect(a.meta!.qa!.steps!.length).toBe(2);
+    expect(a.meta!.qa!.steps![0]!.stepType).toBe('gherkin');
+    expect(a.meta!.qa!.steps![1]!.status).toBe('failed');
+    expect((a.failureMessages ?? []).some((m) => m.includes('boom'))).toBeTruthy();
   });
 
-  it('mocha path unchanged when useCucumber is false', () => {
+  qaItAuto('mocha path unchanged when useCucumber is false', () => {
     ResultsBuffer.reset({ mode: 'off', projectKey: 'AUTH' });
     const reporter = new QaWdioReporter({
       useCucumber: false,
@@ -139,8 +136,8 @@ describe('QaWdioReporter useCucumber (FR135)', () => {
     reporter.onTestPass(test);
 
     const specs = ResultsBuffer.takeSpecs();
-    assert.equal(specs[0]!.assertions.length, 1);
-    assert.equal(specs[0]!.assertions[0]!.title, 'AUTH-9 passes');
-    assert.equal(specs[0]!.assertions[0]!.status, 'passed');
+    expect(specs[0]!.assertions.length).toBe(1);
+    expect(specs[0]!.assertions[0]!.title).toBe('AUTH-9 passes');
+    expect(specs[0]!.assertions[0]!.status).toBe('passed');
   });
 });

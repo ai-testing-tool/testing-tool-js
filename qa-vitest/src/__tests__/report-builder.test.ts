@@ -1,10 +1,9 @@
-import assert from 'node:assert/strict';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import { buildJestCompatibleReport, groupCasesByFile } from '../report-builder.js';
 
-describe('buildJestCompatibleReport', () => {
-  it('maps collected cases to Jest-compatible JSON with counts', () => {
+qaDescribe('buildJestCompatibleReport', () => {
+  qaItAuto('maps collected cases to Jest-compatible JSON with counts', () => {
     const report = buildJestCompatibleReport(
       groupCasesByFile([
         {
@@ -41,16 +40,16 @@ describe('buildJestCompatibleReport', () => {
       { startTime: 1_700_000_000_000 }
     );
 
-    assert.equal(report.numTotalTests, 3);
-    assert.equal(report.numPassedTests, 1);
-    assert.equal(report.numFailedTests, 1);
-    assert.equal(report.numPendingTests, 1);
-    assert.equal(report.success, false);
-    assert.equal(report.testResults?.length, 2);
-    assert.equal(report.testResults?.[0]?.assertionResults?.[1]?.title, 'AUTH-102 fails');
+    expect(report.numTotalTests).toBe(3);
+    expect(report.numPassedTests).toBe(1);
+    expect(report.numFailedTests).toBe(1);
+    expect(report.numPendingTests).toBe(1);
+    expect(report.success).toBe(false);
+    expect(report.testResults?.length).toBe(2);
+    expect(report.testResults?.[0]?.assertionResults?.[1]?.title).toBe('AUTH-102 fails');
   });
 
-  it('attaches meta.qa onto assertionResults when present', () => {
+  qaItAuto('attaches meta.qa onto assertionResults when present', () => {
     const report = buildJestCompatibleReport(
       groupCasesByFile([
         {
@@ -71,7 +70,7 @@ describe('buildJestCompatibleReport', () => {
       ]),
     );
 
-    assert.deepEqual(report.testResults?.[0]?.assertionResults?.[0]?.meta?.qa, {
+    expect(report.testResults?.[0]?.assertionResults?.[0]?.meta?.qa).toEqual({
       framework: 'vitest',
       suite: [{ title: 'Auth' }],
       steps: [{ id: 's1', stepType: 'text', name: 'open', status: 'passed' }],

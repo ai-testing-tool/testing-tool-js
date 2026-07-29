@@ -29,6 +29,8 @@ npx @qanalyzer/forge-api-client --project AUTH --report qanalyzer-results.json
 
 Env: `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN` (from the QAnalyzer configure page), `QANALYZER_PROJECT_KEY`.
 
+**Ingest gateway (optional):** for large payloads, set `QANALYZER_INGEST_URL` to the gateway (`qanalyzer/ingest-gateway`) and `QANALYZER_FORGE_INGEST_URL` to the Forge web trigger. See [ingest-gateway architecture](../docs/architecture/ingest-gateway.md).
+
 Reporters default to `mode: off` (no credentials required, no network); set `QANALYZER_MODE=ingest` in CI to publish launches, or `QANALYZER_MODE=file` to write the payload to disk.
 
 ### Optional JUnit XML (secondary)
@@ -54,10 +56,18 @@ curl -X POST "$QANALYZER_INGEST_URL" \
 ```bash
 npm install
 npm run build   # tsc for every workspace
-npm test        # node --test suites for every workspace
+npm test        # Vitest per package → qa-*/qanalyzer-results.json (+ pilot)
 ```
 
-npm workspaces monorepo; all `qa-*` directories are workspaces.
+Each `qa-*` package writes **`qanalyzer-results.json` in its own directory** when tested. Upload all: `sh scripts/upload-package-reports.sh` (after `scripts/load-ingest-env.sh`).
+
+npm workspaces monorepo; all `qa-*` directories are workspaces. Test runner: [`examples/single/vitest/vitest.config.ts`](./examples/single/vitest/vitest.config.ts).
+
+## GitLab CI
+
+[`.gitlab-ci.yml`](./.gitlab-ci.yml) runs `build` + `test` on every pipeline, uploads a Vitest pilot launch to Forge on `main` / `develop`, and publishes to npm on `v*.*.*` tags.
+
+Ingest credentials match [`qanalyzer-app/.env`](../qanalyzer-app/.env) (`QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`). Set the same keys as **masked** GitLab CI/CD variables, or rely on `scripts/load-ingest-env.sh` when the app repo is checked out beside `qanalyzer-js` in a monorepo.
 
 ## Releasing
 

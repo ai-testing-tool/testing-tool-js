@@ -1,5 +1,4 @@
-import assert from 'node:assert/strict';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import {
   applyQaAnnotations,
@@ -10,8 +9,8 @@ import {
   toQaMetaWire,
 } from '../models';
 
-describe('meta.qa enrichment', () => {
-  it('builds wire shape from Vitest-style annotations', () => {
+qaDescribe('meta.qa enrichment', () => {
+  qaItAuto('builds wire shape from Vitest-style annotations', () => {
     const acc = createQaMetaAccumulator();
     applyQaAnnotations(acc, [
       { message: 'QA Suite: Auth\tLogin', type: 'qa-suite', body: 'Auth\tLogin' },
@@ -28,19 +27,19 @@ describe('meta.qa enrichment', () => {
     ]);
 
     const wire = toQaMetaWire(acc, { framework: 'vitest' });
-    assert.ok(wire);
-    assert.equal(wire.framework, 'vitest');
-    assert.deepEqual(wire.suite, [{ title: 'Auth' }, { title: 'Login' }]);
-    assert.deepEqual(wire.fields, { layer: 'api' });
-    assert.deepEqual(wire.issueKeys, ['AUTH-101', 'AUTH-10', 'AUTH-11']);
-    assert.equal(wire.comment, 'flaky env');
-    assert.equal(wire.steps?.[0]?.name, 'fetch users');
-    assert.equal(wire.steps?.[0]?.status, 'failed');
-    assert.equal(wire.steps?.[0]?.stepType, 'text');
-    assert.equal(wire.host?.reporter, '@qanalyzer/forge-vitest');
+    expect(wire).toBeTruthy();
+    expect(wire.framework).toBe('vitest');
+    expect(wire.suite).toEqual([{ title: 'Auth' }, { title: 'Login' }]);
+    expect(wire.fields).toEqual({ layer: 'api' });
+    expect(wire.issueKeys).toEqual(['AUTH-101', 'AUTH-10', 'AUTH-11']);
+    expect(wire.comment).toBe('flaky env');
+    expect(wire.steps?.[0]?.name).toBe('fetch users');
+    expect(wire.steps?.[0]?.status).toBe('failed');
+    expect(wire.steps?.[0]?.stepType).toBe('text');
+    expect(wire.host?.reporter).toBe('@qanalyzer/forge-vitest');
   });
 
-  it('builds wire shape from helper buffer entries', () => {
+  qaItAuto('builds wire shape from helper buffer entries', () => {
     const wire = qaMetaFromEntries(
       [
         { type: 'qa-suite', body: 'CRUD' },
@@ -49,18 +48,18 @@ describe('meta.qa enrichment', () => {
       ],
       { framework: 'jest' },
     );
-    assert.ok(wire);
-    assert.equal(wire.framework, 'jest');
-    assert.deepEqual(wire.suite, [{ title: 'CRUD' }]);
-    assert.equal(wire.attachments?.[0]?.file_name, 'body.json');
-    assert.equal(wire.attachments?.[0]?.mime_type, 'application/json');
+    expect(wire).toBeTruthy();
+    expect(wire.framework).toBe('jest');
+    expect(wire.suite).toEqual([{ title: 'CRUD' }]);
+    expect(wire.attachments?.[0]?.file_name).toBe('body.json');
+    expect(wire.attachments?.[0]?.mime_type).toBe('application/json');
   });
 
-  it('returns undefined for empty accumulator', () => {
-    assert.equal(toQaMetaWire(createQaMetaAccumulator(), { framework: 'vitest' }), undefined);
+  qaItAuto('returns undefined for empty accumulator', () => {
+    expect(toQaMetaWire(createQaMetaAccumulator(), { framework: 'vitest' })).toBeUndefined();
   });
 
-  it('preserves meta.qa through normalizeJestReport and buildIngestPayload (FR141)', () => {
+  qaItAuto('preserves meta.qa through normalizeJestReport and buildIngestPayload (FR141)', () => {
     const qa = toQaMetaWire(
       (() => {
         const acc = createQaMetaAccumulator();
@@ -97,9 +96,6 @@ describe('meta.qa enrichment', () => {
       format: 'vitest-json',
     });
 
-    assert.deepEqual(
-      payload.report.testResults?.[0]?.assertionResults?.[0]?.meta?.qa,
-      qa,
-    );
+    expect(payload.report.testResults?.[0]?.assertionResults?.[0]?.meta?.qa).toEqual(qa,);
   });
 });

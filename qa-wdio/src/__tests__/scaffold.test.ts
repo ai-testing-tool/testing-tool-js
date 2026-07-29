@@ -1,5 +1,4 @@
-import assert from 'node:assert/strict';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import { ModeEnum, QAnalyzerReporter } from '@qanalyzer/forge-commons';
 
@@ -14,8 +13,8 @@ import { QaWdioService } from '../service.js';
 import { QaWdioReporter } from '../reporter.js';
 import QaWdioReporterDefault from '../index.js';
 
-describe('@qanalyzer/forge-wdio scaffold', () => {
-  it('loads reporter module and no-ops when mode=off', async () => {
+qaDescribe('@qanalyzer/forge-wdio scaffold', () => {
+  qaItAuto('loads reporter module and no-ops when mode=off', async () => {
     QAnalyzerReporter.resetInstance();
     hooksLifecycle.reset();
 
@@ -25,29 +24,29 @@ describe('@qanalyzer/forge-wdio scaffold', () => {
       mode: ModeEnum.off,
       projectKey: 'AUTH',
     });
-    assert.ok(reporter);
-    assert.equal(reporter.disableWebdriverStepsReporting, true);
-    assert.equal(QaWdioReporterDefault, QaWdioReporter);
+    expect(reporter).toBeTruthy();
+    expect(reporter.disableWebdriverStepsReporting).toBe(true);
+    expect(QaWdioReporterDefault).toBe(QaWdioReporter);
 
     reporter.onRunnerEnd();
     await afterRunHook();
 
     const instance = QAnalyzerReporter.getInstance();
-    assert.equal(instance.getConfig().mode, ModeEnum.off);
-    assert.equal(hooksLifecycle.beforeCalled, true);
-    assert.equal(hooksLifecycle.afterCalled, true);
+    expect(instance.getConfig().mode).toBe(ModeEnum.off);
+    expect(hooksLifecycle.beforeCalled).toBe(true);
+    expect(hooksLifecycle.afterCalled).toBe(true);
   });
 
-  it('exports QaWdioService lifecycle hooks', async () => {
+  qaItAuto('exports QaWdioService lifecycle hooks', async () => {
     const service = new QaWdioService({});
     service.before();
     service.beforeTest();
     await service.afterTest({ title: 't' }, {}, { passed: true });
     service.after();
-    assert.ok(service);
+    expect(service).toBeTruthy();
   });
 
-  it('qa helpers record metadata including nested steps and type attach', async () => {
+  qaItAuto('qa helpers record metadata including nested steps and type attach', async () => {
     MetadataManager.clear();
     qa.suite('E-commerce\tLogin');
     qa.fields({ layer: 'e2e' });
@@ -63,35 +62,28 @@ describe('@qanalyzer/forge-wdio scaffold', () => {
     });
 
     const entries = MetadataManager.getEntries();
-    assert.ok(entries.some((e) => e.type === 'qa-suite'));
-    assert.ok(entries.some((e) => e.type === 'qa-fields'));
-    assert.ok(entries.some((e) => e.type === 'qa-parameters'));
-    assert.ok(entries.some((e) => e.type === 'qa-comment'));
-    assert.ok(entries.some((e) => e.type === 'qa-ignore'));
-    assert.ok(
-      entries.some(
+    expect(entries.some((e) => e.type === 'qa-suite')).toBeTruthy();
+    expect(entries.some((e) => e.type === 'qa-fields')).toBeTruthy();
+    expect(entries.some((e) => e.type === 'qa-parameters')).toBeTruthy();
+    expect(entries.some((e) => e.type === 'qa-comment')).toBeTruthy();
+    expect(entries.some((e) => e.type === 'qa-ignore')).toBeTruthy();
+    expect(entries.some(
         (e) =>
           e.type === 'qa-attach' &&
           (e.body as { type?: string }).type === 'text/plain',
-      ),
-    );
-    assert.ok(entries.some((e) => e.type === 'qa-step-start' && e.body === 'outer'));
-    assert.ok(entries.some((e) => e.type === 'qa-step-start' && e.body === 'inner'));
-    assert.ok(
-      entries.some(
+      ),).toBeTruthy();
+    expect(entries.some((e) => e.type === 'qa-step-start' && e.body === 'outer')).toBeTruthy();
+    expect(entries.some((e) => e.type === 'qa-step-start' && e.body === 'inner')).toBeTruthy();
+    expect(entries.some(
         (e) =>
           e.type === 'qa-step-end' &&
           (e.body as { name: string; status: string }).name === 'inner' &&
           (e.body as { status: string }).status === 'passed',
-      ),
-    );
+      ),).toBeTruthy();
   });
 
-  it('assertHooksForMode throws in debug when hooks missing (NFR33)', () => {
+  qaItAuto('assertHooksForMode throws in debug when hooks missing (NFR33)', () => {
     hooksLifecycle.reset();
-    assert.throws(
-      () => assertHooksForMode(ModeEnum.ingest, true),
-      /beforeRunHook|afterRunHook|NFR33/,
-    );
+    expect(() => assertHooksForMode(ModeEnum.ingest, true)).toThrow(/beforeRunHook|afterRunHook|NFR33/);
   });
 });

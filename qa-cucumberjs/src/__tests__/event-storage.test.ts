@@ -1,10 +1,9 @@
-import assert from 'node:assert/strict';
-import { describe, it } from 'node:test';
+import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import { EventStorage } from '../modules/event-storage.js';
 
-describe('EventStorage attachments (FR58)', () => {
-  it('captures envelope.attachment and returns them on convertFinished', () => {
+qaDescribe('EventStorage attachments (FR58)', () => {
+  qaItAuto('captures envelope.attachment and returns them on convertFinished', () => {
     const storage = new EventStorage();
 
     storage.ingest({
@@ -72,10 +71,10 @@ describe('EventStorage attachments (FR58)', () => {
       timestamp: { seconds: 2, nanos: 0 },
     } as never);
 
-    assert.ok(converted);
-    assert.equal(converted!.attachments.length, 1);
-    assert.equal(converted!.attachments[0]!.fileName, 'note.txt');
-    assert.equal(converted!.attachments[0]!.mediaType, 'text/plain');
-    assert.equal(converted!.attachments[0]!.contentEncoding, 'BASE64');
+    expect(converted).toBeTruthy();
+    expect(converted!.attachments.length).toBe(1);
+    expect(converted!.attachments[0]!.fileName).toBe('note.txt');
+    expect(converted!.attachments[0]!.mediaType).toBe('text/plain');
+    expect(converted!.attachments[0]!.contentEncoding).toBe('BASE64');
   });
 });

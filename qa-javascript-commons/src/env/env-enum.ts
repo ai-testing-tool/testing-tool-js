@@ -14,6 +14,8 @@ export enum EnvEnum {
 export enum EnvIngestEnum {
   url = 'QANALYZER_INGEST_URL',
   token = 'QANALYZER_INGEST_TOKEN',
+  forgeUrl = 'QANALYZER_FORGE_INGEST_URL',
+  forgeToken = 'QANALYZER_FORGE_INGEST_TOKEN',
   timeoutMs = 'QANALYZER_INGEST_TIMEOUT_MS',
   maxPayloadBytes = 'QANALYZER_INGEST_MAX_PAYLOAD_BYTES',
 }

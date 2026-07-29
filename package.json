@@ -10,15 +10,17 @@
   },
   "scripts": {
     "build": "npm run build --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
+    "test": "sh scripts/test-with-reports.sh",
     "clean": "npm run clean --workspaces --if-present",
     "release": "sh scripts/publish.sh",
     "release:dry": "DRY_RUN=true sh scripts/publish.sh",
     "release:bump": "sh scripts/bump-version.sh"
   },
   "devDependencies": {
+    "@qanalyzer/forge-vitest": "1.2.1",
     "@types/node": "^22.13.10",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "vitest": "^3.2.4"
   },
   "overrides": {
     "serialize-javascript": "^7.0.7",

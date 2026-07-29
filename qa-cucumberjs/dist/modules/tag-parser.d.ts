@@ -17,6 +17,6 @@ type TagLike = Pick<PickleTag, 'name'> | {
  * No competitor tag names — destination is Jira.
  */
 export declare function parseQaTags(tags: readonly TagLike[]): CucumberQaTagMeta;
-/** Prefer tag title; else prefix issue keys onto pickle name when missing. */
+/** Prefer `@title:` tag value; otherwise keep the pickle name as-is (no issue-key prefix). */
 export declare function resolveScenarioTitle(pickleName: string, meta: CucumberQaTagMeta): string;
 export {};
