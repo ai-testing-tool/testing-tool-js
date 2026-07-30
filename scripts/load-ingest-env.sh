@@ -8,7 +8,7 @@
 #   4. ./.env in the qanalyzer-js root
 #
 # Expected keys: QANALYZER_INGEST_URL, QANALYZER_INGEST_TOKEN
-# Optional: JIRA_PROJECT_KEY, QANALYZER_PROJECT_KEY
+# Optional: JIRA_PROJECT_KEY (legacy), QANALYZER_PROJECT_KEY
 set -eu
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

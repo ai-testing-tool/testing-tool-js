@@ -61,6 +61,25 @@ qaDescribe('buildIngestPayload', () => {
   });
 });
 
+qaDescribe('envToConfig ingest gateway', () => {
+  qaItAuto('maps QANALYZER_FORGE_INGEST_URL and QANALYZER_FORGE_INGEST_TOKEN', () => {
+    const prevUrl = process.env.QANALYZER_FORGE_INGEST_URL;
+    const prevToken = process.env.QANALYZER_FORGE_INGEST_TOKEN;
+    process.env.QANALYZER_FORGE_INGEST_URL = 'https://forge.example/webtrigger';
+    process.env.QANALYZER_FORGE_INGEST_TOKEN = 'forge-token';
+    try {
+      const config = envToConfig();
+      expect(config.ingest?.forgeIngestUrl).toBe('https://forge.example/webtrigger');
+      expect(config.ingest?.forgeIngestToken).toBe('forge-token');
+    } finally {
+      if (prevUrl === undefined) delete process.env.QANALYZER_FORGE_INGEST_URL;
+      else process.env.QANALYZER_FORGE_INGEST_URL = prevUrl;
+      if (prevToken === undefined) delete process.env.QANALYZER_FORGE_INGEST_TOKEN;
+      else process.env.QANALYZER_FORGE_INGEST_TOKEN = prevToken;
+    }
+  });
+});
+
 qaDescribe('envToConfig version tags', () => {
   qaItAuto('maps QANALYZER_FIX_VERSION and QANALYZER_SPRINT', () => {
     const prevFix = process.env.QANALYZER_FIX_VERSION;

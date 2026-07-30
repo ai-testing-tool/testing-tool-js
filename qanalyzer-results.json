@@ -7,28 +7,28 @@
     "numPassedTestSuites": 1,
     "numFailedTestSuites": 0,
     "numPendingTestSuites": 0,
-    "numTotalTests": 3,
-    "numPassedTests": 3,
+    "numTotalTests": 15,
+    "numPassedTests": 15,
     "numFailedTests": 0,
     "numPendingTests": 0,
     "numTodoTests": 0,
-    "startTime": 1785298180839,
+    "startTime": 1785380045375,
     "success": true,
     "testResults": [
       {
         "name": "unknown",
         "status": "passed",
-        "startTime": 1785298180839,
-        "endTime": 1785298181137,
+        "startTime": 1785380045375,
+        "endTime": 1785380045636,
         "assertionResults": [
           {
             "ancestorTitles": [
-              "@qanalyzer/forge-api-client CLI"
+              "toJestJsonReport (FR124 / FR134)"
             ],
-            "fullName": "@qanalyzer/forge-api-client CLI > prints help and exits 0",
-            "title": "prints help and exits 0",
+            "fullName": "toJestJsonReport (FR124 / FR134) > normalizes saucedemo fixture to 13 tests with AUTH keys and steps",
+            "title": "normalizes saucedemo fixture to 13 tests with AUTH keys and steps",
             "status": "passed",
-            "duration": 36,
+            "duration": 9,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -37,13 +37,13 @@
                   "framework": "vitest",
                   "reporter": "@qanalyzer/forge-vitest"
                 },
-                "title": "prints help and exits 0",
+                "title": "normalizes saucedemo fixture to 13 tests with AUTH keys and steps",
                 "issueKeys": [
-                  "AUTH-301"
+                  "AUTH-1001"
                 ],
                 "suite": [
                   {
-                    "title": "@qanalyzer/forge-api-client CLI"
+                    "title": "toJestJsonReport (FR124 / FR134)"
                   }
                 ],
                 "steps": [
@@ -59,12 +59,12 @@
           },
           {
             "ancestorTitles": [
-              "@qanalyzer/forge-api-client CLI"
+              "qa.step → meta.qa.steps (FR125)"
             ],
-            "fullName": "@qanalyzer/forge-api-client CLI > requires --project when uploading a report",
-            "title": "requires --project when uploading a report",
+            "fullName": "qa.step → meta.qa.steps (FR125) > preserves nested step order via qaMetaFromEntries",
+            "title": "preserves nested step order via qaMetaFromEntries",
             "status": "passed",
-            "duration": 33,
+            "duration": 3,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -73,13 +73,13 @@
                   "framework": "vitest",
                   "reporter": "@qanalyzer/forge-vitest"
                 },
-                "title": "requires --project when uploading a report",
+                "title": "preserves nested step order via qaMetaFromEntries",
                 "issueKeys": [
-                  "AUTH-302"
+                  "AUTH-1002"
                 ],
                 "suite": [
                   {
-                    "title": "@qanalyzer/forge-api-client CLI"
+                    "title": "qa.step → meta.qa.steps (FR125)"
                   }
                 ],
                 "steps": [
@@ -95,12 +95,12 @@
           },
           {
             "ancestorTitles": [
-              "@qanalyzer/forge-api-client CLI"
+              "WDIO failure screenshot enrich (FR133)"
             ],
-            "fullName": "@qanalyzer/forge-api-client CLI > builds payload from jest-json report (dry — no network)",
-            "title": "builds payload from jest-json report (dry — no network)",
+            "fullName": "WDIO failure screenshot enrich (FR133) > merges buffered screenshots onto failed assertions",
+            "title": "merges buffered screenshots onto failed assertions",
             "status": "passed",
-            "duration": 43,
+            "duration": 6,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -109,13 +109,445 @@
                   "framework": "vitest",
                   "reporter": "@qanalyzer/forge-vitest"
                 },
-                "title": "builds payload from jest-json report (dry — no network)",
+                "title": "merges buffered screenshots onto failed assertions",
                 "issueKeys": [
-                  "AUTH-303"
+                  "AUTH-1001"
                 ],
                 "suite": [
                   {
-                    "title": "@qanalyzer/forge-api-client CLI"
+                    "title": "WDIO failure screenshot enrich (FR133)"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "ancestorTitles": [
+              "WDIO failure screenshot enrich (FR133)"
+            ],
+            "fullName": "WDIO failure screenshot enrich (FR133) > service afterTest captures screenshot when enabled",
+            "title": "service afterTest captures screenshot when enabled",
+            "status": "passed",
+            "duration": 2,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@qanalyzer/forge-vitest"
+                },
+                "title": "service afterTest captures screenshot when enabled",
+                "issueKeys": [
+                  "AUTH-1002"
+                ],
+                "suite": [
+                  {
+                    "title": "WDIO failure screenshot enrich (FR133)"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "ancestorTitles": [
+              "WDIO failure screenshot enrich (FR133)"
+            ],
+            "fullName": "WDIO failure screenshot enrich (FR133) > service afterScenario captures screenshot on cucumber failure",
+            "title": "service afterScenario captures screenshot on cucumber failure",
+            "status": "passed",
+            "duration": 3,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@qanalyzer/forge-vitest"
+                },
+                "title": "service afterScenario captures screenshot on cucumber failure",
+                "issueKeys": [
+                  "AUTH-1003"
+                ],
+                "suite": [
+                  {
+                    "title": "WDIO failure screenshot enrich (FR133)"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "ancestorTitles": [
+              "mode=file publish"
+            ],
+            "fullName": "mode=file publish > writes FR41 payload with format jest-json",
+            "title": "writes FR41 payload with format jest-json",
+            "status": "passed",
+            "duration": 7,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@qanalyzer/forge-vitest"
+                },
+                "title": "writes FR41 payload with format jest-json",
+                "issueKeys": [
+                  "AUTH-1001"
+                ],
+                "suite": [
+                  {
+                    "title": "mode=file publish"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "ancestorTitles": [
+              "QaWdioReporter modes"
+            ],
+            "fullName": "QaWdioReporter modes > mode=off completes without credentials",
+            "title": "mode=off completes without credentials",
+            "status": "passed",
+            "duration": 2,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@qanalyzer/forge-vitest"
+                },
+                "title": "mode=off completes without credentials",
+                "issueKeys": [
+                  "AUTH-1002"
+                ],
+                "suite": [
+                  {
+                    "title": "QaWdioReporter modes"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "ancestorTitles": [
+              "cucumber tags (FR135)"
+            ],
+            "fullName": "cucumber tags (FR135) > applies suite/title/tags and collects bare issue keys",
+            "title": "applies suite/title/tags and collects bare issue keys",
+            "status": "passed",
+            "duration": 5,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@qanalyzer/forge-vitest"
+                },
+                "title": "applies suite/title/tags and collects bare issue keys",
+                "issueKeys": [
+                  "AUTH-1001"
+                ],
+                "suite": [
+                  {
+                    "title": "cucumber tags (FR135)"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "ancestorTitles": [
+              "QaWdioReporter modes"
+            ],
+            "fullName": "QaWdioReporter modes > mode=file via reporter writes payload with qa.step hierarchy",
+            "title": "mode=file via reporter writes payload with qa.step hierarchy",
+            "status": "passed",
+            "duration": 3,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@qanalyzer/forge-vitest"
+                },
+                "title": "mode=file via reporter writes payload with qa.step hierarchy",
+                "issueKeys": [
+                  "AUTH-1003"
+                ],
+                "suite": [
+                  {
+                    "title": "QaWdioReporter modes"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "ancestorTitles": [
+              "@qanalyzer/forge-wdio scaffold"
+            ],
+            "fullName": "@qanalyzer/forge-wdio scaffold > loads reporter module and no-ops when mode=off",
+            "title": "loads reporter module and no-ops when mode=off",
+            "status": "passed",
+            "duration": 6,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@qanalyzer/forge-vitest"
+                },
+                "title": "loads reporter module and no-ops when mode=off",
+                "issueKeys": [
+                  "AUTH-1001"
+                ],
+                "suite": [
+                  {
+                    "title": "@qanalyzer/forge-wdio scaffold"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "ancestorTitles": [
+              "QaWdioReporter useCucumber (FR135)"
+            ],
+            "fullName": "QaWdioReporter useCucumber (FR135) > records one assertion per scenario with gherkin steps",
+            "title": "records one assertion per scenario with gherkin steps",
+            "status": "passed",
+            "duration": 3,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@qanalyzer/forge-vitest"
+                },
+                "title": "records one assertion per scenario with gherkin steps",
+                "issueKeys": [
+                  "AUTH-1002"
+                ],
+                "suite": [
+                  {
+                    "title": "QaWdioReporter useCucumber (FR135)"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "ancestorTitles": [
+              "QaWdioReporter useCucumber (FR135)"
+            ],
+            "fullName": "QaWdioReporter useCucumber (FR135) > mocha path unchanged when useCucumber is false",
+            "title": "mocha path unchanged when useCucumber is false",
+            "status": "passed",
+            "duration": 1,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@qanalyzer/forge-vitest"
+                },
+                "title": "mocha path unchanged when useCucumber is false",
+                "issueKeys": [
+                  "AUTH-1003"
+                ],
+                "suite": [
+                  {
+                    "title": "QaWdioReporter useCucumber (FR135)"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "ancestorTitles": [
+              "@qanalyzer/forge-wdio scaffold"
+            ],
+            "fullName": "@qanalyzer/forge-wdio scaffold > exports QaWdioService lifecycle hooks",
+            "title": "exports QaWdioService lifecycle hooks",
+            "status": "passed",
+            "duration": 2,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@qanalyzer/forge-vitest"
+                },
+                "title": "exports QaWdioService lifecycle hooks",
+                "issueKeys": [
+                  "AUTH-1002"
+                ],
+                "suite": [
+                  {
+                    "title": "@qanalyzer/forge-wdio scaffold"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "ancestorTitles": [
+              "@qanalyzer/forge-wdio scaffold"
+            ],
+            "fullName": "@qanalyzer/forge-wdio scaffold > qa helpers record metadata including nested steps and type attach",
+            "title": "qa helpers record metadata including nested steps and type attach",
+            "status": "passed",
+            "duration": 1,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@qanalyzer/forge-vitest"
+                },
+                "title": "qa helpers record metadata including nested steps and type attach",
+                "issueKeys": [
+                  "AUTH-1003"
+                ],
+                "suite": [
+                  {
+                    "title": "@qanalyzer/forge-wdio scaffold"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "ancestorTitles": [
+              "@qanalyzer/forge-wdio scaffold"
+            ],
+            "fullName": "@qanalyzer/forge-wdio scaffold > assertHooksForMode throws in debug when hooks missing (NFR33)",
+            "title": "assertHooksForMode throws in debug when hooks missing (NFR33)",
+            "status": "passed",
+            "duration": 3,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@qanalyzer/forge-vitest"
+                },
+                "title": "assertHooksForMode throws in debug when hooks missing (NFR33)",
+                "issueKeys": [
+                  "AUTH-1004"
+                ],
+                "suite": [
+                  {
+                    "title": "@qanalyzer/forge-wdio scaffold"
                   }
                 ],
                 "steps": [

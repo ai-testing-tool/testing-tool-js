@@ -6,13 +6,13 @@
 #   sh scripts/upload-package-reports.sh
 #   sh scripts/upload-package-reports.sh qa-jest qa-vitest   # subset
 #
-# Env: QANALYZER_INGEST_URL, QANALYZER_INGEST_TOKEN, JIRA_PROJECT_KEY (default AUTH)
+# Env: QANALYZER_INGEST_URL, QANALYZER_INGEST_TOKEN, QANALYZER_PROJECT_KEY (or JIRA_PROJECT_KEY)
 set -eu
 cd "$(dirname "$0")/.."
 
 . scripts/load-ingest-env.sh
 
-PROJECT_KEY="${JIRA_PROJECT_KEY:-AUTH}"
+PROJECT_KEY="${QANALYZER_PROJECT_KEY:-${JIRA_PROJECT_KEY:-AUTH}}"
 LAUNCH_PREFIX="${QANALYZER_LAUNCH_PREFIX:-gitlab sdk}"
 PIPELINE_ID="${CI_PIPELINE_ID:-local}"
 
