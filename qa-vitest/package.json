@@ -1,6 +1,6 @@
 {
   "name": "@qanalyzer/forge-vitest",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "QAnalyzer Vitest reporter — ingest or file modes via @qanalyzer/forge-commons",
   "keywords": [
     "qanalyzer",

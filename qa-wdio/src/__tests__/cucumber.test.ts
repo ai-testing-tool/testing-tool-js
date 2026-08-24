@@ -18,13 +18,13 @@ function fakeTest(
 }
 
 qaDescribe('cucumber tags (FR135)', () => {
-  qaItAuto('applies suite/title/tags and collects bare issue keys', () => {
+  qaItAuto('applies @QaSuite/@QaTitle/@QaFields and collects bare issue keys', () => {
     MetadataManager.clear();
     const { issueKeys } = applyCucumberTags([
       { name: '@AUTH-101' },
-      { name: '@suite=Checkout' },
-      { name: '@title=Buy stuff' },
-      { name: '@tags=smoke,e2e' },
+      { name: '@QaSuite=Checkout' },
+      { name: '@QaTitle=Buy stuff' },
+      { name: '@QaFields={"layer":"e2e"}' },
     ]);
     expect(issueKeys).toEqual(['AUTH-101']);
     const entries = MetadataManager.getEntries();
@@ -35,7 +35,7 @@ qaDescribe('cucumber tags (FR135)', () => {
           e.type === 'qa-fields' &&
           typeof e.body === 'object' &&
           e.body !== null &&
-          (e.body as { tags?: string }).tags === 'smoke,e2e',
+          (e.body as { layer?: string }).layer === 'e2e',
       ),).toBeTruthy();
     MetadataManager.clear();
   });

@@ -52,5 +52,6 @@ qaDescribe('toJestJsonReport', () => {
     expect(qaMeta?.framework).toBe('mocha');
     expect(qaMeta?.host?.reporter).toBe('@qanalyzer/forge-mocha');
     expect(qaMeta?.steps?.[0]?.name).toBe('GET /users');
+    expect(report.testResults?.[0]?.assertionResults?.[0]?.ancestorTitles).toBeUndefined();
   });
 });

@@ -156,6 +156,7 @@ qaDescribe('toJestJsonReport', () => {
     expect(report.numPassedTests).toBe(1);
     expect(report.numFailedTests).toBe(1);
     expect(report.success).toBe(false);
+    expect(report.testResults?.[0]?.assertionResults?.[0]?.ancestorTitles).toBeUndefined();
   });
 });
 

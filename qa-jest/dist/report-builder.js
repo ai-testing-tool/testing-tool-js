@@ -3,8 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.toJestJsonReport = toJestJsonReport;
 function mapAssertion(a, metaByFullName) {
     const fullName = a.fullName ?? a.title ?? '';
+    // Suite hierarchy lives in meta.qa.suite (from qa helpers); omit Jest's
+    // ancestorTitles from the FR41 payload to avoid duplicating that data.
     const assertion = {
-        ancestorTitles: a.ancestorTitles ?? [],
         fullName,
         title: a.title ?? '',
         status: a.status,

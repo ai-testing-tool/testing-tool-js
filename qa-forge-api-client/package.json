@@ -1,6 +1,6 @@
 {
   "name": "@qanalyzer/forge-api-client",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "CLI client for QAnalyzer Forge ingest API (Jest/Vitest JSON upload)",
   "keywords": [
     "qanalyzer",

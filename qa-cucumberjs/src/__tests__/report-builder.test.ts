@@ -73,12 +73,33 @@ qaDescribe('scenarioToAssertion', () => {
           framework?: string;
           steps?: Array<{ name: string }>;
           issueKeys?: string[];
+          suite?: Array<{ title: string }>;
         }
       | undefined;
     expect(qa?.framework).toBe('cucumberjs');
+    expect(qa?.suite).toEqual([
+      { title: 'API' },
+      { title: 'Users' },
+      { title: 'Read' },
+    ]);
     expect(qa?.issueKeys).toEqual(['AUTH-101']);
     expect(qa?.steps?.length).toBe(2);
     expect(qa?.steps?.[0]?.name).toBe('I send a GET request to "/users"');
+  });
+
+  qaItAuto('omits meta.qa.suite when @QaSuite is absent', () => {
+    const assertion = scenarioToAssertion(
+      fixtureScenario({
+        pickle: {
+          ...fixtureScenario().pickle,
+          tags: [{ name: '@AUTH-101', astNodeId: 't1' }] as never,
+        },
+      }),
+    );
+    expect(assertion).toBeTruthy();
+    expect(assertion!.ancestorTitles).toEqual([]);
+    const qa = assertion!.meta?.qa as { suite?: unknown } | undefined;
+    expect(qa?.suite).toBeUndefined();
   });
 
   qaItAuto('returns null for @QaIgnore', () => {
@@ -145,6 +166,7 @@ qaDescribe('FR41 jest-json (FR50)', () => {
     });
     expect(payload.format).toBe('jest-json');
     expect(payload.report.numTotalTests).toBe(1);
+    expect(payload.report.testResults?.[0]?.assertionResults?.[0]?.ancestorTitles).toBeUndefined();
   });
 
   qaItAuto('mode=file writes FR41 payload', async () => {

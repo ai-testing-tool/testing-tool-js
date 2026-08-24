@@ -83,7 +83,7 @@ exports.config = {
 Tag conventions:
 
 - Prefer **Jira keys in the scenario title** or bare tags: `@AUTH-101`
-- Optional metadata: `@suite=Checkout`, `@title=…`, `@tags=smoke,e2e`
+- Optional metadata: `@QaSuite=Checkout`, `@QaTitle=…`, `@QaFields={"layer":"e2e"}`
 
 See `examples/single/wdio/wdio.cucumber.conf.js`.
 

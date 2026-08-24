@@ -47,6 +47,7 @@ qaDescribe('buildJestCompatibleReport', () => {
     expect(report.success).toBe(false);
     expect(report.testResults?.length).toBe(2);
     expect(report.testResults?.[0]?.assertionResults?.[1]?.title).toBe('AUTH-102 fails');
+    expect(report.testResults?.[0]?.assertionResults?.[0]?.ancestorTitles).toBeUndefined();
   });
 
   qaItAuto('attaches meta.qa onto assertionResults when present', () => {

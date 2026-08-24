@@ -86,6 +86,7 @@ qaDescribe('toJestJsonReport (FR124 / FR134)', () => {
       .find((a) => a.title?.includes('AUTH-113'));
     const ignoredQa = ignored?.meta?.qa as { ignore?: boolean } | undefined;
     expect(ignoredQa?.ignore).toBe(true);
+    expect(login?.ancestorTitles).toBeUndefined();
   });
 });
 

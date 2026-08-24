@@ -54,6 +54,7 @@ qaDescribe('toJestJsonReport', () => {
     expect(report.testResults?.length).toBe(2);
     expect(report.testResults?.[0]?.name).toBe('/tests/a.test.js');
     expect(report.testResults?.[0]?.assertionResults?.[1]?.title).toBe('AUTH-102 fails');
+    expect(report.testResults?.[0]?.assertionResults?.[0]?.ancestorTitles).toBeUndefined();
   });
 
   qaItAuto('passes through native --json assertionResults shape', () => {

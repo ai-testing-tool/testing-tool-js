@@ -1,6 +1,6 @@
 /**
  * Map WDIO Cucumber tags → MetadataManager / issue-key sources (FR135 / FR43).
- * Supports `@suite=…`, `@tags=…`, `@title=…` and bare `@PROJ-123` issue keys.
+ * Supports `@QaSuite=…`, `@QaTitle=…`, `@QaFields=…` plus bare `@PROJ-123` issue keys.
  * Does not handle Qase `@QaseId`.
  */
 export type TagLike = {

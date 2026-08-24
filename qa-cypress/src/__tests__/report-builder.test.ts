@@ -102,6 +102,7 @@ qaDescribe('toJestJsonReport', () => {
         ?.framework).toBe('cypress',);
     expect((report.testResults?.[0]?.assertionResults?.[0]?.meta?.qa as { steps?: unknown[] })
         ?.steps?.length).toBe(1,);
+    expect(report.testResults?.[0]?.assertionResults?.[0]?.ancestorTitles).toBeUndefined();
   });
 });
 

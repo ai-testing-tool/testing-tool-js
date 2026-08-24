@@ -1,6 +1,6 @@
 /**
  * Map WDIO Cucumber tags → MetadataManager / issue-key sources (FR135 / FR43).
- * Supports `@suite=…`, `@tags=…`, `@title=…` and bare `@PROJ-123` issue keys.
+ * Supports `@QaSuite=…`, `@QaTitle=…`, `@QaFields=…` plus bare `@PROJ-123` issue keys.
  * Does not handle Qase `@QaseId`.
  */
 
@@ -44,15 +44,21 @@ export function applyCucumberTags(tags: readonly TagLike[]): CucumberTagApplyRes
     const kv = parseKeyValueTag(name);
     if (kv) {
       switch (kv.key.toLowerCase()) {
-        case '@suite':
+        case '@qasuite':
           MetadataManager.push('qa-suite', kv.value);
           break;
-        case '@tags':
-          MetadataManager.push('qa-fields', {
-            tags: kv.value,
-          });
+        case '@qafields': {
+          try {
+            const parsed = JSON.parse(kv.value.replace(/'/g, '"')) as unknown;
+            if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+              MetadataManager.push('qa-fields', parsed);
+            }
+          } catch {
+            // ignore invalid JSON
+          }
           break;
-        case '@title':
+        }
+        case '@qatitle':
           MetadataManager.push('qa-title', kv.value);
           break;
         default:

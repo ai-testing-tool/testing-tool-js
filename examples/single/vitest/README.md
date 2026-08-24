@@ -9,7 +9,7 @@ JSONPlaceholder API scenarios (CRUD, posts, errors, advanced). Jira issue keys l
 
 - Node.js **18+** (22 recommended)
 - Network access to [jsonplaceholder.typicode.com](https://jsonplaceholder.typicode.com/)
-- For upload/ingest: a configured QAnalyzer site (Connection tab) with your project on the allowlist
+- For upload/ingest: a configured QAnalyzer site (Automation setup in project Settings) with your project connected
 
 ## Install & local run (no QAnalyzer credentials)
 
@@ -45,11 +45,11 @@ npm run upload
 
 | Variable | Required | Description |
 | -------- | -------- | ----------- |
-| `QANALYZER_INGEST_URL` | Yes (upload) | Ingest URL from Configure → Connection |
+| `QANALYZER_INGEST_URL` | Yes (upload) | Ingest URL from project Settings → Automation setup |
 | `QANALYZER_INGEST_TOKEN` | Yes (upload) | Bearer token (shown once on generate/rotate) |
 | `QANALYZER_PROJECT_KEY` | Optional | Defaults via `--project` |
 
-**Never commit the ingest token.** Prefer CI secrets from the Configure page **CI template** tab.
+**Never commit the ingest token.** Prefer CI secrets from the **CI template** section in project Settings → Automation setup.
 
 ## Path B — Optional `@qanalyzer/forge-vitest` reporter
 
@@ -135,11 +135,11 @@ export QANALYZER_SPRINT="Sprint 42"
 # upload CLI: --fix-version 2.4.0 --sprint "Sprint 42"
 ```
 
-## Configure page
+## Automation setup
 
-1. Jira → Manage apps → **QAnalyzer** (configure)
-2. **Connection** — token + allowlist + connection test
-3. **CI template** — GitHub + Vitest + project → Copy YAML (upload path today)
+1. Open **QA Engine** on your Jira project
+2. Go to **Settings → Automation setup** — connect the project, copy the ingest token and URL, and run **Test connection**
+3. Use the **CI template** builder to generate a pipeline snippet for your project
 
 ## Local vs CI
 

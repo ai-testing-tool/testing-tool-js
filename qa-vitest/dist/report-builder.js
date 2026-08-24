@@ -25,8 +25,9 @@ function buildJestCompatibleReport(files, options = {}) {
                 numTodoTests += 1;
             else
                 numPendingTests += 1;
+            // Suite hierarchy lives in meta.qa.suite (from qa helpers); omit Jest's
+            // ancestorTitles from the FR41 payload to avoid duplicating that data.
             const assertion = {
-                ancestorTitles: c.ancestorTitles,
                 fullName: c.fullName,
                 title: c.name,
                 status,

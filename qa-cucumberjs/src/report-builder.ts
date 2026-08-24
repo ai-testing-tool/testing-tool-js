@@ -130,7 +130,7 @@ export function scenarioToAssertion(
   const ancestors =
     tagMeta.suite && tagMeta.suite.length > 0
       ? tagMeta.suite.split('\t').map((s) => s.trim()).filter(Boolean)
-      : [scenario.featureName];
+      : [];
 
   const entries: Array<{ type: string; body: unknown }> = [];
   if (tagMeta.suite) {
@@ -205,8 +205,8 @@ export async function scenarioToAssertionAsync(
 }
 
 function mapAssertion(a: CucumberAssertionInput): JestAssertionResult {
+  // Suite hierarchy lives in meta.qa.suite; omit ancestorTitles from FR41.
   const assertion: JestAssertionResult = {
-    ancestorTitles: a.ancestorTitles,
     fullName:
       a.fullName ??
       (a.ancestorTitles.length > 0

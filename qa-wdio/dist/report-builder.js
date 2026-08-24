@@ -7,8 +7,8 @@ function mapAssertion(a) {
         (a.ancestorTitles.length > 0
             ? `${a.ancestorTitles.join(' ')} ${a.title}`
             : a.title);
+    // Suite hierarchy lives in meta.qa.suite; omit ancestorTitles from FR41.
     const assertion = {
-        ancestorTitles: a.ancestorTitles,
         fullName,
         title: a.title,
         status: a.status,

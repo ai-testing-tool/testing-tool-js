@@ -88,7 +88,7 @@ function scenarioToAssertion(scenario, attachEntries = []) {
     const title = (0, tag_parser_1.resolveScenarioTitle)(scenario.title, tagMeta);
     const ancestors = tagMeta.suite && tagMeta.suite.length > 0
         ? tagMeta.suite.split('\t').map((s) => s.trim()).filter(Boolean)
-        : [scenario.featureName];
+        : [];
     const entries = [];
     if (tagMeta.suite) {
         entries.push({ type: 'qa-suite', body: tagMeta.suite });
@@ -151,8 +151,8 @@ async function scenarioToAssertionAsync(scenario) {
     return scenarioToAssertion(scenario, attachEntries);
 }
 function mapAssertion(a) {
+    // Suite hierarchy lives in meta.qa.suite; omit ancestorTitles from FR41.
     const assertion = {
-        ancestorTitles: a.ancestorTitles,
         fullName: a.fullName ??
             (a.ancestorTitles.length > 0
                 ? `${a.ancestorTitles.join(' ')} ${a.title}`
