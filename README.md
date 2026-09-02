@@ -70,8 +70,8 @@ Your test runner  →  @qanalyzer/forge-* reporter or CLI  →  Forge web trigge
 ```
 
 - **Automated CI:** set `QANALYZER_MODE=ingest` — reporters upload when the run finishes.
-- **Optional metadata:** include Jira issue keys in test titles (`AUTH-101 login`) for traceability.
-- **Rich steps:** use `qa.suite` / `qa.step` helpers (Jest/Vitest) so suite hierarchy appears in ingest payloads.
+- **Optional metadata:** set Jira issue keys via `qa.issueKeys()` (or Cucumber `@AUTH-101` tags) — stored in `meta.qa.issueKeys`, not in test titles.
+- **Rich steps:** use `qa.suite` / `qa.step` (Jest, Vitest, Mocha, Cypress, WDIO), Playwright `test.step()`, or Cucumber tags — suite hierarchy appears in ingest payloads.
 - **Large suites:** reports above ~3.5 MB chunk automatically; transient upload errors retry.
 
 Configure ingest in Jira under **Test Management → Settings → Automation setup** ([Epic 4 in the PRD](../qanalyzer-app/docs/prd.md)).
@@ -103,15 +103,11 @@ You need three values for CI:
 
 Use **Test connection** in Automation setup to verify credentials without putting the token in a browser network tab.
 
-## Quick start
+## Getting started
 
-### Option A — Reporter (recommended)
+All reporters default to `mode: off` — local runs need no credentials. Set `QANALYZER_MODE=ingest` in CI to upload. Link tests to Jira issues with `qa.issueKeys(['AUTH-101'])` (or `@AUTH-101` tags in Cucumber) — keys land in `meta.qa.issueKeys`.
 
-Install the reporter for your test runner, set `mode: ingest`, and run tests. The reporter builds the payload and uploads when the run finishes.
-
-```bash
-npm install -D @qanalyzer/forge-vitest @qanalyzer/forge-commons
-```
+**CI environment** (same for every framework):
 
 ```bash
 export QANALYZER_MODE=ingest
@@ -119,11 +115,304 @@ export QANALYZER_PROJECT_KEY=AUTH
 export QANALYZER_INGEST_URL="https://<your-site>.atlassian.net/.../qanalyzer-ingest-launch"
 export QANALYZER_INGEST_TOKEN="<token-from-settings>"
 export QANALYZER_LAUNCH_NAME="CI #${CI_PIPELINE_ID:-local}"
+```
 
+HTTP **201** with `{ "ok": true }` means the launch was accepted. Check **Test Management** in Jira after sync (usually within a few minutes).
+
+### Vitest
+
+```bash
+npm install -D @qanalyzer/forge-vitest @qanalyzer/forge-commons
+```
+
+```ts
+// vitest.config.ts
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  test: {
+    reporters: [
+      'default',
+      ['@qanalyzer/forge-vitest', { projectKey: 'AUTH' }],
+    ],
+  },
+});
+```
+
+```ts
+// login.test.ts
+import { expect, test } from 'vitest';
+import { withQa } from '@qanalyzer/forge-vitest/vitest';
+
+test(
+  'login succeeds',
+  withQa(async ({ qa }) => {
+    await qa.issueKeys(['AUTH-101']);
+    await qa.suite('Authentication');
+    await qa.step('submit valid credentials', async () => {
+      expect(true).toBe(true);
+    });
+  }),
+);
+```
+
+```bash
 npx vitest run
 ```
 
-Reporter setup for each runner: see the package README in the table below.
+### Jest
+
+```bash
+npm install -D @qanalyzer/forge-jest @qanalyzer/forge-commons
+```
+
+```js
+// jest.config.js
+module.exports = {
+  testEnvironment: 'node',
+  reporters: [
+    'default',
+    ['@qanalyzer/forge-jest', { projectKey: 'AUTH' }],
+  ],
+};
+```
+
+```js
+// login.test.js
+const { qa } = require('@qanalyzer/forge-jest/jest');
+
+test('login succeeds', async () => {
+  await qa.issueKeys(['AUTH-101']);
+  await qa.suite('Authentication');
+  await qa.step('submit valid credentials', async () => {
+    expect(true).toBe(true);
+  });
+});
+```
+
+```bash
+npx jest --runInBand
+```
+
+Use `--runInBand` so `qa.*` helpers share the reporter bridge.
+
+### Mocha
+
+```bash
+npm install -D @qanalyzer/forge-mocha @qanalyzer/forge-commons mocha
+```
+
+```js
+// .mocharc.js
+module.exports = {
+  spec: ['test/**/*.spec.js'],
+  reporter: '@qanalyzer/forge-mocha',
+  reporterOptions: { projectKey: 'AUTH' },
+};
+```
+
+```js
+// login.spec.js
+const { qa } = require('@qanalyzer/forge-mocha/mocha');
+const assert = require('assert');
+
+describe('Authentication', function () {
+  it('login succeeds', async function () {
+    qa.issueKeys(['AUTH-101']);
+    await qa.step('submit valid credentials', async () => {
+      assert.strictEqual(true, true);
+    });
+  });
+});
+```
+
+```bash
+npx mocha
+```
+
+### Playwright
+
+```bash
+npm install -D @qanalyzer/forge-playwright @qanalyzer/forge-commons @playwright/test
+```
+
+```js
+// playwright.config.js
+const { defineConfig } = require('@playwright/test');
+
+module.exports = defineConfig({
+  testDir: './test',
+  reporter: [
+    ['list'],
+    ['@qanalyzer/forge-playwright', { projectKey: 'AUTH' }],
+  ],
+});
+```
+
+```js
+// login.spec.js
+const { test } = require('@playwright/test');
+const { qa } = require('@qanalyzer/forge-playwright');
+
+test('login succeeds', async ({ page }) => {
+  qa.issueKeys(['AUTH-101']);
+  qa.suite('Authentication');
+  await test.step('open login page', async () => {
+    await page.goto('/login');
+  });
+});
+```
+
+Use native Playwright `test.step()` for step hierarchy — there is no `qa.step()`.
+
+```bash
+npx playwright test
+```
+
+### Cypress
+
+```bash
+npm install -D @qanalyzer/forge-cypress @qanalyzer/forge-commons cypress-multi-reporters
+```
+
+```js
+// cypress.config.js
+const { defineConfig } = require('cypress');
+
+module.exports = defineConfig({
+  reporter: 'cypress-multi-reporters',
+  reporterOptions: {
+    reporterEnabled: '@qanalyzer/forge-cypress',
+    qaCypressReporterOptions: { projectKey: 'AUTH' },
+  },
+  e2e: {
+    setupNodeEvents(on, config) {
+      require('@qanalyzer/forge-cypress/plugin')(on, config);
+      require('@qanalyzer/forge-cypress/metadata')(on);
+      return config;
+    },
+  },
+});
+```
+
+```js
+// cypress/e2e/login.cy.js
+const { qa } = require('@qanalyzer/forge-cypress/mocha');
+
+it('login succeeds', () => {
+  qa.issueKeys(['AUTH-101']);
+  qa.suite('Authentication');
+  qa.step('open login page', () => {
+    cy.visit('/login');
+  });
+});
+```
+
+Register the **plugin** and **metadata** hooks so one launch is published for the whole `cypress run`. `qa.step()` callbacks must be synchronous.
+
+```bash
+npx cypress run
+```
+
+### WebdriverIO (Mocha)
+
+```bash
+npm install -D @qanalyzer/forge-wdio @qanalyzer/forge-commons @wdio/mocha-framework
+```
+
+```js
+// wdio.conf.js
+const QaWdioReporter = require('@qanalyzer/forge-wdio').default;
+const { beforeRunHook, afterRunHook, QaWdioService } = require('@qanalyzer/forge-wdio');
+
+exports.config = {
+  specs: ['./test/specs/**/*.spec.js'],
+  framework: 'mocha',
+  reporters: [[QaWdioReporter, { projectKey: 'AUTH' }]],
+  services: [[QaWdioService, {}]],
+  onPrepare: async () => { await beforeRunHook(); },
+  onComplete: async () => { await afterRunHook(); },
+};
+```
+
+```js
+// test/specs/login.spec.js
+const { qa } = require('@qanalyzer/forge-wdio');
+
+describe('Authentication', () => {
+  it('login succeeds', async () => {
+    qa.issueKeys(['AUTH-101']);
+    qa.suite('Authentication');
+    await qa.step('submit valid credentials', async () => {
+      await expect(browser).toHaveUrl(expect.stringContaining('/'));
+    });
+  });
+});
+```
+
+`onPrepare` / `onComplete` hooks are required for ingest and file modes. For Cucumber, set `useCucumber: true` on the reporter — see [`qa-wdio/README.md`](./qa-wdio/README.md).
+
+```bash
+npx wdio run wdio.conf.js
+```
+
+### CucumberJS
+
+```bash
+npm install -D @qanalyzer/forge-cucumberjs @qanalyzer/forge-commons @cucumber/cucumber
+```
+
+```js
+// cucumber.js
+module.exports = {
+  default: {
+    format: ['progress', '@qanalyzer/forge-cucumberjs'],
+    require: ['step_definitions/**/*.js'],
+    formatOptions: { projectKey: 'AUTH' },
+  },
+};
+```
+
+```gherkin
+# features/login.feature
+@AUTH-101 @QaSuite=Authentication
+Feature: Login
+
+  Scenario: User logs in with valid credentials
+    Given the login page is open
+    When the user submits valid credentials
+    Then the dashboard is shown
+```
+
+Metadata is tag-based — no `qa` import. The `@AUTH-101` tag sets `meta.qa.issueKeys`; Gherkin steps become `meta.qa.steps` in the ingest payload.
+
+```bash
+npx cucumber-js
+```
+
+### CLI (JSON upload)
+
+Use when you already emit Jest/Vitest JSON and do not want a reporter:
+
+```bash
+npm install -D @qanalyzer/forge-api-client
+
+npx vitest run --reporter=json --outputFile=qanalyzer-results.json
+# or: npx jest --json --outputFile=qanalyzer-results.json
+
+npx @qanalyzer/forge-api-client \
+  --project AUTH \
+  --report qanalyzer-results.json \
+  --launch "nightly regression"
+```
+
+Package-specific details: [`qa-vitest`](./qa-vitest/), [`qa-jest`](./qa-jest/), [`qa-mocha`](./qa-mocha/), [`qa-playwright`](./qa-playwright/), [`qa-cypress`](./qa-cypress/), [`qa-wdio`](./qa-wdio/), [`qa-cucumberjs`](./qa-cucumberjs/), [`qa-forge-api-client`](./qa-forge-api-client/).
+
+## Quick start
+
+### Option A — Reporter (recommended)
+
+Pick your framework in [Getting started](#getting-started) above — install, config, test sample, and run command for each runner.
 
 ### Option B — CLI upload
 
