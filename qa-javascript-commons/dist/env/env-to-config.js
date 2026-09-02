@@ -35,10 +35,13 @@ function envToConfig() {
         ingest: {
             url: readEnv(env_enum_1.EnvIngestEnum.url),
             token: readEnv(env_enum_1.EnvIngestEnum.token),
-            forgeIngestUrl: readEnv(env_enum_1.EnvIngestEnum.forgeUrl),
-            forgeIngestToken: readEnv(env_enum_1.EnvIngestEnum.forgeToken),
             timeoutMs: readNumber(env_enum_1.EnvIngestEnum.timeoutMs),
+            completeTimeoutMs: readNumber(env_enum_1.EnvIngestEnum.completeTimeoutMs),
             maxPayloadBytes: readNumber(env_enum_1.EnvIngestEnum.maxPayloadBytes),
+            chunkThresholdBytes: readNumber(env_enum_1.EnvIngestEnum.chunkThresholdBytes),
+            chunkMaxBytes: readNumber(env_enum_1.EnvIngestEnum.chunkMaxBytes),
+            maxRetries: readNumber(env_enum_1.EnvIngestEnum.maxRetries),
+            retryBaseDelayMs: readNumber(env_enum_1.EnvIngestEnum.retryBaseDelayMs),
         },
         file: {
             path: readEnv(env_enum_1.EnvFileEnum.path),

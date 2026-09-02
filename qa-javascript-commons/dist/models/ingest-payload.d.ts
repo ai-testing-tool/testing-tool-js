@@ -1,6 +1,6 @@
 import type { JestVitestJsonReport } from './jest-vitest-report';
 import type { CiMetadata } from '../env';
-export type IngestFormat = 'jest-json' | 'vitest-json' | 'normalized' | 'junit-xml';
+export type IngestFormat = 'jest-json' | 'vitest-json' | 'normalized';
 type IngestPayloadBase = {
     projectKey: string;
     launchName?: string;
@@ -16,23 +16,16 @@ type IngestPayloadBase = {
     gitAuthorName?: string;
     gitAuthorEmail?: string;
 };
-/** FR41 JSON ingest (primary). */
-export type JestIngestPayload = IngestPayloadBase & {
-    format?: Exclude<IngestFormat, 'junit-xml'>;
+/** FR41 JSON ingest. */
+export type IngestPayload = IngestPayloadBase & {
+    format?: IngestFormat;
     report: JestVitestJsonReport & {
         testResults: NonNullable<JestVitestJsonReport['testResults']>;
     };
 };
-/** Optional JUnit XML ingest (FR45) — server normalizes to FR41. */
-export type JunitIngestPayload = IngestPayloadBase & {
-    format: 'junit-xml';
-    report: string;
-    junitXml?: string;
-};
-export type IngestPayload = JestIngestPayload | JunitIngestPayload;
 export type BuildIngestPayloadInput = {
     projectKey: string;
-    report: JestVitestJsonReport | string;
+    report: JestVitestJsonReport;
     launchName?: string;
     format?: IngestFormat;
     planId?: string;
@@ -43,14 +36,6 @@ export type BuildIngestPayloadInput = {
     ci?: CiMetadata;
 };
 export declare function normalizeJestReport(report: JestVitestJsonReport): JestVitestJsonReport;
-export declare function buildIngestPayload(input: BuildIngestPayloadInput & {
-    format: 'junit-xml';
-    report: string;
-}): JunitIngestPayload;
-export declare function buildIngestPayload(input: BuildIngestPayloadInput & {
-    format?: Exclude<IngestFormat, 'junit-xml'>;
-    report: JestVitestJsonReport;
-}): JestIngestPayload;
 export declare function buildIngestPayload(input: BuildIngestPayloadInput): IngestPayload;
 export declare function estimatePayloadBytes(payload: IngestPayload): number;
 export {};

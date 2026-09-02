@@ -1,6 +1,6 @@
 {
   "name": "@qanalyzer/forge-playwright",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "QAnalyzer Playwright reporter — ingest or file modes via @qanalyzer/forge-commons",
   "keywords": [
     "qanalyzer",
@@ -37,7 +37,7 @@
     "prepublishOnly": "npm test"
   },
   "dependencies": {
-    "@qanalyzer/forge-commons": "^1.1.1"
+    "@qanalyzer/forge-commons": "^2.0.0"
   },
   "peerDependencies": {
     "@playwright/test": ">=1.40.0"

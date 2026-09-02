@@ -49,33 +49,23 @@ qaDescribe('buildIngestPayload', () => {
     expect(payload.sprintName).toBe('Sprint 42');
   });
 
-  qaItAuto('builds junit-xml payload with XML string report (FR45)', () => {
-    const xml = '<testsuite name="T"><testcase name="a" classname="c"/></testsuite>';
-    const payload = buildIngestPayload({
-      projectKey: 'AUTH',
-      format: 'junit-xml',
-      report: xml,
-    });
-    expect(payload.format).toBe('junit-xml');
-    expect(payload.report).toBe(xml);
-  });
 });
 
-qaDescribe('envToConfig ingest gateway', () => {
-  qaItAuto('maps QANALYZER_FORGE_INGEST_URL and QANALYZER_FORGE_INGEST_TOKEN', () => {
-    const prevUrl = process.env.QANALYZER_FORGE_INGEST_URL;
-    const prevToken = process.env.QANALYZER_FORGE_INGEST_TOKEN;
-    process.env.QANALYZER_FORGE_INGEST_URL = 'https://forge.example/webtrigger';
-    process.env.QANALYZER_FORGE_INGEST_TOKEN = 'forge-token';
+qaDescribe('envToConfig ingest retry', () => {
+  qaItAuto('maps QANALYZER_INGEST_MAX_RETRIES and QANALYZER_INGEST_RETRY_BASE_DELAY_MS', () => {
+    const prevRetries = process.env.QANALYZER_INGEST_MAX_RETRIES;
+    const prevDelay = process.env.QANALYZER_INGEST_RETRY_BASE_DELAY_MS;
+    process.env.QANALYZER_INGEST_MAX_RETRIES = '5';
+    process.env.QANALYZER_INGEST_RETRY_BASE_DELAY_MS = '2000';
     try {
       const config = envToConfig();
-      expect(config.ingest?.forgeIngestUrl).toBe('https://forge.example/webtrigger');
-      expect(config.ingest?.forgeIngestToken).toBe('forge-token');
+      expect(config.ingest?.maxRetries).toBe(5);
+      expect(config.ingest?.retryBaseDelayMs).toBe(2000);
     } finally {
-      if (prevUrl === undefined) delete process.env.QANALYZER_FORGE_INGEST_URL;
-      else process.env.QANALYZER_FORGE_INGEST_URL = prevUrl;
-      if (prevToken === undefined) delete process.env.QANALYZER_FORGE_INGEST_TOKEN;
-      else process.env.QANALYZER_FORGE_INGEST_TOKEN = prevToken;
+      if (prevRetries === undefined) delete process.env.QANALYZER_INGEST_MAX_RETRIES;
+      else process.env.QANALYZER_INGEST_MAX_RETRIES = prevRetries;
+      if (prevDelay === undefined) delete process.env.QANALYZER_INGEST_RETRY_BASE_DELAY_MS;
+      else process.env.QANALYZER_INGEST_RETRY_BASE_DELAY_MS = prevDelay;
     }
   });
 });
@@ -104,6 +94,11 @@ qaDescribe('createDefaultConfig', () => {
     const config = createDefaultConfig();
     expect(config.mode).toBe('off');
     expect(config.ingest?.maxPayloadBytes).toBe(4_500_000);
+    expect(config.ingest?.timeoutMs).toBe(60_000);
+    expect(config.ingest?.completeTimeoutMs).toBe(120_000);
+    expect(config.ingest?.chunkThresholdBytes).toBe(3_500_000);
+    expect(config.ingest?.chunkMaxBytes).toBe(3_000_000);
+    expect(config.ingest?.maxRetries).toBe(4);
   });
 
   qaItAuto('merges env overrides last', () => {

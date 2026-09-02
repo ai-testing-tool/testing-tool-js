@@ -10,8 +10,8 @@
     "launchName": { "type": "string" },
     "format": {
       "type": "string",
-      "enum": ["jest-json", "vitest-json", "normalized", "junit-xml"],
-      "description": "Primary: jest-json / vitest-json. Optional secondary: junit-xml (report is XML string)."
+      "enum": ["jest-json", "vitest-json", "normalized"],
+      "description": "jest-json / vitest-json / normalized"
     },
     "ciPlatform": { "type": "string" },
     "buildUrl": { "type": "string" },
@@ -24,50 +24,44 @@
     "gitCommitMessageSubject": { "type": "string" },
     "gitCommitMessageBody": { "type": "string" },
     "report": {
-      "description": "Jest/Vitest JSON object (primary), or JUnit XML string when format=junit-xml",
-      "oneOf": [
-        { "type": "string", "minLength": 1 },
-        {
-          "type": "object",
-          "required": ["testResults"],
-          "properties": {
-            "numTotalTests": { "type": "number" },
-            "numPassedTests": { "type": "number" },
-            "numFailedTests": { "type": "number" },
-            "numPendingTests": { "type": "number" },
-            "numTodoTests": { "type": "number" },
-            "startTime": { "type": "number" },
-            "success": { "type": "boolean" },
-            "testResults": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "name": { "type": "string" },
-                  "status": { "type": "string" },
-                  "assertionResults": {
-                    "type": "array",
-                    "items": {
+      "description": "Jest/Vitest JSON report object",
+      "type": "object",
+      "required": ["testResults"],
+      "properties": {
+        "numTotalTests": { "type": "number" },
+        "numPassedTests": { "type": "number" },
+        "numFailedTests": { "type": "number" },
+        "numPendingTests": { "type": "number" },
+        "numTodoTests": { "type": "number" },
+        "startTime": { "type": "number" },
+        "success": { "type": "boolean" },
+        "testResults": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "status": { "type": "string" },
+              "assertionResults": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "title": { "type": "string" },
+                    "fullName": { "type": "string" },
+                    "status": { "type": "string" },
+                    "meta": {
                       "type": "object",
+                      "description": "Optional extensions; meta.qa carries reporter-rich metadata (FR41). Prefer meta.qa.issueKeys for FR43 over embedding keys in titles.",
                       "properties": {
-                        "title": { "type": "string" },
-                        "fullName": { "type": "string" },
-                        "status": { "type": "string" },
-                        "meta": {
+                        "qa": {
                           "type": "object",
-                          "description": "Optional extensions; meta.qa carries reporter-rich metadata (FR41). Prefer meta.qa.issueKeys for FR43 over embedding keys in titles.",
+                          "description": "Serialized QA metadata: suite, issueKeys, fields, steps, comments, attachments",
                           "properties": {
-                            "qa": {
-                              "type": "object",
-                              "description": "Serialized QA metadata: suite, issueKeys, fields, steps, comments, attachments",
-                              "properties": {
-                                "issueKeys": {
-                                  "type": "array",
-                                  "items": { "type": "string" },
-                                  "description": "Explicit Jira issue keys (FR43). Roles classified via TMS type map. Required for linking — titles are not scraped."
-                                }
-                              },
-                              "additionalProperties": true
+                            "issueKeys": {
+                              "type": "array",
+                              "items": { "type": "string" },
+                              "description": "Explicit Jira issue keys (FR43). Roles classified via TMS type map. Required for linking — titles are not scraped."
                             }
                           },
                           "additionalProperties": true
@@ -75,14 +69,15 @@
                       },
                       "additionalProperties": true
                     }
-                  }
-                },
-                "additionalProperties": true
+                  },
+                  "additionalProperties": true
+                }
               }
-            }
+            },
+            "additionalProperties": true
           }
         }
-      ]
+      }
     },
     "tests": {
       "type": "array",

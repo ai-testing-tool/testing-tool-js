@@ -35,10 +35,13 @@ export function envToConfig(): ConfigType {
     ingest: {
       url: readEnv(EnvIngestEnum.url),
       token: readEnv(EnvIngestEnum.token),
-      forgeIngestUrl: readEnv(EnvIngestEnum.forgeUrl),
-      forgeIngestToken: readEnv(EnvIngestEnum.forgeToken),
       timeoutMs: readNumber(EnvIngestEnum.timeoutMs),
+      completeTimeoutMs: readNumber(EnvIngestEnum.completeTimeoutMs),
       maxPayloadBytes: readNumber(EnvIngestEnum.maxPayloadBytes),
+      chunkThresholdBytes: readNumber(EnvIngestEnum.chunkThresholdBytes),
+      chunkMaxBytes: readNumber(EnvIngestEnum.chunkMaxBytes),
+      maxRetries: readNumber(EnvIngestEnum.maxRetries),
+      retryBaseDelayMs: readNumber(EnvIngestEnum.retryBaseDelayMs),
     },
     file: {
       path: readEnv(EnvFileEnum.path),

@@ -1,7 +1,7 @@
 import type { JestVitestJsonReport } from './jest-vitest-report';
 import type { CiMetadata } from '../env';
 
-export type IngestFormat = 'jest-json' | 'vitest-json' | 'normalized' | 'junit-xml';
+export type IngestFormat = 'jest-json' | 'vitest-json' | 'normalized';
 
 type IngestPayloadBase = {
   projectKey: string;
@@ -19,24 +19,15 @@ type IngestPayloadBase = {
   gitAuthorEmail?: string;
 };
 
-/** FR41 JSON ingest (primary). */
-export type JestIngestPayload = IngestPayloadBase & {
-  format?: Exclude<IngestFormat, 'junit-xml'>;
+/** FR41 JSON ingest. */
+export type IngestPayload = IngestPayloadBase & {
+  format?: IngestFormat;
   report: JestVitestJsonReport & { testResults: NonNullable<JestVitestJsonReport['testResults']> };
 };
 
-/** Optional JUnit XML ingest (FR45) — server normalizes to FR41. */
-export type JunitIngestPayload = IngestPayloadBase & {
-  format: 'junit-xml';
-  report: string;
-  junitXml?: string;
-};
-
-export type IngestPayload = JestIngestPayload | JunitIngestPayload;
-
 export type BuildIngestPayloadInput = {
   projectKey: string;
-  report: JestVitestJsonReport | string;
+  report: JestVitestJsonReport;
   launchName?: string;
   format?: IngestFormat;
   planId?: string;
@@ -54,19 +45,13 @@ export function normalizeJestReport(report: JestVitestJsonReport): JestVitestJso
   };
 }
 
-export function buildIngestPayload(
-  input: BuildIngestPayloadInput & { format: 'junit-xml'; report: string }
-): JunitIngestPayload;
-export function buildIngestPayload(
-  input: BuildIngestPayloadInput & {
-    format?: Exclude<IngestFormat, 'junit-xml'>;
-    report: JestVitestJsonReport;
-  }
-): JestIngestPayload;
-export function buildIngestPayload(input: BuildIngestPayloadInput): IngestPayload;
 export function buildIngestPayload(input: BuildIngestPayloadInput): IngestPayload {
   if (!input.projectKey?.trim()) {
     throw new Error('projectKey is required to build an ingest payload');
+  }
+
+  if (!input.report || typeof input.report !== 'object') {
+    throw new Error('Jest/Vitest ingest requires a JSON report object');
   }
 
   const base: IngestPayloadBase = {
@@ -84,21 +69,6 @@ export function buildIngestPayload(input: BuildIngestPayloadInput): IngestPayloa
     gitAuthorName: input.ci?.gitAuthorName,
     gitAuthorEmail: input.ci?.gitAuthorEmail,
   };
-
-  if (input.format === 'junit-xml') {
-    if (typeof input.report !== 'string' || !input.report.trim()) {
-      throw new Error('junit-xml format requires report to be a non-empty XML string');
-    }
-    return {
-      ...base,
-      format: 'junit-xml',
-      report: input.report,
-    };
-  }
-
-  if (typeof input.report === 'string') {
-    throw new Error('Jest/Vitest ingest requires a JSON report object (use --format junit-xml for XML)');
-  }
 
   const normalized = normalizeJestReport(input.report);
   return {

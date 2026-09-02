@@ -2,32 +2,48 @@ import type { IngestOptionsType } from '../config';
 import type { IngestPayload } from '../models';
 import { estimatePayloadBytes } from '../models';
 import type { LoggerInterface } from '../utils';
+import {
+  DEFAULT_CHUNK_MAX_BYTES,
+  DEFAULT_CHUNK_THRESHOLD_BYTES,
+  planChunks,
+} from './ingest-chunk-plan';
+import { postIngestJson, type IngestResponse } from './ingest-http';
+import { DEFAULT_RETRY_POLICY, withRetry, type RetryPolicy } from './ingest-retry';
+import { uploadChunkedIngest } from './ingest-session-upload';
+
+export type { IngestResponse } from './ingest-http';
 
 export type IngestClientOptions = IngestOptionsType & {
   logger?: LoggerInterface;
 };
 
-export type IngestResponse = {
-  status: number;
-  body: unknown;
-};
+const DEFAULT_TIMEOUT_MS = 60_000;
+const DEFAULT_COMPLETE_TIMEOUT_MS = 120_000;
 
 export class IngestClient {
   private readonly url?: string;
   private readonly token?: string;
-  private readonly forgeIngestUrl?: string;
-  private readonly forgeIngestToken?: string;
   private readonly timeoutMs: number;
+  private readonly completeTimeoutMs: number;
   private readonly maxPayloadBytes: number;
+  private readonly chunkThresholdBytes: number;
+  private readonly chunkMaxBytes: number;
+  private readonly retryPolicy: RetryPolicy;
   private readonly logger?: LoggerInterface;
 
   constructor(options: IngestClientOptions = {}) {
     this.url = options.url;
     this.token = options.token;
-    this.forgeIngestUrl = options.forgeIngestUrl;
-    this.forgeIngestToken = options.forgeIngestToken ?? options.token;
-    this.timeoutMs = options.timeoutMs ?? 30_000;
+    this.timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+    this.completeTimeoutMs = options.completeTimeoutMs ?? DEFAULT_COMPLETE_TIMEOUT_MS;
     this.maxPayloadBytes = options.maxPayloadBytes ?? 4_500_000;
+    this.chunkThresholdBytes = options.chunkThresholdBytes ?? DEFAULT_CHUNK_THRESHOLD_BYTES;
+    this.chunkMaxBytes = options.chunkMaxBytes ?? DEFAULT_CHUNK_MAX_BYTES;
+    this.retryPolicy = {
+      maxAttempts: options.maxRetries ?? DEFAULT_RETRY_POLICY.maxAttempts,
+      baseDelayMs: options.retryBaseDelayMs ?? DEFAULT_RETRY_POLICY.baseDelayMs,
+      maxDelayMs: DEFAULT_RETRY_POLICY.maxDelayMs,
+    };
     this.logger = options.logger;
   }
 
@@ -39,62 +55,47 @@ export class IngestClient {
       throw new Error('ingest.token (or QANALYZER_INGEST_TOKEN) is required in ingest mode');
     }
 
-    const body: Record<string, unknown> = { ...payload };
-    if (this.forgeIngestUrl) {
-      if (!this.forgeIngestToken) {
-        throw new Error(
-          'ingest.forgeIngestToken (or QANALYZER_FORGE_INGEST_TOKEN / QANALYZER_INGEST_TOKEN) is required when forgeIngestUrl is set',
-        );
-      }
-      body.forgeIngestUrl = this.forgeIngestUrl;
-      body.forgeIngestToken = this.forgeIngestToken;
+    const bytes = estimatePayloadBytes(payload);
+    if (bytes <= this.chunkThresholdBytes && bytes <= this.maxPayloadBytes) {
+      return this.sendDirect(payload);
     }
 
-    const bytes = estimatePayloadBytes(body as IngestPayload);
-    const effectiveMax = this.forgeIngestUrl ? 50_000_000 : this.maxPayloadBytes;
-    if (bytes > effectiveMax) {
+    const plan = planChunks(payload, { maxChunkBytes: this.chunkMaxBytes });
+    return uploadChunkedIngest({
+      url: this.url,
+      token: this.token,
+      plan,
+      timeoutMs: this.timeoutMs,
+      completeTimeoutMs: this.completeTimeoutMs,
+      retryPolicy: this.retryPolicy,
+      logger: this.logger,
+    });
+  }
+
+  private async sendDirect(payload: IngestPayload): Promise<IngestResponse> {
+    const bytes = estimatePayloadBytes(payload);
+    if (bytes > this.maxPayloadBytes) {
       throw new Error(
-        `Ingest payload is ${bytes} bytes; max allowed is ${effectiveMax} bytes`,
+        `Ingest payload is ${bytes} bytes; max allowed is ${this.maxPayloadBytes} bytes`,
       );
     }
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), this.timeoutMs);
+    const response = await withRetry(
+      async () =>
+        postIngestJson({
+          url: this.url!,
+          token: this.token!,
+          body: payload,
+          timeoutMs: this.timeoutMs,
+        }),
+      {
+        policy: this.retryPolicy,
+        logger: this.logger,
+        label: 'Ingest',
+      },
+    );
 
-    try {
-      const response = await fetch(this.url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${this.token}`,
-        },
-        body: JSON.stringify(body),
-        signal: controller.signal,
-      });
-
-      const text = await response.text();
-      let responseBody: unknown = text;
-      try {
-        responseBody = text ? (JSON.parse(text) as unknown) : null;
-      } catch {
-        // keep raw text
-      }
-
-      if (!response.ok) {
-        throw new Error(
-          `Forge ingest failed with HTTP ${response.status}: ${typeof responseBody === 'string' ? responseBody : JSON.stringify(responseBody)}`,
-        );
-      }
-
-      this.logger?.log(`Ingest accepted (HTTP ${response.status})`);
-      return { status: response.status, body: responseBody };
-    } catch (error) {
-      if (error instanceof Error && error.name === 'AbortError') {
-        throw new Error(`Forge ingest timed out after ${this.timeoutMs}ms`);
-      }
-      throw error;
-    } finally {
-      clearTimeout(timeout);
-    }
+    this.logger?.log(`Ingest accepted (HTTP ${response.status})`);
+    return response;
   }
 }

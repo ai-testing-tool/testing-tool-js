@@ -13,6 +13,9 @@ function buildIngestPayload(input) {
     if (!input.projectKey?.trim()) {
         throw new Error('projectKey is required to build an ingest payload');
     }
+    if (!input.report || typeof input.report !== 'object') {
+        throw new Error('Jest/Vitest ingest requires a JSON report object');
+    }
     const base = {
         projectKey: input.projectKey.trim(),
         launchName: input.launchName,
@@ -28,19 +31,6 @@ function buildIngestPayload(input) {
         gitAuthorName: input.ci?.gitAuthorName,
         gitAuthorEmail: input.ci?.gitAuthorEmail,
     };
-    if (input.format === 'junit-xml') {
-        if (typeof input.report !== 'string' || !input.report.trim()) {
-            throw new Error('junit-xml format requires report to be a non-empty XML string');
-        }
-        return {
-            ...base,
-            format: 'junit-xml',
-            report: input.report,
-        };
-    }
-    if (typeof input.report === 'string') {
-        throw new Error('Jest/Vitest ingest requires a JSON report object (use --format junit-xml for XML)');
-    }
     const normalized = normalizeJestReport(input.report);
     return {
         ...base,

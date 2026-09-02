@@ -1,6 +1,6 @@
 {
   "name": "@qanalyzer/forge-cucumberjs",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "QAnalyzer CucumberJS formatter — ingest or file modes via @qanalyzer/forge-commons",
   "keywords": [
     "qanalyzer",
@@ -37,7 +37,7 @@
     "@cucumber/messages": "^34.1.0",
     "@wdio/reporter": "9.29.1",
     "mocha": "^11.3.0",
-    "@qanalyzer/forge-commons": "^1.1.1"
+    "@qanalyzer/forge-commons": "^2.0.0"
   },
   "peerDependencies": {
     "@cucumber/cucumber": ">=10.0.0"

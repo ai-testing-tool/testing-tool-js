@@ -14,10 +14,13 @@ export enum EnvEnum {
 export enum EnvIngestEnum {
   url = 'QANALYZER_INGEST_URL',
   token = 'QANALYZER_INGEST_TOKEN',
-  forgeUrl = 'QANALYZER_FORGE_INGEST_URL',
-  forgeToken = 'QANALYZER_FORGE_INGEST_TOKEN',
   timeoutMs = 'QANALYZER_INGEST_TIMEOUT_MS',
+  completeTimeoutMs = 'QANALYZER_INGEST_COMPLETE_TIMEOUT_MS',
   maxPayloadBytes = 'QANALYZER_INGEST_MAX_PAYLOAD_BYTES',
+  chunkThresholdBytes = 'QANALYZER_INGEST_CHUNK_THRESHOLD_BYTES',
+  chunkMaxBytes = 'QANALYZER_INGEST_CHUNK_MAX_BYTES',
+  maxRetries = 'QANALYZER_INGEST_MAX_RETRIES',
+  retryBaseDelayMs = 'QANALYZER_INGEST_RETRY_BASE_DELAY_MS',
 }
 
 export enum EnvFileEnum {

@@ -7,7 +7,7 @@ JavaScript / TypeScript client SDK for **QAnalyzer** (Jira Forge quality hub): s
 | Package | Description |
 | ------- | ----------- |
 | [`@qanalyzer/forge-commons`](./qa-javascript-commons/) | Shared config, models, and Forge ingest client |
-| [`@qanalyzer/forge-api-client`](./qa-forge-api-client/) | CLI — uploads Jest/Vitest JSON or JUnit XML reports |
+| [`@qanalyzer/forge-api-client`](./qa-forge-api-client/) | CLI — uploads Jest/Vitest JSON reports |
 | [`@qanalyzer/forge-jest`](./qa-jest/) | Jest reporter |
 | [`@qanalyzer/forge-vitest`](./qa-vitest/) | Vitest reporter |
 | [`@qanalyzer/forge-mocha`](./qa-mocha/) | Mocha reporter |
@@ -29,27 +29,15 @@ npx @qanalyzer/forge-api-client --project AUTH --report qanalyzer-results.json
 
 Env: `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN` (from the QAnalyzer configure page), `QANALYZER_PROJECT_KEY`.
 
-**Ingest gateway (optional):** for large payloads, set `QANALYZER_INGEST_URL` to the gateway (`qanalyzer/ingest-gateway`) and `QANALYZER_FORGE_INGEST_URL` to the Forge web trigger. See [ingest-gateway architecture](../docs/architecture/ingest-gateway.md).
+Large reports: payloads above ~3.5 MB are uploaded automatically via the Forge web-trigger session/chunk API, with retries on transient errors (429/5xx/timeouts).
+
+### 2.0.0 migration
+
+- **Web-trigger only** — point `QANALYZER_INGEST_URL` at the Forge web trigger URL from project settings.
+- **Removed** — `QANALYZER_FORGE_INGEST_URL`, `QANALYZER_FORGE_INGEST_TOKEN`, and ingest-gateway mode.
+- **New (optional)** — `QANALYZER_INGEST_CHUNK_THRESHOLD_BYTES`, `QANALYZER_INGEST_CHUNK_MAX_BYTES`, `QANALYZER_INGEST_COMPLETE_TIMEOUT_MS`, `QANALYZER_INGEST_MAX_RETRIES`, `QANALYZER_INGEST_RETRY_BASE_DELAY_MS`.
 
 Reporters default to `mode: off` (no credentials required, no network); set `QANALYZER_MODE=ingest` in CI to publish launches, or `QANALYZER_MODE=file` to write the payload to disk.
-
-### Optional JUnit XML (secondary)
-
-Jest/Vitest JSON is the primary ingest format. For legacy JVM runners:
-
-```bash
-# Surefire / Gradle JUnit XML → Forge (server normalizes it)
-npx @qanalyzer/forge-api-client --project AUTH --report target/surefire-reports/TEST-*.xml --format junit-xml
-```
-
-Or curl the JSON envelope directly:
-
-```bash
-curl -X POST "$QANALYZER_INGEST_URL" \
-  -H "Authorization: Bearer $QANALYZER_INGEST_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d "{\"projectKey\":\"AUTH\",\"format\":\"junit-xml\",\"report\":$(jq -Rs . < results.xml)}"
-```
 
 ## Development
 
@@ -83,27 +71,27 @@ git checkout develop && git pull
 
 # 2. Bump every workspace to the release version (also updates
 #    package-lock.json and version references in the READMEs)
-npm run release:bump 1.2.3
+npm run release:bump 2.0.0
 
 # 3. Verify locally
 npm test
 npm run release:dry
 
 # 4. Commit the bump and merge to main
-git commit -am "release: v1.2.3"
+git commit -am "release: v2.0.0"
 git checkout main && git pull
 git merge --no-ff develop
 
 # 5. Tag and push — the tag pipeline publishes to npm
-git tag v1.2.3
-git push origin main develop v1.2.3
+git tag v2.0.0
+git push origin main develop v2.0.0
 ```
 
 ### Hotfixes
 
-Branch from `main`, fix, bump the patch version (step 2 above), tag `v1.2.4`, then merge `main` back into `develop` so the fix and version bump aren't lost.
+Branch from `main`, fix, bump the patch version (step 2 above), tag `v2.0.1`, then merge `main` back into `develop` so the fix and version bump aren't lost.
 
-Manual publish (bypassing CI): `npm run release` with an npm token configured. `RELEASE_TAG=v1.2.3 npm run release` additionally enforces the version check the pipeline uses.
+Manual publish (bypassing CI): `npm run release` with an npm token configured. `RELEASE_TAG=v2.0.0 npm run release` additionally enforces the version check the pipeline uses.
 
 ## License
 

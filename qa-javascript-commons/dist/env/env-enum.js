@@ -18,10 +18,13 @@ var EnvIngestEnum;
 (function (EnvIngestEnum) {
     EnvIngestEnum["url"] = "QANALYZER_INGEST_URL";
     EnvIngestEnum["token"] = "QANALYZER_INGEST_TOKEN";
-    EnvIngestEnum["forgeUrl"] = "QANALYZER_FORGE_INGEST_URL";
-    EnvIngestEnum["forgeToken"] = "QANALYZER_FORGE_INGEST_TOKEN";
     EnvIngestEnum["timeoutMs"] = "QANALYZER_INGEST_TIMEOUT_MS";
+    EnvIngestEnum["completeTimeoutMs"] = "QANALYZER_INGEST_COMPLETE_TIMEOUT_MS";
     EnvIngestEnum["maxPayloadBytes"] = "QANALYZER_INGEST_MAX_PAYLOAD_BYTES";
+    EnvIngestEnum["chunkThresholdBytes"] = "QANALYZER_INGEST_CHUNK_THRESHOLD_BYTES";
+    EnvIngestEnum["chunkMaxBytes"] = "QANALYZER_INGEST_CHUNK_MAX_BYTES";
+    EnvIngestEnum["maxRetries"] = "QANALYZER_INGEST_MAX_RETRIES";
+    EnvIngestEnum["retryBaseDelayMs"] = "QANALYZER_INGEST_RETRY_BASE_DELAY_MS";
 })(EnvIngestEnum || (exports.EnvIngestEnum = EnvIngestEnum = {}));
 var EnvFileEnum;
 (function (EnvFileEnum) {

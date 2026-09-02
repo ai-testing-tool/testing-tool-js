@@ -30,8 +30,13 @@ export function createDefaultConfig(): ConfigType {
     fallback: ModeEnum.off,
     debug: false,
     ingest: {
-      timeoutMs: 30_000,
+      timeoutMs: 60_000,
+      completeTimeoutMs: 120_000,
       maxPayloadBytes: 4_500_000,
+      chunkThresholdBytes: 3_500_000,
+      chunkMaxBytes: 3_000_000,
+      maxRetries: 4,
+      retryBaseDelayMs: 1000,
     },
     file: {
       path: './qanalyzer-results.json',

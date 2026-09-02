@@ -63,13 +63,11 @@ function printHelp() {
 
 Usage:
   @qanalyzer/forge-api-client --project <KEY> --report <path>
-  @qanalyzer/forge-api-client --project <KEY> --report results.xml --format junit-xml
 
 Options:
   --project, -p   Jira project key
-  --report, -r    Path to Jest/Vitest JSON (default) or JUnit XML with --format junit-xml
-  --format        jest-json (default) | vitest-json | junit-xml
-                  Note: JUnit XML is optional/secondary; Jest/Vitest JSON remains primary (FR41).
+  --report, -r    Path to Jest/Vitest JSON report (default ./qanalyzer-results.json)
+  --format        jest-json (default) | vitest-json | normalized
   --url           Ingest URL (or QANALYZER_INGEST_URL)
   --token         Bearer token (or QANALYZER_INGEST_TOKEN)
   --launch, -l    Launch display name
@@ -94,11 +92,6 @@ function readJsonReport(path) {
         return parsed.report;
     }
     return parsed;
-}
-function readReportFile(path, format) {
-    if (format === 'junit-xml')
-        return readText(path);
-    return readJsonReport(path);
 }
 async function main() {
     const args = parseArgs(process.argv.slice(2));
@@ -127,7 +120,7 @@ async function main() {
     }
     const report = existingPayload
         ? existingPayload.report
-        : readReportFile(reportPath, format);
+        : readJsonReport(reportPath);
     const payload = existingPayload
         ? {
             ...existingPayload,
@@ -155,10 +148,13 @@ async function main() {
     const client = new forge_commons_1.IngestClient({
         url: args.url ?? merged.ingest?.url,
         token: args.token ?? merged.ingest?.token,
-        forgeIngestUrl: merged.ingest?.forgeIngestUrl,
-        forgeIngestToken: merged.ingest?.forgeIngestToken,
         timeoutMs: merged.ingest?.timeoutMs,
+        completeTimeoutMs: merged.ingest?.completeTimeoutMs,
         maxPayloadBytes: merged.ingest?.maxPayloadBytes,
+        chunkThresholdBytes: merged.ingest?.chunkThresholdBytes,
+        chunkMaxBytes: merged.ingest?.chunkMaxBytes,
+        maxRetries: merged.ingest?.maxRetries,
+        retryBaseDelayMs: merged.ingest?.retryBaseDelayMs,
     });
     const response = await client.send(payload);
     console.log(JSON.stringify({ ok: true, status: response.status, body: response.body }));
