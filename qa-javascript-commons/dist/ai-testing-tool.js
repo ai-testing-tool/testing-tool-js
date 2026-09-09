@@ -1,18 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.QAnalyzerReporter = void 0;
+exports.AiTestingToolReporter = void 0;
 const env_1 = require("./env");
 const models_1 = require("./models");
 const options_1 = require("./options");
 const reporters_1 = require("./reporters");
 const utils_1 = require("./utils");
-const options_resolver_1 = require("./qanalyzer/options-resolver");
-const reporter_factory_1 = require("./qanalyzer/reporter-factory");
+const options_resolver_1 = require("./ai-testing-tool/options-resolver");
+const reporter_factory_1 = require("./ai-testing-tool/reporter-factory");
 /**
  * Thin orchestrator over OptionsResolver, ReporterFactory, and FallbackCoordinator.
  * Framework adapters call `publishReport` with runner JSON at end of test run.
  */
-class QAnalyzerReporter {
+class AiTestingToolReporter {
     static instance = null;
     options;
     logger;
@@ -30,13 +30,13 @@ class QAnalyzerReporter {
         }
     }
     static getInstance(options = {}) {
-        if (!QAnalyzerReporter.instance) {
-            QAnalyzerReporter.instance = new QAnalyzerReporter(options);
+        if (!AiTestingToolReporter.instance) {
+            AiTestingToolReporter.instance = new AiTestingToolReporter(options);
         }
-        return QAnalyzerReporter.instance;
+        return AiTestingToolReporter.instance;
     }
     static resetInstance() {
-        QAnalyzerReporter.instance = null;
+        AiTestingToolReporter.instance = null;
     }
     getConfig() {
         return this.options;
@@ -93,4 +93,4 @@ class QAnalyzerReporter {
         return { upstream, fallback, disabled };
     }
 }
-exports.QAnalyzerReporter = QAnalyzerReporter;
+exports.AiTestingToolReporter = AiTestingToolReporter;

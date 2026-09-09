@@ -1,14 +1,14 @@
 import { Formatter, type IFormatterOptions } from '@cucumber/cucumber';
-import { type OptionsType } from '@qanalyzer/forge-commons';
+import { type OptionsType } from '@ai-testing-tool/forge-commons';
 export type CucumberQaOptions = OptionsType;
 export type CucumberQaFormatterOptions = IFormatterOptions & CucumberQaOptions;
 /**
- * CucumberJS custom formatter for QAnalyzer.
+ * CucumberJS custom formatter for AiTestingTool.
  *
  * Configure (`cucumber.js`):
- *   format: ['progress', '@qanalyzer/forge-cucumberjs']
+ *   format: ['progress', '@ai-testing-tool/forge-cucumberjs']
  *
- * Modes via env (`QANALYZER_MODE`) or formatOptions.
+ * Modes via env (`AI_TESTING_TOOL_MODE`) or formatOptions.
  * Helpers are tag-based (`@QaTitle`, `@QaSuite`, `@QaIgnore`, `@AUTH-101`) — no programmatic import (FR54).
  * `this.attach()` → envelope.attachment → optional Forge upload (FR58).
  */

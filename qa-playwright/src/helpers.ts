@@ -10,7 +10,7 @@
  * `qa.attach` with binary content/path uploads via Forge when configured (FR119).
  */
 
-import { uploadAttachmentForQa } from '@qanalyzer/forge-commons';
+import { uploadAttachmentForQa } from '@ai-testing-tool/forge-commons';
 
 import {
   MetadataManager,
@@ -83,7 +83,7 @@ function tryAttachMetadata(meta: MetadataMessage): boolean {
     const info = pw.test?.info?.();
     if (!info?.attach) return false;
     void info
-      .attach('qanalyzer-metadata.json', {
+      .attach('ai-testing-tool-metadata.json', {
         contentType: QA_METADATA_CONTENT_TYPE,
         body: Buffer.from(JSON.stringify(meta), 'utf8'),
       })

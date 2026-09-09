@@ -6,5 +6,5 @@ function vitestJsonRun(reportFile) {
     return `npx vitest run --reporter=json --outputFile=${reportFile}`;
 }
 function vitestReporterEnv() {
-    return 'QANALYZER_MODE: ingest';
+    return 'AI_TESTING_TOOL_MODE: ingest';
 }

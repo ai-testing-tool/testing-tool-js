@@ -1,9 +1,9 @@
 {
-  "name": "@qanalyzer/forge-api-client",
+  "name": "@ai-testing-tool/forge-api-client",
   "version": "2.0.0",
-  "description": "CLI client for QAnalyzer Forge ingest API (Jest/Vitest JSON upload)",
+  "description": "CLI client for AI Testing Tool Forge ingest API (Jest/Vitest JSON upload)",
   "keywords": [
-    "qanalyzer",
+    "ai-testing-tool",
     "cli",
     "forge",
     "testing",
@@ -28,7 +28,7 @@
     "prepublishOnly": "npm run build && npm test"
   },
   "dependencies": {
-    "@qanalyzer/forge-commons": "^2.0.0"
+    "@ai-testing-tool/forge-commons": "^2.0.0"
   },
   "license": "Apache-2.0"
 }

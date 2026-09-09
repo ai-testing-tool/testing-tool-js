@@ -12,7 +12,7 @@
 #   - README.md: rewrites the release-walkthrough examples in the
 #     "Releasing" / "Git flow" section (bump, commit, tag, RELEASE_TAG) and
 #     the hotfix example tag (next patch).
-#   - qa-*/README.md: rewrites pinned install versions (@qanalyzer/forge-<pkg>@x.y.z),
+#   - qa-*/README.md: rewrites pinned install versions (@ai-testing-tool/forge-<pkg>@x.y.z),
 #     e.g. in qa-cypress/README.md.
 set -eu
 cd "$(dirname "$0")/.."
@@ -58,13 +58,13 @@ rewrite('README.md', [
   [new RegExp(`tag \`v${SEMVER}\``, 'g'), `tag \`v${nextPatch}\``],
 ]);
 
-// Package READMEs — pinned install versions (npm install -D @qanalyzer/forge-cypress@x.y.z ...).
+// Package READMEs — pinned install versions (npm install -D @ai-testing-tool/forge-cypress@x.y.z ...).
 for (const dir of fs.readdirSync('.')) {
   if (!dir.startsWith('qa-')) continue;
   const readme = `${dir}/README.md`;
   if (!fs.existsSync(readme)) continue;
   rewrite(readme, [
-    [new RegExp(`(@qanalyzer/forge-[a-z-]+)@${SEMVER}`, 'g'), `$1@${version}`],
+    [new RegExp(`(@ai-testing-tool/forge-[a-z-]+)@${SEMVER}`, 'g'), `$1@${version}`],
   ]);
 }
 EOF

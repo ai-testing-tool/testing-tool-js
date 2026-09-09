@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.QaWdioReporter = void 0;
 const reporter_1 = __importDefault(require("@wdio/reporter"));
-const forge_commons_1 = require("@qanalyzer/forge-commons");
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 const cucumber_tags_1 = require("./cucumber-tags");
 const metadata_manager_1 = require("./metadata-manager");
 const publish_1 = require("./publish");
@@ -38,7 +38,7 @@ function suiteTags(suite) {
     return Array.isArray(tags) ? tags : [];
 }
 /**
- * WebdriverIO reporter for QAnalyzer.
+ * WebdriverIO reporter for AiTestingTool.
  *
  * Configure:
  *   reporters: [[QaWdioReporter, { disableWebdriverStepsReporting: true }]]
@@ -76,11 +76,11 @@ class QaWdioReporter extends reporter_1.default {
             file,
             frameworkPackage: frameworkPackage ?? '@wdio/cli',
             frameworkName: frameworkName ?? 'wdio',
-            reporterName: reporterName ?? '@qanalyzer/forge-wdio',
+            reporterName: reporterName ?? '@ai-testing-tool/forge-wdio',
             fallback,
         };
         results_buffer_1.ResultsBuffer.reset(this.qaOptions);
-        forge_commons_1.QAnalyzerReporter.getInstance(this.qaOptions);
+        forge_commons_1.AiTestingToolReporter.getInstance(this.qaOptions);
     }
     onSuiteStart(suite) {
         if (suite.file) {
@@ -210,7 +210,7 @@ class QaWdioReporter extends reporter_1.default {
             const entries = metadata_manager_1.MetadataManager.getEntries();
             let wire = (0, forge_commons_1.qaMetaFromEntries)(entries, {
                 framework: 'wdio',
-                reporter: '@qanalyzer/forge-wdio',
+                reporter: '@ai-testing-tool/forge-wdio',
             });
             metadata_manager_1.MetadataManager.clear();
             if (scenario.issueKeys.length > 0) {
@@ -219,7 +219,7 @@ class QaWdioReporter extends reporter_1.default {
                     framework: 'wdio',
                     host: {
                         framework: 'wdio',
-                        reporter: '@qanalyzer/forge-wdio',
+                        reporter: '@ai-testing-tool/forge-wdio',
                     },
                     issueKeys: [...scenario.issueKeys],
                 };
@@ -239,7 +239,7 @@ class QaWdioReporter extends reporter_1.default {
                     framework: 'wdio',
                     host: {
                         framework: 'wdio',
-                        reporter: '@qanalyzer/forge-wdio',
+                        reporter: '@ai-testing-tool/forge-wdio',
                     },
                     steps: stepsWire,
                 };
@@ -268,7 +268,7 @@ class QaWdioReporter extends reporter_1.default {
             const entries = metadata_manager_1.MetadataManager.getEntries();
             const wire = (0, forge_commons_1.qaMetaFromEntries)(entries, {
                 framework: 'wdio',
-                reporter: '@qanalyzer/forge-wdio',
+                reporter: '@ai-testing-tool/forge-wdio',
             });
             metadata_manager_1.MetadataManager.clear();
             const ancestors = ancestorTitles(test, this.suiteStack);

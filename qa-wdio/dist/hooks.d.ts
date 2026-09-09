@@ -1,4 +1,4 @@
-import { type OptionsType } from '@qanalyzer/forge-commons';
+import { type OptionsType } from '@ai-testing-tool/forge-commons';
 /**
  * Tracks onPrepare/onComplete hook pairing (FR123 / NFR33).
  */

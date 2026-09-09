@@ -1,36 +1,36 @@
 import type { CiTemplateContext, CiVariableHint } from '../types';
 
-/** Vitest run when @qanalyzer/forge-vitest is configured in vitest.config.ts. */
+/** Vitest run when @ai-testing-tool/forge-vitest is configured in vitest.config.ts. */
 export function vitestReporterRun(): string {
   return 'npx vitest run';
 }
 
-/** Jest run when @qanalyzer/forge-jest is configured in jest.config.js. */
+/** Jest run when @ai-testing-tool/forge-jest is configured in jest.config.js. */
 export function jestReporterRun(): string {
   return 'npx jest --runInBand';
 }
 
-/** Cypress run when @qanalyzer/forge-cypress is configured in cypress.config.js. */
+/** Cypress run when @ai-testing-tool/forge-cypress is configured in cypress.config.js. */
 export function cypressReporterRun(): string {
   return 'npx cypress run';
 }
 
-/** Playwright run when @qanalyzer/forge-playwright is configured in playwright.config.ts. */
+/** Playwright run when @ai-testing-tool/forge-playwright is configured in playwright.config.ts. */
 export function playwrightReporterRun(): string {
   return 'npx playwright test';
 }
 
-/** WebdriverIO run when @qanalyzer/forge-wdio is configured in wdio.conf.js. */
+/** WebdriverIO run when @ai-testing-tool/forge-wdio is configured in wdio.conf.js. */
 export function wdioReporterRun(): string {
   return 'npx wdio run wdio.conf.js';
 }
 
-/** Mocha run when @qanalyzer/forge-mocha is configured in .mocharc.js. */
+/** Mocha run when @ai-testing-tool/forge-mocha is configured in .mocharc.js. */
 export function mochaReporterRun(): string {
   return 'npx mocha';
 }
 
-/** CucumberJS run when @qanalyzer/forge-cucumberjs is configured in cucumber.js. */
+/** CucumberJS run when @ai-testing-tool/forge-cucumberjs is configured in cucumber.js. */
 export function cucumberjsReporterRun(): string {
   return 'npx cucumber-js';
 }
@@ -59,13 +59,13 @@ export function frameworkReporterRun(ctx: CiTemplateContext): string {
 }
 
 export function reporterPackageName(ctx: CiTemplateContext): string {
-  if (ctx.framework === 'jest') return '@qanalyzer/forge-jest';
-  if (ctx.framework === 'mocha') return '@qanalyzer/forge-mocha';
-  if (ctx.framework === 'cucumberjs') return '@qanalyzer/forge-cucumberjs';
-  if (ctx.framework === 'cypress') return '@qanalyzer/forge-cypress';
-  if (ctx.framework === 'playwright') return '@qanalyzer/forge-playwright';
-  if (ctx.framework === 'wdio') return '@qanalyzer/forge-wdio';
-  return '@qanalyzer/forge-vitest';
+  if (ctx.framework === 'jest') return '@ai-testing-tool/forge-jest';
+  if (ctx.framework === 'mocha') return '@ai-testing-tool/forge-mocha';
+  if (ctx.framework === 'cucumberjs') return '@ai-testing-tool/forge-cucumberjs';
+  if (ctx.framework === 'cypress') return '@ai-testing-tool/forge-cypress';
+  if (ctx.framework === 'playwright') return '@ai-testing-tool/forge-playwright';
+  if (ctx.framework === 'wdio') return '@ai-testing-tool/forge-wdio';
+  return '@ai-testing-tool/forge-vitest';
 }
 
 export function reporterFrameworkLabel(ctx: CiTemplateContext): string {
@@ -81,24 +81,24 @@ export function reporterFrameworkLabel(ctx: CiTemplateContext): string {
 /** Short config hint for CI comments. */
 export function reporterConfigHint(ctx: CiTemplateContext): string {
   if (ctx.framework === 'jest') {
-    return "jest.config.js reporters: ['default', '@qanalyzer/forge-jest']";
+    return "jest.config.js reporters: ['default', '@ai-testing-tool/forge-jest']";
   }
   if (ctx.framework === 'mocha') {
-    return ".mocharc.js reporter: '@qanalyzer/forge-mocha'";
+    return ".mocharc.js reporter: '@ai-testing-tool/forge-mocha'";
   }
   if (ctx.framework === 'cucumberjs') {
-    return "cucumber.js format: ['progress', '@qanalyzer/forge-cucumberjs']";
+    return "cucumber.js format: ['progress', '@ai-testing-tool/forge-cucumberjs']";
   }
   if (ctx.framework === 'cypress') {
-    return 'cypress.config.js reporter: @qanalyzer/forge-cypress (+ plugin/metadata in setupNodeEvents)';
+    return 'cypress.config.js reporter: @ai-testing-tool/forge-cypress (+ plugin/metadata in setupNodeEvents)';
   }
   if (ctx.framework === 'playwright') {
-    return "playwright.config.ts reporter: [['list'], ['@qanalyzer/forge-playwright']] (+ npx playwright install)";
+    return "playwright.config.ts reporter: [['list'], ['@ai-testing-tool/forge-playwright']] (+ npx playwright install)";
   }
   if (ctx.framework === 'wdio') {
-    return 'wdio.conf.js: @qanalyzer/forge-wdio reporter + QaWdioService + hooks; headless Chrome (goog:chromeOptions --headless=new)';
+    return 'wdio.conf.js: @ai-testing-tool/forge-wdio reporter + QaWdioService + hooks; headless Chrome (goog:chromeOptions --headless=new)';
   }
-  return "vitest.config.ts reporters: ['default', '@qanalyzer/forge-vitest']";
+  return "vitest.config.ts reporters: ['default', '@ai-testing-tool/forge-vitest']";
 }
 
 /**
@@ -118,7 +118,7 @@ export function reporterIngestEnvLines(ctx: CiTemplateContext): {
     url: ctx.ingestUrlExpr ?? ctx.ingestUrlSecret,
     token: ctx.ingestTokenExpr ?? ctx.ingestTokenSecret,
     project: ctx.projectKeyExpr ?? ctx.projectKey,
-    planNameHint: 'QANALYZER_PLAN_NAME',
+    planNameHint: 'AI_TESTING_TOOL_PLAN_NAME',
   };
 }
 
@@ -126,17 +126,17 @@ export function reporterIngestEnvLines(ctx: CiTemplateContext): {
 export function planCiVariableHints(): CiVariableHint[] {
   return [
     {
-      name: 'QANALYZER_PLAN_NAME',
+      name: 'AI_TESTING_TOOL_PLAN_NAME',
       description: 'Optional Test Plan display name (auto-creates stub unless require_existing_plan)',
       platformHint: 'Set as a CI variable/env when attaching launches to a plan',
     },
     {
-      name: 'QANALYZER_PLAN_ID',
-      description: 'Optional Test Plan UUID from QAnalyzer Plans UI',
+      name: 'AI_TESTING_TOOL_PLAN_ID',
+      description: 'Optional Test Plan UUID from AiTestingTool Plans UI',
       platformHint: 'Prefer over plan name when the plan already exists',
     },
     {
-      name: 'QANALYZER_PLAN_KEY',
+      name: 'AI_TESTING_TOOL_PLAN_KEY',
       description: 'Optional Test Plan slug (plan_key)',
       platformHint: 'Alternative to plan name / id',
     },
@@ -147,12 +147,12 @@ export function planCiVariableHints(): CiVariableHint[] {
 export function versionTagCiVariableHints(): CiVariableHint[] {
   return [
     {
-      name: 'QANALYZER_FIX_VERSION',
+      name: 'AI_TESTING_TOOL_FIX_VERSION',
       description: 'Optional fix version / release tag on the launch',
       platformHint: 'Set per release pipeline (e.g. 2.4.0)',
     },
     {
-      name: 'QANALYZER_SPRINT',
+      name: 'AI_TESTING_TOOL_SPRINT',
       description: 'Optional sprint name tag on the launch',
       platformHint: 'Set per sprint or iteration',
     },
@@ -170,7 +170,7 @@ export function assertReporterFramework(ctx: CiTemplateContext): void {
     ctx.framework !== 'wdio'
   ) {
     throw new Error(
-      'Reporter path requires Vitest (@qanalyzer/forge-vitest), Jest (@qanalyzer/forge-jest), Mocha (@qanalyzer/forge-mocha), CucumberJS (@qanalyzer/forge-cucumberjs), Cypress (@qanalyzer/forge-cypress), Playwright (@qanalyzer/forge-playwright), or WebdriverIO (@qanalyzer/forge-wdio)',
+      'Reporter path requires Vitest (@ai-testing-tool/forge-vitest), Jest (@ai-testing-tool/forge-jest), Mocha (@ai-testing-tool/forge-mocha), CucumberJS (@ai-testing-tool/forge-cucumberjs), Cypress (@ai-testing-tool/forge-cypress), Playwright (@ai-testing-tool/forge-playwright), or WebdriverIO (@ai-testing-tool/forge-wdio)',
     );
   }
 }

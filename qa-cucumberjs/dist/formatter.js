@@ -2,16 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CucumberQaFormatter = void 0;
 const cucumber_1 = require("@cucumber/cucumber");
-const forge_commons_1 = require("@qanalyzer/forge-commons");
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 const event_storage_1 = require("./modules/event-storage");
 const report_builder_1 = require("./report-builder");
 /**
- * CucumberJS custom formatter for QAnalyzer.
+ * CucumberJS custom formatter for AiTestingTool.
  *
  * Configure (`cucumber.js`):
- *   format: ['progress', '@qanalyzer/forge-cucumberjs']
+ *   format: ['progress', '@ai-testing-tool/forge-cucumberjs']
  *
- * Modes via env (`QANALYZER_MODE`) or formatOptions.
+ * Modes via env (`AI_TESTING_TOOL_MODE`) or formatOptions.
  * Helpers are tag-based (`@QaTitle`, `@QaSuite`, `@QaIgnore`, `@AUTH-101`) — no programmatic import (FR54).
  * `this.attach()` → envelope.attachment → optional Forge upload (FR58).
  */
@@ -33,7 +33,7 @@ class CucumberQaFormatter extends cucumber_1.Formatter {
             file,
             frameworkPackage: frameworkPackage ?? '@cucumber/cucumber',
             frameworkName: frameworkName ?? 'cucumberjs',
-            reporterName: reporterName ?? '@qanalyzer/forge-cucumberjs',
+            reporterName: reporterName ?? '@ai-testing-tool/forge-cucumberjs',
             fallback,
         };
         options.eventBroadcaster.on('envelope', (envelope) => {
@@ -79,8 +79,8 @@ class CucumberQaFormatter extends cucumber_1.Formatter {
     async publish() {
         try {
             await Promise.all(this.pendingScenarios);
-            forge_commons_1.QAnalyzerReporter.resetInstance();
-            const reporter = forge_commons_1.QAnalyzerReporter.getInstance({
+            forge_commons_1.AiTestingToolReporter.resetInstance();
+            const reporter = forge_commons_1.AiTestingToolReporter.getInstance({
                 ...this.options,
                 mode: this.options.mode ?? forge_commons_1.ModeEnum.off,
             });

@@ -4,7 +4,7 @@ exports.ConfigLoader = void 0;
 exports.loadConfig = loadConfig;
 const fs_1 = require("fs");
 const path_1 = require("path");
-const DEFAULT_PATHS = ['qanalyzer.config.json', '.qanalyzerc'];
+const DEFAULT_PATHS = ['ai-testing-tool.config.json', '.ai-testing-toolc'];
 function isRecord(value) {
     return typeof value === 'object' && value !== null && !Array.isArray(value);
 }

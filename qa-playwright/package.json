@@ -1,9 +1,9 @@
 {
-  "name": "@qanalyzer/forge-playwright",
+  "name": "@ai-testing-tool/forge-playwright",
   "version": "2.0.0",
-  "description": "QAnalyzer Playwright reporter — ingest or file modes via @qanalyzer/forge-commons",
+  "description": "AI Testing Tool Playwright reporter — ingest or file modes via @ai-testing-tool/forge-commons",
   "keywords": [
-    "qanalyzer",
+    "ai-testing-tool",
     "playwright",
     "reporter",
     "testing",
@@ -37,7 +37,7 @@
     "prepublishOnly": "npm test"
   },
   "dependencies": {
-    "@qanalyzer/forge-commons": "^2.0.0"
+    "@ai-testing-tool/forge-commons": "^2.0.0"
   },
   "peerDependencies": {
     "@playwright/test": ">=1.40.0"

@@ -1,5 +1,5 @@
 import type { PickleTag } from '@cucumber/messages';
-/** Parsed Gherkin tags → QAnalyzer meta (FR52). */
+/** Parsed Gherkin tags → AiTestingTool meta (FR52). */
 export type CucumberQaTagMeta = {
     title: string | null;
     ignore: boolean;

@@ -1,10 +1,10 @@
 import {
   ModeEnum,
-  QAnalyzerReporter,
+  AiTestingToolReporter,
   qaMetaFromEntries,
   type OptionsType,
   type QaMetaWire,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 import type { QaJestBridge, QaMetaEntry } from './jest';
 import { toJestJsonReport, type AggregatedResultLike } from './report-builder';
@@ -17,10 +17,10 @@ type JestTestCaseResultLike = {
 };
 
 /**
- * Jest custom reporter for QAnalyzer.
- * Configure: `reporters: ['default', '@qanalyzer/forge-jest']` or `['@qanalyzer/forge-jest', { mode: 'ingest', ... }]`.
+ * Jest custom reporter for AiTestingTool.
+ * Configure: `reporters: ['default', '@ai-testing-tool/forge-jest']` or `['@ai-testing-tool/forge-jest', { mode: 'ingest', ... }]`.
  *
- * Helpers from `@qanalyzer/forge-jest/jest` forward metadata via a global bridge (works with `--runInBand`).
+ * Helpers from `@ai-testing-tool/forge-jest/jest` forward metadata via a global bridge (works with `--runInBand`).
  */
 export class JestQaReporter {
   private readonly options: JestQaOptions;
@@ -90,8 +90,8 @@ export class JestQaReporter {
 
   private async publish(results: AggregatedResultLike): Promise<void> {
     try {
-      QAnalyzerReporter.resetInstance();
-      const reporter = QAnalyzerReporter.getInstance({
+      AiTestingToolReporter.resetInstance();
+      const reporter = AiTestingToolReporter.getInstance({
         ...this.options,
         mode: this.options.mode ?? ModeEnum.off,
       });

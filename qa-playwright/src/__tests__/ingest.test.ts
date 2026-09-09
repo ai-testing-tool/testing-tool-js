@@ -5,9 +5,9 @@ import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import {
   ModeEnum,
-  QAnalyzerReporter,
+  AiTestingToolReporter,
   type IngestPayload,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 import { QA_METADATA_CONTENT_TYPE } from '../metadata-manager.js';
 import { PlaywrightQaReporter } from '../reporter.js';
@@ -16,11 +16,11 @@ import { toJestJsonReport } from '../report-builder.js';
 qaDescribe('mode=file publish', () => {
   qaItAuto('writes FR41 payload with format jest-json', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-playwright-'));
-    const out = join(dir, 'qanalyzer-results.json');
+    const out = join(dir, 'ai-testing-tool-results.json');
 
     try {
-      QAnalyzerReporter.resetInstance();
-      const reporter = QAnalyzerReporter.getInstance({
+      AiTestingToolReporter.resetInstance();
+      const reporter = AiTestingToolReporter.getInstance({
         mode: ModeEnum.file,
         projectKey: 'AUTH',
         launchName: 'local',
@@ -52,7 +52,7 @@ qaDescribe('mode=file publish', () => {
       expect((written.report as { testResults?: Array<{ assertionResults?: Array<{ title?: string }> }> })
           .testResults?.[0]?.assertionResults?.[0]?.title).toBe('AUTH-101 login',);
     } finally {
-      QAnalyzerReporter.resetInstance();
+      AiTestingToolReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
     }
   });
@@ -109,7 +109,7 @@ qaDescribe('PlaywrightQaReporter modes', () => {
           ],
           attachments: [
             {
-              name: 'qanalyzer-metadata.json',
+              name: 'ai-testing-tool-metadata.json',
               contentType: QA_METADATA_CONTENT_TYPE,
               body: Buffer.from(
                 JSON.stringify({ suite: 'E-commerce\tLogin' }),
@@ -143,7 +143,7 @@ qaDescribe('PlaywrightQaReporter modes', () => {
       expect(qa?.steps?.length).toBe(2);
       expect(qa?.suite).toEqual([{ title: 'E-commerce' }, { title: 'Login' }]);
     } finally {
-      QAnalyzerReporter.resetInstance();
+      AiTestingToolReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
     }
   });

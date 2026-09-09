@@ -1,6 +1,6 @@
-# CucumberJS pilot — JSONPlaceholder + @qanalyzer/forge-cucumberjs
+# CucumberJS pilot — JSONPlaceholder + @ai-testing-tool/forge-cucumberjs
 
-BDD features against [JSONPlaceholder](https://jsonplaceholder.typicode.com/) using **@qanalyzer/forge-cucumberjs**.
+BDD features against [JSONPlaceholder](https://jsonplaceholder.typicode.com/) using **@ai-testing-tool/forge-cucumberjs**.
 
 ## Setup
 
@@ -17,10 +17,10 @@ npm test
 
 npm run test:file
 
-QANALYZER_MODE=ingest \
-QANALYZER_PROJECT_KEY=AUTH \
-QANALYZER_INGEST_URL=... \
-QANALYZER_INGEST_TOKEN=... \
+AI_TESTING_TOOL_MODE=ingest \
+AI_TESTING_TOOL_PROJECT_KEY=AUTH \
+AI_TESTING_TOOL_INGEST_URL=... \
+AI_TESTING_TOOL_INGEST_TOKEN=... \
 npm test
 ```
 

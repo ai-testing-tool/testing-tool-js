@@ -37,7 +37,7 @@ class AttachClient {
     constructor(options = {}) {
         this.url =
             options.url ??
-                readEnv('QANALYZER_ATTACH_URL') ??
+                readEnv('AI_TESTING_TOOL_ATTACH_URL') ??
                 readEnv(env_enum_1.EnvIngestEnum.url);
         this.token = options.token ?? readEnv(env_enum_1.EnvIngestEnum.token);
         this.timeoutMs = options.timeoutMs ?? 30_000;
@@ -46,10 +46,10 @@ class AttachClient {
     }
     async upload(input) {
         if (!this.url) {
-            throw new Error('attach.url (or QANALYZER_INGEST_URL) is required to upload attachments');
+            throw new Error('attach.url (or AI_TESTING_TOOL_INGEST_URL) is required to upload attachments');
         }
         if (!this.token) {
-            throw new Error('attach.token (or QANALYZER_INGEST_TOKEN) is required to upload attachments');
+            throw new Error('attach.token (or AI_TESTING_TOOL_INGEST_TOKEN) is required to upload attachments');
         }
         const content = toBuffer(input.content);
         if (content.length > this.maxBytes) {
@@ -64,7 +64,7 @@ class AttachClient {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${this.token}`,
-                    'X-QAnalyzer-Action': 'attach',
+                    'X-AiTestingTool-Action': 'attach',
                 },
                 body: JSON.stringify({
                     projectKey: input.projectKey,

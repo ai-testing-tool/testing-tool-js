@@ -28,14 +28,14 @@ function gitlabScriptLines(ctx: CiTemplateContext, ...cmds: string[]): string {
 function gitlabSecrets(): CiSecretHint[] {
   return [
     {
-      name: 'QANALYZER_INGEST_URL',
+      name: 'AI_TESTING_TOOL_INGEST_URL',
       description:
         'Forge web trigger URL (launch ingest + binary attach / screenshots / qa.attach)',
       platformHint: 'Settings → CI/CD → Variables → Add variable (Masked + Protected as needed)',
     },
     {
-      name: 'QANALYZER_INGEST_TOKEN',
-      description: 'Bearer token from QAnalyzer configure page (shown once)',
+      name: 'AI_TESTING_TOOL_INGEST_TOKEN',
+      description: 'Bearer token from AiTestingTool configure page (shown once)',
       platformHint: 'Settings → CI/CD → Variables → Add variable (Masked + Protected)',
     },
   ];
@@ -45,7 +45,7 @@ function gitlabVariables(): CiVariableHint[] {
   return [
     {
       name: 'JIRA_PROJECT_KEY',
-      description: 'Jira project key allowlisted in QAnalyzer (e.g. AUTH)',
+      description: 'Jira project key allowlisted in AiTestingTool (e.g. AUTH)',
       platformHint: 'Settings → CI/CD → Variables',
     },
   ];
@@ -59,7 +59,7 @@ function renderGitlabReporter(ctx: CiTemplateContext): CiTemplateResult {
   const configHint = reporterConfigHint(ctx);
   const jobName = ctx.framework;
 
-  const content = `# QAnalyzer fragment — ${label} ${pkg} reporter path
+  const content = `# AiTestingTool fragment — ${label} ${pkg} reporter path
 # Requires ${pkg} in package.json and ${configHint}
 stages:
   - test
@@ -68,13 +68,13 @@ ${jobName}:
   stage: test
   image: node:${nodeVersion}-alpine
   variables:
-    QANALYZER_MODE: ingest
-    QANALYZER_INGEST_URL: $QANALYZER_INGEST_URL
-    QANALYZER_INGEST_TOKEN: $QANALYZER_INGEST_TOKEN
-    QANALYZER_PROJECT_KEY: $JIRA_PROJECT_KEY
-    QANALYZER_LAUNCH_NAME: $CI_PIPELINE_ID
-    # Optional Test Plan: QANALYZER_PLAN_NAME / QANALYZER_PLAN_ID / QANALYZER_PLAN_KEY
-    # Optional tags: QANALYZER_FIX_VERSION / QANALYZER_SPRINT
+    AI_TESTING_TOOL_MODE: ingest
+    AI_TESTING_TOOL_INGEST_URL: $AI_TESTING_TOOL_INGEST_URL
+    AI_TESTING_TOOL_INGEST_TOKEN: $AI_TESTING_TOOL_INGEST_TOKEN
+    AI_TESTING_TOOL_PROJECT_KEY: $JIRA_PROJECT_KEY
+    AI_TESTING_TOOL_LAUNCH_NAME: $CI_PIPELINE_ID
+    # Optional Test Plan: AI_TESTING_TOOL_PLAN_NAME / AI_TESTING_TOOL_PLAN_ID / AI_TESTING_TOOL_PLAN_KEY
+    # Optional tags: AI_TESTING_TOOL_FIX_VERSION / AI_TESTING_TOOL_SPRINT
   script:
     - npm ci
 ${gitlabScriptLines(ctx, frameworkReporterRun(ctx))}
@@ -92,7 +92,7 @@ ${gitlabScriptLines(ctx, frameworkReporterRun(ctx))}
 }
 
 /**
- * GitLab CI — upload path or @qanalyzer/forge-vitest / @qanalyzer/forge-jest reporter path.
+ * GitLab CI — upload path or @ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest reporter path.
  */
 export function renderGitlabUpload(ctx: CiTemplateContext): CiTemplateResult {
   if (ctx.ingestPath === 'reporter') {
@@ -103,13 +103,13 @@ export function renderGitlabUpload(ctx: CiTemplateContext): CiTemplateResult {
   }
 
   const nodeVersion = ctx.nodeVersion ?? '22';
-  const reportFile = ctx.reportFile ?? 'qanalyzer-results.json';
+  const reportFile = ctx.reportFile ?? 'ai-testing-tool-results.json';
   const testCmd = frameworkTestCommand(ctx);
   const jobName = ctx.framework;
   const label = frameworkLabel(ctx);
   const uploadBlock = indentUploadCli(ctx, 6);
 
-  const content = `# QAnalyzer fragment — merge into your .gitlab-ci.yml
+  const content = `# AiTestingTool fragment — merge into your .gitlab-ci.yml
 # ${label} upload path
 stages:
   - test
@@ -126,14 +126,14 @@ ${gitlabScriptLines(ctx, testCmd)}
     paths:
       - ${reportFile}
 
-qanalyzer_upload:
+ai-testing-tool_upload:
   stage: report
   image: node:${nodeVersion}-alpine
   when: always
   needs: [${jobName}]
   variables:
-    QANALYZER_INGEST_URL: $QANALYZER_INGEST_URL
-    QANALYZER_INGEST_TOKEN: $QANALYZER_INGEST_TOKEN
+    AI_TESTING_TOOL_INGEST_URL: $AI_TESTING_TOOL_INGEST_URL
+    AI_TESTING_TOOL_INGEST_TOKEN: $AI_TESTING_TOOL_INGEST_TOKEN
   script:
     - |
 ${uploadBlock}

@@ -4,7 +4,7 @@ import type { ConfigType } from '../config';
 import { composeOptions } from '../options/compose-options';
 import { buildIngestPayload } from '../models/ingest-payload';
 import { envToConfig } from '../env/env-to-config';
-import { createDefaultConfig } from '../qanalyzer/options-resolver';
+import { createDefaultConfig } from '../ai-testing-tool/options-resolver';
 
 qaDescribe('composeOptions', () => {
   qaItAuto('skips undefined values from later sources', () => {
@@ -52,39 +52,39 @@ qaDescribe('buildIngestPayload', () => {
 });
 
 qaDescribe('envToConfig ingest retry', () => {
-  qaItAuto('maps QANALYZER_INGEST_MAX_RETRIES and QANALYZER_INGEST_RETRY_BASE_DELAY_MS', () => {
-    const prevRetries = process.env.QANALYZER_INGEST_MAX_RETRIES;
-    const prevDelay = process.env.QANALYZER_INGEST_RETRY_BASE_DELAY_MS;
-    process.env.QANALYZER_INGEST_MAX_RETRIES = '5';
-    process.env.QANALYZER_INGEST_RETRY_BASE_DELAY_MS = '2000';
+  qaItAuto('maps AI_TESTING_TOOL_INGEST_MAX_RETRIES and AI_TESTING_TOOL_INGEST_RETRY_BASE_DELAY_MS', () => {
+    const prevRetries = process.env.AI_TESTING_TOOL_INGEST_MAX_RETRIES;
+    const prevDelay = process.env.AI_TESTING_TOOL_INGEST_RETRY_BASE_DELAY_MS;
+    process.env.AI_TESTING_TOOL_INGEST_MAX_RETRIES = '5';
+    process.env.AI_TESTING_TOOL_INGEST_RETRY_BASE_DELAY_MS = '2000';
     try {
       const config = envToConfig();
       expect(config.ingest?.maxRetries).toBe(5);
       expect(config.ingest?.retryBaseDelayMs).toBe(2000);
     } finally {
-      if (prevRetries === undefined) delete process.env.QANALYZER_INGEST_MAX_RETRIES;
-      else process.env.QANALYZER_INGEST_MAX_RETRIES = prevRetries;
-      if (prevDelay === undefined) delete process.env.QANALYZER_INGEST_RETRY_BASE_DELAY_MS;
-      else process.env.QANALYZER_INGEST_RETRY_BASE_DELAY_MS = prevDelay;
+      if (prevRetries === undefined) delete process.env.AI_TESTING_TOOL_INGEST_MAX_RETRIES;
+      else process.env.AI_TESTING_TOOL_INGEST_MAX_RETRIES = prevRetries;
+      if (prevDelay === undefined) delete process.env.AI_TESTING_TOOL_INGEST_RETRY_BASE_DELAY_MS;
+      else process.env.AI_TESTING_TOOL_INGEST_RETRY_BASE_DELAY_MS = prevDelay;
     }
   });
 });
 
 qaDescribe('envToConfig version tags', () => {
-  qaItAuto('maps QANALYZER_FIX_VERSION and QANALYZER_SPRINT', () => {
-    const prevFix = process.env.QANALYZER_FIX_VERSION;
-    const prevSprint = process.env.QANALYZER_SPRINT;
-    process.env.QANALYZER_FIX_VERSION = '2.4.0';
-    process.env.QANALYZER_SPRINT = 'Sprint 42';
+  qaItAuto('maps AI_TESTING_TOOL_FIX_VERSION and AI_TESTING_TOOL_SPRINT', () => {
+    const prevFix = process.env.AI_TESTING_TOOL_FIX_VERSION;
+    const prevSprint = process.env.AI_TESTING_TOOL_SPRINT;
+    process.env.AI_TESTING_TOOL_FIX_VERSION = '2.4.0';
+    process.env.AI_TESTING_TOOL_SPRINT = 'Sprint 42';
     try {
       const config = envToConfig();
       expect(config.fixVersion).toBe('2.4.0');
       expect(config.sprintName).toBe('Sprint 42');
     } finally {
-      if (prevFix === undefined) delete process.env.QANALYZER_FIX_VERSION;
-      else process.env.QANALYZER_FIX_VERSION = prevFix;
-      if (prevSprint === undefined) delete process.env.QANALYZER_SPRINT;
-      else process.env.QANALYZER_SPRINT = prevSprint;
+      if (prevFix === undefined) delete process.env.AI_TESTING_TOOL_FIX_VERSION;
+      else process.env.AI_TESTING_TOOL_FIX_VERSION = prevFix;
+      if (prevSprint === undefined) delete process.env.AI_TESTING_TOOL_SPRINT;
+      else process.env.AI_TESTING_TOOL_SPRINT = prevSprint;
     }
   });
 });
@@ -102,16 +102,16 @@ qaDescribe('createDefaultConfig', () => {
   });
 
   qaItAuto('merges env overrides last', () => {
-    const previous = process.env.QANALYZER_PROJECT_KEY;
-    process.env.QANALYZER_PROJECT_KEY = 'DEMO';
+    const previous = process.env.AI_TESTING_TOOL_PROJECT_KEY;
+    process.env.AI_TESTING_TOOL_PROJECT_KEY = 'DEMO';
     try {
       const merged = composeOptions(createDefaultConfig(), envToConfig());
       expect(merged.projectKey).toBe('DEMO');
     } finally {
       if (previous === undefined) {
-        delete process.env.QANALYZER_PROJECT_KEY;
+        delete process.env.AI_TESTING_TOOL_PROJECT_KEY;
       } else {
-        process.env.QANALYZER_PROJECT_KEY = previous;
+        process.env.AI_TESTING_TOOL_PROJECT_KEY = previous;
       }
     }
   });

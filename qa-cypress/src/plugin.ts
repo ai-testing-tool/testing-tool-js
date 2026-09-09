@@ -1,17 +1,17 @@
 /**
  * Cypress Node plugin — register in cypress.config.js setupNodeEvents:
- *   require('@qanalyzer/forge-cypress/plugin')(on, config);
+ *   require('@ai-testing-tool/forge-cypress/plugin')(on, config);
  *
  * before:run clears the results bridge; after:run publishes FR41
- * (mode=ingest | file) via @qanalyzer/forge-commons.
+ * (mode=ingest | file) via @ai-testing-tool/forge-commons.
  * after:screenshot captures failure still images for Phase 3 upload (FR71).
  */
 
 import {
   ModeEnum,
-  QAnalyzerReporter,
+  AiTestingToolReporter,
   type OptionsType,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 import { enrichSpecsWithFailureScreenshots } from './enrich-screenshots';
 import { toJestJsonReport } from './report-builder';
@@ -46,8 +46,8 @@ async function publishCollected(
     return;
   }
 
-  QAnalyzerReporter.resetInstance();
-  const reporter = QAnalyzerReporter.getInstance({
+  AiTestingToolReporter.resetInstance();
+  const reporter = AiTestingToolReporter.getInstance({
     ...options,
     mode: options.mode ?? ModeEnum.off,
   });
@@ -78,9 +78,9 @@ async function publishCollected(
 function plugin(on: PluginOn, config: PluginConfig): PluginConfig {
   const qaOptions = resolveQaOptions(config.reporterOptions);
   if (qaOptions.resultsPath) {
-    process.env.QANALYZER_CYPRESS_RESULTS_PATH = qaOptions.resultsPath;
-  } else if (config.projectRoot && !process.env.QANALYZER_CYPRESS_RESULTS_PATH) {
-    process.env.QANALYZER_CYPRESS_RESULTS_PATH = `${config.projectRoot}/.qa-cypress-results.json`;
+    process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH = qaOptions.resultsPath;
+  } else if (config.projectRoot && !process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH) {
+    process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH = `${config.projectRoot}/.qa-cypress-results.json`;
   }
 
   on('before:run', () => {

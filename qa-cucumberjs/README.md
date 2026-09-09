@@ -1,11 +1,11 @@
-# @qanalyzer/forge-cucumberjs
+# @ai-testing-tool/forge-cucumberjs
 
-CucumberJS formatter for **QAnalyzer** (Jira Forge quality hub).
+CucumberJS formatter for **AI Testing Tool** (Jira Forge quality hub).
 
 ## Install
 
 ```bash
-npm install -D @qanalyzer/forge-cucumberjs @qanalyzer/forge-commons @cucumber/cucumber
+npm install -D @ai-testing-tool/forge-cucumberjs @ai-testing-tool/forge-commons @cucumber/cucumber
 ```
 
 Peer: `@cucumber/cucumber` ≥10.
@@ -16,7 +16,7 @@ Peer: `@cucumber/cucumber` ≥10.
 // cucumber.js
 module.exports = {
   default: {
-    format: ['progress', '@qanalyzer/forge-cucumberjs'],
+    format: ['progress', '@ai-testing-tool/forge-cucumberjs'],
     require: ['step_definitions/**/*.js'],
     // formatOptions: { mode: 'ingest', projectKey: 'DEMO' },
   },
@@ -28,10 +28,10 @@ module.exports = {
 | Mode | Behavior |
 | ---- | -------- |
 | `off` (default) | No network / file write |
-| `file` | Writes the ingest payload (default `./qanalyzer-results.json`) |
+| `file` | Writes the ingest payload (default `./ai-testing-tool-results.json`) |
 | `ingest` | POSTs the payload with `format: jest-json` |
 
-Env: `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`, `QANALYZER_LAUNCH_NAME`.
+Env: `AI_TESTING_TOOL_MODE`, `AI_TESTING_TOOL_PROJECT_KEY`, `AI_TESTING_TOOL_INGEST_URL`, `AI_TESTING_TOOL_INGEST_TOKEN`, `AI_TESTING_TOOL_LAUNCH_NAME`.
 
 ## Metadata (tags only)
 
@@ -52,10 +52,10 @@ Given/When/Then steps become `meta.qa.steps`. Use `function()` step defs for Wor
 
 ```bash
 # file
-QANALYZER_MODE=file QANALYZER_PROJECT_KEY=DEMO npx cucumber-js
+AI_TESTING_TOOL_MODE=file AI_TESTING_TOOL_PROJECT_KEY=DEMO npx cucumber-js
 
 # ingest
-QANALYZER_MODE=ingest QANALYZER_PROJECT_KEY=DEMO \
-QANALYZER_INGEST_URL=... QANALYZER_INGEST_TOKEN=... \
+AI_TESTING_TOOL_MODE=ingest AI_TESTING_TOOL_PROJECT_KEY=DEMO \
+AI_TESTING_TOOL_INGEST_URL=... AI_TESTING_TOOL_INGEST_TOKEN=... \
 npx cucumber-js
 ```

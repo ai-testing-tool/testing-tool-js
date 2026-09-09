@@ -2,9 +2,9 @@ import { Formatter, type IFormatterOptions } from '@cucumber/cucumber';
 import type { Envelope } from '@cucumber/messages';
 import {
   ModeEnum,
-  QAnalyzerReporter,
+  AiTestingToolReporter,
   type OptionsType,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 import { EventStorage } from './modules/event-storage';
 import {
@@ -19,12 +19,12 @@ export type CucumberQaOptions = OptionsType;
 export type CucumberQaFormatterOptions = IFormatterOptions & CucumberQaOptions;
 
 /**
- * CucumberJS custom formatter for QAnalyzer.
+ * CucumberJS custom formatter for AiTestingTool.
  *
  * Configure (`cucumber.js`):
- *   format: ['progress', '@qanalyzer/forge-cucumberjs']
+ *   format: ['progress', '@ai-testing-tool/forge-cucumberjs']
  *
- * Modes via env (`QANALYZER_MODE`) or formatOptions.
+ * Modes via env (`AI_TESTING_TOOL_MODE`) or formatOptions.
  * Helpers are tag-based (`@QaTitle`, `@QaSuite`, `@QaIgnore`, `@AUTH-101`) — no programmatic import (FR54).
  * `this.attach()` → envelope.attachment → optional Forge upload (FR58).
  */
@@ -60,7 +60,7 @@ export class CucumberQaFormatter extends Formatter {
       file,
       frameworkPackage: frameworkPackage ?? '@cucumber/cucumber',
       frameworkName: frameworkName ?? 'cucumberjs',
-      reporterName: reporterName ?? '@qanalyzer/forge-cucumberjs',
+      reporterName: reporterName ?? '@ai-testing-tool/forge-cucumberjs',
       fallback,
     };
 
@@ -110,8 +110,8 @@ export class CucumberQaFormatter extends Formatter {
     try {
       await Promise.all(this.pendingScenarios);
 
-      QAnalyzerReporter.resetInstance();
-      const reporter = QAnalyzerReporter.getInstance({
+      AiTestingToolReporter.resetInstance();
+      const reporter = AiTestingToolReporter.getInstance({
         ...this.options,
         mode: this.options.mode ?? ModeEnum.off,
       });

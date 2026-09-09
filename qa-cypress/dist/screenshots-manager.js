@@ -12,10 +12,10 @@ const node_path_1 = require("node:path");
 const node_os_1 = require("node:os");
 const DEFAULT_BASENAME = 'qa-cypress-screenshots.json';
 function defaultPath() {
-    if (process.env.QANALYZER_CYPRESS_SCREENSHOTS_PATH) {
-        return process.env.QANALYZER_CYPRESS_SCREENSHOTS_PATH;
+    if (process.env.AI_TESTING_TOOL_CYPRESS_SCREENSHOTS_PATH) {
+        return process.env.AI_TESTING_TOOL_CYPRESS_SCREENSHOTS_PATH;
     }
-    const results = process.env.QANALYZER_CYPRESS_RESULTS_PATH;
+    const results = process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH;
     if (results) {
         return results.replace(/\.json$/i, '') + '-screenshots.json';
     }

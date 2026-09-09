@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildQaMetaFromResult = buildQaMetaFromResult;
-const forge_commons_1 = require("@qanalyzer/forge-commons");
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 const metadata_manager_1 = require("./metadata-manager");
 const step_extractor_1 = require("./step-extractor");
 /**
@@ -52,5 +52,5 @@ function buildQaMetaFromResult(input) {
     for (const step of nativeSteps) {
         acc.steps.push({ name: step.name, status: step.status });
     }
-    return (0, forge_commons_1.toQaMetaWire)(acc, { framework: 'playwright', reporter: '@qanalyzer/forge-playwright' });
+    return (0, forge_commons_1.toQaMetaWire)(acc, { framework: 'playwright', reporter: '@ai-testing-tool/forge-playwright' });
 }

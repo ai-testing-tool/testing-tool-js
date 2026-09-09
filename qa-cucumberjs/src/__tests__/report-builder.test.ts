@@ -5,10 +5,10 @@ import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import {
   ModeEnum,
-  QAnalyzerReporter,
+  AiTestingToolReporter,
   buildIngestPayload,
   type IngestPayload,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 import type { ConvertedScenario } from '../modules/event-storage.js';
 import {
@@ -171,10 +171,10 @@ qaDescribe('FR41 jest-json (FR50)', () => {
 
   qaItAuto('mode=file writes FR41 payload', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-cucumberjs-'));
-    const out = join(dir, 'qanalyzer-results.json');
+    const out = join(dir, 'ai-testing-tool-results.json');
     try {
-      QAnalyzerReporter.resetInstance();
-      const reporter = QAnalyzerReporter.getInstance({
+      AiTestingToolReporter.resetInstance();
+      const reporter = AiTestingToolReporter.getInstance({
         mode: ModeEnum.file,
         projectKey: 'AUTH',
         file: { path: out },
@@ -191,7 +191,7 @@ qaDescribe('FR41 jest-json (FR50)', () => {
       expect(written.format).toBe('jest-json');
       expect(written.projectKey).toBe('AUTH');
     } finally {
-      QAnalyzerReporter.resetInstance();
+      AiTestingToolReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
     }
   });

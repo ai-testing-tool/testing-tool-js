@@ -28,9 +28,9 @@ export interface CiTemplateContext {
   /** Platform-specific expression for --project (may use vars.* or literal) */
   projectKeyExpr?: string;
   launchNameExpr?: string;
-  /** Platform expression for QANALYZER_INGEST_URL env value */
+  /** Platform expression for AI_TESTING_TOOL_INGEST_URL env value */
   ingestUrlExpr?: string;
-  /** Platform expression for QANALYZER_INGEST_TOKEN env value */
+  /** Platform expression for AI_TESTING_TOOL_INGEST_TOKEN env value */
   ingestTokenExpr?: string;
   /** Platform “always run” guard (e.g. if: always()) */
   alwaysGuard?: string;

@@ -3,7 +3,7 @@ import type {
   JestTestFileResult,
   JestVitestJsonReport,
   QaMetaWire,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 /**
  * Minimal AggregatedResult / --json shapes accepted by the mapper.

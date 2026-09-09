@@ -7,7 +7,7 @@ const fs_2 = require("fs");
 class FsWriter {
     path;
     constructor(options) {
-        this.path = options?.path ?? './qanalyzer-results.json';
+        this.path = options?.path ?? './ai-testing-tool-results.json';
     }
     writePayload(payload) {
         const target = (0, path_1.resolve)(process.cwd(), this.path);

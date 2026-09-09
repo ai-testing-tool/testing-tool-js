@@ -1,9 +1,9 @@
 {
-  "name": "@qanalyzer/forge-wdio",
+  "name": "@ai-testing-tool/forge-wdio",
   "version": "2.0.0",
-  "description": "QAnalyzer WebdriverIO reporter + service — ingest or file modes via @qanalyzer/forge-commons",
+  "description": "AI Testing Tool WebdriverIO reporter + service — ingest or file modes via @ai-testing-tool/forge-commons",
   "keywords": [
-    "qanalyzer",
+    "ai-testing-tool",
     "webdriverio",
     "wdio",
     "reporter",
@@ -40,7 +40,7 @@
   "dependencies": {
     "@cucumber/messages": "34.1.0",
     "@wdio/reporter": "^9.29.1",
-    "@qanalyzer/forge-commons": "^2.0.0"
+    "@ai-testing-tool/forge-commons": "^2.0.0"
   },
   "peerDependencies": {
     "@wdio/cucumber-framework": ">=8.0.0",

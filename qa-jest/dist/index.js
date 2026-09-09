@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JestQaReporter = void 0;
-const forge_commons_1 = require("@qanalyzer/forge-commons");
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 const report_builder_1 = require("./report-builder");
 /**
- * Jest custom reporter for QAnalyzer.
- * Configure: `reporters: ['default', '@qanalyzer/forge-jest']` or `['@qanalyzer/forge-jest', { mode: 'ingest', ... }]`.
+ * Jest custom reporter for AiTestingTool.
+ * Configure: `reporters: ['default', '@ai-testing-tool/forge-jest']` or `['@ai-testing-tool/forge-jest', { mode: 'ingest', ... }]`.
  *
- * Helpers from `@qanalyzer/forge-jest/jest` forward metadata via a global bridge (works with `--runInBand`).
+ * Helpers from `@ai-testing-tool/forge-jest/jest` forward metadata via a global bridge (works with `--runInBand`).
  */
 class JestQaReporter {
     options;
@@ -66,8 +66,8 @@ class JestQaReporter {
     }
     async publish(results) {
         try {
-            forge_commons_1.QAnalyzerReporter.resetInstance();
-            const reporter = forge_commons_1.QAnalyzerReporter.getInstance({
+            forge_commons_1.AiTestingToolReporter.resetInstance();
+            const reporter = forge_commons_1.AiTestingToolReporter.getInstance({
                 ...this.options,
                 mode: this.options.mode ?? forge_commons_1.ModeEnum.off,
             });

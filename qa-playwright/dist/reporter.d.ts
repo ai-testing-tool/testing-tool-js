@@ -1,11 +1,11 @@
 import type { FullConfig, FullResult, Reporter, Suite, TestCase, TestResult, TestStep } from '@playwright/test/reporter';
-import { type OptionsType } from '@qanalyzer/forge-commons';
+import { type OptionsType } from '@ai-testing-tool/forge-commons';
 export type PlaywrightQaOptions = OptionsType;
 /**
- * Playwright reporter for QAnalyzer.
+ * Playwright reporter for AiTestingTool.
  *
  * Configure:
- *   reporter: [['list'], ['@qanalyzer/forge-playwright', { mode: 'off' }]]
+ *   reporter: [['list'], ['@ai-testing-tool/forge-playwright', { mode: 'off' }]]
  *
  * Collects each test → FR41 shape A; native `test.step` → `meta.qa.steps`.
  * On failure, still-image attachments are uploaded via Forge (FR119).

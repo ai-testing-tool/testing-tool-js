@@ -9,11 +9,11 @@ exports.frameworkLabel = frameworkLabel;
  * Callers supply platform-quoted project/launch expressions.
  */
 function uploadCliCommand(ctx) {
-    const reportFile = ctx.reportFile ?? 'qanalyzer-results.json';
+    const reportFile = ctx.reportFile ?? 'ai-testing-tool-results.json';
     const project = ctx.projectKeyExpr ?? ctx.projectKey;
-    const launch = ctx.launchNameExpr ?? 'qanalyzer';
+    const launch = ctx.launchNameExpr ?? 'ai-testing-tool';
     return [
-        'npx @qanalyzer/forge-api-client \\',
+        'npx @ai-testing-tool/forge-api-client \\',
         `  --project "${project}" \\`,
         `  --launch "${launch}" \\`,
         `  --report ${reportFile}`,
@@ -28,7 +28,7 @@ function indentUploadCli(ctx, spaces) {
         .join('\n');
 }
 function frameworkTestCommand(ctx) {
-    const reportFile = ctx.reportFile ?? 'qanalyzer-results.json';
+    const reportFile = ctx.reportFile ?? 'ai-testing-tool-results.json';
     if (ctx.framework === 'vitest') {
         return `npx vitest run --reporter=json --outputFile=${reportFile}`;
     }
@@ -39,7 +39,7 @@ function frameworkTestCommand(ctx) {
         // Native Playwright JSON reporter → stdout (FR109 Path A)
         return `npx playwright test --reporter=json > ${reportFile}`;
     }
-    throw new Error('Upload JSON path is not supported for Mocha, CucumberJS, Cypress, or WebdriverIO — use ingestPath: reporter (@qanalyzer/forge-mocha / @qanalyzer/forge-cucumberjs / @qanalyzer/forge-cypress / @qanalyzer/forge-wdio)');
+    throw new Error('Upload JSON path is not supported for Mocha, CucumberJS, Cypress, or WebdriverIO — use ingestPath: reporter (@ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-wdio)');
 }
 function frameworkLabel(ctx) {
     if (ctx.framework === 'vitest')

@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
-import { qaMetaFromEntries } from '@qanalyzer/forge-commons';
+import { qaMetaFromEntries } from '@ai-testing-tool/forge-commons';
 
 import {
   toJestJsonReport,
@@ -43,7 +43,7 @@ function loadSaucedemoFixture(): CypressSpecInput[] {
       }
       const wire = qaMetaFromEntries(entries, {
         framework: 'cypress',
-        reporter: '@qanalyzer/forge-cypress',
+        reporter: '@ai-testing-tool/forge-cypress',
       });
       return {
         ancestorTitles: a.ancestorTitles,
@@ -65,7 +65,7 @@ qaDescribe('toJestJsonReport', () => {
         { type: 'qa-step', body: 'Fill in username' },
         { type: 'qa-step-end', body: { name: 'Fill in username', status: 'passed' } },
       ],
-      { framework: 'cypress', reporter: '@qanalyzer/forge-cypress' },
+      { framework: 'cypress', reporter: '@ai-testing-tool/forge-cypress' },
     );
 
     const report = toJestJsonReport(

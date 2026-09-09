@@ -7,15 +7,15 @@ class Logger {
         this.debugEnabled = debugEnabled;
     }
     log(message) {
-        console.log(`[INFO] qanalyzer: ${message}`);
+        console.log(`[INFO] ai-testing-tool: ${message}`);
     }
     logError(message, error) {
-        console.error(`[ERROR] qanalyzer: ${message}`, error ?? '');
+        console.error(`[ERROR] ai-testing-tool: ${message}`, error ?? '');
     }
     logDebug(message) {
         if (!this.debugEnabled)
             return;
-        console.debug(`[DEBUG] qanalyzer: ${message}`);
+        console.debug(`[DEBUG] ai-testing-tool: ${message}`);
     }
 }
 exports.Logger = Logger;

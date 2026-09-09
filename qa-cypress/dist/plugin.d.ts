@@ -1,9 +1,9 @@
 /**
  * Cypress Node plugin — register in cypress.config.js setupNodeEvents:
- *   require('@qanalyzer/forge-cypress/plugin')(on, config);
+ *   require('@ai-testing-tool/forge-cypress/plugin')(on, config);
  *
  * before:run clears the results bridge; after:run publishes FR41
- * (mode=ingest | file) via @qanalyzer/forge-commons.
+ * (mode=ingest | file) via @ai-testing-tool/forge-commons.
  * after:screenshot captures failure still images for Phase 3 upload (FR71).
  */
 type PluginOn = {

@@ -13,8 +13,8 @@ class ResultsManager {
     static resolvePath(explicit) {
         if (explicit)
             return explicit;
-        if (process.env.QANALYZER_CYPRESS_RESULTS_PATH) {
-            return process.env.QANALYZER_CYPRESS_RESULTS_PATH;
+        if (process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH) {
+            return process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH;
         }
         return (0, node_path_1.join)((0, node_os_1.tmpdir)(), DEFAULT_BASENAME);
     }

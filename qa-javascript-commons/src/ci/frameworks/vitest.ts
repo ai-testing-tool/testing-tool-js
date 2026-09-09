@@ -3,5 +3,5 @@ export function vitestJsonRun(reportFile: string): string {
 }
 
 export function vitestReporterEnv(): string {
-  return 'QANALYZER_MODE: ingest';
+  return 'AI_TESTING_TOOL_MODE: ingest';
 }

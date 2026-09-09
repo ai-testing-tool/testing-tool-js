@@ -1,4 +1,4 @@
-import { type QaMetaWire } from '@qanalyzer/forge-commons';
+import { type QaMetaWire } from '@ai-testing-tool/forge-commons';
 import type { PlaywrightStepLike } from './step-extractor';
 export type PlaywrightAttachmentLike = {
     name: string;

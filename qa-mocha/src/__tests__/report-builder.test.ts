@@ -1,6 +1,6 @@
 import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
-import { qaMetaFromEntries } from '@qanalyzer/forge-commons';
+import { qaMetaFromEntries } from '@ai-testing-tool/forge-commons';
 
 import { toJestJsonReport } from '../report-builder.js';
 
@@ -12,7 +12,7 @@ qaDescribe('toJestJsonReport', () => {
         { type: 'qa-step', body: 'GET /users' },
         { type: 'qa-step-end', body: { name: 'GET /users', status: 'passed' } },
       ],
-      { framework: 'mocha', reporter: '@qanalyzer/forge-mocha' },
+      { framework: 'mocha', reporter: '@ai-testing-tool/forge-mocha' },
     );
 
     const report = toJestJsonReport(
@@ -50,7 +50,7 @@ qaDescribe('toJestJsonReport', () => {
       | { framework?: string; host?: { reporter?: string }; steps?: Array<{ name: string }> }
       | undefined;
     expect(qaMeta?.framework).toBe('mocha');
-    expect(qaMeta?.host?.reporter).toBe('@qanalyzer/forge-mocha');
+    expect(qaMeta?.host?.reporter).toBe('@ai-testing-tool/forge-mocha');
     expect(qaMeta?.steps?.[0]?.name).toBe('GET /users');
     expect(report.testResults?.[0]?.assertionResults?.[0]?.ancestorTitles).toBeUndefined();
   });

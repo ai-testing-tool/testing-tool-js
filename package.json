@@ -1,7 +1,7 @@
 {
   "name": "ai-testing-tool-js",
   "private": true,
-  "description": "QAnalyzer JavaScript SDK — commons, CLI, and test-runner reporters (Testing Library / Jest / Vitest)",
+  "description": "AI Testing Tool JavaScript SDK — commons, CLI, and test-runner reporters (Testing Library / Jest / Vitest)",
   "workspaces": [
     "qa-*"
   ],
@@ -17,7 +17,7 @@
     "release:bump": "sh scripts/bump-version.sh"
   },
   "devDependencies": {
-    "@qanalyzer/forge-vitest": "2.0.0",
+    "@ai-testing-tool/forge-vitest": "2.0.0",
     "@types/node": "^22.13.10",
     "typescript": "^5.8.2",
     "vitest": "^3.2.4"

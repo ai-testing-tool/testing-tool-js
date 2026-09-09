@@ -31,14 +31,14 @@ function githubPreRunSteps(ctx: CiTemplateContext): string {
 function githubSecrets(): CiSecretHint[] {
   return [
     {
-      name: 'QANALYZER_INGEST_URL',
+      name: 'AI_TESTING_TOOL_INGEST_URL',
       description:
         'Forge web trigger URL (launch ingest + binary attach / screenshots / qa.attach)',
       platformHint: 'Repository → Settings → Secrets and variables → Actions → New repository secret',
     },
     {
-      name: 'QANALYZER_INGEST_TOKEN',
-      description: 'Bearer token from QAnalyzer configure page (shown once)',
+      name: 'AI_TESTING_TOOL_INGEST_TOKEN',
+      description: 'Bearer token from AiTestingTool configure page (shown once)',
       platformHint: 'Repository → Settings → Secrets and variables → Actions → New repository secret',
     },
   ];
@@ -48,7 +48,7 @@ function githubVariables(): CiVariableHint[] {
   return [
     {
       name: 'JIRA_PROJECT_KEY',
-      description: 'Jira project key allowlisted in QAnalyzer (e.g. AUTH)',
+      description: 'Jira project key allowlisted in AiTestingTool (e.g. AUTH)',
       platformHint: 'Repository → Settings → Secrets and variables → Actions → Variables',
     },
   ];
@@ -56,7 +56,7 @@ function githubVariables(): CiVariableHint[] {
 
 function githubFilename(framework: CiTemplateContext['framework'], ingestPath: CiTemplateContext['ingestPath']): string {
   const suffix = ingestPath === 'reporter' ? '-reporter' : '';
-  return `.github/workflows/qanalyzer-${framework}${suffix}.yml`;
+  return `.github/workflows/ai-testing-tool-${framework}${suffix}.yml`;
 }
 
 function renderGithubReporter(ctx: CiTemplateContext): CiTemplateResult {
@@ -71,7 +71,7 @@ function renderGithubReporter(ctx: CiTemplateContext): CiTemplateResult {
   const configHint = reporterConfigHint(ctx);
   const preRun = githubPreRunSteps(ctx);
 
-  const content = `name: QAnalyzer ${label} (${pkg})
+  const content = `name: AiTestingTool ${label} (${pkg})
 
 # Requires ${pkg} in package.json and ${configHint}
 on:
@@ -89,18 +89,18 @@ jobs:
           node-version: "${nodeVersion}"
           cache: npm
       - run: npm ci
-${preRun ? `${preRun}\n` : ''}      - name: Run ${label} with QAnalyzer reporter
+${preRun ? `${preRun}\n` : ''}      - name: Run ${label} with AiTestingTool reporter
         env:
-          QANALYZER_MODE: ${env.mode}
-          QANALYZER_INGEST_URL: ${urlExpr}
-          QANALYZER_INGEST_TOKEN: ${tokenExpr}
-          QANALYZER_PROJECT_KEY: ${projectExpr}
-          QANALYZER_LAUNCH_NAME: \${{ github.workflow }} #\${{ github.run_number }}
-          # Optional Test Plan (FR158): QANALYZER_PLAN_NAME / QANALYZER_PLAN_ID / QANALYZER_PLAN_KEY
-          # QANALYZER_PLAN_NAME: Smoke
-          # Optional tags (FR21): QANALYZER_FIX_VERSION / QANALYZER_SPRINT
-          # QANALYZER_FIX_VERSION: 2.4.0
-          # QANALYZER_SPRINT: Sprint 42
+          AI_TESTING_TOOL_MODE: ${env.mode}
+          AI_TESTING_TOOL_INGEST_URL: ${urlExpr}
+          AI_TESTING_TOOL_INGEST_TOKEN: ${tokenExpr}
+          AI_TESTING_TOOL_PROJECT_KEY: ${projectExpr}
+          AI_TESTING_TOOL_LAUNCH_NAME: \${{ github.workflow }} #\${{ github.run_number }}
+          # Optional Test Plan (FR158): AI_TESTING_TOOL_PLAN_NAME / AI_TESTING_TOOL_PLAN_ID / AI_TESTING_TOOL_PLAN_KEY
+          # AI_TESTING_TOOL_PLAN_NAME: Smoke
+          # Optional tags (FR21): AI_TESTING_TOOL_FIX_VERSION / AI_TESTING_TOOL_SPRINT
+          # AI_TESTING_TOOL_FIX_VERSION: 2.4.0
+          # AI_TESTING_TOOL_SPRINT: Sprint 42
         run: ${frameworkReporterRun(ctx)}
 `;
 
@@ -117,7 +117,7 @@ ${preRun ? `${preRun}\n` : ''}      - name: Run ${label} with QAnalyzer reporter
 
 /**
  * GitHub Actions — upload (Vitest/Jest/Playwright) or reporter
- * (@qanalyzer/forge-vitest / @qanalyzer/forge-jest / @qanalyzer/forge-mocha / @qanalyzer/forge-cucumberjs / @qanalyzer/forge-cypress / @qanalyzer/forge-playwright / @qanalyzer/forge-wdio).
+ * (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio).
  */
 export function renderGithubUpload(ctx: CiTemplateContext): CiTemplateResult {
   if (ctx.ingestPath === 'reporter') {
@@ -151,16 +151,16 @@ export function renderGithubUpload(ctx: CiTemplateContext): CiTemplateResult {
   const uploadStep =
     ctx.includeUploadStep === false
       ? ''
-      : `      - name: Upload to QAnalyzer
+      : `      - name: Upload to AiTestingTool
         if: always()
         env:
-          QANALYZER_INGEST_URL: ${urlExpr}
-          QANALYZER_INGEST_TOKEN: ${tokenExpr}
+          AI_TESTING_TOOL_INGEST_URL: ${urlExpr}
+          AI_TESTING_TOOL_INGEST_TOKEN: ${tokenExpr}
         run: |
           ${uploadCmd.split('\n').join('\n          ')}
 `;
 
-  const content = `name: QAnalyzer ${label}
+  const content = `name: AiTestingTool ${label}
 
 on:
   push:

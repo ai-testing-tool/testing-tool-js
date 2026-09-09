@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildCiTemplateContext = buildCiTemplateContext;
 const DEFAULT_NODE = '22';
-const DEFAULT_REPORT = 'qanalyzer-results.json';
-const DEFAULT_URL_SECRET = 'QANALYZER_INGEST_URL';
-const DEFAULT_TOKEN_SECRET = 'QANALYZER_INGEST_TOKEN';
+const DEFAULT_REPORT = 'ai-testing-tool-results.json';
+const DEFAULT_URL_SECRET = 'AI_TESTING_TOOL_INGEST_URL';
+const DEFAULT_TOKEN_SECRET = 'AI_TESTING_TOOL_INGEST_TOKEN';
 const PLATFORM_DEFAULTS = {
     github: {
         projectKeyExpr: () => '${{ vars.JIRA_PROJECT_KEY }}',
@@ -29,8 +29,8 @@ const PLATFORM_DEFAULTS = {
     },
     jenkins: {
         projectKeyExpr: () => '${JIRA_PROJECT_KEY}',
-        ingestUrlExpr: () => "credentials('qanalyzer-ingest-url')",
-        ingestTokenExpr: () => "credentials('qanalyzer-ingest-token')",
+        ingestUrlExpr: () => "credentials('ai-testing-tool-ingest-url')",
+        ingestTokenExpr: () => "credentials('ai-testing-tool-ingest-token')",
         launchNameExpr: '${JOB_NAME} #${BUILD_NUMBER}',
         alwaysGuard: 'post { always { … } }',
     },

@@ -1,11 +1,11 @@
 import type { LoggerInterface } from '../utils';
 export type AttachClientOptions = {
     /**
-     * Shared Forge CI webtrigger URL (`QANALYZER_INGEST_URL`).
-     * Legacy `QANALYZER_ATTACH_URL` is accepted as a fallback alias.
+     * Shared Forge CI webtrigger URL (`AI_TESTING_TOOL_INGEST_URL`).
+     * Legacy `AI_TESTING_TOOL_ATTACH_URL` is accepted as a fallback alias.
      */
     url?: string;
-    /** Same Bearer token as ingest (`QANALYZER_INGEST_TOKEN`). */
+    /** Same Bearer token as ingest (`AI_TESTING_TOOL_INGEST_TOKEN`). */
     token?: string;
     timeoutMs?: number;
     /** Max decoded file bytes (default 3_000_000). */

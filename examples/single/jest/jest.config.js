@@ -12,7 +12,7 @@ module.exports = {
       },
     ],
   },
-  // Default: native reporters only (Path A — JSON + @qanalyzer/forge-api-client).
-  // Optional Path B: add `@qanalyzer/forge-jest` to `reporters` — see README.
+  // Default: native reporters only (Path A — JSON + @ai-testing-tool/forge-api-client).
+  // Optional Path B: add `@ai-testing-tool/forge-jest` to `reporters` — see README.
   reporters: ['default'],
 };

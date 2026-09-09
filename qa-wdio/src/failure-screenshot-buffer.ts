@@ -1,7 +1,7 @@
 /**
  * Buffer for failure still-image wire metadata between service afterTest and publish (FR133).
  */
-import type { QaMetaAttachmentWire } from '@qanalyzer/forge-commons';
+import type { QaMetaAttachmentWire } from '@ai-testing-tool/forge-commons';
 
 type ShotEntry = {
   title: string;

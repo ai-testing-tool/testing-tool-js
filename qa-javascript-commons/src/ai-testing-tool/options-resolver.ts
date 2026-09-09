@@ -39,7 +39,7 @@ export function createDefaultConfig(): ConfigType {
       retryBaseDelayMs: 1000,
     },
     file: {
-      path: './qanalyzer-results.json',
+      path: './ai-testing-tool-results.json',
     },
   };
 }

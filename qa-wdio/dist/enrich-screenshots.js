@@ -8,7 +8,7 @@ function ensureQaMeta(assertion) {
     if (!assertion.meta.qa) {
         assertion.meta.qa = {
             framework: 'wdio',
-            host: { framework: 'wdio', reporter: '@qanalyzer/forge-wdio' },
+            host: { framework: 'wdio', reporter: '@ai-testing-tool/forge-wdio' },
         };
     }
     return assertion.meta.qa;

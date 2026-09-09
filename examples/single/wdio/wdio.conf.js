@@ -1,5 +1,5 @@
-const QaWdioReporter = require('@qanalyzer/forge-wdio').default;
-const { afterRunHook, beforeRunHook, QaWdioService } = require('@qanalyzer/forge-wdio');
+const QaWdioReporter = require('@ai-testing-tool/forge-wdio').default;
+const { afterRunHook, beforeRunHook, QaWdioService } = require('@ai-testing-tool/forge-wdio');
 
 exports.config = {
   runner: 'local',
@@ -31,7 +31,7 @@ exports.config = {
     [
       QaWdioReporter,
       {
-        // Defaults to mode=off via QANALYZER_MODE / commons
+        // Defaults to mode=off via AI_TESTING_TOOL_MODE / commons
         disableWebdriverStepsReporting: true,
         disableWebdriverScreenshotsReporting: true,
       },

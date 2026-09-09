@@ -7,9 +7,9 @@ import { EnvEnum, EnvIngestEnum } from '../env/env-enum';
 import { firstIssueKey, projectKeyFromIssueKey } from './issue-keys';
 
 export const EnvAttachEnum = {
-  /** @deprecated Prefer QANALYZER_INGEST_URL — attach uses the shared ingest webtrigger. */
-  url: 'QANALYZER_ATTACH_URL',
-  maxBytes: 'QANALYZER_ATTACH_MAX_BYTES',
+  /** @deprecated Prefer AI_TESTING_TOOL_INGEST_URL — attach uses the shared ingest webtrigger. */
+  url: 'AI_TESTING_TOOL_ATTACH_URL',
+  maxBytes: 'AI_TESTING_TOOL_ATTACH_MAX_BYTES',
 } as const;
 
 export type UploadAttachParams = {
@@ -118,7 +118,7 @@ export async function uploadAttachmentForQa(
     return {
       uploaded: false,
       attachment: baseMeta,
-      reason: 'QANALYZER_INGEST_URL and QANALYZER_INGEST_TOKEN required for upload',
+      reason: 'AI_TESTING_TOOL_INGEST_URL and AI_TESTING_TOOL_INGEST_TOKEN required for upload',
     };
   }
 

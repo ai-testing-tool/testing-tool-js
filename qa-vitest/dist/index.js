@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VitestQaReporter = void 0;
-const forge_commons_1 = require("@qanalyzer/forge-commons");
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 const report_builder_1 = require("./report-builder");
 function mapState(state) {
     switch ((state ?? '').toLowerCase()) {
@@ -75,8 +75,8 @@ function collectFromTestCase(testCase) {
     };
 }
 /**
- * Vitest custom reporter for QAnalyzer.
- * Configure: `reporters: ['default', '@qanalyzer/forge-vitest']` or `['@qanalyzer/forge-vitest', { mode: 'ingest', ... }]`.
+ * Vitest custom reporter for AiTestingTool.
+ * Configure: `reporters: ['default', '@ai-testing-tool/forge-vitest']` or `['@ai-testing-tool/forge-vitest', { mode: 'ingest', ... }]`.
  */
 class VitestQaReporter {
     options;
@@ -103,8 +103,8 @@ class VitestQaReporter {
         await this.publishPromise;
     }
     async publish() {
-        forge_commons_1.QAnalyzerReporter.resetInstance();
-        const reporter = forge_commons_1.QAnalyzerReporter.getInstance({
+        forge_commons_1.AiTestingToolReporter.resetInstance();
+        const reporter = forge_commons_1.AiTestingToolReporter.getInstance({
             ...this.options,
             mode: this.options.mode ?? forge_commons_1.ModeEnum.off,
         });

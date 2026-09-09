@@ -1,4 +1,4 @@
-import { ModeEnum, QAnalyzerReporter, type OptionsType } from '@qanalyzer/forge-commons';
+import { ModeEnum, AiTestingToolReporter, type OptionsType } from '@ai-testing-tool/forge-commons';
 
 import { publishBufferedResults } from './publish';
 
@@ -25,7 +25,7 @@ function isOff(mode: unknown): boolean {
  */
 export async function beforeRunHook(options: OptionsType = {}): Promise<void> {
   hooksLifecycle.beforeCalled = true;
-  QAnalyzerReporter.getInstance(options);
+  AiTestingToolReporter.getInstance(options);
 }
 
 /**
@@ -52,11 +52,11 @@ export function assertHooksForMode(mode: unknown, debug = false): void {
   if (hooksLifecycle.beforeCalled) return;
 
   const message =
-    '@qanalyzer/forge-wdio requires onPrepare → beforeRunHook() and onComplete → afterRunHook() when QANALYZER_MODE is ingest or file (NFR33)';
+    '@ai-testing-tool/forge-wdio requires onPrepare → beforeRunHook() and onComplete → afterRunHook() when AI_TESTING_TOOL_MODE is ingest or file (NFR33)';
 
   if (debug) {
     throw new Error(message);
   }
   // eslint-disable-next-line no-console
-  console.error(`[@qanalyzer/forge-wdio] ${message}`);
+  console.error(`[@ai-testing-tool/forge-wdio] ${message}`);
 }

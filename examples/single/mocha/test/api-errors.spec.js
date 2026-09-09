@@ -1,4 +1,4 @@
-const { qa } = require('@qanalyzer/forge-mocha/mocha');
+const { qa } = require('@ai-testing-tool/forge-mocha/mocha');
 const assert = require('assert');
 
 describe('JSONPlaceholder Error Handling', function () {

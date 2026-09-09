@@ -1,19 +1,19 @@
 {
-  "name": "qanalyzer-cucumberjs-pilot",
+  "name": "ai-testing-tool-cucumberjs-pilot",
   "version": "0.1.0",
   "private": true,
-  "description": "QAnalyzer CucumberJS pilot — JSONPlaceholder BDD + @qanalyzer/forge-cucumberjs formatter",
+  "description": "AiTestingTool CucumberJS pilot — JSONPlaceholder BDD + @ai-testing-tool/forge-cucumberjs formatter",
   "scripts": {
-    "test": "QANALYZER_MODE=${QANALYZER_MODE:-off} cucumber-js",
-    "test:file": "QANALYZER_MODE=file QANALYZER_PROJECT_KEY=AUTH cucumber-js",
-    "upload": "npx @qanalyzer/forge-api-client --project AUTH --launch \"cucumberjs pilot\" --report qanalyzer-results.json"
+    "test": "AI_TESTING_TOOL_MODE=${AI_TESTING_TOOL_MODE:-off} cucumber-js",
+    "test:file": "AI_TESTING_TOOL_MODE=file AI_TESTING_TOOL_PROJECT_KEY=AUTH cucumber-js",
+    "upload": "npx @ai-testing-tool/forge-api-client --project AUTH --launch \"cucumberjs pilot\" --report ai-testing-tool-results.json"
   },
   "engines": {
     "node": ">=18"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^11.2.0",
-    "@qanalyzer/forge-cucumberjs": "file:../../../qa-cucumberjs",
-    "@qanalyzer/forge-commons": "file:../../../qa-javascript-commons"
+    "@ai-testing-tool/forge-cucumberjs": "file:../../../qa-cucumberjs",
+    "@ai-testing-tool/forge-commons": "file:../../../qa-javascript-commons"
   }
 }

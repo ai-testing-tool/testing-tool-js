@@ -1,11 +1,11 @@
-# @qanalyzer/forge-jest
+# @ai-testing-tool/forge-jest
 
-Jest reporter for **QAnalyzer** (Jira Forge quality hub).
+Jest reporter for **AI Testing Tool** (Jira Forge quality hub).
 
 ## Install
 
 ```bash
-npm install -D @qanalyzer/forge-jest @qanalyzer/forge-commons
+npm install -D @ai-testing-tool/forge-jest @ai-testing-tool/forge-commons
 ```
 
 ## Configure
@@ -17,7 +17,7 @@ module.exports = {
   reporters: [
     'default',
     [
-      '@qanalyzer/forge-jest',
+      '@ai-testing-tool/forge-jest',
       {
         // Defaults to mode=off (no credentials required)
         // mode: 'ingest' | 'file' | 'off',
@@ -33,15 +33,15 @@ module.exports = {
 | Mode | Behavior |
 | ---- | -------- |
 | `off` (default) | No network / file write |
-| `file` | Writes ingest payload (default `./qanalyzer-results.json`) |
+| `file` | Writes ingest payload (default `./ai-testing-tool-results.json`) |
 | `ingest` | POSTs the payload with `format: jest-json` |
 
-Env (same as CLI): `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`, `QANALYZER_LAUNCH_NAME`.
+Env (same as CLI): `AI_TESTING_TOOL_MODE`, `AI_TESTING_TOOL_PROJECT_KEY`, `AI_TESTING_TOOL_INGEST_URL`, `AI_TESTING_TOOL_INGEST_TOKEN`, `AI_TESTING_TOOL_LAUNCH_NAME`.
 
 ## Helpers
 
 ```js
-const { qa } = require('@qanalyzer/forge-jest/jest');
+const { qa } = require('@ai-testing-tool/forge-jest/jest');
 
 test('AUTH-101 login', async () => {
   await qa.suite('Auth');
@@ -53,24 +53,24 @@ test('AUTH-101 login', async () => {
 
 Prefer **Jira issue keys in test titles**.
 
-With the `@qanalyzer/forge-jest` reporter loaded (use `--runInBand` so helpers share the reporter bridge), `qa.*` metadata is attached as `assertionResults[].meta.qa` on Path B ingest/file.
+With the `@ai-testing-tool/forge-jest` reporter loaded (use `--runInBand` so helpers share the reporter bridge), `qa.*` metadata is attached as `assertionResults[].meta.qa` on Path B ingest/file.
 
 ## Dual path
 
 **Path A — native JSON + CLI** (upload path; raw Jest JSON file):
 
 ```bash
-npx jest --json --outputFile=qanalyzer-results.json
-npx @qanalyzer/forge-api-client --project DEMO --report qanalyzer-results.json
+npx jest --json --outputFile=ai-testing-tool-results.json
+npx @ai-testing-tool/forge-api-client --project DEMO --report ai-testing-tool-results.json
 ```
 
-**Path B — @qanalyzer/forge-jest reporter** (`mode=ingest` or `mode=file`):
+**Path B — @ai-testing-tool/forge-jest reporter** (`mode=ingest` or `mode=file`):
 
 ```bash
-QANALYZER_MODE=ingest \
-QANALYZER_PROJECT_KEY=DEMO \
-QANALYZER_INGEST_URL=... \
-QANALYZER_INGEST_TOKEN=... \
+AI_TESTING_TOOL_MODE=ingest \
+AI_TESTING_TOOL_PROJECT_KEY=DEMO \
+AI_TESTING_TOOL_INGEST_URL=... \
+AI_TESTING_TOOL_INGEST_TOKEN=... \
 npx jest
 ```
 

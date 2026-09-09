@@ -3,14 +3,14 @@ import {
   ModeEnum,
   qaMetaFromEntries,
   type OptionsType,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 import { MetadataManager } from './metadata-manager';
 import type { CypressAssertionInput, CypressSpecInput } from './report-builder';
 import { ResultsManager } from './results-manager';
 
 export type CypressQaOptions = OptionsType & {
-  /** Override results bridge path (also QANALYZER_CYPRESS_RESULTS_PATH). */
+  /** Override results bridge path (also AI_TESTING_TOOL_CYPRESS_RESULTS_PATH). */
   resultsPath?: string;
 };
 
@@ -62,7 +62,7 @@ function failureMessages(test: Test): string[] {
 }
 
 /**
- * Cypress Mocha reporter for QAnalyzer.
+ * Cypress Mocha reporter for AiTestingTool.
  *
  * Collects per-`it()` results + `qa.*` metadata, appends to ResultsManager.
  * Plugin `after:run` publishes FR41 (mode=ingest|file). mode=off no-ops.
@@ -77,7 +77,7 @@ export class CypressQaReporter extends reporters.Base {
     this.options = options.reporterOptions ?? {};
 
     if (this.options.resultsPath) {
-      process.env.QANALYZER_CYPRESS_RESULTS_PATH = this.options.resultsPath;
+      process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH = this.options.resultsPath;
     }
 
     runner.on(Runner.constants.EVENT_TEST_BEGIN, () => {
@@ -104,7 +104,7 @@ export class CypressQaReporter extends reporters.Base {
       const entries = MetadataManager.getEntries();
       const wire = qaMetaFromEntries(entries, {
         framework: 'cypress',
-        reporter: '@qanalyzer/forge-cypress',
+        reporter: '@ai-testing-tool/forge-cypress',
       });
       MetadataManager.clear();
 

@@ -3,7 +3,7 @@ import type {
   JestTestFileResult,
   JestVitestJsonReport,
   QaMetaWire,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 /** Minimal case shape collected by the Vitest reporter (testable without Vitest runtime). */
 export type CollectedCase = {

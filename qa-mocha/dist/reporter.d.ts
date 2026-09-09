@@ -1,17 +1,17 @@
 import { reporters, Runner, type MochaOptions } from 'mocha';
-import { type OptionsType } from '@qanalyzer/forge-commons';
+import { type OptionsType } from '@ai-testing-tool/forge-commons';
 export type MochaQaOptions = OptionsType;
 export type MochaQaReporterOptions = Omit<MochaOptions, 'reporterOptions'> & {
     reporterOptions?: MochaQaOptions;
 };
 /**
- * Mocha custom reporter for QAnalyzer.
+ * Mocha custom reporter for AiTestingTool.
  *
- * Configure: `.mocharc.js` → `reporter: '@qanalyzer/forge-mocha'`
+ * Configure: `.mocharc.js` → `reporter: '@ai-testing-tool/forge-mocha'`
  * Options: `reporterOptions: { mode: 'ingest' | 'file' | 'off', … }`
- * Env: `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, …
+ * Env: `AI_TESTING_TOOL_MODE`, `AI_TESTING_TOOL_PROJECT_KEY`, …
  *
- * Helpers from `@qanalyzer/forge-mocha/mocha` forward metadata via a global bridge.
+ * Helpers from `@ai-testing-tool/forge-mocha/mocha` forward metadata via a global bridge.
  */
 export declare class MochaQaReporter extends reporters.Spec {
     private readonly options;

@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
-import { qaMetaFromEntries } from '@qanalyzer/forge-commons';
+import { qaMetaFromEntries } from '@ai-testing-tool/forge-commons';
 
 import {
   toJestJsonReport,
@@ -43,7 +43,7 @@ function loadSaucedemoFixture(): WdioSpecInput[] {
       }
       const wire = qaMetaFromEntries(entries, {
         framework: 'wdio',
-        reporter: '@qanalyzer/forge-wdio',
+        reporter: '@ai-testing-tool/forge-wdio',
       });
       return {
         ancestorTitles: a.ancestorTitles,
@@ -100,7 +100,7 @@ qaDescribe('qa.step → meta.qa.steps (FR125)', () => {
         { type: 'qa-step-end', body: { name: 'outer', status: 'passed' } },
         { type: 'qa-suite', body: 'E-commerce\tLogin' },
       ],
-      { framework: 'wdio', reporter: '@qanalyzer/forge-wdio' },
+      { framework: 'wdio', reporter: '@ai-testing-tool/forge-wdio' },
     );
     expect(wire).toBeTruthy();
     expect(wire?.framework).toBe('wdio');

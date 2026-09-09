@@ -3,5 +3,5 @@ test-results/
 playwright-report/
 blob-report/
 .qa-playwright-results.json
-qanalyzer-results.json
-qanalyzer-playwright.json
+ai-testing-tool-results.json
+ai-testing-tool-playwright.json

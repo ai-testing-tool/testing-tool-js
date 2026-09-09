@@ -6,7 +6,7 @@ import {
   type QaMetaAttachmentWire,
   type QaMetaWire,
   uploadAttachmentForQa,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 import { QA_METADATA_CONTENT_TYPE } from './metadata-manager';
 import type { PlaywrightAssertionInput } from './report-builder';
@@ -23,7 +23,7 @@ function ensureQaMeta(assertion: PlaywrightAssertionInput): QaMetaWire {
   if (!assertion.meta.qa) {
     assertion.meta.qa = {
       framework: 'playwright',
-      host: { framework: 'playwright', reporter: '@qanalyzer/forge-playwright' },
+      host: { framework: 'playwright', reporter: '@ai-testing-tool/forge-playwright' },
     };
   }
   return assertion.meta.qa;
@@ -38,7 +38,7 @@ function pushAttachment(
   qa.attachments.push(attachment);
 }
 
-/** Prefer PNG / still images; skip video, trace, and QAnalyzer metadata JSON. */
+/** Prefer PNG / still images; skip video, trace, and AiTestingTool metadata JSON. */
 export function isStillImageAttachment(att: PlaywrightMediaAttachment): boolean {
   const ct = (att.contentType ?? '').toLowerCase();
   if (ct === QA_METADATA_CONTENT_TYPE) return false;

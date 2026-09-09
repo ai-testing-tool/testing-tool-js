@@ -5,9 +5,9 @@ import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import {
   ModeEnum,
-  QAnalyzerReporter,
+  AiTestingToolReporter,
   type IngestPayload,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 import { MetadataManager, qa } from '../helpers.js';
 import {
@@ -22,11 +22,11 @@ import { ResultsBuffer } from '../results-buffer.js';
 qaDescribe('mode=file publish', () => {
   qaItAuto('writes FR41 payload with format jest-json', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-wdio-'));
-    const out = join(dir, 'qanalyzer-results.json');
+    const out = join(dir, 'ai-testing-tool-results.json');
 
     try {
-      QAnalyzerReporter.resetInstance();
-      const reporter = QAnalyzerReporter.getInstance({
+      AiTestingToolReporter.resetInstance();
+      const reporter = AiTestingToolReporter.getInstance({
         mode: ModeEnum.file,
         projectKey: 'AUTH',
         launchName: 'local',
@@ -63,7 +63,7 @@ qaDescribe('mode=file publish', () => {
           }
         ).testResults?.[0]?.assertionResults?.[0]?.title).toBe('AUTH-101 login',);
     } finally {
-      QAnalyzerReporter.resetInstance();
+      AiTestingToolReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
     }
   });
@@ -71,7 +71,7 @@ qaDescribe('mode=file publish', () => {
 
 qaDescribe('QaWdioReporter modes', () => {
   qaItAuto('mode=off completes without credentials', async () => {
-    QAnalyzerReporter.resetInstance();
+    AiTestingToolReporter.resetInstance();
     hooksLifecycle.reset();
     ResultsBuffer.reset({ mode: ModeEnum.off });
 
@@ -93,7 +93,7 @@ qaDescribe('QaWdioReporter modes', () => {
     const out = join(dir, 'out.json');
 
     try {
-      QAnalyzerReporter.resetInstance();
+      AiTestingToolReporter.resetInstance();
       hooksLifecycle.reset();
       ResultsBuffer.reset();
 
@@ -160,7 +160,7 @@ qaDescribe('QaWdioReporter modes', () => {
         { title: 'Login' },
       ]);
     } finally {
-      QAnalyzerReporter.resetInstance();
+      AiTestingToolReporter.resetInstance();
       hooksLifecycle.reset();
       ResultsBuffer.reset();
       rmSync(dir, { recursive: true, force: true });

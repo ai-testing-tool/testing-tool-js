@@ -13,8 +13,8 @@ const DEFAULT_BASENAME = 'qa-cypress-results.json';
 export class ResultsManager {
   static resolvePath(explicit?: string): string {
     if (explicit) return explicit;
-    if (process.env.QANALYZER_CYPRESS_RESULTS_PATH) {
-      return process.env.QANALYZER_CYPRESS_RESULTS_PATH;
+    if (process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH) {
+      return process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH;
     }
     return join(tmpdir(), DEFAULT_BASENAME);
   }

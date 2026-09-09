@@ -1,6 +1,6 @@
 "use strict";
 /**
- * WDIO service for QAnalyzer (FR123).
+ * WDIO service for AiTestingTool (FR123).
  *
  * Register: `services: [[QaWdioService, { disableWebdriverScreenshotsReporting: false }]]`
  *
@@ -9,7 +9,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.QaWdioService = void 0;
-const forge_commons_1 = require("@qanalyzer/forge-commons");
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 const failure_screenshot_buffer_1 = require("./failure-screenshot-buffer");
 function resolveTitle(test) {
     if (typeof test.fullTitle === 'function') {

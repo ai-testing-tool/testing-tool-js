@@ -91,5 +91,5 @@ build/
 **/build/report/
 
 # Vitest JSON reports (one per qa-* package + pilot example)
-qa-*/qanalyzer-results.json
+qa-*/ai-testing-tool-results.json
 .npmrc

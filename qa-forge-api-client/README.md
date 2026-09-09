@@ -1,18 +1,18 @@
-# @qanalyzer/forge-api-client
+# @ai-testing-tool/forge-api-client
 
-CLI client for the **QAnalyzer** Forge ingest API. Uploads Jest/Vitest JSON reports (Path A).
+CLI client for the **AI Testing Tool** Forge ingest API. Uploads Jest/Vitest JSON reports (Path A).
 
 ## Install
 
 ```bash
-npm install -D @qanalyzer/forge-api-client
+npm install -D @ai-testing-tool/forge-api-client
 ```
 
 ## Usage
 
 ```bash
-npx jest --json --outputFile=qanalyzer-results.json
-npx @qanalyzer/forge-api-client --project DEMO --report qanalyzer-results.json
+npx jest --json --outputFile=ai-testing-tool-results.json
+npx @ai-testing-tool/forge-api-client --project DEMO --report ai-testing-tool-results.json
 ```
 
 ## Options
@@ -20,13 +20,13 @@ npx @qanalyzer/forge-api-client --project DEMO --report qanalyzer-results.json
 | Flag | Description |
 | ---- | ----------- |
 | `--project`, `-p` | Jira project key |
-| `--report`, `-r` | Path to the report (default `./qanalyzer-results.json`) |
+| `--report`, `-r` | Path to the report (default `./ai-testing-tool-results.json`) |
 | `--format` | `jest-json` (default) \| `vitest-json` \| `normalized` |
-| `--url` | Forge web-trigger ingest URL (or `QANALYZER_INGEST_URL`) |
-| `--token` | Ingest bearer token (or `QANALYZER_INGEST_TOKEN`) |
+| `--url` | Forge web-trigger ingest URL (or `AI_TESTING_TOOL_INGEST_URL`) |
+| `--token` | Ingest bearer token (or `AI_TESTING_TOOL_INGEST_TOKEN`) |
 | `--launch`, `-l` | Launch display name |
 | `--plan` / `--plan-id` / `--plan-key` | Test plan name / UUID / slug |
 | `--fix-version` / `--sprint` | Jira fix version / sprint tags |
 | `--help`, `-h` | Show help |
 
-Env vars mirror the reporters: `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`, `QANALYZER_LAUNCH_NAME`.
+Env vars mirror the reporters: `AI_TESTING_TOOL_PROJECT_KEY`, `AI_TESTING_TOOL_INGEST_URL`, `AI_TESTING_TOOL_INGEST_TOKEN`, `AI_TESTING_TOOL_LAUNCH_NAME`.

@@ -1,9 +1,9 @@
 {
-  "name": "@qanalyzer/forge-commons",
+  "name": "@ai-testing-tool/forge-commons",
   "version": "2.0.0",
-  "description": "Shared config, models, and Forge ingest client for QAnalyzer JS reporters",
+  "description": "Shared config, models, and Forge ingest client for AI Testing Tool JS reporters",
   "keywords": [
-    "qanalyzer",
+    "ai-testing-tool",
     "testing",
     "reporter",
     "jira"

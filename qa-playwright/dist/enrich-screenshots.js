@@ -6,7 +6,7 @@ exports.enrichAssertionWithFailureScreenshots = enrichAssertionWithFailureScreen
  * Upload Playwright still-image attachments on failure (FR119).
  * Skips video/trace; never throws into the test run.
  */
-const forge_commons_1 = require("@qanalyzer/forge-commons");
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 const metadata_manager_1 = require("./metadata-manager");
 function ensureQaMeta(assertion) {
     if (!assertion.meta)
@@ -14,7 +14,7 @@ function ensureQaMeta(assertion) {
     if (!assertion.meta.qa) {
         assertion.meta.qa = {
             framework: 'playwright',
-            host: { framework: 'playwright', reporter: '@qanalyzer/forge-playwright' },
+            host: { framework: 'playwright', reporter: '@ai-testing-tool/forge-playwright' },
         };
     }
     return assertion.meta.qa;
@@ -25,7 +25,7 @@ function pushAttachment(assertion, attachment) {
         qa.attachments = [];
     qa.attachments.push(attachment);
 }
-/** Prefer PNG / still images; skip video, trace, and QAnalyzer metadata JSON. */
+/** Prefer PNG / still images; skip video, trace, and AiTestingTool metadata JSON. */
 function isStillImageAttachment(att) {
     const ct = (att.contentType ?? '').toLowerCase();
     if (ct === metadata_manager_1.QA_METADATA_CONTENT_TYPE)

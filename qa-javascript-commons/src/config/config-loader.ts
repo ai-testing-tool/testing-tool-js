@@ -3,7 +3,7 @@ import { join } from 'path';
 
 import type { ConfigType } from './config-type';
 
-const DEFAULT_PATHS = ['qanalyzer.config.json', '.qanalyzerc'];
+const DEFAULT_PATHS = ['ai-testing-tool.config.json', '.ai-testing-toolc'];
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);

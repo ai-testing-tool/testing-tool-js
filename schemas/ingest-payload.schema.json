@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://qanalyzer.local/schemas/ingest-payload.schema.json",
-  "title": "QAnalyzer ingest payload (FR41)",
+  "$id": "https://ai-testing-tool.local/schemas/ingest-payload.schema.json",
+  "title": "AiTestingTool ingest payload (FR41)",
   "type": "object",
   "required": ["projectKey", "report"],
   "additionalProperties": true,

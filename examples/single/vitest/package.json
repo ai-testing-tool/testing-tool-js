@@ -1,20 +1,20 @@
 {
-  "name": "qanalyzer-vitest-pilot",
+  "name": "ai-testing-tool-vitest-pilot",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "QAnalyzer Vitest pilot — JSONPlaceholder API tests + JSON upload path",
+  "description": "AiTestingTool Vitest pilot — JSONPlaceholder API tests + JSON upload path",
   "scripts": {
-    "test": "vitest run --config vitest.config.ts --project pilot --reporter=default --reporter=json --outputFile=qanalyzer-results.json",
+    "test": "vitest run --config vitest.config.ts --project pilot --reporter=default --reporter=json --outputFile=ai-testing-tool-results.json",
     "test:watch": "vitest --config vitest.config.ts --project pilot",
-    "test:json": "vitest run --config vitest.config.ts --project pilot --reporter=json --outputFile=qanalyzer-results.json",
-    "upload": "npx @qanalyzer/forge-api-client --project AUTH --launch \"vitest pilot\" --report qanalyzer-results.json"
+    "test:json": "vitest run --config vitest.config.ts --project pilot --reporter=json --outputFile=ai-testing-tool-results.json",
+    "upload": "npx @ai-testing-tool/forge-api-client --project AUTH --launch \"vitest pilot\" --report ai-testing-tool-results.json"
   },
   "engines": {
     "node": ">=18"
   },
   "devDependencies": {
-    "@qanalyzer/forge-vitest": "file:../../../qa-vitest",
+    "@ai-testing-tool/forge-vitest": "file:../../../qa-vitest",
     "typescript": "^5.8.2",
     "vitest": "^3.2.4"
   }

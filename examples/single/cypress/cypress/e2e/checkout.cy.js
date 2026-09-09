@@ -1,4 +1,4 @@
-import { qa } from '@qanalyzer/forge-cypress/mocha';
+import { qa } from '@ai-testing-tool/forge-cypress/mocha';
 import InventoryPage from '../support/pages/InventoryPage';
 import CartPage from '../support/pages/CartPage';
 import CheckoutPage from '../support/pages/CheckoutPage';

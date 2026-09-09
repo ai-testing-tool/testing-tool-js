@@ -5,9 +5,9 @@ import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import {
   ModeEnum,
-  QAnalyzerReporter,
+  AiTestingToolReporter,
   type IngestPayload,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 import plugin from '../plugin.js';
 import { toJestJsonReport, type CypressSpecInput } from '../report-builder.js';
@@ -39,7 +39,7 @@ const SPECS: CypressSpecInput[] = [
 qaDescribe('resolveQaOptions', () => {
   qaItAuto('unwraps cypress-multi-reporters qaCypressReporterOptions', () => {
     const opts = resolveQaOptions({
-      reporterEnabled: '@qanalyzer/forge-cypress',
+      reporterEnabled: '@ai-testing-tool/forge-cypress',
       qaCypressReporterOptions: { mode: 'file', projectKey: 'AUTH' },
     });
     expect(opts.mode).toBe('file');
@@ -56,11 +56,11 @@ qaDescribe('resolveQaOptions', () => {
 qaDescribe('mode=file publish', () => {
   qaItAuto('writes FR41 payload with format jest-json', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-cypress-'));
-    const out = join(dir, 'qanalyzer-results.json');
+    const out = join(dir, 'ai-testing-tool-results.json');
 
     try {
-      QAnalyzerReporter.resetInstance();
-      const reporter = QAnalyzerReporter.getInstance({
+      AiTestingToolReporter.resetInstance();
+      const reporter = AiTestingToolReporter.getInstance({
         mode: ModeEnum.file,
         projectKey: 'AUTH',
         launchName: 'local',
@@ -79,7 +79,7 @@ qaDescribe('mode=file publish', () => {
       expect(written.projectKey).toBe('AUTH');
       expect(written.report.testResults?.[0]?.assertionResults?.[0]?.title).toBe('AUTH-101 login',);
     } finally {
-      QAnalyzerReporter.resetInstance();
+      AiTestingToolReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
     }
   });
@@ -92,7 +92,7 @@ qaDescribe('ResultsManager + plugin after:run', () => {
     const out = join(dir, 'out.json');
 
     try {
-      delete process.env.QANALYZER_CYPRESS_RESULTS_PATH;
+      delete process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH;
       ResultsManager.clear(bridge);
       ResultsManager.appendSpec(SPECS[0]!, bridge);
 
@@ -123,8 +123,8 @@ qaDescribe('ResultsManager + plugin after:run', () => {
       expect(written.report.numTotalTests).toBe(2);
       expect(written.report.numFailedTests).toBe(1);
     } finally {
-      QAnalyzerReporter.resetInstance();
-      delete process.env.QANALYZER_CYPRESS_RESULTS_PATH;
+      AiTestingToolReporter.resetInstance();
+      delete process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH;
       rmSync(dir, { recursive: true, force: true });
     }
   });
@@ -153,7 +153,7 @@ qaDescribe('ResultsManager + plugin after:run', () => {
       await handlers.get('after:run')?.();
       expect(ResultsManager.getSpecs(bridge).length).toBe(0);
     } finally {
-      QAnalyzerReporter.resetInstance();
+      AiTestingToolReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
     }
   });

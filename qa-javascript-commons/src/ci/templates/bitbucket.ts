@@ -30,14 +30,14 @@ function bitbucketScriptLines(ctx: CiTemplateContext, ...cmds: string[]): string
 function bitbucketSecrets(): CiSecretHint[] {
   return [
     {
-      name: 'QANALYZER_INGEST_URL',
+      name: 'AI_TESTING_TOOL_INGEST_URL',
       description:
         'Forge web trigger URL (launch ingest + binary attach / screenshots / qa.attach)',
       platformHint: 'Repository settings → Pipelines → Repository variables (Secured)',
     },
     {
-      name: 'QANALYZER_INGEST_TOKEN',
-      description: 'Bearer token from QAnalyzer configure page (shown once)',
+      name: 'AI_TESTING_TOOL_INGEST_TOKEN',
+      description: 'Bearer token from AiTestingTool configure page (shown once)',
       platformHint: 'Repository settings → Pipelines → Repository variables (Secured)',
     },
   ];
@@ -47,7 +47,7 @@ function bitbucketVariables(): CiVariableHint[] {
   return [
     {
       name: 'JIRA_PROJECT_KEY',
-      description: 'Jira project key allowlisted in QAnalyzer (e.g. AUTH)',
+      description: 'Jira project key allowlisted in AiTestingTool (e.g. AUTH)',
       platformHint: 'Repository settings → Pipelines → Repository variables',
     },
   ];
@@ -60,20 +60,20 @@ function renderBitbucketReporter(ctx: CiTemplateContext): CiTemplateResult {
   const pkg = reporterPackageName(ctx);
   const configHint = reporterConfigHint(ctx);
 
-  const content = `# QAnalyzer fragment — ${label} ${pkg} reporter path
+  const content = `# AiTestingTool fragment — ${label} ${pkg} reporter path
 # Requires ${pkg} in package.json and ${configHint}
-# Set secured vars QANALYZER_INGEST_URL / QANALYZER_INGEST_TOKEN
+# Set secured vars AI_TESTING_TOOL_INGEST_URL / AI_TESTING_TOOL_INGEST_TOKEN
 image: node:${nodeVersion}
 
 pipelines:
   default:
     - step:
-        name: Test with QAnalyzer
+        name: Test with AiTestingTool
         caches:
           - node
         script:
-          - export QANALYZER_MODE=ingest
-          - export QANALYZER_PROJECT_KEY=$JIRA_PROJECT_KEY
+          - export AI_TESTING_TOOL_MODE=ingest
+          - export AI_TESTING_TOOL_PROJECT_KEY=$JIRA_PROJECT_KEY
           - npm ci
 ${bitbucketScriptLines(ctx, frameworkReporterRun(ctx))}
 `;
@@ -90,7 +90,7 @@ ${bitbucketScriptLines(ctx, frameworkReporterRun(ctx))}
 }
 
 /**
- * Bitbucket Pipelines — upload path or @qanalyzer/forge-vitest / @qanalyzer/forge-jest reporter path.
+ * Bitbucket Pipelines — upload path or @ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest reporter path.
  */
 export function renderBitbucketUpload(ctx: CiTemplateContext): CiTemplateResult {
   if (ctx.ingestPath === 'reporter') {
@@ -101,13 +101,13 @@ export function renderBitbucketUpload(ctx: CiTemplateContext): CiTemplateResult 
   }
 
   const nodeVersion = ctx.nodeVersion ?? '22';
-  const reportFile = ctx.reportFile ?? 'qanalyzer-results.json';
+  const reportFile = ctx.reportFile ?? 'ai-testing-tool-results.json';
   const testCmd = frameworkTestCommand(ctx);
   const label = frameworkLabel(ctx);
   const uploadBlock = indentUploadCli(ctx, 12);
 
-  const content = `# QAnalyzer fragment — merge into your bitbucket-pipelines.yml
-# ${label} upload path — set secured vars QANALYZER_INGEST_URL / QANALYZER_INGEST_TOKEN
+  const content = `# AiTestingTool fragment — merge into your bitbucket-pipelines.yml
+# ${label} upload path — set secured vars AI_TESTING_TOOL_INGEST_URL / AI_TESTING_TOOL_INGEST_TOKEN
 image: node:${nodeVersion}
 
 pipelines:
@@ -122,7 +122,7 @@ ${bitbucketScriptLines(ctx, testCmd)}
         artifacts:
           - ${reportFile}
     - step:
-        name: Upload QAnalyzer
+        name: Upload AiTestingTool
         script:
           - |
 ${uploadBlock}

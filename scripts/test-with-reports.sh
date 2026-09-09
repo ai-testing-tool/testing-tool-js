@@ -1,5 +1,5 @@
 #!/bin/sh
-# Run Vitest per workspace project; @qanalyzer/forge-vitest writes qanalyzer-results.json.
+# Run Vitest per workspace project; @ai-testing-tool/forge-vitest writes ai-testing-tool-results.json.
 set -eu
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 CONFIG="$ROOT/examples/single/vitest/vitest.config.ts"
@@ -33,8 +33,8 @@ issue_prefix() {
 for project in pilot qa-javascript-commons qa-forge-api-client qa-cucumberjs qa-cypress qa-jest qa-mocha qa-playwright qa-vitest qa-wdio; do
   root="$(project_root "$project")"
   echo "==> $project"
-  QANALYZER_FILE_PATH="$ROOT/$root/qanalyzer-results.json" \
-  QANALYZER_LAUNCH_NAME="sdk $project" \
+  AI_TESTING_TOOL_FILE_PATH="$ROOT/$root/ai-testing-tool-results.json" \
+  AI_TESTING_TOOL_LAUNCH_NAME="sdk $project" \
   QA_ISSUE_PREFIX="$(issue_prefix "$project")" \
   npx vitest run --config "$CONFIG" --project "$project"
 done

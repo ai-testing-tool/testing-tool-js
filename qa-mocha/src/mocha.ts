@@ -2,7 +2,7 @@
  * Programmatic helpers for Mocha tests (FR86 / NFR26 + Phase 3 FR94 attach upload).
  */
 
-import { uploadAttachmentForQa } from '@qanalyzer/forge-commons';
+import { uploadAttachmentForQa } from '@ai-testing-tool/forge-commons';
 
 type StepFn = () => Promise<void> | void;
 

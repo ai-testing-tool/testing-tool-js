@@ -1,14 +1,14 @@
-# QAnalyzer JS SDK pipeline
+# AiTestingTool JS SDK pipeline
 # Builds and tests all workspaces, pushes a Vitest pilot launch to Forge on main/develop,
 # and publishes packages to npm on lockstep release tags (v1.2.3).
 #
-# Ingest credentials — use the same values as qanalyzer-app/.env:
-#   QANALYZER_INGEST_URL
-#   QANALYZER_INGEST_TOKEN
+# Ingest credentials — use the same values as ___AI_TESTING_TOOL_APP_PATH___/.env:
+#   AI_TESTING_TOOL_INGEST_URL
+#   AI_TESTING_TOOL_INGEST_TOKEN
 #   JIRA_PROJECT_KEY  (optional, defaults to AUTH)
 #
 # GitLab: Settings → CI/CD → Variables (Masked + Protected recommended).
-# Monorepo / local: scripts/load-ingest-env.sh reads ../qanalyzer-app/.env automatically.
+# Monorepo / local: scripts/load-ingest-env.sh reads ../___AI_TESTING_TOOL_APP_PATH___/.env automatically.
 #
 # npm publish also needs NPM_TOKEN (see scripts/publish.sh).
 
@@ -47,11 +47,11 @@ test:
   artifacts:
     when: always
     paths:
-      - qa-*/qanalyzer-results.json
-      - examples/single/vitest/qanalyzer-results.json
+      - qa-*/ai-testing-tool-results.json
+      - examples/single/vitest/ai-testing-tool-results.json
     expire_in: 7 days
 
-# Dogfood ingest: upload each package's qanalyzer-results.json to Forge.
+# Dogfood ingest: upload each package's ai-testing-tool-results.json to Forge.
 vitest_pilot_ingest:
   stage: ingest
   image: $NODE_IMAGE
@@ -64,7 +64,7 @@ vitest_pilot_ingest:
   script:
     - npm test
     - . scripts/load-ingest-env.sh
-    - QANALYZER_LAUNCH_PREFIX="gitlab" sh scripts/upload-package-reports.sh
+    - AI_TESTING_TOOL_LAUNCH_PREFIX="gitlab" sh scripts/upload-package-reports.sh
 
 npm_publish:
   stage: release

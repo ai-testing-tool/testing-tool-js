@@ -1,11 +1,11 @@
-# @qanalyzer/forge-mocha
+# @ai-testing-tool/forge-mocha
 
-Mocha reporter for **QAnalyzer** (Jira Forge quality hub).
+Mocha reporter for **AI Testing Tool** (Jira Forge quality hub).
 
 ## Install
 
 ```bash
-npm install -D @qanalyzer/forge-mocha @qanalyzer/forge-commons mocha
+npm install -D @ai-testing-tool/forge-mocha @ai-testing-tool/forge-commons mocha
 ```
 
 Peer: `mocha` ≥10.
@@ -16,7 +16,7 @@ Peer: `mocha` ≥10.
 // .mocharc.js
 module.exports = {
   spec: ['test/**/*.spec.js'],
-  reporter: '@qanalyzer/forge-mocha',
+  reporter: '@ai-testing-tool/forge-mocha',
   reporterOptions: {
     // Defaults to mode=off (no credentials required)
     // mode: 'ingest' | 'file' | 'off',
@@ -31,15 +31,15 @@ module.exports = {
 | Mode | Behavior |
 | ---- | -------- |
 | `off` (default) | No network / file write |
-| `file` | Writes the ingest payload (default `./qanalyzer-results.json`) |
+| `file` | Writes the ingest payload (default `./ai-testing-tool-results.json`) |
 | `ingest` | POSTs the payload with `format: jest-json` |
 
-Env (same as CLI): `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`, `QANALYZER_LAUNCH_NAME`.
+Env (same as CLI): `AI_TESTING_TOOL_MODE`, `AI_TESTING_TOOL_PROJECT_KEY`, `AI_TESTING_TOOL_INGEST_URL`, `AI_TESTING_TOOL_INGEST_TOKEN`, `AI_TESTING_TOOL_LAUNCH_NAME`.
 
 ## Helpers
 
 ```js
-const { qa } = require('@qanalyzer/forge-mocha/mocha');
+const { qa } = require('@ai-testing-tool/forge-mocha/mocha');
 const assert = require('assert');
 
 describe('JSONPlaceholder User CRUD', function () {
@@ -64,18 +64,18 @@ Prefer **Jira issue keys in test titles** (no case-ID wrapper). Step hierarchy l
 **Path A — file + CLI:**
 
 ```bash
-QANALYZER_MODE=file \
-QANALYZER_PROJECT_KEY=DEMO \
+AI_TESTING_TOOL_MODE=file \
+AI_TESTING_TOOL_PROJECT_KEY=DEMO \
 npx mocha
-npx @qanalyzer/forge-api-client --project DEMO --report qanalyzer-results.json
+npx @ai-testing-tool/forge-api-client --project DEMO --report ai-testing-tool-results.json
 ```
 
 **Path B — reporter ingest:**
 
 ```bash
-QANALYZER_MODE=ingest \
-QANALYZER_PROJECT_KEY=DEMO \
-QANALYZER_INGEST_URL=... \
-QANALYZER_INGEST_TOKEN=... \
+AI_TESTING_TOOL_MODE=ingest \
+AI_TESTING_TOOL_PROJECT_KEY=DEMO \
+AI_TESTING_TOOL_INGEST_URL=... \
+AI_TESTING_TOOL_INGEST_TOKEN=... \
 npx mocha
 ```

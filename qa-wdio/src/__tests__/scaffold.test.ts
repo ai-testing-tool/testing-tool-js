@@ -1,6 +1,6 @@
 import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
-import { ModeEnum, QAnalyzerReporter } from '@qanalyzer/forge-commons';
+import { ModeEnum, AiTestingToolReporter } from '@ai-testing-tool/forge-commons';
 
 import {
   afterRunHook,
@@ -13,9 +13,9 @@ import { QaWdioService } from '../service.js';
 import { QaWdioReporter } from '../reporter.js';
 import QaWdioReporterDefault from '../index.js';
 
-qaDescribe('@qanalyzer/forge-wdio scaffold', () => {
+qaDescribe('@ai-testing-tool/forge-wdio scaffold', () => {
   qaItAuto('loads reporter module and no-ops when mode=off', async () => {
-    QAnalyzerReporter.resetInstance();
+    AiTestingToolReporter.resetInstance();
     hooksLifecycle.reset();
 
     await beforeRunHook({ mode: ModeEnum.off, projectKey: 'AUTH' });
@@ -31,7 +31,7 @@ qaDescribe('@qanalyzer/forge-wdio scaffold', () => {
     reporter.onRunnerEnd();
     await afterRunHook();
 
-    const instance = QAnalyzerReporter.getInstance();
+    const instance = AiTestingToolReporter.getInstance();
     expect(instance.getConfig().mode).toBe(ModeEnum.off);
     expect(hooksLifecycle.beforeCalled).toBe(true);
     expect(hooksLifecycle.afterCalled).toBe(true);

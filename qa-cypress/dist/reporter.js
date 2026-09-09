@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CypressQaReporter = void 0;
 const mocha_1 = require("mocha");
-const forge_commons_1 = require("@qanalyzer/forge-commons");
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 const metadata_manager_1 = require("./metadata-manager");
 const results_manager_1 = require("./results-manager");
 function mapStatus(state) {
@@ -51,7 +51,7 @@ function failureMessages(test) {
     return msg ? [msg] : [];
 }
 /**
- * Cypress Mocha reporter for QAnalyzer.
+ * Cypress Mocha reporter for AiTestingTool.
  *
  * Collects per-`it()` results + `qa.*` metadata, appends to ResultsManager.
  * Plugin `after:run` publishes FR41 (mode=ingest|file). mode=off no-ops.
@@ -64,7 +64,7 @@ class CypressQaReporter extends mocha_1.reporters.Base {
         super(runner, options);
         this.options = options.reporterOptions ?? {};
         if (this.options.resultsPath) {
-            process.env.QANALYZER_CYPRESS_RESULTS_PATH = this.options.resultsPath;
+            process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH = this.options.resultsPath;
         }
         runner.on(mocha_1.Runner.constants.EVENT_TEST_BEGIN, () => {
             metadata_manager_1.MetadataManager.clear();
@@ -87,7 +87,7 @@ class CypressQaReporter extends mocha_1.reporters.Base {
             const entries = metadata_manager_1.MetadataManager.getEntries();
             const wire = (0, forge_commons_1.qaMetaFromEntries)(entries, {
                 framework: 'cypress',
-                reporter: '@qanalyzer/forge-cypress',
+                reporter: '@ai-testing-tool/forge-cypress',
             });
             metadata_manager_1.MetadataManager.clear();
             const ancestors = ancestorTitles(test);

@@ -18,4 +18,4 @@ exports.MetadataManager = {
     },
 };
 /** Content type for metadata attachments read by the reporter (Story 2.7.2). */
-exports.QA_METADATA_CONTENT_TYPE = 'application/qanalyzer.metadata+json';
+exports.QA_METADATA_CONTENT_TYPE = 'application/ai-testing-tool.metadata+json';

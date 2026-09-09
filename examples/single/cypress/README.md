@@ -1,6 +1,6 @@
-# QAnalyzer Cypress Pilot Example
+# AI Testing Tool Cypress Pilot Example
 
-Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`@qanalyzer/forge-cypress`**.
+Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`@ai-testing-tool/forge-cypress`**.
 
 Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`).
 
@@ -11,7 +11,7 @@ Default mode is **`off`** (no credentials). Graduate to `file` or `ingest` when 
 - Node.js **18+**
 - Network access to [saucedemo.com](https://www.saucedemo.com) for live E2E
 - From monorepo: build reporters first (`cd ai-testing-tool-js && npm run build`)
-- For ingest/upload: QAnalyzer Configure → Connection, project on allowlist
+- For ingest/upload: AiTestingTool Configure → Connection, project on allowlist
 
 ## Install & local run (no credentials)
 
@@ -24,7 +24,7 @@ npm install
 npm test
 ```
 
-`npm test` runs `cypress run` with `QANALYZER_MODE=off` (default). Expect **13** tests (12 pass + 1 ignore demo that still executes).
+`npm test` runs `cypress run` with `AI_TESTING_TOOL_MODE=off` (default). Expect **13** tests (12 pass + 1 ignore demo that still executes).
 
 Interactive:
 
@@ -54,7 +54,7 @@ cy.login('locked_out_user', 'secret_sauce');
 ### Sync `qa.step`
 
 ```js
-import { qa } from '@qanalyzer/forge-cypress/mocha';
+import { qa } from '@ai-testing-tool/forge-cypress/mocha';
 
 it('AUTH-101 …', () => {
   qa.suite('E-commerce\tAuthentication\tLogin');
@@ -67,14 +67,14 @@ it('AUTH-101 …', () => {
 ## Path A — `mode=file` + CLI
 
 ```bash
-QANALYZER_MODE=file \
-QANALYZER_PROJECT_KEY=AUTH \
+AI_TESTING_TOOL_MODE=file \
+AI_TESTING_TOOL_PROJECT_KEY=AUTH \
 npx cypress run --config video=false,screenshotOnRunFailure=false
 
-npx @qanalyzer/forge-api-client \
+npx @ai-testing-tool/forge-api-client \
   --project AUTH \
   --launch "cypress pilot" \
-  --report qanalyzer-results.json
+  --report ai-testing-tool-results.json
 ```
 
 Or:
@@ -89,24 +89,24 @@ npm run upload
 ## Path B — reporter `mode=ingest`
 
 ```bash
-QANALYZER_MODE=ingest \
-QANALYZER_PROJECT_KEY=AUTH \
-QANALYZER_INGEST_URL=... \
-QANALYZER_INGEST_TOKEN=... \
+AI_TESTING_TOOL_MODE=ingest \
+AI_TESTING_TOOL_PROJECT_KEY=AUTH \
+AI_TESTING_TOOL_INGEST_URL=... \
+AI_TESTING_TOOL_INGEST_TOKEN=... \
 npx cypress run --config video=false,screenshotOnRunFailure=false
 ```
 
-Requires `@qanalyzer/forge-cypress/plugin` + `@qanalyzer/forge-cypress/metadata` in `setupNodeEvents` (already wired in `cypress.config.js`).
+Requires `@ai-testing-tool/forge-cypress/plugin` + `@ai-testing-tool/forge-cypress/metadata` in `setupNodeEvents` (already wired in `cypress.config.js`).
 
 ### Environment
 
 | Variable | Required | Description |
 | -------- | -------- | ----------- |
-| `QANALYZER_MODE` | No | `off` (default) \| `file` \| `ingest` |
-| `QANALYZER_PROJECT_KEY` | file/ingest | Jira project key |
-| `QANALYZER_INGEST_URL` | ingest | From Configure → Connection |
-| `QANALYZER_INGEST_TOKEN` | ingest | Bearer token (CI secret) |
-| `QANALYZER_LAUNCH_NAME` | No | Launch display name |
+| `AI_TESTING_TOOL_MODE` | No | `off` (default) \| `file` \| `ingest` |
+| `AI_TESTING_TOOL_PROJECT_KEY` | file/ingest | Jira project key |
+| `AI_TESTING_TOOL_INGEST_URL` | ingest | From Configure → Connection |
+| `AI_TESTING_TOOL_INGEST_TOKEN` | ingest | Bearer token (CI secret) |
+| `AI_TESTING_TOOL_LAUNCH_NAME` | No | Launch display name |
 
 **Never commit the ingest token.**
 

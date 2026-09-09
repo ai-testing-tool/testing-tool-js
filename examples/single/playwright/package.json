@@ -1,13 +1,13 @@
 {
-  "name": "qanalyzer-playwright-pilot",
+  "name": "ai-testing-tool-playwright-pilot",
   "version": "0.1.0",
   "private": true,
-  "description": "QAnalyzer Playwright pilot — saucedemo e-commerce E2E + @qanalyzer/forge-playwright reporter",
+  "description": "AiTestingTool Playwright pilot — saucedemo e-commerce E2E + @ai-testing-tool/forge-playwright reporter",
   "scripts": {
-    "test": "QANALYZER_MODE=${QANALYZER_MODE:-off} npx playwright test",
-    "test:headed": "QANALYZER_MODE=${QANALYZER_MODE:-off} npx playwright test --headed",
-    "test:file": "QANALYZER_MODE=file QANALYZER_PROJECT_KEY=AUTH npx playwright test",
-    "upload": "npx @qanalyzer/forge-api-client --project AUTH --launch \"playwright pilot\" --report qanalyzer-results.json",
+    "test": "AI_TESTING_TOOL_MODE=${AI_TESTING_TOOL_MODE:-off} npx playwright test",
+    "test:headed": "AI_TESTING_TOOL_MODE=${AI_TESTING_TOOL_MODE:-off} npx playwright test --headed",
+    "test:file": "AI_TESTING_TOOL_MODE=file AI_TESTING_TOOL_PROJECT_KEY=AUTH npx playwright test",
+    "upload": "npx @ai-testing-tool/forge-api-client --project AUTH --launch \"playwright pilot\" --report ai-testing-tool-results.json",
     "install:browsers": "npx playwright install chromium"
   },
   "engines": {
@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.54.1",
-    "@qanalyzer/forge-commons": "file:../../../qa-javascript-commons",
-    "@qanalyzer/forge-playwright": "file:../../../qa-playwright"
+    "@ai-testing-tool/forge-commons": "file:../../../qa-javascript-commons",
+    "@ai-testing-tool/forge-playwright": "file:../../../qa-playwright"
   }
 }

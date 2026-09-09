@@ -35,10 +35,10 @@ class IngestClient {
     }
     async send(payload) {
         if (!this.url) {
-            throw new Error('ingest.url (or QANALYZER_INGEST_URL) is required in ingest mode');
+            throw new Error('ingest.url (or AI_TESTING_TOOL_INGEST_URL) is required in ingest mode');
         }
         if (!this.token) {
-            throw new Error('ingest.token (or QANALYZER_INGEST_TOKEN) is required in ingest mode');
+            throw new Error('ingest.token (or AI_TESTING_TOOL_INGEST_TOKEN) is required in ingest mode');
         }
         const bytes = (0, models_1.estimatePayloadBytes)(payload);
         if (bytes <= this.chunkThresholdBytes && bytes <= this.maxPayloadBytes) {

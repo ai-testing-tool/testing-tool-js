@@ -5,10 +5,10 @@ import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
 import {
   ModeEnum,
-  QAnalyzerReporter,
+  AiTestingToolReporter,
   buildIngestPayload,
   type IngestPayload,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 import { JestQaReporter } from '../index.js';
 import { toJestJsonReport, type AggregatedResultLike } from '../report-builder.js';
@@ -138,11 +138,11 @@ qaDescribe('dual-path FR41 parity (NFR24)', () => {
 qaDescribe('mode=file publish', () => {
   qaItAuto('writes FR41 payload with format jest-json', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-jest-'));
-    const out = join(dir, 'qanalyzer-results.json');
+    const out = join(dir, 'ai-testing-tool-results.json');
 
     try {
-      QAnalyzerReporter.resetInstance();
-      const reporter = QAnalyzerReporter.getInstance({
+      AiTestingToolReporter.resetInstance();
+      const reporter = AiTestingToolReporter.getInstance({
         mode: ModeEnum.file,
         projectKey: 'AUTH',
         launchName: 'local',
@@ -161,7 +161,7 @@ qaDescribe('mode=file publish', () => {
       expect(written.projectKey).toBe('AUTH');
       expect(written.report.testResults?.[0]?.assertionResults?.[0]?.title).toBe('AUTH-101 login');
     } finally {
-      QAnalyzerReporter.resetInstance();
+      AiTestingToolReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
     }
   });
@@ -225,7 +225,7 @@ qaDescribe('JestQaReporter modes', () => {
       const report = typeof written.report === 'object' ? written.report : null;
       expect(report?.success).toBe(true);
     } finally {
-      QAnalyzerReporter.resetInstance();
+      AiTestingToolReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
     }
   });
@@ -249,7 +249,7 @@ qaDescribe('JestQaReporter modes', () => {
       const report = typeof written.report === 'object' ? written.report : null;
       expect(report?.success).toBe(false);
     } finally {
-      QAnalyzerReporter.resetInstance();
+      AiTestingToolReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
     }
   });
@@ -273,7 +273,7 @@ qaDescribe('JestQaReporter modes', () => {
       expect(written.format).toBe('jest-json');
       expect(written.projectKey).toBe('AUTH');
     } finally {
-      QAnalyzerReporter.resetInstance();
+      AiTestingToolReporter.resetInstance();
       rmSync(dir, { recursive: true, force: true });
     }
   });

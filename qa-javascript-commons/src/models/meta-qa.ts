@@ -286,13 +286,13 @@ export type ToQaMetaWireOptions = {
 };
 
 function defaultReporterName(framework: QaMetaFramework): string {
-  if (framework === 'jest') return '@qanalyzer/forge-jest';
-  if (framework === 'mocha') return '@qanalyzer/forge-mocha';
-  if (framework === 'cucumberjs') return '@qanalyzer/forge-cucumberjs';
-  if (framework === 'cypress') return '@qanalyzer/forge-cypress';
-  if (framework === 'playwright') return '@qanalyzer/forge-playwright';
-  if (framework === 'wdio') return '@qanalyzer/forge-wdio';
-  return '@qanalyzer/forge-vitest';
+  if (framework === 'jest') return '@ai-testing-tool/forge-jest';
+  if (framework === 'mocha') return '@ai-testing-tool/forge-mocha';
+  if (framework === 'cucumberjs') return '@ai-testing-tool/forge-cucumberjs';
+  if (framework === 'cypress') return '@ai-testing-tool/forge-cypress';
+  if (framework === 'playwright') return '@ai-testing-tool/forge-playwright';
+  if (framework === 'wdio') return '@ai-testing-tool/forge-wdio';
+  return '@ai-testing-tool/forge-vitest';
 }
 
 /** Returns undefined when accumulator has no QA data (omit empty meta.qa). */

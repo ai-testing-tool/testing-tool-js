@@ -3,11 +3,11 @@ import { EnvIngestEnum } from '../env/env-enum';
 
 export type AttachClientOptions = {
   /**
-   * Shared Forge CI webtrigger URL (`QANALYZER_INGEST_URL`).
-   * Legacy `QANALYZER_ATTACH_URL` is accepted as a fallback alias.
+   * Shared Forge CI webtrigger URL (`AI_TESTING_TOOL_INGEST_URL`).
+   * Legacy `AI_TESTING_TOOL_ATTACH_URL` is accepted as a fallback alias.
    */
   url?: string;
-  /** Same Bearer token as ingest (`QANALYZER_INGEST_TOKEN`). */
+  /** Same Bearer token as ingest (`AI_TESTING_TOOL_INGEST_TOKEN`). */
   token?: string;
   timeoutMs?: number;
   /** Max decoded file bytes (default 3_000_000). */
@@ -74,7 +74,7 @@ export class AttachClient {
   constructor(options: AttachClientOptions = {}) {
     this.url =
       options.url ??
-      readEnv('QANALYZER_ATTACH_URL') ??
+      readEnv('AI_TESTING_TOOL_ATTACH_URL') ??
       readEnv(EnvIngestEnum.url);
     this.token = options.token ?? readEnv(EnvIngestEnum.token);
     this.timeoutMs = options.timeoutMs ?? 30_000;
@@ -85,12 +85,12 @@ export class AttachClient {
   async upload(input: AttachUploadInput): Promise<AttachUploadResult> {
     if (!this.url) {
       throw new Error(
-        'attach.url (or QANALYZER_INGEST_URL) is required to upload attachments',
+        'attach.url (or AI_TESTING_TOOL_INGEST_URL) is required to upload attachments',
       );
     }
     if (!this.token) {
       throw new Error(
-        'attach.token (or QANALYZER_INGEST_TOKEN) is required to upload attachments',
+        'attach.token (or AI_TESTING_TOOL_INGEST_TOKEN) is required to upload attachments',
       );
     }
 
@@ -111,7 +111,7 @@ export class AttachClient {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${this.token}`,
-          'X-QAnalyzer-Action': 'attach',
+          'X-AiTestingTool-Action': 'attach',
         },
         body: JSON.stringify({
           projectKey: input.projectKey,

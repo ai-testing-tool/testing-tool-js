@@ -1,4 +1,4 @@
-# QAnalyzer JavaScript SDK
+# AI Testing Tool JavaScript SDK
 
 Publish test results from JavaScript/TypeScript projects to **AI Testing Tool** ([`qanalyzer-app`](../qanalyzer-app/)) — a Forge app that ingests Jest/Vitest JSON, stores launches, and syncs traceability to Jira.
 
@@ -62,14 +62,14 @@ These panels complement CI ingest: automated runs land as launches and TestExecu
 ### From CI to Jira (SDK role)
 
 ```text
-Your test runner  →  @qanalyzer/forge-* reporter or CLI  →  Forge web trigger
+Your test runner  →  @ai-testing-tool/forge-* reporter or CLI  →  Forge web trigger
                                                               ↓
                                                     Launch stored in AI Testing Tool
                                                               ↓
                               TestCase / TestExecution issues + Test Execution view updated
 ```
 
-- **Automated CI:** set `QANALYZER_MODE=ingest` — reporters upload when the run finishes.
+- **Automated CI:** set `AI_TESTING_TOOL_MODE=ingest` — reporters upload when the run finishes.
 - **Optional metadata:** set Jira issue keys via `qa.issueKeys()` (or Cucumber `@AUTH-101` tags) — stored in `meta.qa.issueKeys`, not in test titles.
 - **Rich steps:** use `qa.suite` / `qa.step` (Jest, Vitest, Mocha, Cypress, WDIO), Playwright `test.step()`, or Cucumber tags — suite hierarchy appears in ingest payloads.
 - **Large suites:** reports above ~3.5 MB chunk automatically; transient upload errors retry.
@@ -97,24 +97,24 @@ You need three values for CI:
 
 | Variable | Where to get it |
 | -------- | --------------- |
-| `QANALYZER_INGEST_URL` | Automation setup → ingest URL |
-| `QANALYZER_INGEST_TOKEN` | Automation setup → token (Bearer) |
-| `QANALYZER_PROJECT_KEY` | Your Jira project key (e.g. `AUTH`) |
+| `AI_TESTING_TOOL_INGEST_URL` | Automation setup → ingest URL |
+| `AI_TESTING_TOOL_INGEST_TOKEN` | Automation setup → token (Bearer) |
+| `AI_TESTING_TOOL_PROJECT_KEY` | Your Jira project key (e.g. `AUTH`) |
 
 Use **Test connection** in Automation setup to verify credentials without putting the token in a browser network tab.
 
 ## Getting started
 
-All reporters default to `mode: off` — local runs need no credentials. Set `QANALYZER_MODE=ingest` in CI to upload. Link tests to Jira issues with `qa.issueKeys(['AUTH-101'])` (or `@AUTH-101` tags in Cucumber) — keys land in `meta.qa.issueKeys`.
+All reporters default to `mode: off` — local runs need no credentials. Set `AI_TESTING_TOOL_MODE=ingest` in CI to upload. Link tests to Jira issues with `qa.issueKeys(['AUTH-101'])` (or `@AUTH-101` tags in Cucumber) — keys land in `meta.qa.issueKeys`.
 
 **CI environment** (same for every framework):
 
 ```bash
-export QANALYZER_MODE=ingest
-export QANALYZER_PROJECT_KEY=AUTH
-export QANALYZER_INGEST_URL="https://<your-site>.atlassian.net/.../qanalyzer-ingest-launch"
-export QANALYZER_INGEST_TOKEN="<token-from-settings>"
-export QANALYZER_LAUNCH_NAME="CI #${CI_PIPELINE_ID:-local}"
+export AI_TESTING_TOOL_MODE=ingest
+export AI_TESTING_TOOL_PROJECT_KEY=AUTH
+export AI_TESTING_TOOL_INGEST_URL="https://<your-site>.atlassian.net/.../ai-testing-tool-ingest-launch"
+export AI_TESTING_TOOL_INGEST_TOKEN="<token-from-settings>"
+export AI_TESTING_TOOL_LAUNCH_NAME="CI #${CI_PIPELINE_ID:-local}"
 ```
 
 HTTP **201** with `{ "ok": true }` means the launch was accepted. Check **Test Management** in Jira after sync (usually within a few minutes).
@@ -122,7 +122,7 @@ HTTP **201** with `{ "ok": true }` means the launch was accepted. Check **Test M
 ### Vitest
 
 ```bash
-npm install -D @qanalyzer/forge-vitest @qanalyzer/forge-commons
+npm install -D @ai-testing-tool/forge-vitest @ai-testing-tool/forge-commons
 ```
 
 ```ts
@@ -133,7 +133,7 @@ export default defineConfig({
   test: {
     reporters: [
       'default',
-      ['@qanalyzer/forge-vitest', { projectKey: 'AUTH' }],
+      ['@ai-testing-tool/forge-vitest', { projectKey: 'AUTH' }],
     ],
   },
 });
@@ -142,7 +142,7 @@ export default defineConfig({
 ```ts
 // login.test.ts
 import { expect, test } from 'vitest';
-import { withQa } from '@qanalyzer/forge-vitest/vitest';
+import { withQa } from '@ai-testing-tool/forge-vitest/vitest';
 
 test(
   'login succeeds',
@@ -163,7 +163,7 @@ npx vitest run
 ### Jest
 
 ```bash
-npm install -D @qanalyzer/forge-jest @qanalyzer/forge-commons
+npm install -D @ai-testing-tool/forge-jest @ai-testing-tool/forge-commons
 ```
 
 ```js
@@ -172,14 +172,14 @@ module.exports = {
   testEnvironment: 'node',
   reporters: [
     'default',
-    ['@qanalyzer/forge-jest', { projectKey: 'AUTH' }],
+    ['@ai-testing-tool/forge-jest', { projectKey: 'AUTH' }],
   ],
 };
 ```
 
 ```js
 // login.test.js
-const { qa } = require('@qanalyzer/forge-jest/jest');
+const { qa } = require('@ai-testing-tool/forge-jest/jest');
 
 test('login succeeds', async () => {
   await qa.issueKeys(['AUTH-101']);
@@ -199,21 +199,21 @@ Use `--runInBand` so `qa.*` helpers share the reporter bridge.
 ### Mocha
 
 ```bash
-npm install -D @qanalyzer/forge-mocha @qanalyzer/forge-commons mocha
+npm install -D @ai-testing-tool/forge-mocha @ai-testing-tool/forge-commons mocha
 ```
 
 ```js
 // .mocharc.js
 module.exports = {
   spec: ['test/**/*.spec.js'],
-  reporter: '@qanalyzer/forge-mocha',
+  reporter: '@ai-testing-tool/forge-mocha',
   reporterOptions: { projectKey: 'AUTH' },
 };
 ```
 
 ```js
 // login.spec.js
-const { qa } = require('@qanalyzer/forge-mocha/mocha');
+const { qa } = require('@ai-testing-tool/forge-mocha/mocha');
 const assert = require('assert');
 
 describe('Authentication', function () {
@@ -233,7 +233,7 @@ npx mocha
 ### Playwright
 
 ```bash
-npm install -D @qanalyzer/forge-playwright @qanalyzer/forge-commons @playwright/test
+npm install -D @ai-testing-tool/forge-playwright @ai-testing-tool/forge-commons @playwright/test
 ```
 
 ```js
@@ -244,7 +244,7 @@ module.exports = defineConfig({
   testDir: './test',
   reporter: [
     ['list'],
-    ['@qanalyzer/forge-playwright', { projectKey: 'AUTH' }],
+    ['@ai-testing-tool/forge-playwright', { projectKey: 'AUTH' }],
   ],
 });
 ```
@@ -252,7 +252,7 @@ module.exports = defineConfig({
 ```js
 // login.spec.js
 const { test } = require('@playwright/test');
-const { qa } = require('@qanalyzer/forge-playwright');
+const { qa } = require('@ai-testing-tool/forge-playwright');
 
 test('login succeeds', async ({ page }) => {
   qa.issueKeys(['AUTH-101']);
@@ -272,7 +272,7 @@ npx playwright test
 ### Cypress
 
 ```bash
-npm install -D @qanalyzer/forge-cypress @qanalyzer/forge-commons cypress-multi-reporters
+npm install -D @ai-testing-tool/forge-cypress @ai-testing-tool/forge-commons cypress-multi-reporters
 ```
 
 ```js
@@ -282,13 +282,13 @@ const { defineConfig } = require('cypress');
 module.exports = defineConfig({
   reporter: 'cypress-multi-reporters',
   reporterOptions: {
-    reporterEnabled: '@qanalyzer/forge-cypress',
+    reporterEnabled: '@ai-testing-tool/forge-cypress',
     qaCypressReporterOptions: { projectKey: 'AUTH' },
   },
   e2e: {
     setupNodeEvents(on, config) {
-      require('@qanalyzer/forge-cypress/plugin')(on, config);
-      require('@qanalyzer/forge-cypress/metadata')(on);
+      require('@ai-testing-tool/forge-cypress/plugin')(on, config);
+      require('@ai-testing-tool/forge-cypress/metadata')(on);
       return config;
     },
   },
@@ -297,7 +297,7 @@ module.exports = defineConfig({
 
 ```js
 // cypress/e2e/login.cy.js
-const { qa } = require('@qanalyzer/forge-cypress/mocha');
+const { qa } = require('@ai-testing-tool/forge-cypress/mocha');
 
 it('login succeeds', () => {
   qa.issueKeys(['AUTH-101']);
@@ -317,13 +317,13 @@ npx cypress run
 ### WebdriverIO (Mocha)
 
 ```bash
-npm install -D @qanalyzer/forge-wdio @qanalyzer/forge-commons @wdio/mocha-framework
+npm install -D @ai-testing-tool/forge-wdio @ai-testing-tool/forge-commons @wdio/mocha-framework
 ```
 
 ```js
 // wdio.conf.js
-const QaWdioReporter = require('@qanalyzer/forge-wdio').default;
-const { beforeRunHook, afterRunHook, QaWdioService } = require('@qanalyzer/forge-wdio');
+const QaWdioReporter = require('@ai-testing-tool/forge-wdio').default;
+const { beforeRunHook, afterRunHook, QaWdioService } = require('@ai-testing-tool/forge-wdio');
 
 exports.config = {
   specs: ['./test/specs/**/*.spec.js'],
@@ -337,7 +337,7 @@ exports.config = {
 
 ```js
 // test/specs/login.spec.js
-const { qa } = require('@qanalyzer/forge-wdio');
+const { qa } = require('@ai-testing-tool/forge-wdio');
 
 describe('Authentication', () => {
   it('login succeeds', async () => {
@@ -359,14 +359,14 @@ npx wdio run wdio.conf.js
 ### CucumberJS
 
 ```bash
-npm install -D @qanalyzer/forge-cucumberjs @qanalyzer/forge-commons @cucumber/cucumber
+npm install -D @ai-testing-tool/forge-cucumberjs @ai-testing-tool/forge-commons @cucumber/cucumber
 ```
 
 ```js
 // cucumber.js
 module.exports = {
   default: {
-    format: ['progress', '@qanalyzer/forge-cucumberjs'],
+    format: ['progress', '@ai-testing-tool/forge-cucumberjs'],
     require: ['step_definitions/**/*.js'],
     formatOptions: { projectKey: 'AUTH' },
   },
@@ -395,14 +395,14 @@ npx cucumber-js
 Use when you already emit Jest/Vitest JSON and do not want a reporter:
 
 ```bash
-npm install -D @qanalyzer/forge-api-client
+npm install -D @ai-testing-tool/forge-api-client
 
-npx vitest run --reporter=json --outputFile=qanalyzer-results.json
-# or: npx jest --json --outputFile=qanalyzer-results.json
+npx vitest run --reporter=json --outputFile=ai-testing-tool-results.json
+# or: npx jest --json --outputFile=ai-testing-tool-results.json
 
-npx @qanalyzer/forge-api-client \
+npx @ai-testing-tool/forge-api-client \
   --project AUTH \
-  --report qanalyzer-results.json \
+  --report ai-testing-tool-results.json \
   --launch "nightly regression"
 ```
 
@@ -419,18 +419,18 @@ Pick your framework in [Getting started](#getting-started) above — install, co
 Generate a Jest/Vitest JSON file, then upload with the CLI:
 
 ```bash
-npm install -D @qanalyzer/forge-api-client
+npm install -D @ai-testing-tool/forge-api-client
 
-npx vitest run --reporter=json --outputFile=qanalyzer-results.json
-# or: npx jest --json --outputFile=qanalyzer-results.json
+npx vitest run --reporter=json --outputFile=ai-testing-tool-results.json
+# or: npx jest --json --outputFile=ai-testing-tool-results.json
 
-npx @qanalyzer/forge-api-client \
+npx @ai-testing-tool/forge-api-client \
   --project AUTH \
-  --report qanalyzer-results.json \
+  --report ai-testing-tool-results.json \
   --launch "nightly regression"
 ```
 
-Same env vars apply (`QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`).
+Same env vars apply (`AI_TESTING_TOOL_INGEST_URL`, `AI_TESTING_TOOL_INGEST_TOKEN`).
 
 ### CI example (GitHub Actions)
 
@@ -438,28 +438,28 @@ Same env vars apply (`QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`).
 - name: Run tests
   run: npx vitest run
   env:
-    QANALYZER_MODE: ingest
-    QANALYZER_PROJECT_KEY: AUTH
-    QANALYZER_INGEST_URL: ${{ secrets.QANALYZER_INGEST_URL }}
-    QANALYZER_INGEST_TOKEN: ${{ secrets.QANALYZER_INGEST_TOKEN }}
-    QANALYZER_LAUNCH_NAME: ${{ github.workflow }} #${{ github.run_number }}
+    AI_TESTING_TOOL_MODE: ingest
+    AI_TESTING_TOOL_PROJECT_KEY: AUTH
+    AI_TESTING_TOOL_INGEST_URL: ${{ secrets.AI_TESTING_TOOL_INGEST_URL }}
+    AI_TESTING_TOOL_INGEST_TOKEN: ${{ secrets.AI_TESTING_TOOL_INGEST_TOKEN }}
+    AI_TESTING_TOOL_LAUNCH_NAME: ${{ github.workflow }} #${{ github.run_number }}
 ```
 
-Reporters default to **`mode: off`** locally so `npm test` works without credentials. Set `QANALYZER_MODE=ingest` only in CI (or when you explicitly want to publish).
+Reporters default to **`mode: off`** locally so `npm test` works without credentials. Set `AI_TESTING_TOOL_MODE=ingest` only in CI (or when you explicitly want to publish).
 
 ## Packages
 
 | npm package | Use when |
 | ----------- | -------- |
-| [`@qanalyzer/forge-jest`](./qa-jest/) | Jest |
-| [`@qanalyzer/forge-vitest`](./qa-vitest/) | Vitest |
-| [`@qanalyzer/forge-mocha`](./qa-mocha/) | Mocha |
-| [`@qanalyzer/forge-cypress`](./qa-cypress/) | Cypress |
-| [`@qanalyzer/forge-playwright`](./qa-playwright/) | Playwright |
-| [`@qanalyzer/forge-wdio`](./qa-wdio/) | WebdriverIO (Mocha or Cucumber) |
-| [`@qanalyzer/forge-cucumberjs`](./qa-cucumberjs/) | CucumberJS |
-| [`@qanalyzer/forge-api-client`](./qa-forge-api-client/) | Upload an existing JSON report (no reporter) |
-| [`@qanalyzer/forge-commons`](./qa-javascript-commons/) | Shared types/client (usually a transitive dependency) |
+| [`@ai-testing-tool/forge-jest`](./qa-jest/) | Jest |
+| [`@ai-testing-tool/forge-vitest`](./qa-vitest/) | Vitest |
+| [`@ai-testing-tool/forge-mocha`](./qa-mocha/) | Mocha |
+| [`@ai-testing-tool/forge-cypress`](./qa-cypress/) | Cypress |
+| [`@ai-testing-tool/forge-playwright`](./qa-playwright/) | Playwright |
+| [`@ai-testing-tool/forge-wdio`](./qa-wdio/) | WebdriverIO (Mocha or Cucumber) |
+| [`@ai-testing-tool/forge-cucumberjs`](./qa-cucumberjs/) | CucumberJS |
+| [`@ai-testing-tool/forge-api-client`](./qa-forge-api-client/) | Upload an existing JSON report (no reporter) |
+| [`@ai-testing-tool/forge-commons`](./qa-javascript-commons/) | Shared types/client (usually a transitive dependency) |
 
 Runnable examples for every runner: [`examples/single/`](./examples/single/).  
 Ingest payload schema: [`schemas/ingest-payload.schema.json`](./schemas/ingest-payload.schema.json).
@@ -468,22 +468,22 @@ Ingest payload schema: [`schemas/ingest-payload.schema.json`](./schemas/ingest-p
 
 ### Modes
 
-| `QANALYZER_MODE` | Behavior |
+| `AI_TESTING_TOOL_MODE` | Behavior |
 | ---------------- | -------- |
 | `off` (default) | No upload, no file write — safe for local dev |
 | `ingest` | POST results to the Forge web trigger |
-| `file` | Write ingest payload to disk (default `./qanalyzer-results.json`) |
+| `file` | Write ingest payload to disk (default `./ai-testing-tool-results.json`) |
 
 ### Common environment variables
 
 | Variable | Required | Description |
 | -------- | -------- | ----------- |
-| `QANALYZER_INGEST_URL` | ingest mode | Forge web trigger URL from Automation setup |
-| `QANALYZER_INGEST_TOKEN` | ingest mode | Bearer token from Automation setup |
-| `QANALYZER_PROJECT_KEY` | yes | Jira project key |
-| `QANALYZER_LAUNCH_NAME` | no | Display name for the launch (defaults vary by runner) |
-| `QANALYZER_PLAN_ID` / `PLAN_KEY` / `PLAN_NAME` | no | Link launch to a test plan / cycle |
-| `QANALYZER_FIX_VERSION` / `QANALYZER_SPRINT` | no | Version tags on the launch |
+| `AI_TESTING_TOOL_INGEST_URL` | ingest mode | Forge web trigger URL from Automation setup |
+| `AI_TESTING_TOOL_INGEST_TOKEN` | ingest mode | Bearer token from Automation setup |
+| `AI_TESTING_TOOL_PROJECT_KEY` | yes | Jira project key |
+| `AI_TESTING_TOOL_LAUNCH_NAME` | no | Display name for the launch (defaults vary by runner) |
+| `AI_TESTING_TOOL_PLAN_ID` / `PLAN_KEY` / `PLAN_NAME` | no | Link launch to a test plan / cycle |
+| `AI_TESTING_TOOL_FIX_VERSION` / `AI_TESTING_TOOL_SPRINT` | no | Version tags on the launch |
 
 ### Large reports
 
@@ -493,11 +493,11 @@ Optional tuning:
 
 | Variable | Default | Purpose |
 | -------- | ------- | ------- |
-| `QANALYZER_INGEST_CHUNK_THRESHOLD_BYTES` | 3500000 | Switch from single POST to chunked upload |
-| `QANALYZER_INGEST_CHUNK_MAX_BYTES` | 3000000 | Max size per chunk body |
-| `QANALYZER_INGEST_COMPLETE_TIMEOUT_MS` | 120000 | Timeout for the final `complete` step |
-| `QANALYZER_INGEST_MAX_RETRIES` | 4 | Retry attempts (including the first try) |
-| `QANALYZER_INGEST_TIMEOUT_MS` | 60000 | Per-request timeout |
+| `AI_TESTING_TOOL_INGEST_CHUNK_THRESHOLD_BYTES` | 3500000 | Switch from single POST to chunked upload |
+| `AI_TESTING_TOOL_INGEST_CHUNK_MAX_BYTES` | 3000000 | Max size per chunk body |
+| `AI_TESTING_TOOL_INGEST_COMPLETE_TIMEOUT_MS` | 120000 | Timeout for the final `complete` step |
+| `AI_TESTING_TOOL_INGEST_MAX_RETRIES` | 4 | Retry attempts (including the first try) |
+| `AI_TESTING_TOOL_INGEST_TIMEOUT_MS` | 60000 | Per-request timeout |
 
 ### Success criteria
 
@@ -509,19 +509,19 @@ Optional tuning:
 
 Breaking changes from 1.x:
 
-- **Web-trigger only** — `QANALYZER_INGEST_URL` must be the Forge web trigger URL (not an ingest gateway).
-- **Removed** — `QANALYZER_FORGE_INGEST_URL`, `QANALYZER_FORGE_INGEST_TOKEN`, ingest-gateway mode.
+- **Web-trigger only** — `AI_TESTING_TOOL_INGEST_URL` must be the Forge web trigger URL (not an ingest gateway).
+- **Removed** — `AI_TESTING_TOOL_FORGE_INGEST_URL`, `AI_TESTING_TOOL_FORGE_INGEST_TOKEN`, ingest-gateway mode.
 - **Added** — automatic chunked upload and retry (see above).
 
 ```bash
-npm install -D @qanalyzer/forge-vitest@2.0.0 @qanalyzer/forge-commons@2.0.0
+npm install -D @ai-testing-tool/forge-vitest@2.0.0 @ai-testing-tool/forge-commons@2.0.0
 ```
 
 ## Troubleshooting
 
 | Symptom | Likely cause |
 | ------- | ------------ |
-| `401 Unauthorized` | Wrong or missing `QANALYZER_INGEST_TOKEN` |
+| `401 Unauthorized` | Wrong or missing `AI_TESTING_TOOL_INGEST_TOKEN` |
 | `403 Forbidden` | Project not connected in Automation setup |
 | `503 AI Testing Tool not configured` | Site/project not set up yet |
 | Launch missing in Jira | Check sync status on Test Management; large suites sync on a schedule |
@@ -537,7 +537,7 @@ npm run build
 npm test
 ```
 
-- Each package writes `qanalyzer-results.json` in its directory during tests.
+- Each package writes `ai-testing-tool-results.json` in its directory during tests.
 - Upload all package reports: `sh scripts/load-ingest-env.sh && sh scripts/upload-package-reports.sh`
 - Vitest workspace config: [`examples/single/vitest/vitest.config.ts`](./examples/single/vitest/vitest.config.ts)
 

@@ -1,9 +1,9 @@
 {
-  "name": "@qanalyzer/forge-jest",
+  "name": "@ai-testing-tool/forge-jest",
   "version": "2.0.0",
-  "description": "QAnalyzer Jest reporter — ingest or file modes via @qanalyzer/forge-commons",
+  "description": "AI Testing Tool Jest reporter — ingest or file modes via @ai-testing-tool/forge-commons",
   "keywords": [
-    "qanalyzer",
+    "ai-testing-tool",
     "jest",
     "jest-reporter",
     "testing",
@@ -37,7 +37,7 @@
     "prepublishOnly": "npm test"
   },
   "dependencies": {
-    "@qanalyzer/forge-commons": "^2.0.0"
+    "@ai-testing-tool/forge-commons": "^2.0.0"
   },
   "peerDependencies": {
     "jest": ">=29.0.0"

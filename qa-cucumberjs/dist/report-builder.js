@@ -5,7 +5,7 @@ exports.scenarioToAssertion = scenarioToAssertion;
 exports.scenarioToAssertionAsync = scenarioToAssertionAsync;
 exports.toJestJsonReport = toJestJsonReport;
 exports.specsFromAssertions = specsFromAssertions;
-const forge_commons_1 = require("@qanalyzer/forge-commons");
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 const tag_parser_1 = require("./modules/tag-parser");
 function mapStepStatus(status) {
     if (status === 'FAILED' || status === 'AMBIGUOUS')
@@ -124,7 +124,7 @@ function scenarioToAssertion(scenario, attachEntries = []) {
     entries.push(...attachEntries);
     const wire = (0, forge_commons_1.qaMetaFromEntries)(entries, {
         framework: 'cucumberjs',
-        reporter: '@qanalyzer/forge-cucumberjs',
+        reporter: '@ai-testing-tool/forge-cucumberjs',
     });
     const assertion = {
         ancestorTitles: ancestors,

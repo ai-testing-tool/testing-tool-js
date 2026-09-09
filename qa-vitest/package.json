@@ -1,9 +1,9 @@
 {
-  "name": "@qanalyzer/forge-vitest",
+  "name": "@ai-testing-tool/forge-vitest",
   "version": "2.0.0",
-  "description": "QAnalyzer Vitest reporter — ingest or file modes via @qanalyzer/forge-commons",
+  "description": "AI Testing Tool Vitest reporter — ingest or file modes via @ai-testing-tool/forge-commons",
   "keywords": [
-    "qanalyzer",
+    "ai-testing-tool",
     "vitest",
     "reporter",
     "testing",
@@ -37,7 +37,7 @@
     "prepublishOnly": "npm test"
   },
   "dependencies": {
-    "@qanalyzer/forge-commons": "^2.0.0"
+    "@ai-testing-tool/forge-commons": "^2.0.0"
   },
   "peerDependencies": {
     "vitest": ">=3.0.0"

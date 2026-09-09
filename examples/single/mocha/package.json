@@ -1,19 +1,19 @@
 {
-  "name": "qanalyzer-mocha-pilot",
+  "name": "ai-testing-tool-mocha-pilot",
   "version": "0.1.0",
   "private": true,
-  "description": "QAnalyzer Mocha pilot — JSONPlaceholder API tests + @qanalyzer/forge-mocha reporter",
+  "description": "AiTestingTool Mocha pilot — JSONPlaceholder API tests + @ai-testing-tool/forge-mocha reporter",
   "scripts": {
-    "test": "QANALYZER_MODE=${QANALYZER_MODE:-off} mocha",
-    "test:file": "QANALYZER_MODE=file QANALYZER_PROJECT_KEY=AUTH mocha",
-    "upload": "npx @qanalyzer/forge-api-client --project AUTH --launch \"mocha pilot\" --report qanalyzer-results.json"
+    "test": "AI_TESTING_TOOL_MODE=${AI_TESTING_TOOL_MODE:-off} mocha",
+    "test:file": "AI_TESTING_TOOL_MODE=file AI_TESTING_TOOL_PROJECT_KEY=AUTH mocha",
+    "upload": "npx @ai-testing-tool/forge-api-client --project AUTH --launch \"mocha pilot\" --report ai-testing-tool-results.json"
   },
   "engines": {
     "node": ">=18"
   },
   "devDependencies": {
     "mocha": "^11.7.1",
-    "@qanalyzer/forge-commons": "file:../../../qa-javascript-commons",
-    "@qanalyzer/forge-mocha": "file:../../../qa-mocha"
+    "@ai-testing-tool/forge-commons": "file:../../../qa-javascript-commons",
+    "@ai-testing-tool/forge-mocha": "file:../../../qa-mocha"
   }
 }

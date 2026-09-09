@@ -12,7 +12,7 @@ export class FsWriter {
   private readonly path: string;
 
   constructor(options?: FsWriterOptions) {
-    this.path = options?.path ?? './qanalyzer-results.json';
+    this.path = options?.path ?? './ai-testing-tool-results.json';
   }
 
   writePayload(payload: IngestPayload): string {

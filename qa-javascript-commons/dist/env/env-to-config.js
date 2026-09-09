@@ -19,7 +19,7 @@ function readNumber(name) {
     const parsed = Number(value);
     return Number.isFinite(parsed) ? parsed : undefined;
 }
-/** Map QANALYZER_* env vars to nested config (highest precedence in composeOptions). */
+/** Map AI_TESTING_TOOL_* env vars to nested config (highest precedence in composeOptions). */
 function envToConfig() {
     const config = {
         mode: readEnv(env_enum_1.EnvEnum.mode),

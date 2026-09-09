@@ -1,4 +1,4 @@
-import type { JestVitestJsonReport, QaMetaWire } from '@qanalyzer/forge-commons';
+import type { JestVitestJsonReport, QaMetaWire } from '@ai-testing-tool/forge-commons';
 export type WdioAssertionInput = {
     ancestorTitles: string[];
     title: string;

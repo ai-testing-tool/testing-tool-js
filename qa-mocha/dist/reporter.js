@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MochaQaReporter = void 0;
 const mocha_1 = require("mocha");
-const forge_commons_1 = require("@qanalyzer/forge-commons");
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 const report_builder_1 = require("./report-builder");
 function mapStatus(state) {
     if (state === 'failed')
@@ -50,13 +50,13 @@ function failureMessages(test) {
     return msg ? [msg] : [];
 }
 /**
- * Mocha custom reporter for QAnalyzer.
+ * Mocha custom reporter for AiTestingTool.
  *
- * Configure: `.mocharc.js` → `reporter: '@qanalyzer/forge-mocha'`
+ * Configure: `.mocharc.js` → `reporter: '@ai-testing-tool/forge-mocha'`
  * Options: `reporterOptions: { mode: 'ingest' | 'file' | 'off', … }`
- * Env: `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, …
+ * Env: `AI_TESTING_TOOL_MODE`, `AI_TESTING_TOOL_PROJECT_KEY`, …
  *
- * Helpers from `@qanalyzer/forge-mocha/mocha` forward metadata via a global bridge.
+ * Helpers from `@ai-testing-tool/forge-mocha/mocha` forward metadata via a global bridge.
  */
 class MochaQaReporter extends mocha_1.reporters.Spec {
     options;
@@ -114,7 +114,7 @@ class MochaQaReporter extends mocha_1.reporters.Spec {
             const entries = this.bridgeBuffer.splice(0, this.bridgeBuffer.length);
             const wire = (0, forge_commons_1.qaMetaFromEntries)(entries, {
                 framework: 'mocha',
-                reporter: '@qanalyzer/forge-mocha',
+                reporter: '@ai-testing-tool/forge-mocha',
             });
             const ancestors = ancestorTitles(test);
             const assertion = {
@@ -139,12 +139,12 @@ class MochaQaReporter extends mocha_1.reporters.Spec {
     }
     async publish() {
         try {
-            forge_commons_1.QAnalyzerReporter.resetInstance();
-            const reporter = forge_commons_1.QAnalyzerReporter.getInstance({
+            forge_commons_1.AiTestingToolReporter.resetInstance();
+            const reporter = forge_commons_1.AiTestingToolReporter.getInstance({
                 ...this.options,
                 mode: this.options.mode ?? forge_commons_1.ModeEnum.off,
                 frameworkName: this.options.frameworkName ?? 'mocha',
-                reporterName: this.options.reporterName ?? '@qanalyzer/forge-mocha',
+                reporterName: this.options.reporterName ?? '@ai-testing-tool/forge-mocha',
                 frameworkPackage: this.options.frameworkPackage ?? 'mocha',
             });
             const mode = reporter.getConfig().mode ?? forge_commons_1.ModeEnum.off;

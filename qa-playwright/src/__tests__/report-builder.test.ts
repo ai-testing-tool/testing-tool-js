@@ -44,7 +44,7 @@ function loadSaucedemoFixture(): PlaywrightSpecInput[] {
         attachments: a.ignore
           ? [
               {
-                name: 'qanalyzer-metadata.json',
+                name: 'ai-testing-tool-metadata.json',
                 contentType: QA_METADATA_CONTENT_TYPE,
                 body: Buffer.from(JSON.stringify({ ignore: true }), 'utf8'),
               },
@@ -104,7 +104,7 @@ qaDescribe('buildQaMetaFromResult', () => {
     const wire = buildQaMetaFromResult({
       attachments: [
         {
-          name: 'qanalyzer-metadata.json',
+          name: 'ai-testing-tool-metadata.json',
           contentType: QA_METADATA_CONTENT_TYPE,
           body: Buffer.from(
             JSON.stringify({ suite: 'Auth\tLogin', fields: { layer: 'e2e' } }),

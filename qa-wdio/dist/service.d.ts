@@ -1,5 +1,5 @@
 /**
- * WDIO service for QAnalyzer (FR123).
+ * WDIO service for AiTestingTool (FR123).
  *
  * Register: `services: [[QaWdioService, { disableWebdriverScreenshotsReporting: false }]]`
  *

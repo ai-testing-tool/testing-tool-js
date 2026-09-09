@@ -1,9 +1,9 @@
 import { MetadataManager } from './metadata-manager';
 
 /**
- * Cypress task bridge for `@qanalyzer/forge-cypress/mocha` helpers.
+ * Cypress task bridge for `@ai-testing-tool/forge-cypress/mocha` helpers.
  * Register in setupNodeEvents:
- *   require('@qanalyzer/forge-cypress/metadata')(on);
+ *   require('@ai-testing-tool/forge-cypress/metadata')(on);
  */
 
 type TaskOn = {

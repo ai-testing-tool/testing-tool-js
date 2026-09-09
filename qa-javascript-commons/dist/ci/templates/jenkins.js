@@ -13,14 +13,14 @@ function jenkinsShLines(indent, ctx, ...cmds) {
 function jenkinsSecrets() {
     return [
         {
-            name: 'qanalyzer-ingest-url',
+            name: 'ai-testing-tool-ingest-url',
             description: 'Secret text credential: Forge web trigger URL (ingest + attach)',
-            platformHint: "Manage Jenkins → Credentials → Add → Secret text; ID `qanalyzer-ingest-url`",
+            platformHint: "Manage Jenkins → Credentials → Add → Secret text; ID `ai-testing-tool-ingest-url`",
         },
         {
-            name: 'qanalyzer-ingest-token',
-            description: 'Secret text credential: Bearer token from QAnalyzer configure page',
-            platformHint: "Manage Jenkins → Credentials → Add → Secret text; ID `qanalyzer-ingest-token`",
+            name: 'ai-testing-tool-ingest-token',
+            description: 'Secret text credential: Bearer token from AiTestingTool configure page',
+            platformHint: "Manage Jenkins → Credentials → Add → Secret text; ID `ai-testing-tool-ingest-token`",
         },
     ];
 }
@@ -28,7 +28,7 @@ function jenkinsVariables() {
     return [
         {
             name: 'JIRA_PROJECT_KEY',
-            description: 'Jira project key allowlisted in QAnalyzer (set in Jenkinsfile environment)',
+            description: 'Jira project key allowlisted in AiTestingTool (set in Jenkinsfile environment)',
             platformHint: 'pipeline environment { JIRA_PROJECT_KEY = \'…\' } or Jenkins folder property',
         },
     ];
@@ -38,21 +38,21 @@ function renderJenkinsReporter(ctx) {
     const label = (0, reporter_1.reporterFrameworkLabel)(ctx);
     const pkg = (0, reporter_1.reporterPackageName)(ctx);
     const configHint = (0, reporter_1.reporterConfigHint)(ctx);
-    const content = `// QAnalyzer fragment — ${label} ${pkg} reporter path
+    const content = `// AiTestingTool fragment — ${label} ${pkg} reporter path
 // Requires ${pkg} in package.json and ${configHint}
 pipeline {
   agent any
   environment {
     JIRA_PROJECT_KEY = '${ctx.projectKey}'
-    QANALYZER_MODE = 'ingest'
-    QANALYZER_PROJECT_KEY = '${ctx.projectKey}'
+    AI_TESTING_TOOL_MODE = 'ingest'
+    AI_TESTING_TOOL_PROJECT_KEY = '${ctx.projectKey}'
   }
   stages {
     stage('Test') {
       steps {
         withCredentials([
-          string(credentialsId: 'qanalyzer-ingest-url', variable: 'QANALYZER_INGEST_URL'),
-          string(credentialsId: 'qanalyzer-ingest-token', variable: 'QANALYZER_INGEST_TOKEN'),
+          string(credentialsId: 'ai-testing-tool-ingest-url', variable: 'AI_TESTING_TOOL_INGEST_URL'),
+          string(credentialsId: 'ai-testing-tool-ingest-token', variable: 'AI_TESTING_TOOL_INGEST_TOKEN'),
         ]) {
           sh 'npm ci'
 ${jenkinsShLines('          ', ctx, (0, reporter_1.frameworkReporterRun)(ctx))}
@@ -73,7 +73,7 @@ ${jenkinsShLines('          ', ctx, (0, reporter_1.frameworkReporterRun)(ctx))}
     };
 }
 /**
- * Jenkins — upload path or @qanalyzer/forge-vitest / @qanalyzer/forge-jest reporter path.
+ * Jenkins — upload path or @ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest reporter path.
  */
 function renderJenkinsUpload(ctx) {
     if (ctx.ingestPath === 'reporter') {
@@ -85,7 +85,7 @@ function renderJenkinsUpload(ctx) {
     const testCmd = (0, upload_1.frameworkTestCommand)(ctx);
     const label = (0, upload_1.frameworkLabel)(ctx);
     const uploadBlock = (0, upload_1.indentUploadCli)(ctx, 10);
-    const content = `// QAnalyzer fragment — ${label} upload path — merge into your Jenkinsfile
+    const content = `// AiTestingTool fragment — ${label} upload path — merge into your Jenkinsfile
 pipeline {
   agent any
   environment {
@@ -102,8 +102,8 @@ ${jenkinsShLines('        ', ctx, testCmd)}
   post {
     always {
       withCredentials([
-        string(credentialsId: 'qanalyzer-ingest-url', variable: 'QANALYZER_INGEST_URL'),
-        string(credentialsId: 'qanalyzer-ingest-token', variable: 'QANALYZER_INGEST_TOKEN'),
+        string(credentialsId: 'ai-testing-tool-ingest-url', variable: 'AI_TESTING_TOOL_INGEST_URL'),
+        string(credentialsId: 'ai-testing-tool-ingest-token', variable: 'AI_TESTING_TOOL_INGEST_TOKEN'),
       ]) {
         sh '''
 ${uploadBlock}

@@ -42,9 +42,9 @@ const attach_client_1 = require("../client/attach-client");
 const env_enum_1 = require("../env/env-enum");
 const issue_keys_1 = require("./issue-keys");
 exports.EnvAttachEnum = {
-    /** @deprecated Prefer QANALYZER_INGEST_URL — attach uses the shared ingest webtrigger. */
-    url: 'QANALYZER_ATTACH_URL',
-    maxBytes: 'QANALYZER_ATTACH_MAX_BYTES',
+    /** @deprecated Prefer AI_TESTING_TOOL_INGEST_URL — attach uses the shared ingest webtrigger. */
+    url: 'AI_TESTING_TOOL_ATTACH_URL',
+    maxBytes: 'AI_TESTING_TOOL_ATTACH_MAX_BYTES',
 };
 function readEnv(name) {
     const value = process.env[name];
@@ -119,7 +119,7 @@ async function uploadAttachmentForQa(params) {
         return {
             uploaded: false,
             attachment: baseMeta,
-            reason: 'QANALYZER_INGEST_URL and QANALYZER_INGEST_TOKEN required for upload',
+            reason: 'AI_TESTING_TOOL_INGEST_URL and AI_TESTING_TOOL_INGEST_TOKEN required for upload',
         };
     }
     const maxBytesRaw = params.maxBytes ?? Number(readEnv(exports.EnvAttachEnum.maxBytes));

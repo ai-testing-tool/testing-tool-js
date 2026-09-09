@@ -1,17 +1,17 @@
-# QAnalyzer Vitest Pilot Example
+# AI Testing Tool Vitest Pilot Example
 
 JSONPlaceholder API scenarios (CRUD, posts, errors, advanced). Jira issue keys live in test titles (e.g. `AUTH-101 GET all users`).
 
-**Default path (recommended for first launch):** native Vitest JSON → `@qanalyzer/forge-api-client` → Forge ingest.  
-**Optional path:** [`@qanalyzer/forge-vitest`](../../../qa-vitest) reporter (`mode=off` \| `file` \| `ingest`).
+**Default path (recommended for first launch):** native Vitest JSON → `@ai-testing-tool/forge-api-client` → Forge ingest.  
+**Optional path:** [`@ai-testing-tool/forge-vitest`](../../../qa-vitest) reporter (`mode=off` \| `file` \| `ingest`).
 
 ## Prerequisites
 
 - Node.js **18+** (22 recommended)
 - Network access to [jsonplaceholder.typicode.com](https://jsonplaceholder.typicode.com/)
-- For upload/ingest: a configured QAnalyzer site (Automation setup in project Settings) with your project connected
+- For upload/ingest: a configured AiTestingTool site (Automation setup in project Settings) with your project connected
 
-## Install & local run (no QAnalyzer credentials)
+## Install & local run (no AiTestingTool credentials)
 
 ```bash
 cd ai-testing-tool-js/examples/single/vitest
@@ -19,19 +19,19 @@ npm install
 npm test
 ```
 
-All tests should pass. No `QANALYZER_*` env vars are required. Default `vitest.config.ts` uses the `default` reporter only.
+All tests should pass. No `AI_TESTING_TOOL_*` env vars are required. Default `vitest.config.ts` uses the `default` reporter only.
 
 ## Path A — CI upload (JSON + CLI)
 
 Generate JSON, then upload with the Forge CLI client:
 
 ```bash
-npx vitest run --reporter=json --outputFile=qanalyzer-results.json
+npx vitest run --reporter=json --outputFile=ai-testing-tool-results.json
 
-npx @qanalyzer/forge-api-client \
+npx @ai-testing-tool/forge-api-client \
   --project AUTH \
   --launch "local smoke" \
-  --report qanalyzer-results.json
+  --report ai-testing-tool-results.json
 ```
 
 Or use the package scripts:
@@ -45,13 +45,13 @@ npm run upload
 
 | Variable | Required | Description |
 | -------- | -------- | ----------- |
-| `QANALYZER_INGEST_URL` | Yes (upload) | Ingest URL from project Settings → Automation setup |
-| `QANALYZER_INGEST_TOKEN` | Yes (upload) | Bearer token (shown once on generate/rotate) |
-| `QANALYZER_PROJECT_KEY` | Optional | Defaults via `--project` |
+| `AI_TESTING_TOOL_INGEST_URL` | Yes (upload) | Ingest URL from project Settings → Automation setup |
+| `AI_TESTING_TOOL_INGEST_TOKEN` | Yes (upload) | Bearer token (shown once on generate/rotate) |
+| `AI_TESTING_TOOL_PROJECT_KEY` | Optional | Defaults via `--project` |
 
 **Never commit the ingest token.** Prefer CI secrets from the **CI template** section in project Settings → Automation setup.
 
-## Path B — Optional `@qanalyzer/forge-vitest` reporter
+## Path B — Optional `@ai-testing-tool/forge-vitest` reporter
 
 From the monorepo (after `npm run build` in `ai-testing-tool-js`):
 
@@ -69,7 +69,7 @@ export default defineConfig({
     reporters: [
       'default',
       [
-        '@qanalyzer/forge-vitest',
+        '@ai-testing-tool/forge-vitest',
         {
           // mode defaults to off — no credentials needed for local runs
           // mode: 'off' | 'file' | 'ingest',
@@ -81,21 +81,21 @@ export default defineConfig({
 });
 ```
 
-### Modes (`QANALYZER_MODE` or reporter options)
+### Modes (`AI_TESTING_TOOL_MODE` or reporter options)
 
 | Mode | Behavior |
 | ---- | -------- |
 | `off` (default) | No network / file write |
-| `file` | Writes ingest payload (default `./qanalyzer-results.json`) |
+| `file` | Writes ingest payload (default `./ai-testing-tool-results.json`) |
 | `ingest` | POSTs the payload with `format: vitest-json` (needs URL + token + project) |
 
-Same secrets as Path A for `ingest`. For `file`, upload afterward with `@qanalyzer/forge-api-client` if you want.
+Same secrets as Path A for `ingest`. For `file`, upload afterward with `@ai-testing-tool/forge-api-client` if you want.
 
 ### `withQa` helpers
 
 ```ts
 import { describe, expect, test } from 'vitest';
-import { withQa } from '@qanalyzer/forge-vitest/vitest';
+import { withQa } from '@ai-testing-tool/forge-vitest/vitest';
 
 test(
   'AUTH-101 GET all users',
@@ -118,8 +118,8 @@ This example’s tests stay plain Vitest (no `withQa`) so Path A stays zero-conf
 Attach a launch to a named plan (groups runs on the Jira project **Plans** tab):
 
 ```bash
-export QANALYZER_PLAN_NAME=Smoke
-# or: QANALYZER_PLAN_ID=<uuid> / QANALYZER_PLAN_KEY=smoke
+export AI_TESTING_TOOL_PLAN_NAME=Smoke
+# or: AI_TESTING_TOOL_PLAN_ID=<uuid> / AI_TESTING_TOOL_PLAN_KEY=smoke
 # upload CLI: --plan Smoke | --plan-id <uuid> | --plan-key smoke
 ```
 
@@ -130,8 +130,8 @@ Plans do not run tests — CI still selects which files execute.
 Tag launches for release filtering (project + global Quality pages):
 
 ```bash
-export QANALYZER_FIX_VERSION=2.4.0
-export QANALYZER_SPRINT="Sprint 42"
+export AI_TESTING_TOOL_FIX_VERSION=2.4.0
+export AI_TESTING_TOOL_SPRINT="Sprint 42"
 # upload CLI: --fix-version 2.4.0 --sprint "Sprint 42"
 ```
 
@@ -146,8 +146,8 @@ export QANALYZER_SPRINT="Sprint 42"
 | Mode | Command | Forge contact |
 | ---- | ------- | ------------- |
 | Local pilot | `npm test` (in this dir) or `npm test` (monorepo root — all `qa-*` + pilot) | None for pilot; unit setup clears ingest env |
-| Path A | `npm run test:json` + `@qanalyzer/forge-api-client` | Ingest URL + token |
-| Path B | `QANALYZER_MODE=ingest` + `@qanalyzer/forge-vitest` reporter | Same secrets |
+| Path A | `npm run test:json` + `@ai-testing-tool/forge-api-client` | Ingest URL + token |
+| Path B | `AI_TESTING_TOOL_MODE=ingest` + `@ai-testing-tool/forge-vitest` reporter | Same secrets |
 
 ### Monorepo test runner
 
@@ -155,12 +155,12 @@ export QANALYZER_SPRINT="Sprint 42"
 
 | Project | Report path |
 | ------- | ----------- |
-| `pilot` | `examples/single/vitest/qanalyzer-results.json` |
-| `qa-jest` | `qa-jest/qanalyzer-results.json` |
-| `qa-vitest` | `qa-vitest/qanalyzer-results.json` |
-| … | `qa-<name>/qanalyzer-results.json` |
+| `pilot` | `examples/single/vitest/ai-testing-tool-results.json` |
+| `qa-jest` | `qa-jest/ai-testing-tool-results.json` |
+| `qa-vitest` | `qa-vitest/ai-testing-tool-results.json` |
+| … | `qa-<name>/ai-testing-tool-results.json` |
 
-Single package: `npm test -w @qanalyzer/forge-jest` → `qa-jest/qanalyzer-results.json`.
+Single package: `npm test -w @ai-testing-tool/forge-jest` → `qa-jest/ai-testing-tool-results.json`.
 
 Upload every report: `sh scripts/upload-package-reports.sh` (needs ingest env).
 
@@ -175,6 +175,6 @@ Upload every report: `sh scripts/upload-package-reports.sh` (needs ingest env).
 
 ## Manual ingest smoke
 
-1. Deploy/tunnel QAnalyzer with a configured site.
-2. Path A: `npm run test:json` then upload — **or** Path B: `QANALYZER_MODE=ingest` with `@qanalyzer/forge-vitest`.
+1. Deploy/tunnel AiTestingTool with a configured site.
+2. Path A: `npm run test:json` then upload — **or** Path B: `AI_TESTING_TOOL_MODE=ingest` with `@ai-testing-tool/forge-vitest`.
 3. Open the Jira project page → **Test Launches** and confirm pass/fail counts and issue keys from titles.

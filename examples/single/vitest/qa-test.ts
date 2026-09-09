@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it, test } from 'vitest';
-import { withQa, type QaTestContext } from '@qanalyzer/forge-vitest/vitest';
+import { withQa, type QaTestContext } from '@ai-testing-tool/forge-vitest/vitest';
 
 const suiteStack: string[] = [];
 

@@ -20,7 +20,7 @@ export class ReporterFactory {
       case ModeEnum.file:
         return this.createFile(options);
       case ModeEnum.off:
-        throw new DisabledException('QAnalyzer reporter is disabled (mode=off)');
+        throw new DisabledException('AiTestingTool reporter is disabled (mode=off)');
       default:
         throw new Error(`Unknown mode: ${String(mode)}`);
     }

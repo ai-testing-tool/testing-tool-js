@@ -1,14 +1,14 @@
 import { qaDescribe, qaItAuto, expect } from '@qa/test';
 
-import { ModeEnum, QAnalyzerReporter } from '@qanalyzer/forge-commons';
+import { ModeEnum, AiTestingToolReporter } from '@ai-testing-tool/forge-commons';
 
 import { MetadataManager, qa } from '../helpers.js';
 import { PlaywrightQaReporter } from '../reporter.js';
 import PlaywrightQaReporterDefault from '../index.js';
 
-qaDescribe('@qanalyzer/forge-playwright scaffold', () => {
+qaDescribe('@ai-testing-tool/forge-playwright scaffold', () => {
   qaItAuto('loads reporter module and no-ops publish when mode=off', async () => {
-    QAnalyzerReporter.resetInstance();
+    AiTestingToolReporter.resetInstance();
 
     const reporter = new PlaywrightQaReporter({
       mode: ModeEnum.off,
@@ -21,7 +21,7 @@ qaDescribe('@qanalyzer/forge-playwright scaffold', () => {
     reporter.onTestEnd({} as never, {} as never);
     await reporter.onEnd({} as never);
 
-    const instance = QAnalyzerReporter.getInstance({ mode: ModeEnum.off });
+    const instance = AiTestingToolReporter.getInstance({ mode: ModeEnum.off });
     expect(instance.getConfig().mode).toBe(ModeEnum.off);
   });
 

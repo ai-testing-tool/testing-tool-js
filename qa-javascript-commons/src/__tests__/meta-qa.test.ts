@@ -36,7 +36,7 @@ qaDescribe('meta.qa enrichment', () => {
     expect(wire.steps?.[0]?.name).toBe('fetch users');
     expect(wire.steps?.[0]?.status).toBe('failed');
     expect(wire.steps?.[0]?.stepType).toBe('text');
-    expect(wire.host?.reporter).toBe('@qanalyzer/forge-vitest');
+    expect(wire.host?.reporter).toBe('@ai-testing-tool/forge-vitest');
   });
 
   qaItAuto('builds wire shape from helper buffer entries', () => {

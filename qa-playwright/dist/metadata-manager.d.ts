@@ -12,4 +12,4 @@ export declare const MetadataManager: {
     getEntries(): QaMetaEntry[];
 };
 /** Content type for metadata attachments read by the reporter (Story 2.7.2). */
-export declare const QA_METADATA_CONTENT_TYPE = "application/qanalyzer.metadata+json";
+export declare const QA_METADATA_CONTENT_TYPE = "application/ai-testing-tool.metadata+json";

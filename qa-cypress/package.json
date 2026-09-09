@@ -1,9 +1,9 @@
 {
-  "name": "@qanalyzer/forge-cypress",
+  "name": "@ai-testing-tool/forge-cypress",
   "version": "2.0.0",
-  "description": "QAnalyzer Cypress reporter + plugin — ingest or file modes via @qanalyzer/forge-commons",
+  "description": "AI Testing Tool Cypress reporter + plugin — ingest or file modes via @ai-testing-tool/forge-commons",
   "keywords": [
-    "qanalyzer",
+    "ai-testing-tool",
     "cypress",
     "reporter",
     "testing",
@@ -45,7 +45,7 @@
     "prepublishOnly": "npm test"
   },
   "dependencies": {
-    "@qanalyzer/forge-commons": "^2.0.0"
+    "@ai-testing-tool/forge-commons": "^2.0.0"
   },
   "peerDependencies": {
     "cypress": ">=12.0.0",

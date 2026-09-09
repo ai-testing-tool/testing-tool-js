@@ -1,13 +1,13 @@
 {
-  "name": "qanalyzer-cypress-pilot",
+  "name": "ai-testing-tool-cypress-pilot",
   "version": "0.1.0",
   "private": true,
-  "description": "QAnalyzer Cypress pilot — saucedemo e-commerce E2E + @qanalyzer/forge-cypress reporter",
+  "description": "AiTestingTool Cypress pilot — saucedemo e-commerce E2E + @ai-testing-tool/forge-cypress reporter",
   "scripts": {
-    "test": "QANALYZER_MODE=${QANALYZER_MODE:-off} cypress run --config video=false,screenshotOnRunFailure=false",
-    "cypress:open": "QANALYZER_MODE=${QANALYZER_MODE:-off} cypress open",
-    "test:file": "QANALYZER_MODE=file QANALYZER_PROJECT_KEY=AUTH cypress run --config video=false,screenshotOnRunFailure=false",
-    "upload": "npx @qanalyzer/forge-api-client --project AUTH --launch \"cypress pilot\" --report qanalyzer-results.json"
+    "test": "AI_TESTING_TOOL_MODE=${AI_TESTING_TOOL_MODE:-off} cypress run --config video=false,screenshotOnRunFailure=false",
+    "cypress:open": "AI_TESTING_TOOL_MODE=${AI_TESTING_TOOL_MODE:-off} cypress open",
+    "test:file": "AI_TESTING_TOOL_MODE=file AI_TESTING_TOOL_PROJECT_KEY=AUTH cypress run --config video=false,screenshotOnRunFailure=false",
+    "upload": "npx @ai-testing-tool/forge-api-client --project AUTH --launch \"cypress pilot\" --report ai-testing-tool-results.json"
   },
   "engines": {
     "node": ">=18"
@@ -15,7 +15,7 @@
   "devDependencies": {
     "cypress": "^14.5.4",
     "cypress-multi-reporters": "^2.0.5",
-    "@qanalyzer/forge-cypress": "file:../../../qa-cypress",
-    "@qanalyzer/forge-commons": "file:../../../qa-javascript-commons"
+    "@ai-testing-tool/forge-cypress": "file:../../../qa-cypress",
+    "@ai-testing-tool/forge-commons": "file:../../../qa-javascript-commons"
   }
 }

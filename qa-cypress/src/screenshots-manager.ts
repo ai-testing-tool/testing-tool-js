@@ -16,10 +16,10 @@ export type CypressScreenshotRecord = {
 const DEFAULT_BASENAME = 'qa-cypress-screenshots.json';
 
 function defaultPath(): string {
-  if (process.env.QANALYZER_CYPRESS_SCREENSHOTS_PATH) {
-    return process.env.QANALYZER_CYPRESS_SCREENSHOTS_PATH;
+  if (process.env.AI_TESTING_TOOL_CYPRESS_SCREENSHOTS_PATH) {
+    return process.env.AI_TESTING_TOOL_CYPRESS_SCREENSHOTS_PATH;
   }
-  const results = process.env.QANALYZER_CYPRESS_RESULTS_PATH;
+  const results = process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH;
   if (results) {
     return results.replace(/\.json$/i, '') + '-screenshots.json';
   }

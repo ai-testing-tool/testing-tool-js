@@ -1,8 +1,8 @@
 import type { QaMetaAttachmentWire } from '../models/meta-qa';
 export declare const EnvAttachEnum: {
-    /** @deprecated Prefer QANALYZER_INGEST_URL — attach uses the shared ingest webtrigger. */
-    readonly url: "QANALYZER_ATTACH_URL";
-    readonly maxBytes: "QANALYZER_ATTACH_MAX_BYTES";
+    /** @deprecated Prefer AI_TESTING_TOOL_INGEST_URL — attach uses the shared ingest webtrigger. */
+    readonly url: "AI_TESTING_TOOL_ATTACH_URL";
+    readonly maxBytes: "AI_TESTING_TOOL_ATTACH_MAX_BYTES";
 };
 export type UploadAttachParams = {
     /** Explicit issue key override. */

@@ -8,8 +8,8 @@ import {
 import { ModeEnum, type OptionsType } from './options';
 import { FallbackCoordinator } from './reporters';
 import { DisabledException, Logger, sanitizeOptionsForLog } from './utils';
-import { OptionsResolver } from './qanalyzer/options-resolver';
-import { ReporterFactory } from './qanalyzer/reporter-factory';
+import { OptionsResolver } from './ai-testing-tool/options-resolver';
+import { ReporterFactory } from './ai-testing-tool/reporter-factory';
 
 export type PublishReportOptions = {
   projectKey?: string;
@@ -26,8 +26,8 @@ export type PublishReportOptions = {
  * Thin orchestrator over OptionsResolver, ReporterFactory, and FallbackCoordinator.
  * Framework adapters call `publishReport` with runner JSON at end of test run.
  */
-export class QAnalyzerReporter {
-  private static instance: QAnalyzerReporter | null = null;
+export class AiTestingToolReporter {
+  private static instance: AiTestingToolReporter | null = null;
 
   private readonly options: ConfigType & OptionsType;
   private readonly logger: Logger;
@@ -52,15 +52,15 @@ export class QAnalyzerReporter {
     }
   }
 
-  static getInstance(options: OptionsType = {}): QAnalyzerReporter {
-    if (!QAnalyzerReporter.instance) {
-      QAnalyzerReporter.instance = new QAnalyzerReporter(options);
+  static getInstance(options: OptionsType = {}): AiTestingToolReporter {
+    if (!AiTestingToolReporter.instance) {
+      AiTestingToolReporter.instance = new AiTestingToolReporter(options);
     }
-    return QAnalyzerReporter.instance;
+    return AiTestingToolReporter.instance;
   }
 
   static resetInstance(): void {
-    QAnalyzerReporter.instance = null;
+    AiTestingToolReporter.instance = null;
   }
 
   getConfig(): ConfigType & OptionsType {

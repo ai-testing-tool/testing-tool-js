@@ -2,7 +2,7 @@
  * Programmatic helpers for Jest tests (FR75 + Phase 3 attach upload FR83).
  */
 
-import { uploadAttachmentForQa } from '@qanalyzer/forge-commons';
+import { uploadAttachmentForQa } from '@ai-testing-tool/forge-commons';
 
 type StepFn = () => Promise<void> | void;
 

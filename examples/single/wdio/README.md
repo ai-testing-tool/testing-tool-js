@@ -1,6 +1,6 @@
-# QAnalyzer WebdriverIO Pilot Example
+# AI Testing Tool WebdriverIO Pilot Example
 
-Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`@qanalyzer/forge-wdio`**.
+Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`@ai-testing-tool/forge-wdio`**.
 
 Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`).
 
@@ -12,7 +12,7 @@ Steps use **`await qa.step()`** (including nested `step.step()`). Default mode i
 - Network access to [saucedemo.com](https://www.saucedemo.com) for live E2E
 - Chrome (tests run **headless** by default)
 - From monorepo: build reporters first (`cd ai-testing-tool-js && npm run build`)
-- For ingest/upload: QAnalyzer Configure → Connection, project on allowlist
+- For ingest/upload: AiTestingTool Configure → Connection, project on allowlist
 
 ## Install & local run (no credentials)
 
@@ -25,7 +25,7 @@ npm install
 npm test
 ```
 
-`npm test` runs `wdio run ./wdio.conf.js` with `QANALYZER_MODE=off` (default). Expect **13** tests (12 pass + 1 ignore demo that still executes).
+`npm test` runs `wdio run ./wdio.conf.js` with `AI_TESTING_TOOL_MODE=off` (default). Expect **13** tests (12 pass + 1 ignore demo that still executes).
 
 ## Layout
 
@@ -36,7 +36,7 @@ test/
   step-definitions/    # Cucumber steps
   pageobjects/         # LoginPage, InventoryPage, CartPage, CheckoutPage (getters)
   helpers/auth.js      # loginAsStandardUser (clears cookies + storage)
-wdio.conf.js           # Mocha + @qanalyzer/forge-wdio
+wdio.conf.js           # Mocha + @ai-testing-tool/forge-wdio
 wdio.cucumber.conf.js  # Cucumber + useCucumber: true
 ```
 
@@ -45,8 +45,8 @@ wdio.cucumber.conf.js  # Cucumber + useCucumber: true
 ### Config sketch
 
 ```js
-const QaWdioReporter = require('@qanalyzer/forge-wdio').default;
-const { beforeRunHook, afterRunHook, QaWdioService } = require('@qanalyzer/forge-wdio');
+const QaWdioReporter = require('@ai-testing-tool/forge-wdio').default;
+const { beforeRunHook, afterRunHook, QaWdioService } = require('@ai-testing-tool/forge-wdio');
 
 exports.config = {
   reporters: [[QaWdioReporter, { disableWebdriverStepsReporting: true }]],
@@ -61,7 +61,7 @@ exports.config = {
 ### `await qa.step()`
 
 ```js
-const { qa } = require('@qanalyzer/forge-wdio');
+const { qa } = require('@ai-testing-tool/forge-wdio');
 
 it('AUTH-101 …', async () => {
   qa.suite('E-commerce\\tAuthentication\\tLogin');
@@ -81,7 +81,7 @@ Use **`type`** (not `contentType`). With content/path, uploads via Forge attach 
 ```bash
 npm run test:cucumber
 # or:
-QANALYZER_MODE=off npx wdio run ./wdio.cucumber.conf.js
+AI_TESTING_TOOL_MODE=off npx wdio run ./wdio.cucumber.conf.js
 ```
 
 Requires `@wdio/cucumber-framework`. Set **`useCucumber: true`** on the reporter. Prefer `@AUTH-101` tags or keys in the scenario title.
@@ -92,13 +92,13 @@ test/step-definitions/login.steps.js
 wdio.cucumber.conf.js
 ```
 
-## Path B — `@qanalyzer/forge-wdio` reporter
+## Path B — `@ai-testing-tool/forge-wdio` reporter
 
 **File mode:**
 
 ```bash
-QANALYZER_MODE=file \
-QANALYZER_PROJECT_KEY=AUTH \
+AI_TESTING_TOOL_MODE=file \
+AI_TESTING_TOOL_PROJECT_KEY=AUTH \
 npx wdio run ./wdio.conf.js
 
 npm run upload
@@ -107,10 +107,10 @@ npm run upload
 **Ingest mode:**
 
 ```bash
-QANALYZER_MODE=ingest \
-QANALYZER_PROJECT_KEY=AUTH \
-QANALYZER_INGEST_URL=... \
-QANALYZER_INGEST_TOKEN=... \
+AI_TESTING_TOOL_MODE=ingest \
+AI_TESTING_TOOL_PROJECT_KEY=AUTH \
+AI_TESTING_TOOL_INGEST_URL=... \
+AI_TESTING_TOOL_INGEST_TOKEN=... \
 npx wdio run ./wdio.conf.js
 ```
 
@@ -118,11 +118,11 @@ npx wdio run ./wdio.conf.js
 
 | Variable | Required | Description |
 | -------- | -------- | ----------- |
-| `QANALYZER_MODE` | No | `off` (default) \| `file` \| `ingest` |
-| `QANALYZER_PROJECT_KEY` | file/ingest | Jira project key |
-| `QANALYZER_INGEST_URL` | ingest | From Configure → Connection |
-| `QANALYZER_INGEST_TOKEN` | ingest | Bearer token (CI secret) |
-| `QANALYZER_LAUNCH_NAME` | No | Launch display name |
+| `AI_TESTING_TOOL_MODE` | No | `off` (default) \| `file` \| `ingest` |
+| `AI_TESTING_TOOL_PROJECT_KEY` | file/ingest | Jira project key |
+| `AI_TESTING_TOOL_INGEST_URL` | ingest | From Configure → Connection |
+| `AI_TESTING_TOOL_INGEST_TOKEN` | ingest | Bearer token (CI secret) |
+| `AI_TESTING_TOOL_LAUNCH_NAME` | No | Launch display name |
 
 ## Notes
 

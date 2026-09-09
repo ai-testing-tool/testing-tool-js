@@ -12,7 +12,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.QA_METADATA_CONTENT_TYPE = exports.MetadataManager = exports.qa = void 0;
-const forge_commons_1 = require("@qanalyzer/forge-commons");
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 const metadata_manager_1 = require("./metadata-manager");
 Object.defineProperty(exports, "MetadataManager", { enumerable: true, get: function () { return metadata_manager_1.MetadataManager; } });
 Object.defineProperty(exports, "QA_METADATA_CONTENT_TYPE", { enumerable: true, get: function () { return metadata_manager_1.QA_METADATA_CONTENT_TYPE; } });
@@ -35,7 +35,7 @@ function tryAttachMetadata(meta) {
         if (!info?.attach)
             return false;
         void info
-            .attach('qanalyzer-metadata.json', {
+            .attach('ai-testing-tool-metadata.json', {
             contentType: metadata_manager_1.QA_METADATA_CONTENT_TYPE,
             body: Buffer.from(JSON.stringify(meta), 'utf8'),
         })

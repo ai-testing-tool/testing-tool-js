@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.publishBufferedResults = publishBufferedResults;
-const forge_commons_1 = require("@qanalyzer/forge-commons");
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 const enrich_screenshots_1 = require("./enrich-screenshots");
 const failure_screenshot_buffer_1 = require("./failure-screenshot-buffer");
 const hooks_1 = require("./hooks");
@@ -36,13 +36,13 @@ async function publishBufferedResults() {
     catch {
         // Never fail the WDIO run because of attach errors
     }
-    forge_commons_1.QAnalyzerReporter.resetInstance();
-    const reporter = forge_commons_1.QAnalyzerReporter.getInstance({
+    forge_commons_1.AiTestingToolReporter.resetInstance();
+    const reporter = forge_commons_1.AiTestingToolReporter.getInstance({
         ...options,
         mode: options.mode ?? forge_commons_1.ModeEnum.off,
         frameworkPackage: options.frameworkPackage ?? '@wdio/cli',
         frameworkName: options.frameworkName ?? 'wdio',
-        reporterName: options.reporterName ?? '@qanalyzer/forge-wdio',
+        reporterName: options.reporterName ?? '@ai-testing-tool/forge-wdio',
     });
     const report = (0, report_builder_1.toJestJsonReport)(specs, results_buffer_1.ResultsBuffer.runStart);
     await reporter.publishReport(report, {

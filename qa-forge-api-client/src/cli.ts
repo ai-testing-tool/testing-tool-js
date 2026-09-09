@@ -12,7 +12,7 @@ import {
   type IngestFormat,
   type IngestPayload,
   type JestVitestJsonReport,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 type CliArgs = {
   project?: string;
@@ -84,23 +84,23 @@ function parseArgs(argv: string[]): CliArgs {
 }
 
 function printHelp(): void {
-  console.log(`@qanalyzer/forge-api-client
+  console.log(`@ai-testing-tool/forge-api-client
 
 Usage:
-  @qanalyzer/forge-api-client --project <KEY> --report <path>
+  @ai-testing-tool/forge-api-client --project <KEY> --report <path>
 
 Options:
   --project, -p   Jira project key
-  --report, -r    Path to Jest/Vitest JSON report (default ./qanalyzer-results.json)
+  --report, -r    Path to Jest/Vitest JSON report (default ./ai-testing-tool-results.json)
   --format        jest-json (default) | vitest-json | normalized
-  --url           Ingest URL (or QANALYZER_INGEST_URL)
-  --token         Bearer token (or QANALYZER_INGEST_TOKEN)
+  --url           Ingest URL (or AI_TESTING_TOOL_INGEST_URL)
+  --token         Bearer token (or AI_TESTING_TOOL_INGEST_TOKEN)
   --launch, -l    Launch display name
-  --plan          Test Plan name (or QANALYZER_PLAN_NAME)
-  --plan-id       Test Plan UUID (or QANALYZER_PLAN_ID)
-  --plan-key      Test Plan slug (or QANALYZER_PLAN_KEY)
-  --fix-version  Fix version tag (or QANALYZER_FIX_VERSION)
-  --sprint        Sprint name tag (or QANALYZER_SPRINT)
+  --plan          Test Plan name (or AI_TESTING_TOOL_PLAN_NAME)
+  --plan-id       Test Plan UUID (or AI_TESTING_TOOL_PLAN_ID)
+  --plan-key      Test Plan slug (or AI_TESTING_TOOL_PLAN_KEY)
+  --fix-version  Fix version tag (or AI_TESTING_TOOL_FIX_VERSION)
+  --sprint        Sprint name tag (or AI_TESTING_TOOL_SPRINT)
   --help          Show this help
 `);
 }
@@ -133,7 +133,7 @@ async function main(): Promise<void> {
   const fileConfig = loadConfig() ?? {};
   const envConfig = envToConfig();
   const merged = composeOptions(fileConfig, envConfig);
-  const reportPath = args.report ?? './qanalyzer-results.json';
+  const reportPath = args.report ?? './ai-testing-tool-results.json';
   const format: IngestFormat = args.format ?? 'jest-json';
   const raw = readText(reportPath);
   const parsed = JSON.parse(raw) as unknown;
@@ -148,7 +148,7 @@ async function main(): Promise<void> {
 
   const resolvedProjectKey = args.project ?? merged.projectKey ?? existingPayload?.projectKey;
   if (!resolvedProjectKey) {
-    console.error('Missing --project (or projectKey in qanalyzer.config.json / QANALYZER_PROJECT_KEY)');
+    console.error('Missing --project (or projectKey in ai-testing-tool.config.json / AI_TESTING_TOOL_PROJECT_KEY)');
     process.exit(1);
   }
 

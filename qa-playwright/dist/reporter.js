@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlaywrightQaReporter = void 0;
-const forge_commons_1 = require("@qanalyzer/forge-commons");
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 const enrich_screenshots_1 = require("./enrich-screenshots");
 const metadata_from_result_1 = require("./metadata-from-result");
 const report_builder_1 = require("./report-builder");
 /**
- * Playwright reporter for QAnalyzer.
+ * Playwright reporter for AiTestingTool.
  *
  * Configure:
- *   reporter: [['list'], ['@qanalyzer/forge-playwright', { mode: 'off' }]]
+ *   reporter: [['list'], ['@ai-testing-tool/forge-playwright', { mode: 'off' }]]
  *
  * Collects each test → FR41 shape A; native `test.step` → `meta.qa.steps`.
  * On failure, still-image attachments are uploaded via Forge (FR119).
@@ -90,8 +90,8 @@ class PlaywrightQaReporter {
     async publish() {
         try {
             await Promise.all(this.pendingUploads);
-            forge_commons_1.QAnalyzerReporter.resetInstance();
-            const reporter = forge_commons_1.QAnalyzerReporter.getInstance({
+            forge_commons_1.AiTestingToolReporter.resetInstance();
+            const reporter = forge_commons_1.AiTestingToolReporter.getInstance({
                 ...this.options,
                 mode: this.options.mode ?? forge_commons_1.ModeEnum.off,
             });

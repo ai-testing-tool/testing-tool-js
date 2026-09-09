@@ -68,19 +68,19 @@ function projectConfig(name: string, root: string, include: string) {
 }
 
 const reportFile =
-  process.env.QANALYZER_FILE_PATH ??
-  path.join(monorepoRoot, 'qanalyzer-results.json');
+  process.env.AI_TESTING_TOOL_FILE_PATH ??
+  path.join(monorepoRoot, 'ai-testing-tool-results.json');
 
 export default defineConfig({
   test: {
     reporters: [
       'default',
       [
-        '@qanalyzer/forge-vitest',
+        '@ai-testing-tool/forge-vitest',
         {
           mode: 'file',
-          projectKey: process.env.QANALYZER_PROJECT_KEY ?? 'AUTH',
-          launchName: process.env.QANALYZER_LAUNCH_NAME ?? 'sdk',
+          projectKey: process.env.AI_TESTING_TOOL_PROJECT_KEY ?? 'AUTH',
+          launchName: process.env.AI_TESTING_TOOL_LAUNCH_NAME ?? 'sdk',
           file: { path: reportFile },
         },
       ],

@@ -1,5 +1,5 @@
 Feature: Advanced Features
-  Demonstrates CucumberJS + QAnalyzer tag patterns:
+  Demonstrates CucumberJS + AiTestingTool tag patterns:
   parameters, suite hierarchy, and ignore
 
   Background:
@@ -41,6 +41,6 @@ Feature: Advanced Features
       | 2      |
 
   @QaIgnore
-  Scenario: Ignored scenario - not reported to QAnalyzer
+  Scenario: Ignored scenario - not reported to AiTestingTool
     When I send a GET request to "/users/1"
     Then the response status should be 200

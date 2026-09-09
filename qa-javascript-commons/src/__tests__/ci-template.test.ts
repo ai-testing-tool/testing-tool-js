@@ -29,7 +29,7 @@ const REPORTER_FRAMEWORKS: CiFramework[] = [
 ];
 
 const EXPECTED_FILENAMES: Record<CiPlatform, (fw: CiFramework) => string> = {
-  github: (fw) => `.github/workflows/qanalyzer-${fw}.yml`,
+  github: (fw) => `.github/workflows/ai-testing-tool-${fw}.yml`,
   gitlab: () => '.gitlab-ci.yml',
   'azure-devops': () => 'azure-pipelines.yml',
   jenkins: () => 'Jenkinsfile',
@@ -46,12 +46,12 @@ qaDescribe('buildCiTemplateContext', () => {
     });
 
     expect(ctx.nodeVersion).toBe('22');
-    expect(ctx.reportFile).toBe('qanalyzer-results.json');
-    expect(ctx.ingestUrlSecret).toBe('QANALYZER_INGEST_URL');
-    expect(ctx.ingestTokenSecret).toBe('QANALYZER_INGEST_TOKEN');
+    expect(ctx.reportFile).toBe('ai-testing-tool-results.json');
+    expect(ctx.ingestUrlSecret).toBe('AI_TESTING_TOOL_INGEST_URL');
+    expect(ctx.ingestTokenSecret).toBe('AI_TESTING_TOOL_INGEST_TOKEN');
     expect(ctx.projectKeyExpr).toBe('${{ vars.JIRA_PROJECT_KEY }}');
-    expect(ctx.ingestUrlExpr).toBe('${{ secrets.QANALYZER_INGEST_URL }}');
-    expect(ctx.ingestTokenExpr).toBe('${{ secrets.QANALYZER_INGEST_TOKEN }}');
+    expect(ctx.ingestUrlExpr).toBe('${{ secrets.AI_TESTING_TOOL_INGEST_URL }}');
+    expect(ctx.ingestTokenExpr).toBe('${{ secrets.AI_TESTING_TOOL_INGEST_TOKEN }}');
     expect(ctx.launchNameExpr).toBe('${{ github.workflow }} #${{ github.run_number }}');
     expect(ctx.alwaysGuard).toBe('if: always()');
   });
@@ -161,18 +161,18 @@ qaDescribe('generateCiTemplate — all platforms × frameworks', () => {
         expect(result.framework).toBe(framework);
         expect(result.ingestPath).toBe('upload');
         expect(result.filename).toBe(EXPECTED_FILENAMES[platform](framework));
-        expect(result.content).toMatch(/npx @qanalyzer\/forge-api-client/);
+        expect(result.content).toMatch(/npx @ai-testing-tool\/forge-api-client/);
         expect(result.content).not.toMatch(/Bearer\s+\S+/);
-        expect(result.content).not.toMatch(/qanalyzer-upload\.js/);
+        expect(result.content).not.toMatch(/ai-testing-tool-upload\.js/);
         expect(result.secretsSetup.length >= 2).toBeTruthy();
         expect(result.variablesSetup.length >= 1).toBeTruthy();
-        expect(result.variablesSetup.some((v) => v.name === 'QANALYZER_PLAN_NAME')).toBeTruthy();
-        expect(result.variablesSetup.some((v) => v.name === 'QANALYZER_FIX_VERSION')).toBeTruthy();
+        expect(result.variablesSetup.some((v) => v.name === 'AI_TESTING_TOOL_PLAN_NAME')).toBeTruthy();
+        expect(result.variablesSetup.some((v) => v.name === 'AI_TESTING_TOOL_FIX_VERSION')).toBeTruthy();
 
         if (framework === 'vitest') {
-          expect(result.content).toMatch(/npx vitest run --reporter=json --outputFile=qanalyzer-results\.json/);
+          expect(result.content).toMatch(/npx vitest run --reporter=json --outputFile=ai-testing-tool-results\.json/);
         } else if (framework === 'jest') {
-          expect(result.content).toMatch(/npx jest --json --outputFile=qanalyzer-results\.json/);
+          expect(result.content).toMatch(/npx jest --json --outputFile=ai-testing-tool-results\.json/);
         } else {
           expect(result.content).toMatch(/npx playwright test --reporter=json/);
           expect(result.content).toMatch(/npx playwright install --with-deps/);
@@ -190,8 +190,8 @@ qaDescribe('generateCiTemplate — Vitest upload snapshots (proposal §5)', () =
       ingestPath: 'upload',
       projectKey: 'AUTH',
     });
-    expect(filename).toBe('.github/workflows/qanalyzer-vitest.yml');
-    expect(content).toBe(`name: QAnalyzer Vitest
+    expect(filename).toBe('.github/workflows/ai-testing-tool-vitest.yml');
+    expect(content).toBe(`name: AiTestingTool Vitest
 
 on:
   push:
@@ -208,17 +208,17 @@ jobs:
           node-version: "22"
           cache: npm
       - run: npm ci
-      - run: npx vitest run --reporter=json --outputFile=qanalyzer-results.json
-      - name: Upload to QAnalyzer
+      - run: npx vitest run --reporter=json --outputFile=ai-testing-tool-results.json
+      - name: Upload to AiTestingTool
         if: always()
         env:
-          QANALYZER_INGEST_URL: \${{ secrets.QANALYZER_INGEST_URL }}
-          QANALYZER_INGEST_TOKEN: \${{ secrets.QANALYZER_INGEST_TOKEN }}
+          AI_TESTING_TOOL_INGEST_URL: \${{ secrets.AI_TESTING_TOOL_INGEST_URL }}
+          AI_TESTING_TOOL_INGEST_TOKEN: \${{ secrets.AI_TESTING_TOOL_INGEST_TOKEN }}
         run: |
-          npx @qanalyzer/forge-api-client \\
+          npx @ai-testing-tool/forge-api-client \\
             --project "\${{ vars.JIRA_PROJECT_KEY }}" \\
             --launch "\${{ github.workflow }} #\${{ github.run_number }}" \\
-            --report qanalyzer-results.json
+            --report ai-testing-tool-results.json
 `,);
   });
 
@@ -230,12 +230,12 @@ jobs:
       projectKey: 'AUTH',
     });
     expect(filename).toBe('.gitlab-ci.yml');
-    expect(content).toMatch(/# QAnalyzer fragment/);
+    expect(content).toMatch(/# AiTestingTool fragment/);
     expect(content).toMatch(/when: always/);
     expect(content).toMatch(/needs: \[vitest\]/);
     expect(content).toMatch(/--project "\$JIRA_PROJECT_KEY"/);
     expect(content).toMatch(/--launch "\$CI_PIPELINE_ID"/);
-    expect(content).toBe(`# QAnalyzer fragment — merge into your .gitlab-ci.yml
+    expect(content).toBe(`# AiTestingTool fragment — merge into your .gitlab-ci.yml
 # Vitest upload path
 stages:
   - test
@@ -246,26 +246,26 @@ vitest:
   image: node:22-alpine
   script:
     - npm ci
-    - npx vitest run --reporter=json --outputFile=qanalyzer-results.json
+    - npx vitest run --reporter=json --outputFile=ai-testing-tool-results.json
   artifacts:
     when: always
     paths:
-      - qanalyzer-results.json
+      - ai-testing-tool-results.json
 
-qanalyzer_upload:
+ai-testing-tool_upload:
   stage: report
   image: node:22-alpine
   when: always
   needs: [vitest]
   variables:
-    QANALYZER_INGEST_URL: $QANALYZER_INGEST_URL
-    QANALYZER_INGEST_TOKEN: $QANALYZER_INGEST_TOKEN
+    AI_TESTING_TOOL_INGEST_URL: $AI_TESTING_TOOL_INGEST_URL
+    AI_TESTING_TOOL_INGEST_TOKEN: $AI_TESTING_TOOL_INGEST_TOKEN
   script:
     - |
-      npx @qanalyzer/forge-api-client \\
+      npx @ai-testing-tool/forge-api-client \\
         --project "$JIRA_PROJECT_KEY" \\
         --launch "$CI_PIPELINE_ID" \\
-        --report qanalyzer-results.json
+        --report ai-testing-tool-results.json
 `,);
   });
 
@@ -278,9 +278,9 @@ qanalyzer_upload:
     });
     expect(filename).toBe('Jenkinsfile');
     expect(content).toMatch(/withCredentials/);
-    expect(content).toMatch(/credentialsId: 'qanalyzer-ingest-url'/);
+    expect(content).toMatch(/credentialsId: 'ai-testing-tool-ingest-url'/);
     expect(content).toMatch(/JIRA_PROJECT_KEY = 'AUTH'/);
-    expect(content).toBe(`// QAnalyzer fragment — Vitest upload path — merge into your Jenkinsfile
+    expect(content).toBe(`// AiTestingTool fragment — Vitest upload path — merge into your Jenkinsfile
 pipeline {
   agent any
   environment {
@@ -290,21 +290,21 @@ pipeline {
     stage('Test') {
       steps {
         sh 'npm ci'
-        sh -c 'npx vitest run --reporter=json --outputFile=qanalyzer-results.json'
+        sh -c 'npx vitest run --reporter=json --outputFile=ai-testing-tool-results.json'
       }
     }
   }
   post {
     always {
       withCredentials([
-        string(credentialsId: 'qanalyzer-ingest-url', variable: 'QANALYZER_INGEST_URL'),
-        string(credentialsId: 'qanalyzer-ingest-token', variable: 'QANALYZER_INGEST_TOKEN'),
+        string(credentialsId: 'ai-testing-tool-ingest-url', variable: 'AI_TESTING_TOOL_INGEST_URL'),
+        string(credentialsId: 'ai-testing-tool-ingest-token', variable: 'AI_TESTING_TOOL_INGEST_TOKEN'),
       ]) {
         sh '''
-          npx @qanalyzer/forge-api-client \\
+          npx @ai-testing-tool/forge-api-client \\
             --project "\${JIRA_PROJECT_KEY}" \\
             --launch "\${JOB_NAME} #\${BUILD_NUMBER}" \\
-            --report qanalyzer-results.json
+            --report ai-testing-tool-results.json
         '''
       }
     }
@@ -321,8 +321,8 @@ pipeline {
       projectKey: 'AUTH',
     });
     expect(filename).toBe('bitbucket-pipelines.yml');
-    expect(content).toBe(`# QAnalyzer fragment — merge into your bitbucket-pipelines.yml
-# Vitest upload path — set secured vars QANALYZER_INGEST_URL / QANALYZER_INGEST_TOKEN
+    expect(content).toBe(`# AiTestingTool fragment — merge into your bitbucket-pipelines.yml
+# Vitest upload path — set secured vars AI_TESTING_TOOL_INGEST_URL / AI_TESTING_TOOL_INGEST_TOKEN
 image: node:22
 
 pipelines:
@@ -333,17 +333,17 @@ pipelines:
           - node
         script:
           - npm ci
-          - npx vitest run --reporter=json --outputFile=qanalyzer-results.json
+          - npx vitest run --reporter=json --outputFile=ai-testing-tool-results.json
         artifacts:
-          - qanalyzer-results.json
+          - ai-testing-tool-results.json
     - step:
-        name: Upload QAnalyzer
+        name: Upload AiTestingTool
         script:
           - |
-            npx @qanalyzer/forge-api-client \\
+            npx @ai-testing-tool/forge-api-client \\
               --project "$JIRA_PROJECT_KEY" \\
               --launch "build-$BITBUCKET_BUILD_NUMBER" \\
-              --report qanalyzer-results.json
+              --report ai-testing-tool-results.json
 `,);
   });
 
@@ -355,7 +355,7 @@ pipelines:
       projectKey: 'AUTH',
     });
     expect(filename).toBe('azure-pipelines.yml');
-    expect(content).toBe(`# QAnalyzer fragment — Vitest upload path
+    expect(content).toBe(`# AiTestingTool fragment — Vitest upload path
 trigger:
   - main
 
@@ -363,7 +363,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  - group: qanalyzer-secrets   # QANALYZER_INGEST_URL, QANALYZER_INGEST_TOKEN
+  - group: ai-testing-tool-secrets   # AI_TESTING_TOOL_INGEST_URL, AI_TESTING_TOOL_INGEST_TOKEN
   - name: JiraProjectKey
     value: AUTH
 
@@ -376,24 +376,24 @@ steps:
   - script: npm ci
     displayName: Install dependencies
 
-  - script: npx vitest run --reporter=json --outputFile=qanalyzer-results.json
+  - script: npx vitest run --reporter=json --outputFile=ai-testing-tool-results.json
     displayName: Run Vitest
 
   - script: |
-      npx @qanalyzer/forge-api-client \\
+      npx @ai-testing-tool/forge-api-client \\
         --project "$(JiraProjectKey)" \\
         --launch "$(Build.DefinitionName) #$(Build.BuildNumber)" \\
-        --report qanalyzer-results.json
-    displayName: Upload to QAnalyzer
+        --report ai-testing-tool-results.json
+    displayName: Upload to AiTestingTool
     condition: always()
     env:
-      QANALYZER_INGEST_URL: $(QANALYZER_INGEST_URL)
-      QANALYZER_INGEST_TOKEN: $(QANALYZER_INGEST_TOKEN)
+      AI_TESTING_TOOL_INGEST_URL: $(AI_TESTING_TOOL_INGEST_URL)
+      AI_TESTING_TOOL_INGEST_TOKEN: $(AI_TESTING_TOOL_INGEST_TOKEN)
 `,);
   });
 });
 
-qaDescribe('reporter path (@qanalyzer/forge-vitest / @qanalyzer/forge-jest / @qanalyzer/forge-mocha / @qanalyzer/forge-cucumberjs / @qanalyzer/forge-cypress / @qanalyzer/forge-playwright / @qanalyzer/forge-wdio)', () => {
+qaDescribe('reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)', () => {
   for (const platform of PLATFORMS) {
     for (const framework of REPORTER_FRAMEWORKS) {
       qaItAuto(`${platform} / ${framework} / reporter`, () => {
@@ -405,7 +405,7 @@ qaDescribe('reporter path (@qanalyzer/forge-vitest / @qanalyzer/forge-jest / @qa
         });
         expect(result.ingestPath).toBe('reporter');
         expect(result.framework).toBe(framework);
-        expect(result.content).toMatch(/QANALYZER_MODE/);
+        expect(result.content).toMatch(/AI_TESTING_TOOL_MODE/);
         const runPattern =
           framework === 'jest'
             ? /npx jest --runInBand/
@@ -423,24 +423,24 @@ qaDescribe('reporter path (@qanalyzer/forge-vitest / @qanalyzer/forge-jest / @qa
         expect(result.content).toMatch(runPattern);
         if (framework === 'playwright') {
           expect(result.content).toMatch(/npx playwright install --with-deps/);
-          expect(result.content).toMatch(/@qanalyzer\/forge-playwright/);
+          expect(result.content).toMatch(/@ai-testing-tool\/forge-playwright/);
         }
         if (framework === 'wdio') {
-          expect(result.content).toMatch(/@qanalyzer\/forge-wdio/);
+          expect(result.content).toMatch(/@ai-testing-tool\/forge-wdio/);
           expect(result.content).toMatch(/headless Chrome/);
         }
         if (framework === 'mocha') {
-          expect(result.content).toMatch(/@qanalyzer\/forge-mocha/);
+          expect(result.content).toMatch(/@ai-testing-tool\/forge-mocha/);
           expect(result.content).toMatch(/\.mocharc\.js/);
         }
         if (framework === 'cucumberjs') {
-          expect(result.content).toMatch(/@qanalyzer\/forge-cucumberjs/);
+          expect(result.content).toMatch(/@ai-testing-tool\/forge-cucumberjs/);
           expect(result.content).toMatch(/cucumber\.js/);
         }
-        expect(result.content).not.toMatch(/@qanalyzer\/forge-api-client/);
+        expect(result.content).not.toMatch(/@ai-testing-tool\/forge-api-client/);
         expect(result.content).not.toMatch(/Bearer\s+\S+/i);
-        expect(result.variablesSetup.some((v) => v.name === 'QANALYZER_PLAN_NAME')).toBeTruthy();
-        expect(result.variablesSetup.some((v) => v.name === 'QANALYZER_FIX_VERSION')).toBeTruthy();
+        expect(result.variablesSetup.some((v) => v.name === 'AI_TESTING_TOOL_PLAN_NAME')).toBeTruthy();
+        expect(result.variablesSetup.some((v) => v.name === 'AI_TESTING_TOOL_FIX_VERSION')).toBeTruthy();
       });
     }
   }
@@ -494,7 +494,7 @@ qaDescribe('reporter path (@qanalyzer/forge-vitest / @qanalyzer/forge-jest / @qa
     });
     expect(result.content).toMatch(/npx playwright test --reporter=json/);
     expect(result.content).toMatch(/npx playwright install --with-deps/);
-    expect(result.content).toMatch(/@qanalyzer\/forge-api-client/);
+    expect(result.content).toMatch(/@ai-testing-tool\/forge-api-client/);
     expect(result.content).not.toMatch(/Bearer\s+\S+/i);
   });
 });

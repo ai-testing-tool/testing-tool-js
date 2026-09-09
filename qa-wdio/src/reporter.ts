@@ -1,11 +1,11 @@
 import WDIOReporter from '@wdio/reporter';
 import type { SuiteStats, TestStats } from '@wdio/reporter';
 import {
-  QAnalyzerReporter,
+  AiTestingToolReporter,
   qaMetaFromEntries,
   type OptionsType,
   type QaMetaWire,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 import { applyCucumberTags, type TagLike } from './cucumber-tags';
 import { MetadataManager } from './metadata-manager';
@@ -73,7 +73,7 @@ function suiteTags(suite: SuiteStats): TagLike[] {
 }
 
 /**
- * WebdriverIO reporter for QAnalyzer.
+ * WebdriverIO reporter for AiTestingTool.
  *
  * Configure:
  *   reporters: [[QaWdioReporter, { disableWebdriverStepsReporting: true }]]
@@ -129,12 +129,12 @@ export class QaWdioReporter extends WDIOReporter {
       file,
       frameworkPackage: frameworkPackage ?? '@wdio/cli',
       frameworkName: frameworkName ?? 'wdio',
-      reporterName: reporterName ?? '@qanalyzer/forge-wdio',
+      reporterName: reporterName ?? '@ai-testing-tool/forge-wdio',
       fallback,
     };
 
     ResultsBuffer.reset(this.qaOptions);
-    QAnalyzerReporter.getInstance(this.qaOptions);
+    AiTestingToolReporter.getInstance(this.qaOptions);
   }
 
   override onSuiteStart(suite: SuiteStats): void {
@@ -286,7 +286,7 @@ export class QaWdioReporter extends WDIOReporter {
       const entries = MetadataManager.getEntries();
       let wire = qaMetaFromEntries(entries, {
         framework: 'wdio',
-        reporter: '@qanalyzer/forge-wdio',
+        reporter: '@ai-testing-tool/forge-wdio',
       });
       MetadataManager.clear();
 
@@ -296,7 +296,7 @@ export class QaWdioReporter extends WDIOReporter {
           framework: 'wdio',
           host: {
             framework: 'wdio',
-            reporter: '@qanalyzer/forge-wdio',
+            reporter: '@ai-testing-tool/forge-wdio',
           },
           issueKeys: [...scenario.issueKeys],
         } as QaMetaWire;
@@ -317,7 +317,7 @@ export class QaWdioReporter extends WDIOReporter {
           framework: 'wdio',
           host: {
             framework: 'wdio',
-            reporter: '@qanalyzer/forge-wdio',
+            reporter: '@ai-testing-tool/forge-wdio',
           },
           steps: stepsWire,
         } as QaMetaWire;
@@ -352,7 +352,7 @@ export class QaWdioReporter extends WDIOReporter {
       const entries = MetadataManager.getEntries();
       const wire = qaMetaFromEntries(entries, {
         framework: 'wdio',
-        reporter: '@qanalyzer/forge-wdio',
+        reporter: '@ai-testing-tool/forge-wdio',
       });
       MetadataManager.clear();
 

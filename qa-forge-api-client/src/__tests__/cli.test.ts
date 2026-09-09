@@ -12,21 +12,21 @@ function runCli(args: string[], cwd?: string) {
   return spawnSync(process.execPath, [cliPath, ...args], {
     cwd,
     encoding: 'utf8',
-    env: { ...process.env, QANALYZER_MODE: 'off' },
+    env: { ...process.env, AI_TESTING_TOOL_MODE: 'off' },
   });
 }
 
-qaDescribe('@qanalyzer/forge-api-client CLI', () => {
+qaDescribe('@ai-testing-tool/forge-api-client CLI', () => {
   qaItAuto('prints help and exits 0', () => {
     const result = runCli(['--help']);
     expect(result.status).toBe(0);
-    expect(result.stdout).toContain('@qanalyzer/forge-api-client');
+    expect(result.stdout).toContain('@ai-testing-tool/forge-api-client');
     expect(result.stdout).toContain('--project');
   });
 
   qaItAuto('requires --project when uploading a report', () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-cli-'));
-    const reportPath = join(dir, 'qanalyzer-results.json');
+    const reportPath = join(dir, 'ai-testing-tool-results.json');
     writeFileSync(
       reportPath,
       JSON.stringify({
@@ -49,7 +49,7 @@ qaDescribe('@qanalyzer/forge-api-client CLI', () => {
 
   qaItAuto('builds payload from jest-json report (dry — no network)', () => {
     const dir = mkdtempSync(join(tmpdir(), 'qa-cli-'));
-    const reportPath = join(dir, 'qanalyzer-results.json');
+    const reportPath = join(dir, 'ai-testing-tool-results.json');
     writeFileSync(
       reportPath,
       JSON.stringify({

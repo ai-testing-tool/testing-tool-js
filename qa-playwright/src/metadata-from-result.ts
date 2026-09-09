@@ -3,7 +3,7 @@ import {
   applyQaAnnotation,
   toQaMetaWire,
   type QaMetaWire,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 import { QA_METADATA_CONTENT_TYPE } from './metadata-manager';
 import type { PlaywrightStepLike } from './step-extractor';
@@ -77,5 +77,5 @@ export function buildQaMetaFromResult(input: {
     acc.steps.push({ name: step.name, status: step.status });
   }
 
-  return toQaMetaWire(acc, { framework: 'playwright', reporter: '@qanalyzer/forge-playwright' });
+  return toQaMetaWire(acc, { framework: 'playwright', reporter: '@ai-testing-tool/forge-playwright' });
 }

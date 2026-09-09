@@ -34,7 +34,7 @@ const REPORTER_FRAMEWORKS: CiFramework[] = [
 ];
 
 /**
- * Upload path: Vitest, Jest, Playwright (JSON + @qanalyzer/forge-api-client).
+ * Upload path: Vitest, Jest, Playwright (JSON + @ai-testing-tool/forge-api-client).
  * Reporter path: Vitest, Jest, Mocha, CucumberJS, Cypress, Playwright, WebdriverIO.
  * Mocha / CucumberJS / Cypress / WDIO have no upload JSON dual-path — use mode=file via reporter instead.
  */

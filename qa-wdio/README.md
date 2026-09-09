@@ -1,6 +1,6 @@
-# @qanalyzer/forge-wdio
+# @ai-testing-tool/forge-wdio
 
-WebdriverIO reporter + service for **QAnalyzer** (Jira Forge quality hub).
+WebdriverIO reporter + service for **AI Testing Tool** (Jira Forge quality hub).
 
 Supports **WebdriverIO 8+** with **Mocha** (`@wdio/mocha-framework`) or **Cucumber** (`@wdio/cucumber-framework`).
 
@@ -8,18 +8,18 @@ Supports **WebdriverIO 8+** with **Mocha** (`@wdio/mocha-framework`) or **Cucumb
 
 ```bash
 # Mocha (default)
-npm install -D @qanalyzer/forge-wdio @qanalyzer/forge-commons @wdio/mocha-framework
+npm install -D @ai-testing-tool/forge-wdio @ai-testing-tool/forge-commons @wdio/mocha-framework
 
 # Cucumber
-npm install -D @qanalyzer/forge-wdio @qanalyzer/forge-commons @wdio/cucumber-framework
+npm install -D @ai-testing-tool/forge-wdio @ai-testing-tool/forge-commons @wdio/cucumber-framework
 ```
 
 ## Configure — Mocha
 
 ```js
 // wdio.conf.js
-const QaWdioReporter = require('@qanalyzer/forge-wdio').default;
-const { beforeRunHook, afterRunHook, QaWdioService } = require('@qanalyzer/forge-wdio');
+const QaWdioReporter = require('@ai-testing-tool/forge-wdio').default;
+const { beforeRunHook, afterRunHook, QaWdioService } = require('@ai-testing-tool/forge-wdio');
 
 exports.config = {
   specs: ['./test/specs/**/*.spec.js'],
@@ -56,8 +56,8 @@ exports.config = {
 
 ```js
 // wdio.cucumber.conf.js
-const QaWdioReporter = require('@qanalyzer/forge-wdio').default;
-const { beforeRunHook, afterRunHook, QaWdioService } = require('@qanalyzer/forge-wdio');
+const QaWdioReporter = require('@ai-testing-tool/forge-wdio').default;
+const { beforeRunHook, afterRunHook, QaWdioService } = require('@ai-testing-tool/forge-wdio');
 
 exports.config = {
   specs: ['./test/features/**/*.feature'],
@@ -94,15 +94,15 @@ See `examples/single/wdio/wdio.cucumber.conf.js`.
 | Mode | Behavior |
 | ---- | -------- |
 | `off` (default) | No network / file write |
-| `file` | Writes the ingest payload (default `./qanalyzer-results.json`) |
+| `file` | Writes the ingest payload (default `./ai-testing-tool-results.json`) |
 | `ingest` | POSTs the payload with `format: jest-json` |
 
-Env: `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`, `QANALYZER_LAUNCH_NAME`.
+Env: `AI_TESTING_TOOL_MODE`, `AI_TESTING_TOOL_PROJECT_KEY`, `AI_TESTING_TOOL_INGEST_URL`, `AI_TESTING_TOOL_INGEST_TOKEN`, `AI_TESTING_TOOL_LAUNCH_NAME`.
 
 ## Helpers (Mocha)
 
 ```js
-const { qa } = require('@qanalyzer/forge-wdio');
+const { qa } = require('@ai-testing-tool/forge-wdio');
 const LoginPage = require('../pageobjects/LoginPage');
 
 describe('Login', () => {
@@ -131,6 +131,6 @@ Prefer **Jira issue keys in test titles**. Use **`await qa.step()`** for step ti
 ## Run
 
 ```bash
-QANALYZER_MODE=off npx wdio run wdio.conf.js
-QANALYZER_MODE=off npx wdio run wdio.cucumber.conf.js
+AI_TESTING_TOOL_MODE=off npx wdio run wdio.conf.js
+AI_TESTING_TOOL_MODE=off npx wdio run wdio.cucumber.conf.js
 ```

@@ -8,7 +8,7 @@
  * attempts Forge upload (FR133).
  */
 
-import { uploadAttachmentForQa } from '@qanalyzer/forge-commons';
+import { uploadAttachmentForQa } from '@ai-testing-tool/forge-commons';
 
 import { MetadataManager } from './metadata-manager';
 

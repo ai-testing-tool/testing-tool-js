@@ -12,9 +12,9 @@ module.exports = defineConfig({
   reporter: [
     ['list'],
     [
-      '@qanalyzer/forge-playwright',
+      '@ai-testing-tool/forge-playwright',
       {
-        // Defaults to mode=off (no credentials). Override with QANALYZER_MODE.
+        // Defaults to mode=off (no credentials). Override with AI_TESTING_TOOL_MODE.
         // mode: 'off' | 'file' | 'ingest',
         // projectKey: 'AUTH',
       },

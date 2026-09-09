@@ -1,17 +1,17 @@
 import type { CiTemplateContext, CiVariableHint } from '../types';
-/** Vitest run when @qanalyzer/forge-vitest is configured in vitest.config.ts. */
+/** Vitest run when @ai-testing-tool/forge-vitest is configured in vitest.config.ts. */
 export declare function vitestReporterRun(): string;
-/** Jest run when @qanalyzer/forge-jest is configured in jest.config.js. */
+/** Jest run when @ai-testing-tool/forge-jest is configured in jest.config.js. */
 export declare function jestReporterRun(): string;
-/** Cypress run when @qanalyzer/forge-cypress is configured in cypress.config.js. */
+/** Cypress run when @ai-testing-tool/forge-cypress is configured in cypress.config.js. */
 export declare function cypressReporterRun(): string;
-/** Playwright run when @qanalyzer/forge-playwright is configured in playwright.config.ts. */
+/** Playwright run when @ai-testing-tool/forge-playwright is configured in playwright.config.ts. */
 export declare function playwrightReporterRun(): string;
-/** WebdriverIO run when @qanalyzer/forge-wdio is configured in wdio.conf.js. */
+/** WebdriverIO run when @ai-testing-tool/forge-wdio is configured in wdio.conf.js. */
 export declare function wdioReporterRun(): string;
-/** Mocha run when @qanalyzer/forge-mocha is configured in .mocharc.js. */
+/** Mocha run when @ai-testing-tool/forge-mocha is configured in .mocharc.js. */
 export declare function mochaReporterRun(): string;
-/** CucumberJS run when @qanalyzer/forge-cucumberjs is configured in cucumber.js. */
+/** CucumberJS run when @ai-testing-tool/forge-cucumberjs is configured in cucumber.js. */
 export declare function cucumberjsReporterRun(): string;
 /** Browser install for Playwright CI (before test run). */
 export declare function playwrightBrowserInstallCommand(): string;

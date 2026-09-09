@@ -1,26 +1,26 @@
 export declare enum EnvEnum {
-    mode = "QANALYZER_MODE",
-    fallback = "QANALYZER_FALLBACK",
-    debug = "QANALYZER_DEBUG",
-    projectKey = "QANALYZER_PROJECT_KEY",
-    launchName = "QANALYZER_LAUNCH_NAME",
-    planId = "QANALYZER_PLAN_ID",
-    planKey = "QANALYZER_PLAN_KEY",
-    planName = "QANALYZER_PLAN_NAME",
-    fixVersion = "QANALYZER_FIX_VERSION",
-    sprintName = "QANALYZER_SPRINT"
+    mode = "AI_TESTING_TOOL_MODE",
+    fallback = "AI_TESTING_TOOL_FALLBACK",
+    debug = "AI_TESTING_TOOL_DEBUG",
+    projectKey = "AI_TESTING_TOOL_PROJECT_KEY",
+    launchName = "AI_TESTING_TOOL_LAUNCH_NAME",
+    planId = "AI_TESTING_TOOL_PLAN_ID",
+    planKey = "AI_TESTING_TOOL_PLAN_KEY",
+    planName = "AI_TESTING_TOOL_PLAN_NAME",
+    fixVersion = "AI_TESTING_TOOL_FIX_VERSION",
+    sprintName = "AI_TESTING_TOOL_SPRINT"
 }
 export declare enum EnvIngestEnum {
-    url = "QANALYZER_INGEST_URL",
-    token = "QANALYZER_INGEST_TOKEN",
-    timeoutMs = "QANALYZER_INGEST_TIMEOUT_MS",
-    completeTimeoutMs = "QANALYZER_INGEST_COMPLETE_TIMEOUT_MS",
-    maxPayloadBytes = "QANALYZER_INGEST_MAX_PAYLOAD_BYTES",
-    chunkThresholdBytes = "QANALYZER_INGEST_CHUNK_THRESHOLD_BYTES",
-    chunkMaxBytes = "QANALYZER_INGEST_CHUNK_MAX_BYTES",
-    maxRetries = "QANALYZER_INGEST_MAX_RETRIES",
-    retryBaseDelayMs = "QANALYZER_INGEST_RETRY_BASE_DELAY_MS"
+    url = "AI_TESTING_TOOL_INGEST_URL",
+    token = "AI_TESTING_TOOL_INGEST_TOKEN",
+    timeoutMs = "AI_TESTING_TOOL_INGEST_TIMEOUT_MS",
+    completeTimeoutMs = "AI_TESTING_TOOL_INGEST_COMPLETE_TIMEOUT_MS",
+    maxPayloadBytes = "AI_TESTING_TOOL_INGEST_MAX_PAYLOAD_BYTES",
+    chunkThresholdBytes = "AI_TESTING_TOOL_INGEST_CHUNK_THRESHOLD_BYTES",
+    chunkMaxBytes = "AI_TESTING_TOOL_INGEST_CHUNK_MAX_BYTES",
+    maxRetries = "AI_TESTING_TOOL_INGEST_MAX_RETRIES",
+    retryBaseDelayMs = "AI_TESTING_TOOL_INGEST_RETRY_BASE_DELAY_MS"
 }
 export declare enum EnvFileEnum {
-    path = "QANALYZER_FILE_PATH"
+    path = "AI_TESTING_TOOL_FILE_PATH"
 }

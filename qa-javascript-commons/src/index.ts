@@ -1,4 +1,4 @@
-export { QAnalyzerReporter, type PublishReportOptions } from './qanalyzer';
+export { AiTestingToolReporter, type PublishReportOptions } from './ai-testing-tool';
 export { ConfigLoader, loadConfig, type ConfigType } from './config';
 export { envToConfig, detectCiEnvironment, EnvEnum, EnvIngestEnum, EnvFileEnum } from './env';
 export type { CiMetadata } from './env';
@@ -68,4 +68,4 @@ export {
   type CiVariableHint,
 } from './ci';
 
-export const PACKAGE_NAME = '@qanalyzer/forge-commons';
+export const PACKAGE_NAME = '@ai-testing-tool/forge-commons';

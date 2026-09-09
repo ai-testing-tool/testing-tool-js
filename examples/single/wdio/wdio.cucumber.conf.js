@@ -1,11 +1,11 @@
-const QaWdioReporter = require('@qanalyzer/forge-wdio').default;
-const { afterRunHook, beforeRunHook, QaWdioService } = require('@qanalyzer/forge-wdio');
+const QaWdioReporter = require('@ai-testing-tool/forge-wdio').default;
+const { afterRunHook, beforeRunHook, QaWdioService } = require('@ai-testing-tool/forge-wdio');
 
 /**
  * FR135 — WebdriverIO + Cucumber/Gherkin (`useCucumber: true`).
  *
  *   npm i -D @wdio/cucumber-framework
- *   QANALYZER_MODE=off npx wdio run ./wdio.cucumber.conf.js
+ *   AI_TESTING_TOOL_MODE=off npx wdio run ./wdio.cucumber.conf.js
  */
 exports.config = {
   runner: 'local',

@@ -1,19 +1,19 @@
 #!/bin/sh
-# Upload per-package qanalyzer-results.json files produced by Vitest (npm test).
+# Upload per-package ai-testing-tool-results.json files produced by Vitest (npm test).
 #
 # Usage:
 #   . scripts/load-ingest-env.sh   # optional when qanalyzer-app/.env is present
 #   sh scripts/upload-package-reports.sh
 #   sh scripts/upload-package-reports.sh qa-jest qa-vitest   # subset
 #
-# Env: QANALYZER_INGEST_URL, QANALYZER_INGEST_TOKEN, QANALYZER_PROJECT_KEY (or JIRA_PROJECT_KEY)
+# Env: AI_TESTING_TOOL_INGEST_URL, AI_TESTING_TOOL_INGEST_TOKEN, AI_TESTING_TOOL_PROJECT_KEY (or JIRA_PROJECT_KEY)
 set -eu
 cd "$(dirname "$0")/.."
 
 . scripts/load-ingest-env.sh
 
-PROJECT_KEY="${QANALYZER_PROJECT_KEY:-${JIRA_PROJECT_KEY:-AUTH}}"
-LAUNCH_PREFIX="${QANALYZER_LAUNCH_PREFIX:-gitlab sdk}"
+PROJECT_KEY="${AI_TESTING_TOOL_PROJECT_KEY:-${JIRA_PROJECT_KEY:-AUTH}}"
+LAUNCH_PREFIX="${AI_TESTING_TOOL_LAUNCH_PREFIX:-gitlab sdk}"
 PIPELINE_ID="${CI_PIPELINE_ID:-local}"
 
 DEFAULT_PACKAGES="
@@ -36,14 +36,14 @@ else
 fi
 
 for pkg in $PACKAGES; do
-  report="$pkg/qanalyzer-results.json"
+  report="$pkg/ai-testing-tool-results.json"
   if [ ! -f "$report" ]; then
     echo "skip $pkg — no $report (run npm test first)" >&2
     continue
   fi
   name=$(basename "$pkg")
   echo "upload $report → $PROJECT_KEY (${name})"
-  npx @qanalyzer/forge-api-client \
+  npx @ai-testing-tool/forge-api-client \
     --project "$PROJECT_KEY" \
     --launch "${LAUNCH_PREFIX} ${name} #${PIPELINE_ID}" \
     --report "$report"

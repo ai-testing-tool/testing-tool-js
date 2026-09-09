@@ -1,13 +1,13 @@
 "use strict";
 /**
  * Cypress Node plugin — register in cypress.config.js setupNodeEvents:
- *   require('@qanalyzer/forge-cypress/plugin')(on, config);
+ *   require('@ai-testing-tool/forge-cypress/plugin')(on, config);
  *
  * before:run clears the results bridge; after:run publishes FR41
- * (mode=ingest | file) via @qanalyzer/forge-commons.
+ * (mode=ingest | file) via @ai-testing-tool/forge-commons.
  * after:screenshot captures failure still images for Phase 3 upload (FR71).
  */
-const forge_commons_1 = require("@qanalyzer/forge-commons");
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 const enrich_screenshots_1 = require("./enrich-screenshots");
 const report_builder_1 = require("./report-builder");
 const resolve_options_1 = require("./resolve-options");
@@ -20,8 +20,8 @@ async function publishCollected(options) {
         screenshots_manager_1.ScreenshotsManager.clear();
         return;
     }
-    forge_commons_1.QAnalyzerReporter.resetInstance();
-    const reporter = forge_commons_1.QAnalyzerReporter.getInstance({
+    forge_commons_1.AiTestingToolReporter.resetInstance();
+    const reporter = forge_commons_1.AiTestingToolReporter.getInstance({
         ...options,
         mode: options.mode ?? forge_commons_1.ModeEnum.off,
     });
@@ -49,10 +49,10 @@ async function publishCollected(options) {
 function plugin(on, config) {
     const qaOptions = (0, resolve_options_1.resolveQaOptions)(config.reporterOptions);
     if (qaOptions.resultsPath) {
-        process.env.QANALYZER_CYPRESS_RESULTS_PATH = qaOptions.resultsPath;
+        process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH = qaOptions.resultsPath;
     }
-    else if (config.projectRoot && !process.env.QANALYZER_CYPRESS_RESULTS_PATH) {
-        process.env.QANALYZER_CYPRESS_RESULTS_PATH = `${config.projectRoot}/.qa-cypress-results.json`;
+    else if (config.projectRoot && !process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH) {
+        process.env.AI_TESTING_TOOL_CYPRESS_RESULTS_PATH = `${config.projectRoot}/.qa-cypress-results.json`;
     }
     on('before:run', () => {
         results_manager_1.ResultsManager.clear(results_manager_1.ResultsManager.resolvePath(qaOptions.resultsPath));

@@ -2,12 +2,12 @@ import type { Reporter } from 'vitest/reporters';
 import type { TestCase } from 'vitest/node';
 import {
   ModeEnum,
-  QAnalyzerReporter,
+  AiTestingToolReporter,
   applyQaAnnotations,
   createQaMetaAccumulator,
   toQaMetaWire,
   type OptionsType,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 import {
   buildJestCompatibleReport,
@@ -104,8 +104,8 @@ function collectFromTestCase(testCase: TestCase): CollectedCase {
 }
 
 /**
- * Vitest custom reporter for QAnalyzer.
- * Configure: `reporters: ['default', '@qanalyzer/forge-vitest']` or `['@qanalyzer/forge-vitest', { mode: 'ingest', ... }]`.
+ * Vitest custom reporter for AiTestingTool.
+ * Configure: `reporters: ['default', '@ai-testing-tool/forge-vitest']` or `['@ai-testing-tool/forge-vitest', { mode: 'ingest', ... }]`.
  */
 export class VitestQaReporter implements Reporter {
   private readonly options: VitestQaOptions;
@@ -136,8 +136,8 @@ export class VitestQaReporter implements Reporter {
   }
 
   private async publish(): Promise<void> {
-    QAnalyzerReporter.resetInstance();
-    const reporter = QAnalyzerReporter.getInstance({
+    AiTestingToolReporter.resetInstance();
+    const reporter = AiTestingToolReporter.getInstance({
       ...this.options,
       mode: this.options.mode ?? ModeEnum.off,
     });

@@ -1,4 +1,4 @@
-name: QAnalyzer Jest
+name: AiTestingTool Jest
 
 on:
   push:
@@ -15,14 +15,14 @@ jobs:
           node-version: "22"
           cache: npm
       - run: npm ci
-      - run: npx jest --runInBand --json --outputFile=qanalyzer-results.json
-      - name: Upload to QAnalyzer
+      - run: npx jest --runInBand --json --outputFile=ai-testing-tool-results.json
+      - name: Upload to AiTestingTool
         if: always()
         env:
-          QANALYZER_INGEST_URL: ${{ secrets.QANALYZER_INGEST_URL }}
-          QANALYZER_INGEST_TOKEN: ${{ secrets.QANALYZER_INGEST_TOKEN }}
+          AI_TESTING_TOOL_INGEST_URL: ${{ secrets.AI_TESTING_TOOL_INGEST_URL }}
+          AI_TESTING_TOOL_INGEST_TOKEN: ${{ secrets.AI_TESTING_TOOL_INGEST_TOKEN }}
         run: |
-          npx @qanalyzer/forge-api-client \
+          npx @ai-testing-tool/forge-api-client \
             --project "${{ vars.JIRA_PROJECT_KEY }}" \
             --launch "${{ github.workflow }} #${{ github.run_number }}" \
-            --report qanalyzer-results.json
+            --report ai-testing-tool-results.json

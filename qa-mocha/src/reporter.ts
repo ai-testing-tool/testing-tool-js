@@ -1,10 +1,10 @@
 import { reporters, Runner, type MochaOptions, type Test } from 'mocha';
 import {
   ModeEnum,
-  QAnalyzerReporter,
+  AiTestingToolReporter,
   qaMetaFromEntries,
   type OptionsType,
-} from '@qanalyzer/forge-commons';
+} from '@ai-testing-tool/forge-commons';
 
 import type { QaMochaBridge, QaMetaEntry } from './mocha';
 import {
@@ -63,13 +63,13 @@ function failureMessages(test: Test): string[] {
 }
 
 /**
- * Mocha custom reporter for QAnalyzer.
+ * Mocha custom reporter for AiTestingTool.
  *
- * Configure: `.mocharc.js` → `reporter: '@qanalyzer/forge-mocha'`
+ * Configure: `.mocharc.js` → `reporter: '@ai-testing-tool/forge-mocha'`
  * Options: `reporterOptions: { mode: 'ingest' | 'file' | 'off', … }`
- * Env: `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, …
+ * Env: `AI_TESTING_TOOL_MODE`, `AI_TESTING_TOOL_PROJECT_KEY`, …
  *
- * Helpers from `@qanalyzer/forge-mocha/mocha` forward metadata via a global bridge.
+ * Helpers from `@ai-testing-tool/forge-mocha/mocha` forward metadata via a global bridge.
  */
 export class MochaQaReporter extends reporters.Spec {
   private readonly options: MochaQaOptions;
@@ -133,7 +133,7 @@ export class MochaQaReporter extends reporters.Spec {
       const entries = this.bridgeBuffer.splice(0, this.bridgeBuffer.length);
       const wire = qaMetaFromEntries(entries, {
         framework: 'mocha',
-        reporter: '@qanalyzer/forge-mocha',
+        reporter: '@ai-testing-tool/forge-mocha',
       });
 
       const ancestors = ancestorTitles(test);
@@ -161,12 +161,12 @@ export class MochaQaReporter extends reporters.Spec {
 
   private async publish(): Promise<void> {
     try {
-      QAnalyzerReporter.resetInstance();
-      const reporter = QAnalyzerReporter.getInstance({
+      AiTestingToolReporter.resetInstance();
+      const reporter = AiTestingToolReporter.getInstance({
         ...this.options,
         mode: this.options.mode ?? ModeEnum.off,
         frameworkName: this.options.frameworkName ?? 'mocha',
-        reporterName: this.options.reporterName ?? '@qanalyzer/forge-mocha',
+        reporterName: this.options.reporterName ?? '@ai-testing-tool/forge-mocha',
         frameworkPackage: this.options.frameworkPackage ?? 'mocha',
       });
 

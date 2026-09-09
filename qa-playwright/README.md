@@ -1,11 +1,11 @@
-# @qanalyzer/forge-playwright
+# @ai-testing-tool/forge-playwright
 
-Playwright reporter for **QAnalyzer** (Jira Forge quality hub).
+Playwright reporter for **AI Testing Tool** (Jira Forge quality hub).
 
 ## Install
 
 ```bash
-npm install -D @qanalyzer/forge-playwright @qanalyzer/forge-commons @playwright/test
+npm install -D @ai-testing-tool/forge-playwright @ai-testing-tool/forge-commons @playwright/test
 ```
 
 Peer: `@playwright/test` ≥1.40.
@@ -21,7 +21,7 @@ module.exports = defineConfig({
   reporter: [
     ['list'],
     [
-      '@qanalyzer/forge-playwright',
+      '@ai-testing-tool/forge-playwright',
       {
         // Defaults to mode=off (no credentials required)
         // mode: 'ingest' | 'file' | 'off',
@@ -37,16 +37,16 @@ module.exports = defineConfig({
 | Mode | Behavior |
 | ---- | -------- |
 | `off` (default) | No network / file write |
-| `file` | Writes the ingest payload (default `./qanalyzer-results.json`) |
+| `file` | Writes the ingest payload (default `./ai-testing-tool-results.json`) |
 | `ingest` | POSTs the payload with `format: jest-json` |
 
-Env (same as CLI): `QANALYZER_MODE`, `QANALYZER_PROJECT_KEY`, `QANALYZER_INGEST_URL`, `QANALYZER_INGEST_TOKEN`, `QANALYZER_LAUNCH_NAME`.
+Env (same as CLI): `AI_TESTING_TOOL_MODE`, `AI_TESTING_TOOL_PROJECT_KEY`, `AI_TESTING_TOOL_INGEST_URL`, `AI_TESTING_TOOL_INGEST_TOKEN`, `AI_TESTING_TOOL_LAUNCH_NAME`.
 
 ## Helpers
 
 ```js
 const { test } = require('@playwright/test');
-const { qa } = require('@qanalyzer/forge-playwright');
+const { qa } = require('@ai-testing-tool/forge-playwright');
 
 test('AUTH-101 login', async ({ page }) => {
   qa.suite('Auth');
@@ -68,18 +68,18 @@ Prefer **Jira issue keys in test titles**. Native `test.step()` hierarchy lands 
 **Path A — Playwright JSON + CLI:**
 
 ```bash
-npx playwright test --reporter=json --output=qanalyzer-playwright.json
+npx playwright test --reporter=json --output=ai-testing-tool-playwright.json
 # Convert / upload with CLI when using raw Playwright JSON, or prefer Path B file mode:
-npx @qanalyzer/forge-api-client --project DEMO --report qanalyzer-results.json
+npx @ai-testing-tool/forge-api-client --project DEMO --report ai-testing-tool-results.json
 ```
 
-**Path B — @qanalyzer/forge-playwright reporter** (`mode=ingest` or `mode=file`):
+**Path B — @ai-testing-tool/forge-playwright reporter** (`mode=ingest` or `mode=file`):
 
 ```bash
-QANALYZER_MODE=ingest \
-QANALYZER_PROJECT_KEY=DEMO \
-QANALYZER_INGEST_URL=... \
-QANALYZER_INGEST_TOKEN=... \
+AI_TESTING_TOOL_MODE=ingest \
+AI_TESTING_TOOL_PROJECT_KEY=DEMO \
+AI_TESTING_TOOL_INGEST_URL=... \
+AI_TESTING_TOOL_INGEST_TOKEN=... \
 npx playwright test
 ```
 

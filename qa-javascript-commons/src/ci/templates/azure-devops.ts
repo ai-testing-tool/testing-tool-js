@@ -34,15 +34,15 @@ function azurePreRunScripts(ctx: CiTemplateContext): string {
 function azureSecrets(): CiSecretHint[] {
   return [
     {
-      name: 'QANALYZER_INGEST_URL',
+      name: 'AI_TESTING_TOOL_INGEST_URL',
       description:
         'Forge web trigger URL (launch ingest + binary attach / screenshots / qa.attach)',
-      platformHint: 'Pipelines → Library → Variable group `qanalyzer-secrets` (mark as secret)',
+      platformHint: 'Pipelines → Library → Variable group `ai-testing-tool-secrets` (mark as secret)',
     },
     {
-      name: 'QANALYZER_INGEST_TOKEN',
-      description: 'Bearer token from QAnalyzer configure page (shown once)',
-      platformHint: 'Pipelines → Library → Variable group `qanalyzer-secrets` (mark as secret)',
+      name: 'AI_TESTING_TOOL_INGEST_TOKEN',
+      description: 'Bearer token from AiTestingTool configure page (shown once)',
+      platformHint: 'Pipelines → Library → Variable group `ai-testing-tool-secrets` (mark as secret)',
     },
   ];
 }
@@ -51,8 +51,8 @@ function azureVariables(): CiVariableHint[] {
   return [
     {
       name: 'JiraProjectKey',
-      description: 'Jira project key allowlisted in QAnalyzer (e.g. AUTH)',
-      platformHint: 'Pipeline variable or entry in variable group `qanalyzer-secrets`',
+      description: 'Jira project key allowlisted in AiTestingTool (e.g. AUTH)',
+      platformHint: 'Pipeline variable or entry in variable group `ai-testing-tool-secrets`',
     },
   ];
 }
@@ -66,7 +66,7 @@ function renderAzureReporter(ctx: CiTemplateContext): CiTemplateResult {
   const pkg = reporterPackageName(ctx);
   const configHint = reporterConfigHint(ctx);
 
-  const content = `# QAnalyzer fragment — ${label} ${pkg} reporter path
+  const content = `# AiTestingTool fragment — ${label} ${pkg} reporter path
 # Requires ${pkg} in package.json and ${configHint}
 trigger:
   - main
@@ -75,7 +75,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  - group: qanalyzer-secrets
+  - group: ai-testing-tool-secrets
   - name: JiraProjectKey
     value: ${ctx.projectKey}
 
@@ -89,12 +89,12 @@ steps:
     displayName: Install dependencies
 
 ${azurePreRunScripts(ctx)}  - script: ${frameworkReporterRun(ctx)}
-    displayName: Run ${label} with QAnalyzer reporter
+    displayName: Run ${label} with AiTestingTool reporter
     env:
-      QANALYZER_MODE: ingest
-      QANALYZER_INGEST_URL: ${urlExpr}
-      QANALYZER_INGEST_TOKEN: ${tokenExpr}
-      QANALYZER_PROJECT_KEY: $(JiraProjectKey)
+      AI_TESTING_TOOL_MODE: ingest
+      AI_TESTING_TOOL_INGEST_URL: ${urlExpr}
+      AI_TESTING_TOOL_INGEST_TOKEN: ${tokenExpr}
+      AI_TESTING_TOOL_PROJECT_KEY: $(JiraProjectKey)
 `;
 
   return {
@@ -109,7 +109,7 @@ ${azurePreRunScripts(ctx)}  - script: ${frameworkReporterRun(ctx)}
 }
 
 /**
- * Azure DevOps — upload path or @qanalyzer/forge-vitest / @qanalyzer/forge-jest reporter path.
+ * Azure DevOps — upload path or @ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest reporter path.
  */
 export function renderAzureDevOpsUpload(ctx: CiTemplateContext): CiTemplateResult {
   if (ctx.ingestPath === 'reporter') {
@@ -126,7 +126,7 @@ export function renderAzureDevOpsUpload(ctx: CiTemplateContext): CiTemplateResul
   const urlExpr = ctx.ingestUrlExpr ?? `$(${ctx.ingestUrlSecret})`;
   const tokenExpr = ctx.ingestTokenExpr ?? `$(${ctx.ingestTokenSecret})`;
 
-  const content = `# QAnalyzer fragment — ${label} upload path
+  const content = `# AiTestingTool fragment — ${label} upload path
 trigger:
   - main
 
@@ -134,7 +134,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  - group: qanalyzer-secrets   # QANALYZER_INGEST_URL, QANALYZER_INGEST_TOKEN
+  - group: ai-testing-tool-secrets   # AI_TESTING_TOOL_INGEST_URL, AI_TESTING_TOOL_INGEST_TOKEN
   - name: JiraProjectKey
     value: ${ctx.projectKey}
 
@@ -152,11 +152,11 @@ ${azurePreRunScripts(ctx)}  - script: ${testCmd}
 
   - script: |
 ${uploadBlock}
-    displayName: Upload to QAnalyzer
+    displayName: Upload to AiTestingTool
     condition: always()
     env:
-      QANALYZER_INGEST_URL: ${urlExpr}
-      QANALYZER_INGEST_TOKEN: ${tokenExpr}
+      AI_TESTING_TOOL_INGEST_URL: ${urlExpr}
+      AI_TESTING_TOOL_INGEST_TOKEN: ${tokenExpr}
 `;
 
   return {

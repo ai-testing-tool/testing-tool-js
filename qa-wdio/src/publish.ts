@@ -1,7 +1,7 @@
 import {
   ModeEnum,
-  QAnalyzerReporter,
-} from '@qanalyzer/forge-commons';
+  AiTestingToolReporter,
+} from '@ai-testing-tool/forge-commons';
 
 import { enrichSpecsWithFailureScreenshots } from './enrich-screenshots';
 import { FailureScreenshotBuffer } from './failure-screenshot-buffer';
@@ -41,13 +41,13 @@ export async function publishBufferedResults(): Promise<void> {
     // Never fail the WDIO run because of attach errors
   }
 
-  QAnalyzerReporter.resetInstance();
-  const reporter = QAnalyzerReporter.getInstance({
+  AiTestingToolReporter.resetInstance();
+  const reporter = AiTestingToolReporter.getInstance({
     ...options,
     mode: options.mode ?? ModeEnum.off,
     frameworkPackage: options.frameworkPackage ?? '@wdio/cli',
     frameworkName: options.frameworkName ?? 'wdio',
-    reporterName: options.reporterName ?? '@qanalyzer/forge-wdio',
+    reporterName: options.reporterName ?? '@ai-testing-tool/forge-wdio',
   });
 
   const report = toJestJsonReport(specs, ResultsBuffer.runStart);

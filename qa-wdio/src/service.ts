@@ -1,5 +1,5 @@
 /**
- * WDIO service for QAnalyzer (FR123).
+ * WDIO service for AiTestingTool (FR123).
  *
  * Register: `services: [[QaWdioService, { disableWebdriverScreenshotsReporting: false }]]`
  *
@@ -7,7 +7,7 @@
  * Forge when configured (FR133). Cucumber: `afterScenario` (FR135). Never fails the WDIO run.
  */
 
-import { uploadAttachmentForQa } from '@qanalyzer/forge-commons';
+import { uploadAttachmentForQa } from '@ai-testing-tool/forge-commons';
 
 import { FailureScreenshotBuffer } from './failure-screenshot-buffer';
 

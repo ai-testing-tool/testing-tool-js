@@ -228,18 +228,18 @@ function applyQaAnnotations(acc, annotations) {
 }
 function defaultReporterName(framework) {
     if (framework === 'jest')
-        return '@qanalyzer/forge-jest';
+        return '@ai-testing-tool/forge-jest';
     if (framework === 'mocha')
-        return '@qanalyzer/forge-mocha';
+        return '@ai-testing-tool/forge-mocha';
     if (framework === 'cucumberjs')
-        return '@qanalyzer/forge-cucumberjs';
+        return '@ai-testing-tool/forge-cucumberjs';
     if (framework === 'cypress')
-        return '@qanalyzer/forge-cypress';
+        return '@ai-testing-tool/forge-cypress';
     if (framework === 'playwright')
-        return '@qanalyzer/forge-playwright';
+        return '@ai-testing-tool/forge-playwright';
     if (framework === 'wdio')
-        return '@qanalyzer/forge-wdio';
-    return '@qanalyzer/forge-vitest';
+        return '@ai-testing-tool/forge-wdio';
+    return '@ai-testing-tool/forge-vitest';
 }
 /** Returns undefined when accumulator has no QA data (omit empty meta.qa). */
 function toQaMetaWire(acc, options) {
