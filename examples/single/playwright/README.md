@@ -10,14 +10,14 @@ Steps use Playwright native **`test.step()`** (no `qa.step`). Default mode is **
 
 - Node.js **18+**
 - Network access to [saucedemo.com](https://www.saucedemo.com) for live E2E
-- From monorepo: build reporters first (`cd qanalyzer-js && npm run build`)
+- From monorepo: build reporters first (`cd ai-testing-tool-js && npm run build`)
 - Chromium via Playwright: `npm run install:browsers` (or `npx playwright install` / `install --with-deps` in CI)
 - For ingest/upload: QAnalyzer Configure → Connection, project on allowlist
 
 ## Install & local run (no credentials)
 
 ```bash
-cd qanalyzer-js
+cd ai-testing-tool-js
 npm run build
 
 cd examples/single/playwright

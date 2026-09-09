@@ -1,12 +1,12 @@
 # QAnalyzer JavaScript SDK
 
-Publish test results from JavaScript/TypeScript projects to **QA Engine for Jira** ([`qanalyzer-app`](../qanalyzer-app/)) — a Forge app that ingests Jest/Vitest JSON, stores launches, and syncs traceability to Jira.
+Publish test results from JavaScript/TypeScript projects to **AI Testing Tool** ([`qanalyzer-app`](../qanalyzer-app/)) — a Forge app that ingests Jest/Vitest JSON, stores launches, and syncs traceability to Jira.
 
 > **Status:** Under active development. APIs and package versions may change between releases. Pin to a specific version (currently **2.0.0**) in production CI.
 
 ## What you get in Jira
 
-QA Engine adds a **Test Management** hub to your Jira project. The SDK is the CI bridge: after your pipeline runs, uploads appear as **launches** and sync to TestCase / TestExecution issues, feeding the views below.
+AI Testing Tool adds a **Test Management** hub to your Jira project. The SDK is the CI bridge: after your pipeline runs, uploads appear as **launches** and sync to TestCase / TestExecution issues, feeding the views below.
 
 ### Key highlights
 
@@ -51,7 +51,7 @@ Record manual or exploratory runs step-by-step on a TestExecution issue: expecte
 
 ### Issue panels (Jira issue view)
 
-Beyond the project hub, QA Engine adds context on individual issues:
+Beyond the project hub, AI Testing Tool adds context on individual issues:
 
 - **TestCase panel** — design detail, linked defects, test runs, and quick navigation to Test Design
 - **Test Execution panel** — linked TestCase, launch history, and run status on TestExecution issues
@@ -64,7 +64,7 @@ These panels complement CI ingest: automated runs land as launches and TestExecu
 ```text
 Your test runner  →  @qanalyzer/forge-* reporter or CLI  →  Forge web trigger
                                                               ↓
-                                                    Launch stored in QA Engine
+                                                    Launch stored in AI Testing Tool
                                                               ↓
                               TestCase / TestExecution issues + Test Execution view updated
 ```
@@ -81,14 +81,14 @@ Configure ingest in Jira under **Test Management → Settings → Automation set
 Use this SDK if you:
 
 - Run tests with **Jest, Vitest, Mocha, Cypress, Playwright, WebdriverIO, or CucumberJS**
-- Have **QA Engine** installed on your Jira Cloud site
+- Have **AI Testing Tool** installed on your Jira Cloud site
 - Want CI (or local runs) to **upload a launch** after tests finish
 
 You do **not** need to run any extra server. Uploads go directly to the Forge **web trigger** URL from your project settings.
 
 ## Before you start
 
-1. **Install QA Engine** on your Jira site and open a project.
+1. **Install AI Testing Tool** on your Jira site and open a project.
 2. Go to **Test Management → Settings → Automation setup**.
 3. Connect the project and **generate an ingest token** (shown once — store it in CI secrets).
 4. Copy the **ingest URL** (Forge web trigger) from the same screen.
@@ -523,7 +523,7 @@ npm install -D @qanalyzer/forge-vitest@2.0.0 @qanalyzer/forge-commons@2.0.0
 | ------- | ------------ |
 | `401 Unauthorized` | Wrong or missing `QANALYZER_INGEST_TOKEN` |
 | `403 Forbidden` | Project not connected in Automation setup |
-| `503 QA Engine not configured` | Site/project not set up yet |
+| `503 AI Testing Tool not configured` | Site/project not set up yet |
 | Launch missing in Jira | Check sync status on Test Management; large suites sync on a schedule |
 | Payload too large | Chunking handles most cases; split CI jobs if you hit the 100-chunk limit |
 

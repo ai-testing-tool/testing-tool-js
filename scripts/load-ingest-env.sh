@@ -5,7 +5,7 @@
 #   1. Existing environment (GitLab CI/CD variables, export in shell)
 #   2. $QANALYZER_ENV_FILE when set
 #   3. ../qanalyzer-app/.env (monorepo sibling — same file as the Forge app)
-#   4. ./.env in the qanalyzer-js root
+#   4. ./.env in the ai-testing-tool-js root
 #
 # Expected keys: QANALYZER_INGEST_URL, QANALYZER_INGEST_TOKEN
 # Optional: JIRA_PROJECT_KEY (legacy), QANALYZER_PROJECT_KEY

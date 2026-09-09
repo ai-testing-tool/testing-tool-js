@@ -10,13 +10,13 @@ Default mode is **`off`** (no credentials). Graduate to `file` or `ingest` when 
 
 - Node.js **18+**
 - Network access to [saucedemo.com](https://www.saucedemo.com) for live E2E
-- From monorepo: build reporters first (`cd qanalyzer-js && npm run build`)
+- From monorepo: build reporters first (`cd ai-testing-tool-js && npm run build`)
 - For ingest/upload: QAnalyzer Configure → Connection, project on allowlist
 
 ## Install & local run (no credentials)
 
 ```bash
-cd qanalyzer-js
+cd ai-testing-tool-js
 npm run build
 
 cd examples/single/cypress

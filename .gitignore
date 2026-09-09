@@ -92,3 +92,4 @@ build/
 
 # Vitest JSON reports (one per qa-* package + pilot example)
 qa-*/qanalyzer-results.json
+.npmrc

@@ -1,5 +1,5 @@
 {
-  "name": "qanalyzer-js",
+  "name": "ai-testing-tool-js",
   "private": true,
   "description": "QAnalyzer JavaScript SDK — commons, CLI, and test-runner reporters (Testing Library / Jest / Vitest)",
   "workspaces": [

@@ -14,7 +14,7 @@ JSONPlaceholder API scenarios (CRUD, posts, errors, advanced). Jira issue keys l
 ## Install & local run (no QAnalyzer credentials)
 
 ```bash
-cd qanalyzer-js/examples/single/vitest
+cd ai-testing-tool-js/examples/single/vitest
 npm install
 npm test
 ```
@@ -53,7 +53,7 @@ npm run upload
 
 ## Path B — Optional `@qanalyzer/forge-vitest` reporter
 
-From the monorepo (after `npm run build` in `qanalyzer-js`):
+From the monorepo (after `npm run build` in `ai-testing-tool-js`):
 
 ```bash
 npm install -D ../../../qa-vitest ../../../qa-javascript-commons
@@ -137,7 +137,7 @@ export QANALYZER_SPRINT="Sprint 42"
 
 ## Automation setup
 
-1. Open **QA Engine** on your Jira project
+1. Open **AI Testing Tool** on your Jira project
 2. Go to **Settings → Automation setup** — connect the project, copy the ingest token and URL, and run **Test connection**
 3. Use the **CI template** builder to generate a pipeline snippet for your project
 

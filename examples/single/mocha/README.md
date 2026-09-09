@@ -5,7 +5,7 @@ API tests against [JSONPlaceholder](https://jsonplaceholder.typicode.com/) using
 ## Setup
 
 ```bash
-# from qanalyzer-js: build commons + @qanalyzer/forge-mocha first
+# from ai-testing-tool-js: build commons + @qanalyzer/forge-mocha first
 cd ../../qa-javascript-commons && npm run build
 cd ../qa-mocha && npm run build
 cd ../examples/single/mocha && npm install

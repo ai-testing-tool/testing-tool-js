@@ -1,5 +1,5 @@
 #!/bin/sh
-# Publish all qanalyzer-js workspace packages to npm in dependency order.
+# Publish all ai-testing-tool-js workspace packages to npm in dependency order.
 #
 # Usage:
 #   npm run release            # publish anything not yet on the registry

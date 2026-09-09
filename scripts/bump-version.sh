@@ -1,5 +1,5 @@
 #!/bin/sh
-# Bump every qanalyzer-js workspace to the given release version and keep
+# Bump every ai-testing-tool-js workspace to the given release version and keep
 # doc version references in sync (step 2 of the Git flow in README.md).
 #
 # Usage:
