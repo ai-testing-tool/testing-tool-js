@@ -12,53 +12,20 @@
     "numFailedTests": 0,
     "numPendingTests": 0,
     "numTodoTests": 0,
-    "startTime": 1788990239127,
+    "startTime": 1789001821939,
     "success": true,
     "testResults": [
       {
         "name": "unknown",
         "status": "passed",
-        "startTime": 1788990239127,
-        "endTime": 1788990239641,
+        "startTime": 1789001821939,
+        "endTime": 1789001822455,
         "assertionResults": [
-          {
-            "fullName": "withIngestAction > appends action query param",
-            "title": "appends action query param",
-            "status": "passed",
-            "duration": 6,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "appends action query param",
-                "issueKeys": [
-                  "AUTH-201"
-                ],
-                "suite": [
-                  {
-                    "title": "withIngestAction"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
           {
             "fullName": "issue-keys > extracts keys in order",
             "title": "extracts keys in order",
             "status": "passed",
-            "duration": 7,
+            "duration": 11,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -88,10 +55,43 @@
             }
           },
           {
+            "fullName": "withIngestAction > appends action query param",
+            "title": "appends action query param",
+            "status": "passed",
+            "duration": 9,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@ai-testing-tool/forge-vitest"
+                },
+                "title": "appends action query param",
+                "issueKeys": [
+                  "AUTH-201"
+                ],
+                "suite": [
+                  {
+                    "title": "withIngestAction"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
             "fullName": "createIngestSessionId > is stable for the same launch fingerprint",
             "title": "is stable for the same launch fingerprint",
             "status": "passed",
-            "duration": 8,
+            "duration": 10,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -124,7 +124,7 @@
             "fullName": "withIngestAction > preserves existing query string",
             "title": "preserves existing query string",
             "status": "passed",
-            "duration": 4,
+            "duration": 3,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -190,7 +190,7 @@
             "fullName": "isRetryableHttpStatus > marks transient server errors retryable",
             "title": "marks transient server errors retryable",
             "status": "passed",
-            "duration": 4,
+            "duration": 5,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -223,7 +223,7 @@
             "fullName": "planChunks > splits testResults when chunk bodies exceed maxChunkBytes",
             "title": "splits testResults when chunk bodies exceed maxChunkBytes",
             "status": "passed",
-            "duration": 4,
+            "duration": 3,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -352,6 +352,39 @@
             }
           },
           {
+            "fullName": "meta.qa enrichment > builds wire shape from Vitest-style annotations",
+            "title": "builds wire shape from Vitest-style annotations",
+            "status": "passed",
+            "duration": 7,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@ai-testing-tool/forge-vitest"
+                },
+                "title": "builds wire shape from Vitest-style annotations",
+                "issueKeys": [
+                  "AUTH-201"
+                ],
+                "suite": [
+                  {
+                    "title": "meta.qa enrichment"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
             "fullName": "postIngestJson > throws retryable IngestHttpError on 503",
             "title": "throws retryable IngestHttpError on 503",
             "status": "passed",
@@ -385,76 +418,10 @@
             }
           },
           {
-            "fullName": "postIngestJson > throws non-retryable IngestHttpError on 401",
-            "title": "throws non-retryable IngestHttpError on 401",
-            "status": "passed",
-            "duration": 2,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "throws non-retryable IngestHttpError on 401",
-                "issueKeys": [
-                  "AUTH-206"
-                ],
-                "suite": [
-                  {
-                    "title": "postIngestJson"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "meta.qa enrichment > builds wire shape from Vitest-style annotations",
-            "title": "builds wire shape from Vitest-style annotations",
-            "status": "passed",
-            "duration": 6,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "builds wire shape from Vitest-style annotations",
-                "issueKeys": [
-                  "AUTH-201"
-                ],
-                "suite": [
-                  {
-                    "title": "meta.qa enrichment"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
             "fullName": "meta.qa enrichment > builds wire shape from helper buffer entries",
             "title": "builds wire shape from helper buffer entries",
             "status": "passed",
-            "duration": 1,
+            "duration": 2,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -487,7 +454,7 @@
             "fullName": "meta.qa enrichment > returns undefined for empty accumulator",
             "title": "returns undefined for empty accumulator",
             "status": "passed",
-            "duration": 3,
+            "duration": 2,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -503,6 +470,39 @@
                 "suite": [
                   {
                     "title": "meta.qa enrichment"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "fullName": "postIngestJson > throws non-retryable IngestHttpError on 401",
+            "title": "throws non-retryable IngestHttpError on 401",
+            "status": "passed",
+            "duration": 3,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@ai-testing-tool/forge-vitest"
+                },
+                "title": "throws non-retryable IngestHttpError on 401",
+                "issueKeys": [
+                  "AUTH-206"
+                ],
+                "suite": [
+                  {
+                    "title": "postIngestJson"
                   }
                 ],
                 "steps": [
@@ -553,7 +553,7 @@
             "fullName": "composeOptions > skips undefined values from later sources",
             "title": "skips undefined values from later sources",
             "status": "passed",
-            "duration": 6,
+            "duration": 7,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -569,6 +569,39 @@
                 "suite": [
                   {
                     "title": "composeOptions"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "fullName": "IngestClient > chunks payloads above maxPayloadBytes even when below chunk threshold",
+            "title": "chunks payloads above maxPayloadBytes even when below chunk threshold",
+            "status": "passed",
+            "duration": 15,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@ai-testing-tool/forge-vitest"
+                },
+                "title": "chunks payloads above maxPayloadBytes even when below chunk threshold",
+                "issueKeys": [
+                  "AUTH-201"
+                ],
+                "suite": [
+                  {
+                    "title": "IngestClient"
                   }
                 ],
                 "steps": [
@@ -619,7 +652,7 @@
             "fullName": "buildIngestPayload > includes optional fixVersion and sprintName (FR21)",
             "title": "includes optional fixVersion and sprintName (FR21)",
             "status": "passed",
-            "duration": 2,
+            "duration": 1,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -652,7 +685,7 @@
             "fullName": "envToConfig ingest retry > maps AI_TESTING_TOOL_INGEST_MAX_RETRIES and AI_TESTING_TOOL_INGEST_RETRY_BASE_DELAY_MS",
             "title": "maps AI_TESTING_TOOL_INGEST_MAX_RETRIES and AI_TESTING_TOOL_INGEST_RETRY_BASE_DELAY_MS",
             "status": "passed",
-            "duration": 2,
+            "duration": 1,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -682,43 +715,10 @@
             }
           },
           {
-            "fullName": "IngestClient > chunks payloads above maxPayloadBytes even when below chunk threshold",
-            "title": "chunks payloads above maxPayloadBytes even when below chunk threshold",
-            "status": "passed",
-            "duration": 16,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "chunks payloads above maxPayloadBytes even when below chunk threshold",
-                "issueKeys": [
-                  "AUTH-201"
-                ],
-                "suite": [
-                  {
-                    "title": "IngestClient"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
             "fullName": "envToConfig version tags > maps AI_TESTING_TOOL_FIX_VERSION and AI_TESTING_TOOL_SPRINT",
             "title": "maps AI_TESTING_TOOL_FIX_VERSION and AI_TESTING_TOOL_SPRINT",
             "status": "passed",
-            "duration": 2,
+            "duration": 1,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -817,7 +817,7 @@
             "fullName": "buildCiTemplateContext > fills GitHub secret and launch expressions (proposal §3.2)",
             "title": "fills GitHub secret and launch expressions (proposal §3.2)",
             "status": "passed",
-            "duration": 6,
+            "duration": 5,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -916,7 +916,7 @@
             "fullName": "generateCiTemplate — all platforms × frameworks > github / vitest / upload",
             "title": "github / vitest / upload",
             "status": "passed",
-            "duration": 2,
+            "duration": 1,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -949,7 +949,7 @@
             "fullName": "generateCiTemplate — all platforms × frameworks > github / jest / upload",
             "title": "github / jest / upload",
             "status": "passed",
-            "duration": 1,
+            "duration": 2,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -1015,7 +1015,7 @@
             "fullName": "generateCiTemplate — all platforms × frameworks > gitlab / vitest / upload",
             "title": "gitlab / vitest / upload",
             "status": "passed",
-            "duration": 2,
+            "duration": 1,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -1147,7 +1147,7 @@
             "fullName": "generateCiTemplate — all platforms × frameworks > azure-devops / jest / upload",
             "title": "azure-devops / jest / upload",
             "status": "passed",
-            "duration": 1,
+            "duration": 2,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -1213,7 +1213,7 @@
             "fullName": "generateCiTemplate — all platforms × frameworks > jenkins / vitest / upload",
             "title": "jenkins / vitest / upload",
             "status": "passed",
-            "duration": 2,
+            "duration": 1,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -1708,7 +1708,7 @@
             "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > github / cypress / reporter",
             "title": "github / cypress / reporter",
             "status": "passed",
-            "duration": 1,
+            "duration": 2,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -1906,7 +1906,7 @@
             "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > gitlab / cucumberjs / reporter",
             "title": "gitlab / cucumberjs / reporter",
             "status": "passed",
-            "duration": 2,
+            "duration": 1,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -1939,7 +1939,7 @@
             "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > gitlab / cypress / reporter",
             "title": "gitlab / cypress / reporter",
             "status": "passed",
-            "duration": 2,
+            "duration": 1,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -2926,76 +2926,10 @@
             }
           },
           {
-            "fullName": "IngestClient > retries direct ingest on transient HTTP errors",
-            "title": "retries direct ingest on transient HTTP errors",
-            "status": "passed",
-            "duration": 98,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "retries direct ingest on transient HTTP errors",
-                "issueKeys": [
-                  "AUTH-202"
-                ],
-                "suite": [
-                  {
-                    "title": "IngestClient"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "IngestClient > uploads large payloads via session/chunk/complete",
-            "title": "uploads large payloads via session/chunk/complete",
-            "status": "passed",
-            "duration": 3,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "uploads large payloads via session/chunk/complete",
-                "issueKeys": [
-                  "AUTH-203"
-                ],
-                "suite": [
-                  {
-                    "title": "IngestClient"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
             "fullName": "withRetry > retries retryable errors until success",
             "title": "retries retryable errors until success",
             "status": "passed",
-            "duration": 212,
+            "duration": 225,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -3044,6 +2978,72 @@
                 "suite": [
                   {
                     "title": "withRetry"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "fullName": "IngestClient > retries direct ingest on transient HTTP errors",
+            "title": "retries direct ingest on transient HTTP errors",
+            "status": "passed",
+            "duration": 198,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@ai-testing-tool/forge-vitest"
+                },
+                "title": "retries direct ingest on transient HTTP errors",
+                "issueKeys": [
+                  "AUTH-202"
+                ],
+                "suite": [
+                  {
+                    "title": "IngestClient"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "fullName": "IngestClient > uploads large payloads via session/chunk/complete",
+            "title": "uploads large payloads via session/chunk/complete",
+            "status": "passed",
+            "duration": 3,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@ai-testing-tool/forge-vitest"
+                },
+                "title": "uploads large payloads via session/chunk/complete",
+                "issueKeys": [
+                  "AUTH-203"
+                ],
+                "suite": [
+                  {
+                    "title": "IngestClient"
                   }
                 ],
                 "steps": [

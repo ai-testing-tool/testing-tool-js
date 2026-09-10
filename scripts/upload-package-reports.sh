@@ -2,7 +2,7 @@
 # Upload per-package ai-testing-tool-results.json files produced by Vitest (npm test).
 #
 # Usage:
-#   . scripts/load-ingest-env.sh   # optional when qanalyzer-app/.env is present
+#   . scripts/load-ingest-env.sh   # optional when .env is present
 #   sh scripts/upload-package-reports.sh
 #   sh scripts/upload-package-reports.sh qa-jest qa-vitest   # subset
 #

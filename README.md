@@ -1,6 +1,6 @@
 # AI Testing Tool JavaScript SDK
 
-Publish test results from JavaScript/TypeScript projects to **AI Testing Tool** ([`qanalyzer-app`](../qanalyzer-app/)) — a Forge app that ingests Jest/Vitest JSON, stores launches, and syncs traceability to Jira.
+Publish test results from JavaScript/TypeScript projects to **AI Testing Tool** — a Forge app that ingests Jest/Vitest JSON, stores launches, and syncs traceability to Jira.
 
 > **Status:** Under active development. APIs and package versions may change between releases. Pin to a specific version (currently **2.0.0**) in production CI.
 
@@ -74,7 +74,7 @@ Your test runner  →  @ai-testing-tool/forge-* reporter or CLI  →  Forge web 
 - **Rich steps:** use `qa.suite` / `qa.step` (Jest, Vitest, Mocha, Cypress, WDIO), Playwright `test.step()`, or Cucumber tags — suite hierarchy appears in ingest payloads.
 - **Large suites:** reports above ~3.5 MB chunk automatically; transient upload errors retry.
 
-Configure ingest in Jira under **Test Management → Settings → Automation setup** ([Epic 4 in the PRD](../qanalyzer-app/docs/prd.md)).
+Configure ingest in Jira under **Test Management → Settings → Automation setup**.
 
 ## Who this is for
 
@@ -541,9 +541,9 @@ npm test
 - Upload all package reports: `sh scripts/load-ingest-env.sh && sh scripts/upload-package-reports.sh`
 - Vitest workspace config: [`examples/single/vitest/vitest.config.ts`](./examples/single/vitest/vitest.config.ts)
 
-### GitLab CI
+### CI
 
-[`.gitlab-ci.yml`](./.gitlab-ci.yml) runs build + test on every pipeline, uploads a pilot launch on `main`/`develop`, and publishes to npm on `v*.*.*` tags. Credentials match [`qanalyzer-app/.env`](../qanalyzer-app/.env).
+[`.gitlab-ci.yml`](./.gitlab-ci.yml) runs build + test on every pipeline, uploads a pilot launch on `main`/`develop`, and publishes to npm on `v*.*.*` tags. For local uploads, put ingest credentials in a gitignored `.env` (see `scripts/load-ingest-env.sh`).
 
 ### Releasing
 
