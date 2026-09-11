@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.normalizeJestReport = exports.estimatePayloadBytes = exports.buildIngestPayload = exports.toQaMetaWire = exports.qaMetaFromEntries = exports.createQaMetaAccumulator = exports.applyQaAnnotations = exports.applyQaAnnotation = exports.StepStatusEnum = exports.StepExecution = exports.StepType = exports.TestStepType = exports.TestStatusEnum = exports.TestExecution = exports.TestResultType = void 0;
+exports.normalizeJestReport = exports.estimatePayloadBytes = exports.buildIngestPayload = exports.resetHostEnvironmentCache = exports.toQaMetaWire = exports.qaMetaFromEntries = exports.createQaMetaAccumulator = exports.applyQaAnnotations = exports.applyQaAnnotation = exports.StepStatusEnum = exports.StepExecution = exports.StepType = exports.TestStepType = exports.TestStatusEnum = exports.TestExecution = exports.TestResultType = void 0;
 var test_result_1 = require("./test-result");
 Object.defineProperty(exports, "TestResultType", { enumerable: true, get: function () { return test_result_1.TestResultType; } });
 var test_execution_1 = require("./test-execution");
@@ -18,6 +18,7 @@ Object.defineProperty(exports, "applyQaAnnotations", { enumerable: true, get: fu
 Object.defineProperty(exports, "createQaMetaAccumulator", { enumerable: true, get: function () { return meta_qa_1.createQaMetaAccumulator; } });
 Object.defineProperty(exports, "qaMetaFromEntries", { enumerable: true, get: function () { return meta_qa_1.qaMetaFromEntries; } });
 Object.defineProperty(exports, "toQaMetaWire", { enumerable: true, get: function () { return meta_qa_1.toQaMetaWire; } });
+Object.defineProperty(exports, "resetHostEnvironmentCache", { enumerable: true, get: function () { return meta_qa_1.resetHostEnvironmentCache; } });
 var ingest_payload_1 = require("./ingest-payload");
 Object.defineProperty(exports, "buildIngestPayload", { enumerable: true, get: function () { return ingest_payload_1.buildIngestPayload; } });
 Object.defineProperty(exports, "estimatePayloadBytes", { enumerable: true, get: function () { return ingest_payload_1.estimatePayloadBytes; } });

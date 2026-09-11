@@ -6,5 +6,5 @@ export type CiMetadata = {
     gitAuthorName?: string;
     gitAuthorEmail?: string;
 };
-/** Best-effort CI metadata from common provider env vars. */
+/** Best-effort CI metadata from common provider env vars (+ local git fallback). */
 export declare function detectCiEnvironment(): CiMetadata;

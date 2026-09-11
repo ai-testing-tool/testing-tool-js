@@ -21,6 +21,14 @@ export type QaHelpers = {
   title(value: string): Promise<void>;
   comment(value: string): Promise<void>;
   suite(value: string): Promise<void>;
+  suiteId(value: string): Promise<void>;
+  planId(value: string): Promise<void>;
+  /** Plan display name → `meta.qa.planName`. */
+  plan(value: string): Promise<void>;
+  fixVersion(value: string): Promise<void>;
+  sprintName(value: string): Promise<void>;
+  /** Comma-separated string or array → `meta.qa.labels`. */
+  labels(value: string | string[]): Promise<void>;
   fields(values: Record<string, string>): Promise<void>;
   parameters(values: Record<string, string>): Promise<void>;
   /** Explicit FR43 issue key (preferred over embedding in titles). */
@@ -65,6 +73,32 @@ function createQaHelpers(
     },
     async suite(value: string) {
       await annotate(`QA Suite: ${value}`, { type: 'qa-suite', body: value });
+    },
+    async suiteId(value: string) {
+      await annotate(`QA SuiteId: ${value}`, { type: 'qa-suite-id', body: value });
+    },
+    async planId(value: string) {
+      await annotate(`QA PlanId: ${value}`, { type: 'qa-plan-id', body: value });
+    },
+    async plan(value: string) {
+      await annotate(`QA Plan: ${value}`, { type: 'qa-plan', body: value });
+    },
+    async fixVersion(value: string) {
+      await annotate(`QA FixVersion: ${value}`, {
+        type: 'qa-fix-version',
+        body: value,
+      });
+    },
+    async sprintName(value: string) {
+      await annotate(`QA SprintName: ${value}`, {
+        type: 'qa-sprint-name',
+        body: value,
+      });
+    },
+    async labels(value: string | string[]) {
+      const message =
+        typeof value === 'string' ? value : value.join(',');
+      await annotate(`QA Labels: ${message}`, { type: 'qa-labels', body: value });
     },
     async fields(values: Record<string, string>) {
       await annotate(`QA Fields: ${JSON.stringify(values)}`, {

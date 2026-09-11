@@ -12,3 +12,4 @@ export {
   type UploadAttachParams,
   type UploadAttachOutcome,
 } from './upload-attachment';
+export { normalizeReportFilePath } from './report-file-path';

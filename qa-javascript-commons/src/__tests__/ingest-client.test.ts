@@ -83,12 +83,16 @@ qaDescribe('IngestClient', () => {
       Promise.resolve(new Response(JSON.stringify({ ok: true }), { status: 201 })),
     );
 
+    const progress: Array<{ phase: string; percent: number }> = [];
     const client = new IngestClient({
       url: 'https://forge.example/ingest',
       token: 'secret',
       chunkThresholdBytes: 1000,
       chunkMaxBytes: 800,
       retryBaseDelayMs: 1,
+      onProgress: (event) => {
+        progress.push({ phase: event.phase, percent: event.percent });
+      },
     });
 
     const payload = buildLargePayload();
@@ -104,5 +108,36 @@ qaDescribe('IngestClient', () => {
     expect(urls.some((url) => url.includes('action=session'))).toBe(true);
     expect(urls.some((url) => url.includes('action=chunk'))).toBe(true);
     expect(urls.some((url) => url.includes('action=complete'))).toBe(true);
+
+    expect(progress[0]?.phase).toBe('starting');
+    expect(progress[0]?.percent).toBe(0);
+    expect(progress.some((event) => event.phase === 'chunk')).toBe(true);
+    expect(progress[progress.length - 1]).toEqual({ phase: 'done', percent: 100 });
+    const percents = progress.map((event) => event.percent);
+    for (let i = 1; i < percents.length; i += 1) {
+      expect(percents[i]!).toBeGreaterThanOrEqual(percents[i - 1]!);
+    }
+  });
+
+  qaItAuto('reports progress for direct ingest', async () => {
+    vi.mocked(fetch).mockResolvedValue(
+      new Response(JSON.stringify({ ok: true }), { status: 201 }),
+    );
+
+    const progress: Array<{ phase: string; percent: number }> = [];
+    const client = new IngestClient({
+      url: 'https://forge.example/ingest',
+      token: 'secret',
+      chunkThresholdBytes: 10_000_000,
+      onProgress: (event) => {
+        progress.push({ phase: event.phase, percent: event.percent });
+      },
+    });
+
+    await client.send(smallPayload);
+    expect(progress).toEqual([
+      { phase: 'starting', percent: 0 },
+      { phase: 'done', percent: 100 },
+    ]);
   });
 });

@@ -14,6 +14,14 @@ export type QaHelpers = {
     title(value: string): void;
     comment(value: string): void;
     suite(value: string): void;
+    suiteId(value: string): void;
+    planId(value: string): void;
+    /** Plan display name → `meta.qa.planName`. */
+    plan(value: string): void;
+    fixVersion(value: string): void;
+    sprintName(value: string): void;
+    /** Comma-separated string or array → `meta.qa.labels`. */
+    labels(value: string | string[]): void;
     parameters(values: Record<string, string>): void;
     /** Explicit FR43 issue key (preferred over embedding in titles). */
     issueKey(key: string): void;

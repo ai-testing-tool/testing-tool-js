@@ -1,7 +1,9 @@
 "use strict";
 /**
  * Map WDIO Cucumber tags → MetadataManager / issue-key sources (FR135 / FR43).
- * Supports `@QaSuite=…`, `@QaTitle=…`, `@QaFields=…` plus bare `@PROJ-123` issue keys.
+ * Supports `@QaSuite=…`, `@QaSuiteId=…`, `@QaPlan=…`, `@QaPlanId=…`,
+ * `@QaFixVersion=…`, `@QaSprintName=…`, `@QaLabels=…`, `@QaTitle=…`,
+ * `@QaFields=…` plus bare `@PROJ-123` issue keys.
  * Does not handle Qase `@QaseId`.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -37,6 +39,24 @@ function applyCucumberTags(tags) {
             switch (kv.key.toLowerCase()) {
                 case '@qasuite':
                     metadata_manager_1.MetadataManager.push('qa-suite', kv.value);
+                    break;
+                case '@qasuiteid':
+                    metadata_manager_1.MetadataManager.push('qa-suite-id', kv.value);
+                    break;
+                case '@qaplanid':
+                    metadata_manager_1.MetadataManager.push('qa-plan-id', kv.value);
+                    break;
+                case '@qaplan':
+                    metadata_manager_1.MetadataManager.push('qa-plan', kv.value.replace(/_/g, ' '));
+                    break;
+                case '@qafixversion':
+                    metadata_manager_1.MetadataManager.push('qa-fix-version', kv.value);
+                    break;
+                case '@qasprintname':
+                    metadata_manager_1.MetadataManager.push('qa-sprint-name', kv.value.replace(/_/g, ' '));
+                    break;
+                case '@qalabels':
+                    metadata_manager_1.MetadataManager.push('qa-labels', kv.value);
                     break;
                 case '@qafields': {
                     try {

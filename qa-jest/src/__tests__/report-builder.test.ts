@@ -57,6 +57,29 @@ qaDescribe('toJestJsonReport', () => {
     expect(report.testResults?.[0]?.assertionResults?.[0]?.ancestorTitles).toBeUndefined();
   });
 
+  qaItAuto('rewrites absolute paths under cwd to project-relative', () => {
+    const { join } = require('node:path') as typeof import('node:path');
+    const abs = join(process.cwd(), 'src/services/__tests__/ci-template-service.test.ts');
+    const report = toJestJsonReport({
+      testResults: [
+        {
+          testFilePath: abs,
+          testResults: [
+            {
+              fullName: 'AUTH-101',
+              title: 'AUTH-101',
+              status: 'passed',
+              failureMessages: [],
+            },
+          ],
+        },
+      ],
+    });
+    expect(report.testResults?.[0]?.name).toBe(
+      'src/services/__tests__/ci-template-service.test.ts',
+    );
+  });
+
   qaItAuto('passes through native --json assertionResults shape', () => {
     const report = toJestJsonReport({
       numTotalTests: 1,
@@ -132,5 +155,24 @@ qaDescribe('qa helpers', () => {
     await qa.step('open form', async () => undefined);
     const meta = drainQaMeta();
     expect(meta.map((m) => m.type)).toEqual(['qa-suite', 'qa-step', 'qa-step-end'],);
+  });
+
+  qaItAuto('records suiteId/plan/fix/sprint/labels metadata', async () => {
+    drainQaMeta();
+    await qa.suiteId('suite-1');
+    await qa.planId('plan-1');
+    await qa.plan('Smoke');
+    await qa.fixVersion('2.4.0');
+    await qa.sprintName('Sprint 42');
+    await qa.labels('test-auto,flaky');
+    const meta = drainQaMeta();
+    expect(meta).toEqual([
+      { type: 'qa-suite-id', body: 'suite-1' },
+      { type: 'qa-plan-id', body: 'plan-1' },
+      { type: 'qa-plan', body: 'Smoke' },
+      { type: 'qa-fix-version', body: '2.4.0' },
+      { type: 'qa-sprint-name', body: 'Sprint 42' },
+      { type: 'qa-labels', body: 'test-auto,flaky' },
+    ]);
   });
 });

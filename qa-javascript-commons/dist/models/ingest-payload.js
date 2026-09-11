@@ -3,10 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.normalizeJestReport = normalizeJestReport;
 exports.buildIngestPayload = buildIngestPayload;
 exports.estimatePayloadBytes = estimatePayloadBytes;
+const report_file_path_1 = require("../utils/report-file-path");
 function normalizeJestReport(report) {
+    const testResults = Array.isArray(report.testResults) ? report.testResults : [];
     return {
         ...report,
-        testResults: Array.isArray(report.testResults) ? report.testResults : [],
+        testResults: testResults.map((file) => ({
+            ...file,
+            name: file.name != null ? (0, report_file_path_1.normalizeReportFilePath)(file.name) : file.name,
+        })),
     };
 }
 function buildIngestPayload(input) {

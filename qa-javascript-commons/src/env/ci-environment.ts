@@ -7,11 +7,34 @@ export type CiMetadata = {
   gitAuthorEmail?: string;
 };
 
-function firstDefined(...values: Array<string | undefined>): string | undefined {
-  return values.find((value) => value !== undefined && value !== '');
+function tryGit(args: string[]): string | undefined {
+  try {
+    // Lazy require so environments without child_process still load this module.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { execFileSync } = require('node:child_process') as typeof import('node:child_process');
+    const out = execFileSync('git', args, {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+      timeout: 2_000,
+    });
+    const trimmed = typeof out === 'string' ? out.trim() : '';
+    return trimmed || undefined;
+  } catch {
+    return undefined;
+  }
 }
 
-/** Best-effort CI metadata from common provider env vars. */
+function firstDefined(
+  ...values: Array<string | undefined | (() => string | undefined)>
+): string | undefined {
+  for (const value of values) {
+    const resolved = typeof value === 'function' ? value() : value;
+    if (resolved !== undefined && resolved !== '') return resolved;
+  }
+  return undefined;
+}
+
+/** Best-effort CI metadata from common provider env vars (+ local git fallback). */
 export function detectCiEnvironment(): CiMetadata {
   const github = process.env.GITHUB_ACTIONS === 'true';
   const gitlab = Boolean(process.env.GITLAB_CI);
@@ -61,14 +84,30 @@ export function detectCiEnvironment(): CiMetadata {
       process.env.CI_COMMIT_SHA,
       process.env.BUILD_SOURCEVERSION,
       process.env.BITBUCKET_COMMIT,
+      process.env.GIT_COMMIT,
+      () => tryGit(['rev-parse', 'HEAD']),
     ),
     gitBranch: firstDefined(
       process.env.GITHUB_REF_NAME,
       process.env.CI_COMMIT_REF_NAME,
       process.env.BUILD_SOURCEBRANCHNAME,
       process.env.BITBUCKET_BRANCH,
+      process.env.GIT_BRANCH,
+      () => {
+        const ref = tryGit(['rev-parse', '--abbrev-ref', 'HEAD']);
+        return ref === 'HEAD' ? undefined : ref;
+      },
     ),
-    gitAuthorName: firstDefined(process.env.GITHUB_ACTOR, process.env.GITLAB_USER_NAME),
-    gitAuthorEmail: process.env.GITLAB_USER_EMAIL,
+    gitAuthorName: firstDefined(
+      process.env.GITHUB_ACTOR,
+      process.env.GITLAB_USER_NAME,
+      process.env.GIT_AUTHOR_NAME,
+      () => tryGit(['log', '-1', '--pretty=format:%an']),
+    ),
+    gitAuthorEmail: firstDefined(
+      process.env.GITLAB_USER_EMAIL,
+      process.env.GIT_AUTHOR_EMAIL,
+      () => tryGit(['log', '-1', '--pretty=format:%ae']),
+    ),
   };
 }

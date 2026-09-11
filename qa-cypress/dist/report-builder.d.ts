@@ -1,4 +1,4 @@
-import type { JestVitestJsonReport, QaMetaWire } from '@ai-testing-tool/forge-commons';
+import { type JestVitestJsonReport, type QaMetaWire } from '@ai-testing-tool/forge-commons';
 export type CypressAssertionInput = {
     ancestorTitles: string[];
     title: string;

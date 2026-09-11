@@ -4,6 +4,12 @@ export type CucumberQaTagMeta = {
     title: string | null;
     ignore: boolean;
     suite: string | null;
+    suiteId: string | null;
+    planId: string | null;
+    planName: string | null;
+    fixVersion: string | null;
+    sprintName: string | null;
+    labels: string[];
     fields: Record<string, string>;
     parameters: Record<string, string>;
     /** Issue keys from tags like @AUTH-101 (FR51). */

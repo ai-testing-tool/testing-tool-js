@@ -1,8 +1,9 @@
-import type {
-  JestAssertionResult,
-  JestTestFileResult,
-  JestVitestJsonReport,
-  QaMetaWire,
+import {
+  normalizeReportFilePath,
+  type JestAssertionResult,
+  type JestTestFileResult,
+  type JestVitestJsonReport,
+  type QaMetaWire,
 } from '@ai-testing-tool/forge-commons';
 
 /** Minimal case shape collected by the Vitest reporter (testable without Vitest runtime). */
@@ -71,7 +72,7 @@ export function buildJestCompatibleReport(
 
     const fileFailed = assertionResults.some((a) => a.status === 'failed');
     testResults.push({
-      name: file.filePath,
+      name: normalizeReportFilePath(file.filePath),
       status: fileFailed ? 'failed' : 'passed',
       startTime,
       endTime: Date.now(),

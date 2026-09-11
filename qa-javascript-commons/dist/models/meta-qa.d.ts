@@ -16,6 +16,22 @@ export type QaMetaAttachmentWire = {
     content_ref?: string;
 };
 export type QaMetaFramework = 'vitest' | 'jest' | 'mocha' | 'cucumberjs' | 'cypress' | 'playwright' | 'wdio';
+export type QaMetaCi = {
+    platform?: string;
+    buildUrl?: string;
+};
+export type QaMetaGit = {
+    commitSha?: string;
+    branch?: string;
+    authorName?: string;
+    authorEmail?: string;
+};
+export type QaMetaHost = {
+    framework?: string;
+    reporter?: string;
+    ci?: QaMetaCi;
+    git?: QaMetaGit;
+};
 export type QaMetaWire = {
     framework?: QaMetaFramework;
     title?: string;
@@ -25,6 +41,18 @@ export type QaMetaWire = {
     suite?: Array<{
         title: string;
     }>;
+    /** Optional client-supplied suite identity (title path still via `suite`). */
+    suiteId?: string;
+    /** Plan id from `qa.planId`. */
+    planId?: string;
+    /** Plan display name from `qa.plan`. */
+    planName?: string;
+    /** Fix version from `qa.fixVersion`. */
+    fixVersion?: string;
+    /** Sprint name from `qa.sprintName`. */
+    sprintName?: string;
+    /** Free-form labels (comma-separated input normalized to unique strings). */
+    labels?: string[];
     /**
      * Explicit Jira issue keys for FR43 (required for linking — titles are not scraped).
      * Roles (test_case / requirement / …) are classified server-side via TMS type map.
@@ -33,10 +61,7 @@ export type QaMetaWire = {
     steps?: QaMetaStepWire[];
     attachments?: QaMetaAttachmentWire[];
     ignore?: boolean;
-    host?: {
-        framework?: string;
-        reporter?: string;
-    };
+    host?: QaMetaHost;
 };
 export type QaAnnotationLike = {
     message?: string;
@@ -47,8 +72,14 @@ export type QaMetaAccumulator = {
     title?: string;
     comment?: string;
     suite?: string;
+    suiteId?: string;
+    planId?: string;
+    planName?: string;
+    fixVersion?: string;
+    sprintName?: string;
     fields?: Record<string, string>;
     parameters?: Record<string, string>;
+    labels: string[];
     issueKeys: string[];
     steps: Array<{
         name: string;
@@ -67,7 +98,27 @@ export declare function applyQaAnnotations(acc: QaMetaAccumulator, annotations: 
 export type ToQaMetaWireOptions = {
     framework: QaMetaFramework;
     reporter?: string;
+    ci?: {
+        platform?: string;
+        buildUrl?: string;
+    };
+    git?: {
+        commitSha?: string;
+        branch?: string;
+        authorName?: string;
+        authorEmail?: string;
+    };
 };
+/** Resolve CI/git once per process for meta.qa.host (overridable via options). */
+export declare function resolveHostEnvironment(options?: {
+    ci?: ToQaMetaWireOptions['ci'];
+    git?: ToQaMetaWireOptions['git'];
+}): {
+    ci?: QaMetaCi;
+    git?: QaMetaGit;
+};
+/** Test helper — clear memoized CI/git host environment. */
+export declare function resetHostEnvironmentCache(): void;
 /** Returns undefined when accumulator has no QA data (omit empty meta.qa). */
 export declare function toQaMetaWire(acc: QaMetaAccumulator, options: ToQaMetaWireOptions): QaMetaWire | undefined;
 /** Build meta.qa from typed helper buffer entries (`{ type, body }`). */

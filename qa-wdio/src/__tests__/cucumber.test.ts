@@ -39,6 +39,28 @@ qaDescribe('cucumber tags (FR135)', () => {
       ),).toBeTruthy();
     MetadataManager.clear();
   });
+
+  qaItAuto('applies suiteId/plan/fix/sprint/labels tags', () => {
+    MetadataManager.clear();
+    applyCucumberTags([
+      { name: '@QaSuiteId=suite-1' },
+      { name: '@QaPlanId=plan-1' },
+      { name: '@QaPlan=Smoke' },
+      { name: '@QaFixVersion=2.4.0' },
+      { name: '@QaSprintName=Sprint_42' },
+      { name: '@QaLabels=test-auto,flaky' },
+    ]);
+    const entries = MetadataManager.getEntries();
+    expect(entries).toEqual([
+      { type: 'qa-suite-id', body: 'suite-1' },
+      { type: 'qa-plan-id', body: 'plan-1' },
+      { type: 'qa-plan', body: 'Smoke' },
+      { type: 'qa-fix-version', body: '2.4.0' },
+      { type: 'qa-sprint-name', body: 'Sprint 42' },
+      { type: 'qa-labels', body: 'test-auto,flaky' },
+    ]);
+    MetadataManager.clear();
+  });
 });
 
 qaDescribe('QaWdioReporter useCucumber (FR135)', () => {

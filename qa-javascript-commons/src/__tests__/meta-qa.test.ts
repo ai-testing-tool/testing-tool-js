@@ -55,8 +55,73 @@ qaDescribe('meta.qa enrichment', () => {
     expect(wire.attachments?.[0]?.mime_type).toBe('application/json');
   });
 
+  qaItAuto('builds suiteId/plan/fix/sprint/labels onto meta.qa', () => {
+    const wire = qaMetaFromEntries(
+      [
+        { type: 'qa-suite-id', body: 'suite-uuid' },
+        { type: 'qa-plan-id', body: 'plan-uuid' },
+        { type: 'qa-plan', body: 'Smoke' },
+        { type: 'qa-fix-version', body: '2.4.0' },
+        { type: 'qa-sprint-name', body: 'Sprint 42' },
+        { type: 'qa-labels', body: 'test-auto,flaky' },
+        { type: 'qa-labels', body: ['flaky', 'nightly'] },
+      ],
+      { framework: 'jest' },
+    );
+    expect(wire).toBeTruthy();
+    expect(wire.suiteId).toBe('suite-uuid');
+    expect(wire.planId).toBe('plan-uuid');
+    expect(wire.planName).toBe('Smoke');
+    expect(wire.fixVersion).toBe('2.4.0');
+    expect(wire.sprintName).toBe('Sprint 42');
+    expect(wire.labels).toEqual(['test-auto', 'flaky', 'nightly']);
+  });
+
+  qaItAuto('parses message prefixes for plan/labels annotations', () => {
+    const acc = createQaMetaAccumulator();
+    applyQaAnnotations(acc, [
+      { message: 'QA SuiteId: sid-1', type: 'qa-suite-id' },
+      { message: 'QA PlanId: pid-1', type: 'qa-plan-id' },
+      { message: 'QA Plan: Regression', type: 'qa-plan' },
+      { message: 'QA FixVersion: 3.0.0', type: 'qa-fix-version' },
+      { message: 'QA SprintName: Sprint 99', type: 'qa-sprint-name' },
+      { message: 'QA Labels: a, b', type: 'qa-labels' },
+    ]);
+    const wire = toQaMetaWire(acc, { framework: 'vitest' });
+    expect(wire?.suiteId).toBe('sid-1');
+    expect(wire?.planId).toBe('pid-1');
+    expect(wire?.planName).toBe('Regression');
+    expect(wire?.fixVersion).toBe('3.0.0');
+    expect(wire?.sprintName).toBe('Sprint 99');
+    expect(wire?.labels).toEqual(['a', 'b']);
+  });
+
   qaItAuto('returns undefined for empty accumulator', () => {
     expect(toQaMetaWire(createQaMetaAccumulator(), { framework: 'vitest' })).toBeUndefined();
+  });
+
+  qaItAuto('embeds ci and git on meta.qa.host', () => {
+    const wire = qaMetaFromEntries([{ type: 'qa-step', body: 'ping' }], {
+      framework: 'jest',
+      ci: { platform: 'github', buildUrl: 'https://ci.example/1' },
+      git: {
+        commitSha: 'abc123',
+        branch: 'main',
+        authorName: 'Dev',
+        authorEmail: 'dev@example.com',
+      },
+    });
+    expect(wire?.host).toEqual({
+      framework: 'jest',
+      reporter: '@ai-testing-tool/forge-jest',
+      ci: { platform: 'github', buildUrl: 'https://ci.example/1' },
+      git: {
+        commitSha: 'abc123',
+        branch: 'main',
+        authorName: 'Dev',
+        authorEmail: 'dev@example.com',
+      },
+    });
   });
 
   qaItAuto('preserves meta.qa through normalizeJestReport and buildIngestPayload (FR141)', () => {

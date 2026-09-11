@@ -53,6 +53,54 @@ exports.qa = {
         }
         pushLocal('qa-suite', value);
     },
+    suiteId(value) {
+        const cy = cyRef();
+        if (cy) {
+            pushTask('qaSuiteId', value);
+            return;
+        }
+        pushLocal('qa-suite-id', value);
+    },
+    planId(value) {
+        const cy = cyRef();
+        if (cy) {
+            pushTask('qaPlanId', value);
+            return;
+        }
+        pushLocal('qa-plan-id', value);
+    },
+    plan(value) {
+        const cy = cyRef();
+        if (cy) {
+            pushTask('qaPlan', value);
+            return;
+        }
+        pushLocal('qa-plan', value);
+    },
+    fixVersion(value) {
+        const cy = cyRef();
+        if (cy) {
+            pushTask('qaFixVersion', value);
+            return;
+        }
+        pushLocal('qa-fix-version', value);
+    },
+    sprintName(value) {
+        const cy = cyRef();
+        if (cy) {
+            pushTask('qaSprintName', value);
+            return;
+        }
+        pushLocal('qa-sprint-name', value);
+    },
+    labels(value) {
+        const cy = cyRef();
+        if (cy) {
+            pushTask('qaLabels', value);
+            return;
+        }
+        pushLocal('qa-labels', value);
+    },
     parameters(values) {
         const cy = cyRef();
         if (cy) {

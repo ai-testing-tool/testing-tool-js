@@ -3,6 +3,8 @@
  * (architecture ingest contract — simplified TestResultType serialization).
  */
 
+import { detectCiEnvironment } from '../env/ci-environment';
+
 export type QaMetaStepWire = {
   id: string;
   stepType: 'text' | 'gherkin' | 'request';
@@ -27,6 +29,25 @@ export type QaMetaFramework =
   | 'playwright'
   | 'wdio';
 
+export type QaMetaCi = {
+  platform?: string;
+  buildUrl?: string;
+};
+
+export type QaMetaGit = {
+  commitSha?: string;
+  branch?: string;
+  authorName?: string;
+  authorEmail?: string;
+};
+
+export type QaMetaHost = {
+  framework?: string;
+  reporter?: string;
+  ci?: QaMetaCi;
+  git?: QaMetaGit;
+};
+
 export type QaMetaWire = {
   framework?: QaMetaFramework;
   title?: string;
@@ -34,6 +55,18 @@ export type QaMetaWire = {
   fields?: Record<string, string>;
   parameters?: Record<string, string>;
   suite?: Array<{ title: string }>;
+  /** Optional client-supplied suite identity (title path still via `suite`). */
+  suiteId?: string;
+  /** Plan id from `qa.planId`. */
+  planId?: string;
+  /** Plan display name from `qa.plan`. */
+  planName?: string;
+  /** Fix version from `qa.fixVersion`. */
+  fixVersion?: string;
+  /** Sprint name from `qa.sprintName`. */
+  sprintName?: string;
+  /** Free-form labels (comma-separated input normalized to unique strings). */
+  labels?: string[];
   /**
    * Explicit Jira issue keys for FR43 (required for linking — titles are not scraped).
    * Roles (test_case / requirement / …) are classified server-side via TMS type map.
@@ -42,10 +75,7 @@ export type QaMetaWire = {
   steps?: QaMetaStepWire[];
   attachments?: QaMetaAttachmentWire[];
   ignore?: boolean;
-  host?: {
-    framework?: string;
-    reporter?: string;
-  };
+  host?: QaMetaHost;
 };
 
 export type QaAnnotationLike = {
@@ -58,8 +88,14 @@ export type QaMetaAccumulator = {
   title?: string;
   comment?: string;
   suite?: string;
+  suiteId?: string;
+  planId?: string;
+  planName?: string;
+  fixVersion?: string;
+  sprintName?: string;
   fields?: Record<string, string>;
   parameters?: Record<string, string>;
+  labels: string[];
   issueKeys: string[];
   steps: Array<{ name: string; status: QaMetaStepWire['status'] }>;
   attachments: QaMetaAttachmentWire[];
@@ -67,13 +103,13 @@ export type QaMetaAccumulator = {
 };
 
 export function createQaMetaAccumulator(): QaMetaAccumulator {
-  return { issueKeys: [], steps: [], attachments: [] };
+  return { labels: [], issueKeys: [], steps: [], attachments: [] };
 }
 
 const ISSUE_KEY_BODY_RE = /^[A-Z][A-Z0-9]+-\d+$/i;
 
-/** Normalize and append unique issue keys (preserve first-seen order). */
-function appendIssueKeys(acc: QaMetaAccumulator, raw: unknown): void {
+/** Split string or string[] on commas/whitespace; trim; drop empties. */
+function splitCommaParts(raw: unknown): string[] {
   const parts: string[] = [];
   if (typeof raw === 'string') {
     parts.push(
@@ -87,12 +123,31 @@ function appendIssueKeys(acc: QaMetaAccumulator, raw: unknown): void {
       if (typeof item === 'string' && item.trim()) parts.push(item.trim());
     }
   }
-  for (const part of parts) {
+  return parts;
+}
+
+/** Normalize and append unique issue keys (preserve first-seen order). */
+function appendIssueKeys(acc: QaMetaAccumulator, raw: unknown): void {
+  for (const part of splitCommaParts(raw)) {
     const key = part.toUpperCase();
     if (!ISSUE_KEY_BODY_RE.test(key)) continue;
     if (acc.issueKeys.includes(key)) continue;
     acc.issueKeys.push(key);
   }
+}
+
+/** Normalize and append unique labels (preserve first-seen order; case-sensitive). */
+function appendLabels(acc: QaMetaAccumulator, raw: unknown): void {
+  for (const part of splitCommaParts(raw)) {
+    if (acc.labels.includes(part)) continue;
+    acc.labels.push(part);
+  }
+}
+
+function asNonEmptyString(value: unknown): string | undefined {
+  if (typeof value !== 'string') return undefined;
+  const trimmed = value.trim();
+  return trimmed || undefined;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -115,7 +170,13 @@ function resolveType(ann: QaAnnotationLike): string | undefined {
   const message = ann.message ?? '';
   if (message.startsWith('QA Title:')) return 'qa-title';
   if (message.startsWith('QA Comment:')) return 'qa-comment';
+  if (message.startsWith('QA SuiteId:')) return 'qa-suite-id';
   if (message.startsWith('QA Suite:')) return 'qa-suite';
+  if (message.startsWith('QA PlanId:')) return 'qa-plan-id';
+  if (message.startsWith('QA Plan:')) return 'qa-plan';
+  if (message.startsWith('QA FixVersion:')) return 'qa-fix-version';
+  if (message.startsWith('QA SprintName:')) return 'qa-sprint-name';
+  if (message.startsWith('QA Labels:')) return 'qa-labels';
   if (message.startsWith('QA Fields:')) return 'qa-fields';
   if (message.startsWith('QA Parameters:')) return 'qa-parameters';
   if (message.startsWith('QA IssueKeys:')) return 'qa-issue-keys';
@@ -159,6 +220,49 @@ export function applyQaAnnotation(
       acc.suite =
         typeof ann.body === 'string' ? ann.body : stripPrefix(message, 'QA Suite:');
       break;
+    case 'qa-suite-id': {
+      const value =
+        asNonEmptyString(ann.body) ??
+        asNonEmptyString(stripPrefix(message, 'QA SuiteId:'));
+      if (value) acc.suiteId = value;
+      break;
+    }
+    case 'qa-plan-id': {
+      const value =
+        asNonEmptyString(ann.body) ??
+        asNonEmptyString(stripPrefix(message, 'QA PlanId:'));
+      if (value) acc.planId = value;
+      break;
+    }
+    case 'qa-plan': {
+      const value =
+        asNonEmptyString(ann.body) ??
+        asNonEmptyString(stripPrefix(message, 'QA Plan:'));
+      if (value) acc.planName = value;
+      break;
+    }
+    case 'qa-fix-version': {
+      const value =
+        asNonEmptyString(ann.body) ??
+        asNonEmptyString(stripPrefix(message, 'QA FixVersion:'));
+      if (value) acc.fixVersion = value;
+      break;
+    }
+    case 'qa-sprint-name': {
+      const value =
+        asNonEmptyString(ann.body) ??
+        asNonEmptyString(stripPrefix(message, 'QA SprintName:'));
+      if (value) acc.sprintName = value;
+      break;
+    }
+    case 'qa-labels': {
+      if (ann.body !== undefined && ann.body !== null) {
+        appendLabels(acc, ann.body);
+        break;
+      }
+      appendLabels(acc, stripPrefix(message, 'QA Labels:'));
+      break;
+    }
     case 'qa-fields': {
       const fromBody = asStringRecord(ann.body);
       if (fromBody) {
@@ -283,6 +387,16 @@ export function applyQaAnnotations(
 export type ToQaMetaWireOptions = {
   framework: QaMetaFramework;
   reporter?: string;
+  ci?: {
+    platform?: string;
+    buildUrl?: string;
+  };
+  git?: {
+    commitSha?: string;
+    branch?: string;
+    authorName?: string;
+    authorEmail?: string;
+  };
 };
 
 function defaultReporterName(framework: QaMetaFramework): string {
@@ -295,6 +409,56 @@ function defaultReporterName(framework: QaMetaFramework): string {
   return '@ai-testing-tool/forge-vitest';
 }
 
+let cachedHostEnv: { ci?: QaMetaCi; git?: QaMetaGit } | undefined;
+
+function detectHostEnvironment(): { ci?: QaMetaCi; git?: QaMetaGit } {
+  const detected = detectCiEnvironment();
+  const ci: QaMetaCi = {};
+  if (detected.ciPlatform) ci.platform = detected.ciPlatform;
+  if (detected.buildUrl) ci.buildUrl = detected.buildUrl;
+  const git: QaMetaGit = {};
+  if (detected.gitCommitSha) git.commitSha = detected.gitCommitSha;
+  if (detected.gitBranch) git.branch = detected.gitBranch;
+  if (detected.gitAuthorName) git.authorName = detected.gitAuthorName;
+  if (detected.gitAuthorEmail) git.authorEmail = detected.gitAuthorEmail;
+  return {
+    ci: Object.keys(ci).length > 0 ? ci : undefined,
+    git: Object.keys(git).length > 0 ? git : undefined,
+  };
+}
+
+/** Resolve CI/git once per process for meta.qa.host (overridable via options). */
+export function resolveHostEnvironment(options?: {
+  ci?: ToQaMetaWireOptions['ci'];
+  git?: ToQaMetaWireOptions['git'];
+}): { ci?: QaMetaCi; git?: QaMetaGit } {
+  if (!cachedHostEnv) {
+    cachedHostEnv = detectHostEnvironment();
+  }
+  return {
+    ci: options?.ci !== undefined ? options.ci : cachedHostEnv.ci,
+    git: options?.git !== undefined ? options.git : cachedHostEnv.git,
+  };
+}
+
+/** Test helper — clear memoized CI/git host environment. */
+export function resetHostEnvironmentCache(): void {
+  cachedHostEnv = undefined;
+}
+
+function buildHost(
+  options: ToQaMetaWireOptions,
+): QaMetaHost {
+  const env = resolveHostEnvironment(options);
+  const host: QaMetaHost = {
+    framework: options.framework,
+    reporter: options.reporter ?? defaultReporterName(options.framework),
+  };
+  if (env.ci && Object.keys(env.ci).length > 0) host.ci = env.ci;
+  if (env.git && Object.keys(env.git).length > 0) host.git = env.git;
+  return host;
+}
+
 /** Returns undefined when accumulator has no QA data (omit empty meta.qa). */
 export function toQaMetaWire(
   acc: QaMetaAccumulator,
@@ -304,8 +468,14 @@ export function toQaMetaWire(
     acc.title !== undefined ||
     acc.comment !== undefined ||
     acc.suite !== undefined ||
+    acc.suiteId !== undefined ||
+    acc.planId !== undefined ||
+    acc.planName !== undefined ||
+    acc.fixVersion !== undefined ||
+    acc.sprintName !== undefined ||
     (acc.fields && Object.keys(acc.fields).length > 0) ||
     (acc.parameters && Object.keys(acc.parameters).length > 0) ||
+    acc.labels.length > 0 ||
     acc.issueKeys.length > 0 ||
     acc.steps.length > 0 ||
     acc.attachments.length > 0 ||
@@ -315,10 +485,7 @@ export function toQaMetaWire(
 
   const wire: QaMetaWire = {
     framework: options.framework,
-    host: {
-      framework: options.framework,
-      reporter: options.reporter ?? defaultReporterName(options.framework),
-    },
+    host: buildHost(options),
   };
 
   if (acc.title !== undefined) wire.title = acc.title;
@@ -327,6 +494,12 @@ export function toQaMetaWire(
   if (acc.parameters && Object.keys(acc.parameters).length > 0) {
     wire.parameters = acc.parameters;
   }
+  if (acc.suiteId !== undefined) wire.suiteId = acc.suiteId;
+  if (acc.planId !== undefined) wire.planId = acc.planId;
+  if (acc.planName !== undefined) wire.planName = acc.planName;
+  if (acc.fixVersion !== undefined) wire.fixVersion = acc.fixVersion;
+  if (acc.sprintName !== undefined) wire.sprintName = acc.sprintName;
+  if (acc.labels.length > 0) wire.labels = [...acc.labels];
   if (acc.issueKeys.length > 0) wire.issueKeys = [...acc.issueKeys];
   if (acc.suite) {
     wire.suite = acc.suite.split('\t').filter(Boolean).map((title) => ({ title }));

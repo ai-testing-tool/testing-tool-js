@@ -21,6 +21,14 @@ export type QaHelpers = {
   title(value: string): void;
   comment(value: string): void;
   suite(value: string): void;
+  suiteId(value: string): void;
+  planId(value: string): void;
+  /** Plan display name → `meta.qa.planName`. */
+  plan(value: string): void;
+  fixVersion(value: string): void;
+  sprintName(value: string): void;
+  /** Comma-separated string or array → `meta.qa.labels`. */
+  labels(value: string | string[]): void;
   fields(values: Record<string, string>): void;
   parameters(values: Record<string, string>): void;
   /** Explicit FR43 issue key (preferred over embedding in titles). */
@@ -42,6 +50,12 @@ type MetadataMessage = {
   title?: string;
   comment?: string;
   suite?: string;
+  suiteId?: string;
+  planId?: string;
+  planName?: string;
+  fixVersion?: string;
+  sprintName?: string;
+  labels?: string | string[];
   fields?: Record<string, string>;
   parameters?: Record<string, string>;
   issueKeys?: string[];
@@ -110,6 +124,24 @@ export const qa: QaHelpers = {
   },
   suite(value: string) {
     pushMeta('qa-suite', value, { suite: value });
+  },
+  suiteId(value: string) {
+    pushMeta('qa-suite-id', value, { suiteId: value });
+  },
+  planId(value: string) {
+    pushMeta('qa-plan-id', value, { planId: value });
+  },
+  plan(value: string) {
+    pushMeta('qa-plan', value, { planName: value });
+  },
+  fixVersion(value: string) {
+    pushMeta('qa-fix-version', value, { fixVersion: value });
+  },
+  sprintName(value: string) {
+    pushMeta('qa-sprint-name', value, { sprintName: value });
+  },
+  labels(value: string | string[]) {
+    pushMeta('qa-labels', value, { labels: value });
   },
   fields(values: Record<string, string>) {
     pushMeta('qa-fields', values, { fields: values });

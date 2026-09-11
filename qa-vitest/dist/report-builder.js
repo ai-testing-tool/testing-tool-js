@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildJestCompatibleReport = buildJestCompatibleReport;
 exports.groupCasesByFile = groupCasesByFile;
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 function mapAssertionStatus(status) {
     if (status === 'pending' || status === 'todo')
         return 'pending';
@@ -41,7 +42,7 @@ function buildJestCompatibleReport(files, options = {}) {
         });
         const fileFailed = assertionResults.some((a) => a.status === 'failed');
         testResults.push({
-            name: file.filePath,
+            name: (0, forge_commons_1.normalizeReportFilePath)(file.filePath),
             status: fileFailed ? 'failed' : 'passed',
             startTime,
             endTime: Date.now(),

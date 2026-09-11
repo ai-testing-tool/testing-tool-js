@@ -21,6 +21,12 @@ type MetadataMessage = {
   title?: string;
   comment?: string;
   suite?: string;
+  suiteId?: string;
+  planId?: string;
+  planName?: string;
+  fixVersion?: string;
+  sprintName?: string;
+  labels?: string | string[];
   fields?: Record<string, string>;
   parameters?: Record<string, string>;
   issueKeys?: string[];
@@ -51,6 +57,24 @@ export function buildQaMetaFromResult(input: {
         applyQaAnnotation(acc, { type: 'qa-comment', body: message.comment });
       }
       if (message.suite) applyQaAnnotation(acc, { type: 'qa-suite', body: message.suite });
+      if (message.suiteId) {
+        applyQaAnnotation(acc, { type: 'qa-suite-id', body: message.suiteId });
+      }
+      if (message.planId) {
+        applyQaAnnotation(acc, { type: 'qa-plan-id', body: message.planId });
+      }
+      if (message.planName) {
+        applyQaAnnotation(acc, { type: 'qa-plan', body: message.planName });
+      }
+      if (message.fixVersion) {
+        applyQaAnnotation(acc, { type: 'qa-fix-version', body: message.fixVersion });
+      }
+      if (message.sprintName) {
+        applyQaAnnotation(acc, { type: 'qa-sprint-name', body: message.sprintName });
+      }
+      if (message.labels !== undefined && message.labels !== null) {
+        applyQaAnnotation(acc, { type: 'qa-labels', body: message.labels });
+      }
       if (message.fields) {
         applyQaAnnotation(acc, { type: 'qa-fields', body: message.fields });
       }

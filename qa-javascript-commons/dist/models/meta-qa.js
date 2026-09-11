@@ -7,14 +7,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createQaMetaAccumulator = createQaMetaAccumulator;
 exports.applyQaAnnotation = applyQaAnnotation;
 exports.applyQaAnnotations = applyQaAnnotations;
+exports.resolveHostEnvironment = resolveHostEnvironment;
+exports.resetHostEnvironmentCache = resetHostEnvironmentCache;
 exports.toQaMetaWire = toQaMetaWire;
 exports.qaMetaFromEntries = qaMetaFromEntries;
+const ci_environment_1 = require("../env/ci-environment");
 function createQaMetaAccumulator() {
-    return { issueKeys: [], steps: [], attachments: [] };
+    return { labels: [], issueKeys: [], steps: [], attachments: [] };
 }
 const ISSUE_KEY_BODY_RE = /^[A-Z][A-Z0-9]+-\d+$/i;
-/** Normalize and append unique issue keys (preserve first-seen order). */
-function appendIssueKeys(acc, raw) {
+/** Split string or string[] on commas/whitespace; trim; drop empties. */
+function splitCommaParts(raw) {
     const parts = [];
     if (typeof raw === 'string') {
         parts.push(...raw
@@ -28,7 +31,11 @@ function appendIssueKeys(acc, raw) {
                 parts.push(item.trim());
         }
     }
-    for (const part of parts) {
+    return parts;
+}
+/** Normalize and append unique issue keys (preserve first-seen order). */
+function appendIssueKeys(acc, raw) {
+    for (const part of splitCommaParts(raw)) {
         const key = part.toUpperCase();
         if (!ISSUE_KEY_BODY_RE.test(key))
             continue;
@@ -36,6 +43,20 @@ function appendIssueKeys(acc, raw) {
             continue;
         acc.issueKeys.push(key);
     }
+}
+/** Normalize and append unique labels (preserve first-seen order; case-sensitive). */
+function appendLabels(acc, raw) {
+    for (const part of splitCommaParts(raw)) {
+        if (acc.labels.includes(part))
+            continue;
+        acc.labels.push(part);
+    }
+}
+function asNonEmptyString(value) {
+    if (typeof value !== 'string')
+        return undefined;
+    const trimmed = value.trim();
+    return trimmed || undefined;
 }
 function isRecord(value) {
     return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -59,8 +80,20 @@ function resolveType(ann) {
         return 'qa-title';
     if (message.startsWith('QA Comment:'))
         return 'qa-comment';
+    if (message.startsWith('QA SuiteId:'))
+        return 'qa-suite-id';
     if (message.startsWith('QA Suite:'))
         return 'qa-suite';
+    if (message.startsWith('QA PlanId:'))
+        return 'qa-plan-id';
+    if (message.startsWith('QA Plan:'))
+        return 'qa-plan';
+    if (message.startsWith('QA FixVersion:'))
+        return 'qa-fix-version';
+    if (message.startsWith('QA SprintName:'))
+        return 'qa-sprint-name';
+    if (message.startsWith('QA Labels:'))
+        return 'qa-labels';
     if (message.startsWith('QA Fields:'))
         return 'qa-fields';
     if (message.startsWith('QA Parameters:'))
@@ -108,6 +141,49 @@ function applyQaAnnotation(acc, ann) {
             acc.suite =
                 typeof ann.body === 'string' ? ann.body : stripPrefix(message, 'QA Suite:');
             break;
+        case 'qa-suite-id': {
+            const value = asNonEmptyString(ann.body) ??
+                asNonEmptyString(stripPrefix(message, 'QA SuiteId:'));
+            if (value)
+                acc.suiteId = value;
+            break;
+        }
+        case 'qa-plan-id': {
+            const value = asNonEmptyString(ann.body) ??
+                asNonEmptyString(stripPrefix(message, 'QA PlanId:'));
+            if (value)
+                acc.planId = value;
+            break;
+        }
+        case 'qa-plan': {
+            const value = asNonEmptyString(ann.body) ??
+                asNonEmptyString(stripPrefix(message, 'QA Plan:'));
+            if (value)
+                acc.planName = value;
+            break;
+        }
+        case 'qa-fix-version': {
+            const value = asNonEmptyString(ann.body) ??
+                asNonEmptyString(stripPrefix(message, 'QA FixVersion:'));
+            if (value)
+                acc.fixVersion = value;
+            break;
+        }
+        case 'qa-sprint-name': {
+            const value = asNonEmptyString(ann.body) ??
+                asNonEmptyString(stripPrefix(message, 'QA SprintName:'));
+            if (value)
+                acc.sprintName = value;
+            break;
+        }
+        case 'qa-labels': {
+            if (ann.body !== undefined && ann.body !== null) {
+                appendLabels(acc, ann.body);
+                break;
+            }
+            appendLabels(acc, stripPrefix(message, 'QA Labels:'));
+            break;
+        }
         case 'qa-fields': {
             const fromBody = asStringRecord(ann.body);
             if (fromBody) {
@@ -241,13 +317,67 @@ function defaultReporterName(framework) {
         return '@ai-testing-tool/forge-wdio';
     return '@ai-testing-tool/forge-vitest';
 }
+let cachedHostEnv;
+function detectHostEnvironment() {
+    const detected = (0, ci_environment_1.detectCiEnvironment)();
+    const ci = {};
+    if (detected.ciPlatform)
+        ci.platform = detected.ciPlatform;
+    if (detected.buildUrl)
+        ci.buildUrl = detected.buildUrl;
+    const git = {};
+    if (detected.gitCommitSha)
+        git.commitSha = detected.gitCommitSha;
+    if (detected.gitBranch)
+        git.branch = detected.gitBranch;
+    if (detected.gitAuthorName)
+        git.authorName = detected.gitAuthorName;
+    if (detected.gitAuthorEmail)
+        git.authorEmail = detected.gitAuthorEmail;
+    return {
+        ci: Object.keys(ci).length > 0 ? ci : undefined,
+        git: Object.keys(git).length > 0 ? git : undefined,
+    };
+}
+/** Resolve CI/git once per process for meta.qa.host (overridable via options). */
+function resolveHostEnvironment(options) {
+    if (!cachedHostEnv) {
+        cachedHostEnv = detectHostEnvironment();
+    }
+    return {
+        ci: options?.ci !== undefined ? options.ci : cachedHostEnv.ci,
+        git: options?.git !== undefined ? options.git : cachedHostEnv.git,
+    };
+}
+/** Test helper — clear memoized CI/git host environment. */
+function resetHostEnvironmentCache() {
+    cachedHostEnv = undefined;
+}
+function buildHost(options) {
+    const env = resolveHostEnvironment(options);
+    const host = {
+        framework: options.framework,
+        reporter: options.reporter ?? defaultReporterName(options.framework),
+    };
+    if (env.ci && Object.keys(env.ci).length > 0)
+        host.ci = env.ci;
+    if (env.git && Object.keys(env.git).length > 0)
+        host.git = env.git;
+    return host;
+}
 /** Returns undefined when accumulator has no QA data (omit empty meta.qa). */
 function toQaMetaWire(acc, options) {
     const hasData = acc.title !== undefined ||
         acc.comment !== undefined ||
         acc.suite !== undefined ||
+        acc.suiteId !== undefined ||
+        acc.planId !== undefined ||
+        acc.planName !== undefined ||
+        acc.fixVersion !== undefined ||
+        acc.sprintName !== undefined ||
         (acc.fields && Object.keys(acc.fields).length > 0) ||
         (acc.parameters && Object.keys(acc.parameters).length > 0) ||
+        acc.labels.length > 0 ||
         acc.issueKeys.length > 0 ||
         acc.steps.length > 0 ||
         acc.attachments.length > 0 ||
@@ -256,10 +386,7 @@ function toQaMetaWire(acc, options) {
         return undefined;
     const wire = {
         framework: options.framework,
-        host: {
-            framework: options.framework,
-            reporter: options.reporter ?? defaultReporterName(options.framework),
-        },
+        host: buildHost(options),
     };
     if (acc.title !== undefined)
         wire.title = acc.title;
@@ -270,6 +397,18 @@ function toQaMetaWire(acc, options) {
     if (acc.parameters && Object.keys(acc.parameters).length > 0) {
         wire.parameters = acc.parameters;
     }
+    if (acc.suiteId !== undefined)
+        wire.suiteId = acc.suiteId;
+    if (acc.planId !== undefined)
+        wire.planId = acc.planId;
+    if (acc.planName !== undefined)
+        wire.planName = acc.planName;
+    if (acc.fixVersion !== undefined)
+        wire.fixVersion = acc.fixVersion;
+    if (acc.sprintName !== undefined)
+        wire.sprintName = acc.sprintName;
+    if (acc.labels.length > 0)
+        wire.labels = [...acc.labels];
     if (acc.issueKeys.length > 0)
         wire.issueKeys = [...acc.issueKeys];
     if (acc.suite) {

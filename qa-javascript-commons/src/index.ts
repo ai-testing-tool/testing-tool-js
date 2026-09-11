@@ -29,7 +29,11 @@ export {
   type QaMetaWire,
   type QaMetaStepWire,
   type QaMetaAttachmentWire,
+  type QaMetaCi,
+  type QaMetaGit,
+  type QaMetaHost,
   type QaMetaFramework,
+  resetHostEnvironmentCache,
   type Report,
   type Stats,
   type ShortResult,
@@ -39,7 +43,15 @@ export {
   type Suite,
   type SuiteData,
 } from './models';
-export { IngestClient, AttachClient, DEFAULT_MAX_ATTACH_BYTES, type IngestResponse } from './client';
+export {
+  IngestClient,
+  AttachClient,
+  DEFAULT_MAX_ATTACH_BYTES,
+  type IngestResponse,
+  type IngestUploadPhase,
+  type IngestUploadProgress,
+  type IngestUploadProgressHandler,
+} from './client';
 export { FsWriter } from './writer';
 export { FallbackCoordinator, IngestReporter, FileReporter } from './reporters';
 export {
@@ -50,6 +62,7 @@ export {
   projectKeyFromIssueKey,
   uploadAttachmentForQa,
   EnvAttachEnum,
+  normalizeReportFilePath,
 } from './utils';
 export {
   generateCiTemplate,

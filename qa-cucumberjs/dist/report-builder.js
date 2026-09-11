@@ -93,6 +93,24 @@ function scenarioToAssertion(scenario, attachEntries = []) {
     if (tagMeta.suite) {
         entries.push({ type: 'qa-suite', body: tagMeta.suite });
     }
+    if (tagMeta.suiteId) {
+        entries.push({ type: 'qa-suite-id', body: tagMeta.suiteId });
+    }
+    if (tagMeta.planId) {
+        entries.push({ type: 'qa-plan-id', body: tagMeta.planId });
+    }
+    if (tagMeta.planName) {
+        entries.push({ type: 'qa-plan', body: tagMeta.planName });
+    }
+    if (tagMeta.fixVersion) {
+        entries.push({ type: 'qa-fix-version', body: tagMeta.fixVersion });
+    }
+    if (tagMeta.sprintName) {
+        entries.push({ type: 'qa-sprint-name', body: tagMeta.sprintName });
+    }
+    if (tagMeta.labels.length > 0) {
+        entries.push({ type: 'qa-labels', body: tagMeta.labels });
+    }
     if (Object.keys(tagMeta.fields).length > 0) {
         entries.push({ type: 'qa-fields', body: tagMeta.fields });
     }
@@ -177,7 +195,7 @@ function toJestJsonReport(specs, startTime) {
     const testResults = specs.map((spec) => {
         const assertionResults = spec.assertions.map(mapAssertion);
         return {
-            name: spec.name,
+            name: (0, forge_commons_1.normalizeReportFilePath)(spec.name),
             status: fileStatus(assertionResults),
             startTime: spec.startTime,
             endTime: spec.endTime,

@@ -8,13 +8,24 @@ import {
   planChunks,
 } from './ingest-chunk-plan';
 import { postIngestJson, type IngestResponse } from './ingest-http';
+import {
+  progressAtStep,
+  type IngestUploadProgressHandler,
+} from './ingest-progress';
 import { DEFAULT_RETRY_POLICY, withRetry, type RetryPolicy } from './ingest-retry';
 import { uploadChunkedIngest } from './ingest-session-upload';
 
 export type { IngestResponse } from './ingest-http';
+export type {
+  IngestUploadPhase,
+  IngestUploadProgress,
+  IngestUploadProgressHandler,
+} from './ingest-progress';
 
 export type IngestClientOptions = IngestOptionsType & {
   logger?: LoggerInterface;
+  /** Called as upload steps complete (direct or chunked). */
+  onProgress?: IngestUploadProgressHandler;
 };
 
 const DEFAULT_TIMEOUT_MS = 60_000;
@@ -30,6 +41,7 @@ export class IngestClient {
   private readonly chunkMaxBytes: number;
   private readonly retryPolicy: RetryPolicy;
   private readonly logger?: LoggerInterface;
+  private readonly onProgress?: IngestUploadProgressHandler;
 
   constructor(options: IngestClientOptions = {}) {
     this.url = options.url;
@@ -45,6 +57,7 @@ export class IngestClient {
       maxDelayMs: DEFAULT_RETRY_POLICY.maxDelayMs,
     };
     this.logger = options.logger;
+    this.onProgress = options.onProgress;
   }
 
   async send(payload: IngestPayload): Promise<IngestResponse> {
@@ -69,6 +82,7 @@ export class IngestClient {
       completeTimeoutMs: this.completeTimeoutMs,
       retryPolicy: this.retryPolicy,
       logger: this.logger,
+      onProgress: this.onProgress,
     });
   }
 
@@ -79,6 +93,15 @@ export class IngestClient {
         `Ingest payload is ${bytes} bytes; max allowed is ${this.maxPayloadBytes} bytes`,
       );
     }
+
+    this.onProgress?.(
+      progressAtStep({
+        phase: 'starting',
+        completedSteps: 0,
+        totalSteps: 1,
+        message: 'Uploading report',
+      }),
+    );
 
     const response = await withRetry(
       async () =>
@@ -95,6 +118,14 @@ export class IngestClient {
       },
     );
 
+    this.onProgress?.(
+      progressAtStep({
+        phase: 'done',
+        completedSteps: 1,
+        totalSteps: 1,
+        message: `Ingest accepted (HTTP ${response.status})`,
+      }),
+    );
     this.logger?.log(`Ingest accepted (HTTP ${response.status})`);
     return response;
   }

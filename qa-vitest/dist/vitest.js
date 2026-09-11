@@ -32,6 +32,31 @@ function createQaHelpers(annotate, titleSources) {
         async suite(value) {
             await annotate(`QA Suite: ${value}`, { type: 'qa-suite', body: value });
         },
+        async suiteId(value) {
+            await annotate(`QA SuiteId: ${value}`, { type: 'qa-suite-id', body: value });
+        },
+        async planId(value) {
+            await annotate(`QA PlanId: ${value}`, { type: 'qa-plan-id', body: value });
+        },
+        async plan(value) {
+            await annotate(`QA Plan: ${value}`, { type: 'qa-plan', body: value });
+        },
+        async fixVersion(value) {
+            await annotate(`QA FixVersion: ${value}`, {
+                type: 'qa-fix-version',
+                body: value,
+            });
+        },
+        async sprintName(value) {
+            await annotate(`QA SprintName: ${value}`, {
+                type: 'qa-sprint-name',
+                body: value,
+            });
+        },
+        async labels(value) {
+            const message = typeof value === 'string' ? value : value.join(',');
+            await annotate(`QA Labels: ${message}`, { type: 'qa-labels', body: value });
+        },
         async fields(values) {
             await annotate(`QA Fields: ${JSON.stringify(values)}`, {
                 type: 'qa-fields',

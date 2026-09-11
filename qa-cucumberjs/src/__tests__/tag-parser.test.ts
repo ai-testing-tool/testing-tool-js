@@ -11,12 +11,24 @@ qaDescribe('parseQaTags', () => {
       { name: '@AUTH-101' },
       { name: '@QaTitle=Get_all_users' },
       { name: '@QaSuite=API\tUsers\tRead' },
+      { name: '@QaSuiteId=suite-uuid' },
+      { name: '@QaPlanId=plan-uuid' },
+      { name: '@QaPlan=Smoke' },
+      { name: '@QaFixVersion=2.4.0' },
+      { name: '@QaSprintName=Sprint_42' },
+      { name: '@QaLabels=test-auto,flaky' },
       { name: '@QaFields={"layer":"api","severity":"normal"}' },
       { name: '@QaParameters={"userId":"1"}' },
     ]);
 
     expect(meta.title).toBe('Get all users');
     expect(meta.suite).toBe('API\tUsers\tRead');
+    expect(meta.suiteId).toBe('suite-uuid');
+    expect(meta.planId).toBe('plan-uuid');
+    expect(meta.planName).toBe('Smoke');
+    expect(meta.fixVersion).toBe('2.4.0');
+    expect(meta.sprintName).toBe('Sprint 42');
+    expect(meta.labels).toEqual(['test-auto', 'flaky']);
     expect(meta.fields.layer).toBe('api');
     expect(meta.parameters.userId).toBe('1');
     expect(meta.issueKeys).toEqual(['AUTH-101']);
@@ -35,6 +47,12 @@ qaDescribe('resolveScenarioTitle', () => {
         title: 'Custom title',
         ignore: false,
         suite: null,
+        suiteId: null,
+        planId: null,
+        planName: null,
+        fixVersion: null,
+        sprintName: null,
+        labels: [],
         fields: {},
         parameters: {},
         issueKeys: ['AUTH-101'],
@@ -46,6 +64,12 @@ qaDescribe('resolveScenarioTitle', () => {
         title: null,
         ignore: false,
         suite: null,
+        suiteId: null,
+        planId: null,
+        planName: null,
+        fixVersion: null,
+        sprintName: null,
+        labels: [],
         fields: {},
         parameters: {},
         issueKeys: ['AUTH-101'],

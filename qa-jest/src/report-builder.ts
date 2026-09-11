@@ -1,8 +1,9 @@
-import type {
-  JestAssertionResult,
-  JestTestFileResult,
-  JestVitestJsonReport,
-  QaMetaWire,
+import {
+  normalizeReportFilePath,
+  type JestAssertionResult,
+  type JestTestFileResult,
+  type JestVitestJsonReport,
+  type QaMetaWire,
 } from '@ai-testing-tool/forge-commons';
 
 /**
@@ -89,7 +90,7 @@ export function toJestJsonReport(
     const rawAssertions = file.assertionResults ?? file.testResults ?? [];
     const assertionResults = rawAssertions.map((a) => mapAssertion(a, metaByFullName));
     return {
-      name: file.name ?? file.testFilePath ?? 'unknown',
+      name: normalizeReportFilePath(file.name ?? file.testFilePath ?? 'unknown'),
       status: fileStatus(file, assertionResults),
       message: file.message,
       startTime: file.startTime,

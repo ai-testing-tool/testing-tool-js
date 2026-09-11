@@ -4,6 +4,7 @@ exports.IngestClient = void 0;
 const models_1 = require("../models");
 const ingest_chunk_plan_1 = require("./ingest-chunk-plan");
 const ingest_http_1 = require("./ingest-http");
+const ingest_progress_1 = require("./ingest-progress");
 const ingest_retry_1 = require("./ingest-retry");
 const ingest_session_upload_1 = require("./ingest-session-upload");
 const DEFAULT_TIMEOUT_MS = 60_000;
@@ -18,6 +19,7 @@ class IngestClient {
     chunkMaxBytes;
     retryPolicy;
     logger;
+    onProgress;
     constructor(options = {}) {
         this.url = options.url;
         this.token = options.token;
@@ -32,6 +34,7 @@ class IngestClient {
             maxDelayMs: ingest_retry_1.DEFAULT_RETRY_POLICY.maxDelayMs,
         };
         this.logger = options.logger;
+        this.onProgress = options.onProgress;
     }
     async send(payload) {
         if (!this.url) {
@@ -53,6 +56,7 @@ class IngestClient {
             completeTimeoutMs: this.completeTimeoutMs,
             retryPolicy: this.retryPolicy,
             logger: this.logger,
+            onProgress: this.onProgress,
         });
     }
     async sendDirect(payload) {
@@ -60,6 +64,12 @@ class IngestClient {
         if (bytes > this.maxPayloadBytes) {
             throw new Error(`Ingest payload is ${bytes} bytes; max allowed is ${this.maxPayloadBytes} bytes`);
         }
+        this.onProgress?.((0, ingest_progress_1.progressAtStep)({
+            phase: 'starting',
+            completedSteps: 0,
+            totalSteps: 1,
+            message: 'Uploading report',
+        }));
         const response = await (0, ingest_retry_1.withRetry)(async () => (0, ingest_http_1.postIngestJson)({
             url: this.url,
             token: this.token,
@@ -70,6 +80,12 @@ class IngestClient {
             logger: this.logger,
             label: 'Ingest',
         });
+        this.onProgress?.((0, ingest_progress_1.progressAtStep)({
+            phase: 'done',
+            completedSteps: 1,
+            totalSteps: 1,
+            message: `Ingest accepted (HTTP ${response.status})`,
+        }));
         this.logger?.log(`Ingest accepted (HTTP ${response.status})`);
         return response;
     }

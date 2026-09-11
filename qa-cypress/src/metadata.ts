@@ -20,6 +20,30 @@ function metadata(on: TaskOn): void {
       MetadataManager.push('qa-suite', value);
       return null;
     },
+    qaSuiteId(value: unknown) {
+      MetadataManager.push('qa-suite-id', value);
+      return null;
+    },
+    qaPlanId(value: unknown) {
+      MetadataManager.push('qa-plan-id', value);
+      return null;
+    },
+    qaPlan(value: unknown) {
+      MetadataManager.push('qa-plan', value);
+      return null;
+    },
+    qaFixVersion(value: unknown) {
+      MetadataManager.push('qa-fix-version', value);
+      return null;
+    },
+    qaSprintName(value: unknown) {
+      MetadataManager.push('qa-sprint-name', value);
+      return null;
+    },
+    qaLabels(value: unknown) {
+      MetadataManager.push('qa-labels', value);
+      return null;
+    },
     qaComment(value: unknown) {
       MetadataManager.push('qa-comment', value);
       return null;

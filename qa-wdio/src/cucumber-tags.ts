@@ -1,6 +1,8 @@
 /**
  * Map WDIO Cucumber tags → MetadataManager / issue-key sources (FR135 / FR43).
- * Supports `@QaSuite=…`, `@QaTitle=…`, `@QaFields=…` plus bare `@PROJ-123` issue keys.
+ * Supports `@QaSuite=…`, `@QaSuiteId=…`, `@QaPlan=…`, `@QaPlanId=…`,
+ * `@QaFixVersion=…`, `@QaSprintName=…`, `@QaLabels=…`, `@QaTitle=…`,
+ * `@QaFields=…` plus bare `@PROJ-123` issue keys.
  * Does not handle Qase `@QaseId`.
  */
 
@@ -46,6 +48,24 @@ export function applyCucumberTags(tags: readonly TagLike[]): CucumberTagApplyRes
       switch (kv.key.toLowerCase()) {
         case '@qasuite':
           MetadataManager.push('qa-suite', kv.value);
+          break;
+        case '@qasuiteid':
+          MetadataManager.push('qa-suite-id', kv.value);
+          break;
+        case '@qaplanid':
+          MetadataManager.push('qa-plan-id', kv.value);
+          break;
+        case '@qaplan':
+          MetadataManager.push('qa-plan', kv.value.replace(/_/g, ' '));
+          break;
+        case '@qafixversion':
+          MetadataManager.push('qa-fix-version', kv.value);
+          break;
+        case '@qasprintname':
+          MetadataManager.push('qa-sprint-name', kv.value.replace(/_/g, ' '));
+          break;
+        case '@qalabels':
+          MetadataManager.push('qa-labels', kv.value);
           break;
         case '@qafields': {
           try {

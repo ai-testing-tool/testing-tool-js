@@ -26,6 +26,24 @@ function buildQaMetaFromResult(input) {
             }
             if (message.suite)
                 (0, forge_commons_1.applyQaAnnotation)(acc, { type: 'qa-suite', body: message.suite });
+            if (message.suiteId) {
+                (0, forge_commons_1.applyQaAnnotation)(acc, { type: 'qa-suite-id', body: message.suiteId });
+            }
+            if (message.planId) {
+                (0, forge_commons_1.applyQaAnnotation)(acc, { type: 'qa-plan-id', body: message.planId });
+            }
+            if (message.planName) {
+                (0, forge_commons_1.applyQaAnnotation)(acc, { type: 'qa-plan', body: message.planName });
+            }
+            if (message.fixVersion) {
+                (0, forge_commons_1.applyQaAnnotation)(acc, { type: 'qa-fix-version', body: message.fixVersion });
+            }
+            if (message.sprintName) {
+                (0, forge_commons_1.applyQaAnnotation)(acc, { type: 'qa-sprint-name', body: message.sprintName });
+            }
+            if (message.labels !== undefined && message.labels !== null) {
+                (0, forge_commons_1.applyQaAnnotation)(acc, { type: 'qa-labels', body: message.labels });
+            }
             if (message.fields) {
                 (0, forge_commons_1.applyQaAnnotation)(acc, { type: 'qa-fields', body: message.fields });
             }

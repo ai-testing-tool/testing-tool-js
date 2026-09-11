@@ -19,6 +19,14 @@ export type QaHelpers = {
   title(value: string): Promise<void>;
   comment(value: string): Promise<void>;
   suite(value: string): Promise<void>;
+  suiteId(value: string): Promise<void>;
+  planId(value: string): Promise<void>;
+  /** Plan display name → `meta.qa.planName`. */
+  plan(value: string): Promise<void>;
+  fixVersion(value: string): Promise<void>;
+  sprintName(value: string): Promise<void>;
+  /** Comma-separated string or array → `meta.qa.labels`. */
+  labels(value: string | string[]): Promise<void>;
   fields(values: Record<string, string>): Promise<void>;
   parameters(values: Record<string, string>): Promise<void>;
   /** Explicit FR43 issue key (preferred over embedding in titles). */
@@ -79,6 +87,24 @@ export const qa: QaHelpers = {
   },
   async suite(value: string) {
     pushMeta('qa-suite', value);
+  },
+  async suiteId(value: string) {
+    pushMeta('qa-suite-id', value);
+  },
+  async planId(value: string) {
+    pushMeta('qa-plan-id', value);
+  },
+  async plan(value: string) {
+    pushMeta('qa-plan', value);
+  },
+  async fixVersion(value: string) {
+    pushMeta('qa-fix-version', value);
+  },
+  async sprintName(value: string) {
+    pushMeta('qa-sprint-name', value);
+  },
+  async labels(value: string | string[]) {
+    pushMeta('qa-labels', value);
   },
   async fields(values: Record<string, string>) {
     pushMeta('qa-fields', values);

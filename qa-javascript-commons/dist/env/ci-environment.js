@@ -1,10 +1,32 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.detectCiEnvironment = detectCiEnvironment;
-function firstDefined(...values) {
-    return values.find((value) => value !== undefined && value !== '');
+function tryGit(args) {
+    try {
+        // Lazy require so environments without child_process still load this module.
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const { execFileSync } = require('node:child_process');
+        const out = execFileSync('git', args, {
+            encoding: 'utf8',
+            stdio: ['ignore', 'pipe', 'ignore'],
+            timeout: 2_000,
+        });
+        const trimmed = typeof out === 'string' ? out.trim() : '';
+        return trimmed || undefined;
+    }
+    catch {
+        return undefined;
+    }
 }
-/** Best-effort CI metadata from common provider env vars. */
+function firstDefined(...values) {
+    for (const value of values) {
+        const resolved = typeof value === 'function' ? value() : value;
+        if (resolved !== undefined && resolved !== '')
+            return resolved;
+    }
+    return undefined;
+}
+/** Best-effort CI metadata from common provider env vars (+ local git fallback). */
 function detectCiEnvironment() {
     const github = process.env.GITHUB_ACTIONS === 'true';
     const gitlab = Boolean(process.env.GITLAB_CI);
@@ -51,9 +73,12 @@ function detectCiEnvironment() {
     return {
         ciPlatform,
         buildUrl,
-        gitCommitSha: firstDefined(process.env.GITHUB_SHA, process.env.CI_COMMIT_SHA, process.env.BUILD_SOURCEVERSION, process.env.BITBUCKET_COMMIT),
-        gitBranch: firstDefined(process.env.GITHUB_REF_NAME, process.env.CI_COMMIT_REF_NAME, process.env.BUILD_SOURCEBRANCHNAME, process.env.BITBUCKET_BRANCH),
-        gitAuthorName: firstDefined(process.env.GITHUB_ACTOR, process.env.GITLAB_USER_NAME),
-        gitAuthorEmail: process.env.GITLAB_USER_EMAIL,
+        gitCommitSha: firstDefined(process.env.GITHUB_SHA, process.env.CI_COMMIT_SHA, process.env.BUILD_SOURCEVERSION, process.env.BITBUCKET_COMMIT, process.env.GIT_COMMIT, () => tryGit(['rev-parse', 'HEAD'])),
+        gitBranch: firstDefined(process.env.GITHUB_REF_NAME, process.env.CI_COMMIT_REF_NAME, process.env.BUILD_SOURCEBRANCHNAME, process.env.BITBUCKET_BRANCH, process.env.GIT_BRANCH, () => {
+            const ref = tryGit(['rev-parse', '--abbrev-ref', 'HEAD']);
+            return ref === 'HEAD' ? undefined : ref;
+        }),
+        gitAuthorName: firstDefined(process.env.GITHUB_ACTOR, process.env.GITLAB_USER_NAME, process.env.GIT_AUTHOR_NAME, () => tryGit(['log', '-1', '--pretty=format:%an'])),
+        gitAuthorEmail: firstDefined(process.env.GITLAB_USER_EMAIL, process.env.GIT_AUTHOR_EMAIL, () => tryGit(['log', '-1', '--pretty=format:%ae'])),
     };
 }

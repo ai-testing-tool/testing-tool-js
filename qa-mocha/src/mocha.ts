@@ -19,6 +19,14 @@ export type QaHelpers = {
   title(value: string): void;
   comment(value: string): void;
   suite(value: string): void;
+  suiteId(value: string): void;
+  planId(value: string): void;
+  /** Plan display name → `meta.qa.planName`. */
+  plan(value: string): void;
+  fixVersion(value: string): void;
+  sprintName(value: string): void;
+  /** Comma-separated string or array → `meta.qa.labels`. */
+  labels(value: string | string[]): void;
   fields(values: Record<string, string>): void;
   parameters(values: Record<string, string>): void;
   /** Explicit FR43 issue key (preferred over embedding in titles). */
@@ -88,6 +96,24 @@ export const qa: QaHelpers = {
   },
   suite(value: string) {
     pushMeta('qa-suite', value);
+  },
+  suiteId(value: string) {
+    pushMeta('qa-suite-id', value);
+  },
+  planId(value: string) {
+    pushMeta('qa-plan-id', value);
+  },
+  plan(value: string) {
+    pushMeta('qa-plan', value);
+  },
+  fixVersion(value: string) {
+    pushMeta('qa-fix-version', value);
+  },
+  sprintName(value: string) {
+    pushMeta('qa-sprint-name', value);
+  },
+  labels(value: string | string[]) {
+    pushMeta('qa-labels', value);
   },
   fields(values: Record<string, string>) {
     pushMeta('qa-fields', values);

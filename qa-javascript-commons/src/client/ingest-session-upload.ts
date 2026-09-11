@@ -1,6 +1,11 @@
 import type { LoggerInterface } from '../utils';
 import type { ChunkPlan } from './ingest-chunk-plan';
 import { postIngestJson, type IngestResponse, type PostIngestJsonResult } from './ingest-http';
+import {
+  chunkedUploadTotalSteps,
+  progressAtStep,
+  type IngestUploadProgressHandler,
+} from './ingest-progress';
 import { withRetry, type RetryPolicy } from './ingest-retry';
 
 export type UploadChunkedIngestInput = {
@@ -11,6 +16,7 @@ export type UploadChunkedIngestInput = {
   completeTimeoutMs: number;
   retryPolicy: RetryPolicy;
   logger?: LoggerInterface;
+  onProgress?: IngestUploadProgressHandler;
 };
 
 async function postWithRetry(
@@ -40,12 +46,34 @@ async function postWithRetry(
 export async function uploadChunkedIngest(
   input: UploadChunkedIngestInput,
 ): Promise<IngestResponse> {
-  const { plan, logger } = input;
+  const { plan, logger, onProgress } = input;
   const totalChunks = plan.chunks.length;
+  const totalSteps = chunkedUploadTotalSteps(totalChunks);
+  let completedSteps = 0;
 
+  const emit = (
+    phase: 'starting' | 'session' | 'chunk' | 'complete' | 'done',
+    message: string,
+    extra?: { chunkIndex?: number },
+  ): void => {
+    onProgress?.(
+      progressAtStep({
+        phase,
+        completedSteps,
+        totalSteps,
+        message,
+        chunkIndex: extra?.chunkIndex,
+        totalChunks,
+      }),
+    );
+  };
+
+  emit('starting', `Starting chunked upload (${totalChunks} chunks)`);
   logger?.log(`Ingest: starting chunked upload sessionId=${plan.sessionId} chunks=${totalChunks}`);
 
   await postWithRetry(input, plan.sessionBody, 'session', input.timeoutMs, 'Ingest session');
+  completedSteps = 1;
+  emit('session', 'Session created');
 
   for (const chunk of plan.chunks) {
     await postWithRetry(
@@ -55,9 +83,10 @@ export async function uploadChunkedIngest(
       input.timeoutMs,
       `Ingest chunk ${chunk.chunkIndex + 1}/${totalChunks}`,
     );
-    logger?.log(
-      `Ingest: chunk ${chunk.chunkIndex + 1}/${totalChunks} accepted for sessionId=${plan.sessionId}`,
-    );
+    completedSteps += 1;
+    const label = `Chunk ${chunk.chunkIndex + 1}/${totalChunks} accepted`;
+    emit('chunk', label, { chunkIndex: chunk.chunkIndex });
+    logger?.log(`Ingest: ${label} for sessionId=${plan.sessionId}`);
   }
 
   const response = await postWithRetry(
@@ -67,6 +96,9 @@ export async function uploadChunkedIngest(
     input.completeTimeoutMs,
     'Ingest complete',
   );
+  completedSteps = totalSteps;
+  emit('complete', `Complete accepted (HTTP ${response.status})`);
+  emit('done', 'Upload finished');
 
   logger?.log(`Ingest: chunked upload complete (HTTP ${response.status})`);
   return response;

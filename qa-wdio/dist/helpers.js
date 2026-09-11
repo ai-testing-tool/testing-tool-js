@@ -52,6 +52,24 @@ exports.qa = {
     suite(value) {
         push('qa-suite', value);
     },
+    suiteId(value) {
+        push('qa-suite-id', value);
+    },
+    planId(value) {
+        push('qa-plan-id', value);
+    },
+    plan(value) {
+        push('qa-plan', value);
+    },
+    fixVersion(value) {
+        push('qa-fix-version', value);
+    },
+    sprintName(value) {
+        push('qa-sprint-name', value);
+    },
+    labels(value) {
+        push('qa-labels', value);
+    },
     fields(values) {
         push('qa-fields', values);
     },

@@ -49,6 +49,12 @@ qaDescribe('@ai-testing-tool/forge-wdio scaffold', () => {
   qaItAuto('qa helpers record metadata including nested steps and type attach', async () => {
     MetadataManager.clear();
     qa.suite('E-commerce\tLogin');
+    qa.suiteId('suite-1');
+    qa.planId('plan-1');
+    qa.plan('Smoke');
+    qa.fixVersion('2.4.0');
+    qa.sprintName('Sprint 42');
+    qa.labels('test-auto,flaky');
     qa.fields({ layer: 'e2e' });
     qa.parameters({ user: 'standard_user' });
     qa.comment('ok');
@@ -63,6 +69,12 @@ qaDescribe('@ai-testing-tool/forge-wdio scaffold', () => {
 
     const entries = MetadataManager.getEntries();
     expect(entries.some((e) => e.type === 'qa-suite')).toBeTruthy();
+    expect(entries.some((e) => e.type === 'qa-suite-id' && e.body === 'suite-1')).toBeTruthy();
+    expect(entries.some((e) => e.type === 'qa-plan-id' && e.body === 'plan-1')).toBeTruthy();
+    expect(entries.some((e) => e.type === 'qa-plan' && e.body === 'Smoke')).toBeTruthy();
+    expect(entries.some((e) => e.type === 'qa-fix-version' && e.body === '2.4.0')).toBeTruthy();
+    expect(entries.some((e) => e.type === 'qa-sprint-name' && e.body === 'Sprint 42')).toBeTruthy();
+    expect(entries.some((e) => e.type === 'qa-labels' && e.body === 'test-auto,flaky')).toBeTruthy();
     expect(entries.some((e) => e.type === 'qa-fields')).toBeTruthy();
     expect(entries.some((e) => e.type === 'qa-parameters')).toBeTruthy();
     expect(entries.some((e) => e.type === 'qa-comment')).toBeTruthy();

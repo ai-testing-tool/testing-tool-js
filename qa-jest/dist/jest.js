@@ -36,6 +36,24 @@ exports.qa = {
     async suite(value) {
         pushMeta('qa-suite', value);
     },
+    async suiteId(value) {
+        pushMeta('qa-suite-id', value);
+    },
+    async planId(value) {
+        pushMeta('qa-plan-id', value);
+    },
+    async plan(value) {
+        pushMeta('qa-plan', value);
+    },
+    async fixVersion(value) {
+        pushMeta('qa-fix-version', value);
+    },
+    async sprintName(value) {
+        pushMeta('qa-sprint-name', value);
+    },
+    async labels(value) {
+        pushMeta('qa-labels', value);
+    },
     async fields(values) {
         pushMeta('qa-fields', values);
     },

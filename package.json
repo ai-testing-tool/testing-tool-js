@@ -17,7 +17,7 @@
     "release:bump": "sh scripts/bump-version.sh"
   },
   "devDependencies": {
-    "@ai-testing-tool/forge-vitest": "2.0.0",
+    "@ai-testing-tool/forge-vitest": "2.1.0",
     "@types/node": "^22.13.10",
     "typescript": "^5.8.2",
     "vitest": "^3.2.4"

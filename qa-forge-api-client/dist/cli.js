@@ -77,6 +77,8 @@ Options:
   --fix-version  Fix version tag (or AI_TESTING_TOOL_FIX_VERSION)
   --sprint        Sprint name tag (or AI_TESTING_TOOL_SPRINT)
   --help          Show this help
+
+Upload progress (percent) is written to stderr while uploading.
 `);
 }
 function readText(path) {
@@ -92,6 +94,18 @@ function readJsonReport(path) {
         return parsed.report;
     }
     return parsed;
+}
+/** Progress on stderr so stdout stays machine-readable JSON. */
+function reportUploadProgress(progress) {
+    const line = `Ingest upload: ${progress.percent}% — ${progress.message}`;
+    if (process.stderr.isTTY) {
+        process.stderr.write(`\r${line.padEnd(100)}`);
+        if (progress.phase === 'done' || progress.percent >= 100) {
+            process.stderr.write('\n');
+        }
+        return;
+    }
+    console.error(line);
 }
 async function main() {
     const args = parseArgs(process.argv.slice(2));
@@ -155,6 +169,7 @@ async function main() {
         chunkMaxBytes: merged.ingest?.chunkMaxBytes,
         maxRetries: merged.ingest?.maxRetries,
         retryBaseDelayMs: merged.ingest?.retryBaseDelayMs,
+        onProgress: reportUploadProgress,
     });
     const response = await client.send(payload);
     console.log(JSON.stringify({ ok: true, status: response.status, body: response.body }));

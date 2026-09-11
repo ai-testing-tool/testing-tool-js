@@ -84,4 +84,23 @@ qaDescribe('@ai-testing-tool/forge-cypress scaffold', () => {
           (e.body as { status: string }).status === 'passed',
       ),).toBeTruthy();
   });
+
+  qaItAuto('qa helpers record suiteId/plan/fix/sprint/labels', () => {
+    MetadataManager.clear();
+    qa.suiteId('suite-1');
+    qa.planId('plan-1');
+    qa.plan('Smoke');
+    qa.fixVersion('2.4.0');
+    qa.sprintName('Sprint 42');
+    qa.labels(['test-auto', 'flaky']);
+    const entries = MetadataManager.getEntries();
+    expect(entries).toEqual([
+      { type: 'qa-suite-id', body: 'suite-1' },
+      { type: 'qa-plan-id', body: 'plan-1' },
+      { type: 'qa-plan', body: 'Smoke' },
+      { type: 'qa-fix-version', body: '2.4.0' },
+      { type: 'qa-sprint-name', body: 'Sprint 42' },
+      { type: 'qa-labels', body: ['test-auto', 'flaky'] },
+    ]);
+  });
 });

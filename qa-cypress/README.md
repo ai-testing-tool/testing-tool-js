@@ -5,7 +5,7 @@ Cypress reporter + plugin for **AI Testing Tool** (Jira Forge quality hub).
 ## Install
 
 ```bash
-npm install -D @ai-testing-tool/forge-cypress@2.0.0 @ai-testing-tool/forge-commons@2.0.0 cypress-multi-reporters
+npm install -D @ai-testing-tool/forge-cypress@2.1.0 @ai-testing-tool/forge-commons@2.1.0 cypress-multi-reporters
 ```
 
 The pinned versions above track the latest release; `npm run release:bump` keeps them in sync.
@@ -73,7 +73,7 @@ it('AUTH-101 login', () => {
 });
 ```
 
-All helpers: `qa.title(value)`, `qa.comment(value)`, `qa.suite(value)`, `qa.parameters({ key: value })`, `qa.ignore()`, `qa.step(name, syncFn)`. `qa.step()` throws if the callback returns a Promise — keep it synchronous and let Cypress commands queue as usual.
+All helpers: `qa.title(value)`, `qa.comment(value)`, `qa.suite(value)`, `qa.suiteId(value)`, `qa.planId(value)`, `qa.plan(value)`, `qa.fixVersion(value)`, `qa.sprintName(value)`, `qa.labels(value)`, `qa.parameters({ key: value })`, `qa.ignore()`, `qa.step(name, syncFn)`. `qa.step()` throws if the callback returns a Promise — keep it synchronous and let Cypress commands queue as usual.
 
 Prefer **Jira issue keys in test titles**. Requires `@ai-testing-tool/forge-cypress/metadata` so `cy.task` bridges metadata to the Node reporter. Step hierarchy lands on `assertionResults[].meta.qa.steps`.
 

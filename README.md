@@ -2,7 +2,7 @@
 
 Publish test results from JavaScript/TypeScript projects to **AI Testing Tool** — a Forge app that ingests Jest/Vitest JSON, stores launches, and syncs traceability to Jira.
 
-> **Status:** Under active development. APIs and package versions may change between releases. Pin to a specific version (currently **2.0.0**) in production CI.
+> **Status:** Under active development. APIs and package versions may change between releases. Pin to a specific version (currently **2.1.0**) in production CI.
 
 ## What you get in Jira
 
@@ -72,6 +72,7 @@ Your test runner  →  @ai-testing-tool/forge-* reporter or CLI  →  Forge web 
 - **Automated CI:** set `AI_TESTING_TOOL_MODE=ingest` — reporters upload when the run finishes.
 - **Optional metadata:** set Jira issue keys via `qa.issueKeys()` (or Cucumber `@AUTH-101` tags) — stored in `meta.qa.issueKeys`, not in test titles.
 - **Rich steps:** use `qa.suite` / `qa.step` (Jest, Vitest, Mocha, Cypress, WDIO), Playwright `test.step()`, or Cucumber tags — suite hierarchy appears in ingest payloads.
+- **Tags:** `qa.suiteId`, `qa.planId`, `qa.plan`, `qa.fixVersion`, `qa.sprintName`, `qa.labels` write onto `meta.qa`.
 - **Large suites:** reports above ~3.5 MB chunk automatically; transient upload errors retry.
 
 Configure ingest in Jira under **Test Management → Settings → Automation setup**.
@@ -184,6 +185,10 @@ const { qa } = require('@ai-testing-tool/forge-jest/jest');
 test('login succeeds', async () => {
   await qa.issueKeys(['AUTH-101']);
   await qa.suite('Authentication');
+  await qa.plan('Smoke');
+  await qa.fixVersion('2.4.0');
+  await qa.sprintName('Sprint 42');
+  await qa.labels('test-auto,flaky');
   await qa.step('submit valid credentials', async () => {
     expect(true).toBe(true);
   });
@@ -550,13 +555,13 @@ npm test
 Lockstep version across all packages. Tag `v2.0.0` triggers the publish pipeline.
 
 ```bash
-npm run release:bump 2.0.0
+npm run release:bump 2.1.0
 npm test && npm run release:dry
-git commit -am "release: v2.0.0"
-git tag v2.0.0 && git push origin main develop v2.0.0
+git commit -am "release: v2.1.0"
+git tag v2.1.0 && git push origin main develop v2.1.0
 ```
 
-Manual publish: `RELEASE_TAG=v2.0.0 npm run release` (requires npm token).
+Manual publish: `RELEASE_TAG=v2.1.0 npm run release` (requires npm token).
 
 ## License
 

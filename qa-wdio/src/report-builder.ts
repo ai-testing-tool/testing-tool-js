@@ -1,8 +1,9 @@
-import type {
-  JestAssertionResult,
-  JestTestFileResult,
-  JestVitestJsonReport,
-  QaMetaWire,
+import {
+  normalizeReportFilePath,
+  type JestAssertionResult,
+  type JestTestFileResult,
+  type JestVitestJsonReport,
+  type QaMetaWire,
 } from '@ai-testing-tool/forge-commons';
 
 export type WdioAssertionInput = {
@@ -60,7 +61,7 @@ export function toJestJsonReport(
   const testResults: JestTestFileResult[] = specs.map((spec) => {
     const assertionResults = spec.assertions.map(mapAssertion);
     return {
-      name: spec.name,
+      name: normalizeReportFilePath(spec.name),
       status: fileStatus(assertionResults),
       startTime: spec.startTime,
       endTime: spec.endTime,

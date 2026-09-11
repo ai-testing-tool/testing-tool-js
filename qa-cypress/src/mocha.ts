@@ -17,6 +17,14 @@ export type QaHelpers = {
   title(value: string): void;
   comment(value: string): void;
   suite(value: string): void;
+  suiteId(value: string): void;
+  planId(value: string): void;
+  /** Plan display name → `meta.qa.planName`. */
+  plan(value: string): void;
+  fixVersion(value: string): void;
+  sprintName(value: string): void;
+  /** Comma-separated string or array → `meta.qa.labels`. */
+  labels(value: string | string[]): void;
   parameters(values: Record<string, string>): void;
   /** Explicit FR43 issue key (preferred over embedding in titles). */
   issueKey(key: string): void;
@@ -80,6 +88,54 @@ export const qa: QaHelpers = {
       return;
     }
     pushLocal('qa-suite', value);
+  },
+  suiteId(value: string) {
+    const cy = cyRef();
+    if (cy) {
+      pushTask('qaSuiteId', value);
+      return;
+    }
+    pushLocal('qa-suite-id', value);
+  },
+  planId(value: string) {
+    const cy = cyRef();
+    if (cy) {
+      pushTask('qaPlanId', value);
+      return;
+    }
+    pushLocal('qa-plan-id', value);
+  },
+  plan(value: string) {
+    const cy = cyRef();
+    if (cy) {
+      pushTask('qaPlan', value);
+      return;
+    }
+    pushLocal('qa-plan', value);
+  },
+  fixVersion(value: string) {
+    const cy = cyRef();
+    if (cy) {
+      pushTask('qaFixVersion', value);
+      return;
+    }
+    pushLocal('qa-fix-version', value);
+  },
+  sprintName(value: string) {
+    const cy = cyRef();
+    if (cy) {
+      pushTask('qaSprintName', value);
+      return;
+    }
+    pushLocal('qa-sprint-name', value);
+  },
+  labels(value: string | string[]) {
+    const cy = cyRef();
+    if (cy) {
+      pushTask('qaLabels', value);
+      return;
+    }
+    pushLocal('qa-labels', value);
   },
   parameters(values: Record<string, string>) {
     const cy = cyRef();

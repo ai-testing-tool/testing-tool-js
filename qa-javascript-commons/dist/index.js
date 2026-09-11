@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PACKAGE_NAME = exports.jestJsonRun = exports.vitestJsonRun = exports.UnsupportedVariantError = exports.listCiTemplateVariants = exports.buildCiTemplateContext = exports.generateCiTemplate = exports.EnvAttachEnum = exports.uploadAttachmentForQa = exports.projectKeyFromIssueKey = exports.firstIssueKey = exports.extractIssueKeys = exports.sanitizeOptionsForLog = exports.Logger = exports.FileReporter = exports.IngestReporter = exports.FallbackCoordinator = exports.FsWriter = exports.DEFAULT_MAX_ATTACH_BYTES = exports.AttachClient = exports.IngestClient = exports.StepStatusEnum = exports.StepExecution = exports.StepType = exports.TestStatusEnum = exports.TestExecution = exports.TestStepType = exports.TestResultType = exports.toQaMetaWire = exports.qaMetaFromEntries = exports.createQaMetaAccumulator = exports.applyQaAnnotations = exports.applyQaAnnotation = exports.normalizeJestReport = exports.estimatePayloadBytes = exports.buildIngestPayload = exports.ModeEnum = exports.composeOptions = exports.EnvFileEnum = exports.EnvIngestEnum = exports.EnvEnum = exports.detectCiEnvironment = exports.envToConfig = exports.loadConfig = exports.ConfigLoader = exports.AiTestingToolReporter = void 0;
+exports.PACKAGE_NAME = exports.jestJsonRun = exports.vitestJsonRun = exports.UnsupportedVariantError = exports.listCiTemplateVariants = exports.buildCiTemplateContext = exports.generateCiTemplate = exports.normalizeReportFilePath = exports.EnvAttachEnum = exports.uploadAttachmentForQa = exports.projectKeyFromIssueKey = exports.firstIssueKey = exports.extractIssueKeys = exports.sanitizeOptionsForLog = exports.Logger = exports.FileReporter = exports.IngestReporter = exports.FallbackCoordinator = exports.FsWriter = exports.DEFAULT_MAX_ATTACH_BYTES = exports.AttachClient = exports.IngestClient = exports.resetHostEnvironmentCache = exports.StepStatusEnum = exports.StepExecution = exports.StepType = exports.TestStatusEnum = exports.TestExecution = exports.TestStepType = exports.TestResultType = exports.toQaMetaWire = exports.qaMetaFromEntries = exports.createQaMetaAccumulator = exports.applyQaAnnotations = exports.applyQaAnnotation = exports.normalizeJestReport = exports.estimatePayloadBytes = exports.buildIngestPayload = exports.ModeEnum = exports.composeOptions = exports.EnvFileEnum = exports.EnvIngestEnum = exports.EnvEnum = exports.detectCiEnvironment = exports.envToConfig = exports.loadConfig = exports.ConfigLoader = exports.AiTestingToolReporter = void 0;
 var ai_testing_tool_1 = require("./ai-testing-tool");
 Object.defineProperty(exports, "AiTestingToolReporter", { enumerable: true, get: function () { return ai_testing_tool_1.AiTestingToolReporter; } });
 var config_1 = require("./config");
@@ -31,6 +31,7 @@ Object.defineProperty(exports, "TestStatusEnum", { enumerable: true, get: functi
 Object.defineProperty(exports, "StepType", { enumerable: true, get: function () { return models_1.StepType; } });
 Object.defineProperty(exports, "StepExecution", { enumerable: true, get: function () { return models_1.StepExecution; } });
 Object.defineProperty(exports, "StepStatusEnum", { enumerable: true, get: function () { return models_1.StepStatusEnum; } });
+Object.defineProperty(exports, "resetHostEnvironmentCache", { enumerable: true, get: function () { return models_1.resetHostEnvironmentCache; } });
 var client_1 = require("./client");
 Object.defineProperty(exports, "IngestClient", { enumerable: true, get: function () { return client_1.IngestClient; } });
 Object.defineProperty(exports, "AttachClient", { enumerable: true, get: function () { return client_1.AttachClient; } });
@@ -49,6 +50,7 @@ Object.defineProperty(exports, "firstIssueKey", { enumerable: true, get: functio
 Object.defineProperty(exports, "projectKeyFromIssueKey", { enumerable: true, get: function () { return utils_1.projectKeyFromIssueKey; } });
 Object.defineProperty(exports, "uploadAttachmentForQa", { enumerable: true, get: function () { return utils_1.uploadAttachmentForQa; } });
 Object.defineProperty(exports, "EnvAttachEnum", { enumerable: true, get: function () { return utils_1.EnvAttachEnum; } });
+Object.defineProperty(exports, "normalizeReportFilePath", { enumerable: true, get: function () { return utils_1.normalizeReportFilePath; } });
 var ci_1 = require("./ci");
 Object.defineProperty(exports, "generateCiTemplate", { enumerable: true, get: function () { return ci_1.generateCiTemplate; } });
 Object.defineProperty(exports, "buildCiTemplateContext", { enumerable: true, get: function () { return ci_1.buildCiTemplateContext; } });

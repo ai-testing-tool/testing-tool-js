@@ -45,6 +45,12 @@ const { qa } = require('@ai-testing-tool/forge-jest/jest');
 
 test('AUTH-101 login', async () => {
   await qa.suite('Auth');
+  await qa.suiteId('suite-uuid');
+  await qa.planId('plan-uuid');
+  await qa.plan('Smoke');
+  await qa.fixVersion('2.4.0');
+  await qa.sprintName('Sprint 42');
+  await qa.labels('test-auto,flaky');
   await qa.step('open form', async () => {
     expect(true).toBe(true);
   });

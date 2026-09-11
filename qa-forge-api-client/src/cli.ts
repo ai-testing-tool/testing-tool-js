@@ -11,6 +11,7 @@ import {
   composeOptions,
   type IngestFormat,
   type IngestPayload,
+  type IngestUploadProgress,
   type JestVitestJsonReport,
 } from '@ai-testing-tool/forge-commons';
 
@@ -102,6 +103,8 @@ Options:
   --fix-version  Fix version tag (or AI_TESTING_TOOL_FIX_VERSION)
   --sprint        Sprint name tag (or AI_TESTING_TOOL_SPRINT)
   --help          Show this help
+
+Upload progress (percent) is written to stderr while uploading.
 `);
 }
 
@@ -121,6 +124,19 @@ function readJsonReport(path: string): JestVitestJsonReport {
     return (parsed as IngestPayload).report as JestVitestJsonReport;
   }
   return parsed as JestVitestJsonReport;
+}
+
+/** Progress on stderr so stdout stays machine-readable JSON. */
+function reportUploadProgress(progress: IngestUploadProgress): void {
+  const line = `Ingest upload: ${progress.percent}% — ${progress.message}`;
+  if (process.stderr.isTTY) {
+    process.stderr.write(`\r${line.padEnd(100)}`);
+    if (progress.phase === 'done' || progress.percent >= 100) {
+      process.stderr.write('\n');
+    }
+    return;
+  }
+  console.error(line);
 }
 
 async function main(): Promise<void> {
@@ -191,6 +207,7 @@ async function main(): Promise<void> {
     chunkMaxBytes: merged.ingest?.chunkMaxBytes,
     maxRetries: merged.ingest?.maxRetries,
     retryBaseDelayMs: merged.ingest?.retryBaseDelayMs,
+    onProgress: reportUploadProgress,
   });
 
   const response = await client.send(payload);

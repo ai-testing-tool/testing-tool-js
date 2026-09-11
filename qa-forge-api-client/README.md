@@ -30,3 +30,14 @@ npx @ai-testing-tool/forge-api-client --project DEMO --report ai-testing-tool-re
 | `--help`, `-h` | Show help |
 
 Env vars mirror the reporters: `AI_TESTING_TOOL_PROJECT_KEY`, `AI_TESTING_TOOL_INGEST_URL`, `AI_TESTING_TOOL_INGEST_TOKEN`, `AI_TESTING_TOOL_LAUNCH_NAME`.
+
+## Upload progress
+
+While uploading (especially large/chunked reports), the CLI prints percent progress to **stderr**, e.g.:
+
+```text
+Ingest upload: 33% — Chunk 1/2 accepted
+Ingest upload: 100% — Upload finished
+```
+
+Stdout stays a single JSON line (`{ "ok": true, "status": 201, ... }`) for scripting.

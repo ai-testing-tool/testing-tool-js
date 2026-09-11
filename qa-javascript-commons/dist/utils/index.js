@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EnvAttachEnum = exports.uploadAttachmentForQa = exports.projectKeyFromIssueKey = exports.firstIssueKey = exports.extractIssueKeys = exports.sanitizeOptionsForLog = exports.maskToken = exports.Logger = exports.DisabledException = void 0;
+exports.normalizeReportFilePath = exports.EnvAttachEnum = exports.uploadAttachmentForQa = exports.projectKeyFromIssueKey = exports.firstIssueKey = exports.extractIssueKeys = exports.sanitizeOptionsForLog = exports.maskToken = exports.Logger = exports.DisabledException = void 0;
 var disabled_exception_1 = require("./disabled-exception");
 Object.defineProperty(exports, "DisabledException", { enumerable: true, get: function () { return disabled_exception_1.DisabledException; } });
 var logger_1 = require("./logger");
@@ -15,3 +15,5 @@ Object.defineProperty(exports, "projectKeyFromIssueKey", { enumerable: true, get
 var upload_attachment_1 = require("./upload-attachment");
 Object.defineProperty(exports, "uploadAttachmentForQa", { enumerable: true, get: function () { return upload_attachment_1.uploadAttachmentForQa; } });
 Object.defineProperty(exports, "EnvAttachEnum", { enumerable: true, get: function () { return upload_attachment_1.EnvAttachEnum; } });
+var report_file_path_1 = require("./report-file-path");
+Object.defineProperty(exports, "normalizeReportFilePath", { enumerable: true, get: function () { return report_file_path_1.normalizeReportFilePath; } });

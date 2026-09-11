@@ -96,6 +96,10 @@ const { qa } = require('@ai-testing-tool/forge-jest/jest');
 
 test('AUTH-101 GET all users', async () => {
   await qa.suite('User CRUD');
+  await qa.plan('Smoke');
+  await qa.fixVersion('2.4.0');
+  await qa.sprintName('Sprint 42');
+  await qa.labels('test-auto,flaky');
   await qa.step('fetch users', async () => {
     const res = await fetch('https://jsonplaceholder.typicode.com/users');
     expect(res.status).toBe(200);
@@ -108,7 +112,7 @@ test('AUTH-101 GET all users', async () => {
 });
 ```
 
-Await all `qa.*` calls except `qa.ignore()` (sync). Prefer **Jira keys in titles**; helpers add suite/step/fields metadata for richer launches.
+Await all `qa.*` calls except `qa.ignore()` (sync). Prefer **Jira keys in titles**; helpers add suite/step/fields/plan/labels metadata for richer launches.
 
 This example’s tests stay plain Jest (no `qa` imports) so Path A stays zero-config.
 

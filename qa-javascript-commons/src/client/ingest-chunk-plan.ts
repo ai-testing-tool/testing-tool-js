@@ -22,6 +22,10 @@ export type IngestSessionBody = {
   sprintName?: string;
   buildUrl?: string;
   ciPlatform?: string;
+  gitCommitSha?: string;
+  gitBranch?: string;
+  gitAuthorName?: string;
+  gitAuthorEmail?: string;
   reportMeta: Omit<JestVitestJsonReport, 'testResults'>;
 };
 
@@ -150,6 +154,10 @@ export function planChunks(payload: IngestPayload, options: PlanChunksOptions = 
     sprintName: payload.sprintName,
     buildUrl: payload.buildUrl,
     ciPlatform: payload.ciPlatform,
+    gitCommitSha: payload.gitCommitSha,
+    gitBranch: payload.gitBranch,
+    gitAuthorName: payload.gitAuthorName,
+    gitAuthorEmail: payload.gitAuthorEmail,
     reportMeta: reportMetaFromPayload(payload.report),
   };
 

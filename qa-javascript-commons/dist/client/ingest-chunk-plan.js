@@ -80,6 +80,10 @@ function planChunks(payload, options = {}) {
         sprintName: payload.sprintName,
         buildUrl: payload.buildUrl,
         ciPlatform: payload.ciPlatform,
+        gitCommitSha: payload.gitCommitSha,
+        gitBranch: payload.gitBranch,
+        gitAuthorName: payload.gitAuthorName,
+        gitAuthorEmail: payload.gitAuthorEmail,
         reportMeta: reportMetaFromPayload(payload.report),
     };
     const chunks = groups.map((group, chunkIndex) => ({

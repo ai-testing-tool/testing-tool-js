@@ -63,6 +63,24 @@ exports.qa = {
     suite(value) {
         pushMeta('qa-suite', value, { suite: value });
     },
+    suiteId(value) {
+        pushMeta('qa-suite-id', value, { suiteId: value });
+    },
+    planId(value) {
+        pushMeta('qa-plan-id', value, { planId: value });
+    },
+    plan(value) {
+        pushMeta('qa-plan', value, { planName: value });
+    },
+    fixVersion(value) {
+        pushMeta('qa-fix-version', value, { fixVersion: value });
+    },
+    sprintName(value) {
+        pushMeta('qa-sprint-name', value, { sprintName: value });
+    },
+    labels(value) {
+        pushMeta('qa-labels', value, { labels: value });
+    },
     fields(values) {
         pushMeta('qa-fields', values, { fields: values });
     },

@@ -1,5 +1,6 @@
 import type { JestVitestJsonReport } from './jest-vitest-report';
 import type { CiMetadata } from '../env';
+import { normalizeReportFilePath } from '../utils/report-file-path';
 
 export type IngestFormat = 'jest-json' | 'vitest-json' | 'normalized';
 
@@ -39,9 +40,13 @@ export type BuildIngestPayloadInput = {
 };
 
 export function normalizeJestReport(report: JestVitestJsonReport): JestVitestJsonReport {
+  const testResults = Array.isArray(report.testResults) ? report.testResults : [];
   return {
     ...report,
-    testResults: Array.isArray(report.testResults) ? report.testResults : [],
+    testResults: testResults.map((file) => ({
+      ...file,
+      name: file.name != null ? normalizeReportFilePath(file.name) : file.name,
+    })),
   };
 }
 

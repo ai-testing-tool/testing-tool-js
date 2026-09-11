@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.toJestJsonReport = toJestJsonReport;
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 function mapAssertion(a, metaByFullName) {
     const fullName = a.fullName ?? a.title ?? '';
     // Suite hierarchy lives in meta.qa.suite (from qa helpers); omit Jest's
@@ -32,7 +33,7 @@ function toJestJsonReport(results, metaByFullName) {
         const rawAssertions = file.assertionResults ?? file.testResults ?? [];
         const assertionResults = rawAssertions.map((a) => mapAssertion(a, metaByFullName));
         return {
-            name: file.name ?? file.testFilePath ?? 'unknown',
+            name: (0, forge_commons_1.normalizeReportFilePath)(file.name ?? file.testFilePath ?? 'unknown'),
             status: fileStatus(file, assertionResults),
             message: file.message,
             startTime: file.startTime,

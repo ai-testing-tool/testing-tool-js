@@ -1,6 +1,6 @@
 {
   "name": "@ai-testing-tool/forge-vitest",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "AI Testing Tool Vitest reporter — ingest or file modes via @ai-testing-tool/forge-commons",
   "keywords": [
     "ai-testing-tool",

@@ -18,6 +18,14 @@ export type QaHelpers = {
     title(value: string): Promise<void>;
     comment(value: string): Promise<void>;
     suite(value: string): Promise<void>;
+    suiteId(value: string): Promise<void>;
+    planId(value: string): Promise<void>;
+    /** Plan display name → `meta.qa.planName`. */
+    plan(value: string): Promise<void>;
+    fixVersion(value: string): Promise<void>;
+    sprintName(value: string): Promise<void>;
+    /** Comma-separated string or array → `meta.qa.labels`. */
+    labels(value: string | string[]): Promise<void>;
     fields(values: Record<string, string>): Promise<void>;
     parameters(values: Record<string, string>): Promise<void>;
     /** Explicit FR43 issue key (preferred over embedding in titles). */

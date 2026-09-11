@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.toJestJsonReport = toJestJsonReport;
+const forge_commons_1 = require("@ai-testing-tool/forge-commons");
 function mapAssertion(a) {
     const fullName = a.fullName ??
         (a.ancestorTitles.length > 0
@@ -29,7 +30,7 @@ function toJestJsonReport(specs, startTime) {
     const testResults = specs.map((spec) => {
         const assertionResults = spec.assertions.map(mapAssertion);
         return {
-            name: spec.name,
+            name: (0, forge_commons_1.normalizeReportFilePath)(spec.name),
             status: fileStatus(assertionResults),
             startTime: spec.startTime,
             endTime: spec.endTime,

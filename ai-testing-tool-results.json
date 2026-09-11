@@ -1,46 +1,56 @@
 {
   "projectKey": "AUTH",
   "launchName": "sdk",
+  "gitCommitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+  "gitBranch": "main",
+  "gitAuthorName": "jvuvo",
+  "gitAuthorEmail": "jsoftconnector@gmail.com",
   "format": "vitest-json",
   "report": {
     "numTotalTestSuites": 1,
     "numPassedTestSuites": 1,
     "numFailedTestSuites": 0,
     "numPendingTestSuites": 0,
-    "numTotalTests": 92,
-    "numPassedTests": 92,
+    "numTotalTests": 16,
+    "numPassedTests": 16,
     "numFailedTests": 0,
     "numPendingTests": 0,
     "numTodoTests": 0,
-    "startTime": 1789001821939,
+    "startTime": 1789133614777,
     "success": true,
     "testResults": [
       {
         "name": "unknown",
         "status": "passed",
-        "startTime": 1789001821939,
-        "endTime": 1789001822455,
+        "startTime": 1789133614777,
+        "endTime": 1789133615602,
         "assertionResults": [
           {
-            "fullName": "issue-keys > extracts keys in order",
-            "title": "extracts keys in order",
+            "fullName": "WDIO failure screenshot enrich (FR133) > merges buffered screenshots onto failed assertions",
+            "title": "merges buffered screenshots onto failed assertions",
             "status": "passed",
-            "duration": 11,
+            "duration": 8,
             "failureMessages": [],
             "meta": {
               "qa": {
                 "framework": "vitest",
                 "host": {
                   "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
+                  }
                 },
-                "title": "extracts keys in order",
+                "title": "merges buffered screenshots onto failed assertions",
                 "issueKeys": [
-                  "AUTH-201"
+                  "AUTH-1001"
                 ],
                 "suite": [
                   {
-                    "title": "issue-keys"
+                    "title": "WDIO failure screenshot enrich (FR133)"
                   }
                 ],
                 "steps": [
@@ -55,25 +65,31 @@
             }
           },
           {
-            "fullName": "withIngestAction > appends action query param",
-            "title": "appends action query param",
+            "fullName": "toJestJsonReport (FR124 / FR134) > normalizes saucedemo fixture to 13 tests with AUTH keys and steps",
+            "title": "normalizes saucedemo fixture to 13 tests with AUTH keys and steps",
             "status": "passed",
-            "duration": 9,
+            "duration": 78,
             "failureMessages": [],
             "meta": {
               "qa": {
                 "framework": "vitest",
                 "host": {
                   "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
+                  }
                 },
-                "title": "appends action query param",
+                "title": "normalizes saucedemo fixture to 13 tests with AUTH keys and steps",
                 "issueKeys": [
-                  "AUTH-201"
+                  "AUTH-1001"
                 ],
                 "suite": [
                   {
-                    "title": "withIngestAction"
+                    "title": "toJestJsonReport (FR124 / FR134)"
                   }
                 ],
                 "steps": [
@@ -88,25 +104,31 @@
             }
           },
           {
-            "fullName": "createIngestSessionId > is stable for the same launch fingerprint",
-            "title": "is stable for the same launch fingerprint",
+            "fullName": "WDIO failure screenshot enrich (FR133) > service afterTest captures screenshot when enabled",
+            "title": "service afterTest captures screenshot when enabled",
             "status": "passed",
-            "duration": 10,
+            "duration": 66,
             "failureMessages": [],
             "meta": {
               "qa": {
                 "framework": "vitest",
                 "host": {
                   "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
+                  }
                 },
-                "title": "is stable for the same launch fingerprint",
+                "title": "service afterTest captures screenshot when enabled",
                 "issueKeys": [
-                  "AUTH-201"
+                  "AUTH-1002"
                 ],
                 "suite": [
                   {
-                    "title": "createIngestSessionId"
+                    "title": "WDIO failure screenshot enrich (FR133)"
                   }
                 ],
                 "steps": [
@@ -121,107 +143,8 @@
             }
           },
           {
-            "fullName": "withIngestAction > preserves existing query string",
-            "title": "preserves existing query string",
-            "status": "passed",
-            "duration": 3,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "preserves existing query string",
-                "issueKeys": [
-                  "AUTH-202"
-                ],
-                "suite": [
-                  {
-                    "title": "withIngestAction"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "planChunks > creates one empty chunk for empty testResults",
-            "title": "creates one empty chunk for empty testResults",
-            "status": "passed",
-            "duration": 4,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "creates one empty chunk for empty testResults",
-                "issueKeys": [
-                  "AUTH-202"
-                ],
-                "suite": [
-                  {
-                    "title": "planChunks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "isRetryableHttpStatus > marks transient server errors retryable",
-            "title": "marks transient server errors retryable",
-            "status": "passed",
-            "duration": 5,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "marks transient server errors retryable",
-                "issueKeys": [
-                  "AUTH-203"
-                ],
-                "suite": [
-                  {
-                    "title": "isRetryableHttpStatus"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "planChunks > splits testResults when chunk bodies exceed maxChunkBytes",
-            "title": "splits testResults when chunk bodies exceed maxChunkBytes",
+            "fullName": "qa.step → meta.qa.steps (FR125) > preserves nested step order via qaMetaFromEntries",
+            "title": "preserves nested step order via qaMetaFromEntries",
             "status": "passed",
             "duration": 3,
             "failureMessages": [],
@@ -230,15 +153,21 @@
                 "framework": "vitest",
                 "host": {
                   "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
+                  }
                 },
-                "title": "splits testResults when chunk bodies exceed maxChunkBytes",
+                "title": "preserves nested step order via qaMetaFromEntries",
                 "issueKeys": [
-                  "AUTH-203"
+                  "AUTH-1002"
                 ],
                 "suite": [
                   {
-                    "title": "planChunks"
+                    "title": "qa.step → meta.qa.steps (FR125)"
                   }
                 ],
                 "steps": [
@@ -253,41 +182,8 @@
             }
           },
           {
-            "fullName": "planChunks > throws when a single test file exceeds maxChunkBytes",
-            "title": "throws when a single test file exceeds maxChunkBytes",
-            "status": "passed",
-            "duration": 4,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "throws when a single test file exceeds maxChunkBytes",
-                "issueKeys": [
-                  "AUTH-204"
-                ],
-                "suite": [
-                  {
-                    "title": "planChunks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "planChunks > throws when chunk count exceeds server max",
-            "title": "throws when chunk count exceeds server max",
+            "fullName": "WDIO failure screenshot enrich (FR133) > service afterScenario captures screenshot on cucumber failure",
+            "title": "service afterScenario captures screenshot on cucumber failure",
             "status": "passed",
             "duration": 2,
             "failureMessages": [],
@@ -296,15 +192,21 @@
                 "framework": "vitest",
                 "host": {
                   "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
+                  }
                 },
-                "title": "throws when chunk count exceeds server max",
+                "title": "service afterScenario captures screenshot on cucumber failure",
                 "issueKeys": [
-                  "AUTH-205"
+                  "AUTH-1003"
                 ],
                 "suite": [
                   {
-                    "title": "planChunks"
+                    "title": "WDIO failure screenshot enrich (FR133)"
                   }
                 ],
                 "steps": [
@@ -319,41 +221,8 @@
             }
           },
           {
-            "fullName": "postIngestJson > returns parsed JSON on success",
-            "title": "returns parsed JSON on success",
-            "status": "passed",
-            "duration": 16,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "returns parsed JSON on success",
-                "issueKeys": [
-                  "AUTH-204"
-                ],
-                "suite": [
-                  {
-                    "title": "postIngestJson"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "meta.qa enrichment > builds wire shape from Vitest-style annotations",
-            "title": "builds wire shape from Vitest-style annotations",
+            "fullName": "cucumber tags (FR135) > applies @QaSuite/@QaTitle/@QaFields and collects bare issue keys",
+            "title": "applies @QaSuite/@QaTitle/@QaFields and collects bare issue keys",
             "status": "passed",
             "duration": 7,
             "failureMessages": [],
@@ -362,15 +231,21 @@
                 "framework": "vitest",
                 "host": {
                   "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
+                  }
                 },
-                "title": "builds wire shape from Vitest-style annotations",
+                "title": "applies @QaSuite/@QaTitle/@QaFields and collects bare issue keys",
                 "issueKeys": [
-                  "AUTH-201"
+                  "AUTH-1001"
                 ],
                 "suite": [
                   {
-                    "title": "meta.qa enrichment"
+                    "title": "cucumber tags (FR135)"
                   }
                 ],
                 "steps": [
@@ -385,8 +260,8 @@
             }
           },
           {
-            "fullName": "postIngestJson > throws retryable IngestHttpError on 503",
-            "title": "throws retryable IngestHttpError on 503",
+            "fullName": "cucumber tags (FR135) > applies suiteId/plan/fix/sprint/labels tags",
+            "title": "applies suiteId/plan/fix/sprint/labels tags",
             "status": "passed",
             "duration": 3,
             "failureMessages": [],
@@ -395,15 +270,21 @@
                 "framework": "vitest",
                 "host": {
                   "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
+                  }
                 },
-                "title": "throws retryable IngestHttpError on 503",
+                "title": "applies suiteId/plan/fix/sprint/labels tags",
                 "issueKeys": [
-                  "AUTH-205"
+                  "AUTH-1002"
                 ],
                 "suite": [
                   {
-                    "title": "postIngestJson"
+                    "title": "cucumber tags (FR135)"
                   }
                 ],
                 "steps": [
@@ -418,8 +299,47 @@
             }
           },
           {
-            "fullName": "meta.qa enrichment > builds wire shape from helper buffer entries",
-            "title": "builds wire shape from helper buffer entries",
+            "fullName": "@ai-testing-tool/forge-wdio scaffold > loads reporter module and no-ops when mode=off",
+            "title": "loads reporter module and no-ops when mode=off",
+            "status": "passed",
+            "duration": 6,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
+                  }
+                },
+                "title": "loads reporter module and no-ops when mode=off",
+                "issueKeys": [
+                  "AUTH-1001"
+                ],
+                "suite": [
+                  {
+                    "title": "@ai-testing-tool/forge-wdio scaffold"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "fullName": "@ai-testing-tool/forge-wdio scaffold > exports QaWdioService lifecycle hooks",
+            "title": "exports QaWdioService lifecycle hooks",
             "status": "passed",
             "duration": 2,
             "failureMessages": [],
@@ -428,15 +348,21 @@
                 "framework": "vitest",
                 "host": {
                   "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
+                  }
                 },
-                "title": "builds wire shape from helper buffer entries",
+                "title": "exports QaWdioService lifecycle hooks",
                 "issueKeys": [
-                  "AUTH-202"
+                  "AUTH-1002"
                 ],
                 "suite": [
                   {
-                    "title": "meta.qa enrichment"
+                    "title": "@ai-testing-tool/forge-wdio scaffold"
                   }
                 ],
                 "steps": [
@@ -451,8 +377,8 @@
             }
           },
           {
-            "fullName": "meta.qa enrichment > returns undefined for empty accumulator",
-            "title": "returns undefined for empty accumulator",
+            "fullName": "@ai-testing-tool/forge-wdio scaffold > qa helpers record metadata including nested steps and type attach",
+            "title": "qa helpers record metadata including nested steps and type attach",
             "status": "passed",
             "duration": 2,
             "failureMessages": [],
@@ -461,15 +387,21 @@
                 "framework": "vitest",
                 "host": {
                   "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
+                  }
                 },
-                "title": "returns undefined for empty accumulator",
+                "title": "qa helpers record metadata including nested steps and type attach",
                 "issueKeys": [
-                  "AUTH-203"
+                  "AUTH-1003"
                 ],
                 "suite": [
                   {
-                    "title": "meta.qa enrichment"
+                    "title": "@ai-testing-tool/forge-wdio scaffold"
                   }
                 ],
                 "steps": [
@@ -484,8 +416,86 @@
             }
           },
           {
-            "fullName": "postIngestJson > throws non-retryable IngestHttpError on 401",
-            "title": "throws non-retryable IngestHttpError on 401",
+            "fullName": "@ai-testing-tool/forge-wdio scaffold > assertHooksForMode throws in debug when hooks missing (NFR33)",
+            "title": "assertHooksForMode throws in debug when hooks missing (NFR33)",
+            "status": "passed",
+            "duration": 2,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
+                  }
+                },
+                "title": "assertHooksForMode throws in debug when hooks missing (NFR33)",
+                "issueKeys": [
+                  "AUTH-1004"
+                ],
+                "suite": [
+                  {
+                    "title": "@ai-testing-tool/forge-wdio scaffold"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "fullName": "mode=file publish > writes FR41 payload with format jest-json",
+            "title": "writes FR41 payload with format jest-json",
+            "status": "passed",
+            "duration": 70,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
+                  }
+                },
+                "title": "writes FR41 payload with format jest-json",
+                "issueKeys": [
+                  "AUTH-1001"
+                ],
+                "suite": [
+                  {
+                    "title": "mode=file publish"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "fullName": "QaWdioReporter modes > mode=off completes without credentials",
+            "title": "mode=off completes without credentials",
             "status": "passed",
             "duration": 3,
             "failureMessages": [],
@@ -494,15 +504,21 @@
                 "framework": "vitest",
                 "host": {
                   "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
+                  }
                 },
-                "title": "throws non-retryable IngestHttpError on 401",
+                "title": "mode=off completes without credentials",
                 "issueKeys": [
-                  "AUTH-206"
+                  "AUTH-1002"
                 ],
                 "suite": [
                   {
-                    "title": "postIngestJson"
+                    "title": "QaWdioReporter modes"
                   }
                 ],
                 "steps": [
@@ -517,8 +533,47 @@
             }
           },
           {
-            "fullName": "meta.qa enrichment > preserves meta.qa through normalizeJestReport and buildIngestPayload (FR141)",
-            "title": "preserves meta.qa through normalizeJestReport and buildIngestPayload (FR141)",
+            "fullName": "QaWdioReporter useCucumber (FR135) > records one assertion per scenario with gherkin steps",
+            "title": "records one assertion per scenario with gherkin steps",
+            "status": "passed",
+            "duration": 63,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
+                  }
+                },
+                "title": "records one assertion per scenario with gherkin steps",
+                "issueKeys": [
+                  "AUTH-1003"
+                ],
+                "suite": [
+                  {
+                    "title": "QaWdioReporter useCucumber (FR135)"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "fullName": "QaWdioReporter useCucumber (FR135) > mocha path unchanged when useCucumber is false",
+            "title": "mocha path unchanged when useCucumber is false",
             "status": "passed",
             "duration": 2,
             "failureMessages": [],
@@ -527,2457 +582,21 @@
                 "framework": "vitest",
                 "host": {
                   "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "preserves meta.qa through normalizeJestReport and buildIngestPayload (FR141)",
-                "issueKeys": [
-                  "AUTH-204"
-                ],
-                "suite": [
-                  {
-                    "title": "meta.qa enrichment"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "composeOptions > skips undefined values from later sources",
-            "title": "skips undefined values from later sources",
-            "status": "passed",
-            "duration": 7,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "skips undefined values from later sources",
-                "issueKeys": [
-                  "AUTH-201"
-                ],
-                "suite": [
-                  {
-                    "title": "composeOptions"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "IngestClient > chunks payloads above maxPayloadBytes even when below chunk threshold",
-            "title": "chunks payloads above maxPayloadBytes even when below chunk threshold",
-            "status": "passed",
-            "duration": 15,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "chunks payloads above maxPayloadBytes even when below chunk threshold",
-                "issueKeys": [
-                  "AUTH-201"
-                ],
-                "suite": [
-                  {
-                    "title": "IngestClient"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "buildIngestPayload > wraps Jest JSON with FR41 metadata",
-            "title": "wraps Jest JSON with FR41 metadata",
-            "status": "passed",
-            "duration": 2,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "wraps Jest JSON with FR41 metadata",
-                "issueKeys": [
-                  "AUTH-202"
-                ],
-                "suite": [
-                  {
-                    "title": "buildIngestPayload"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "buildIngestPayload > includes optional fixVersion and sprintName (FR21)",
-            "title": "includes optional fixVersion and sprintName (FR21)",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "includes optional fixVersion and sprintName (FR21)",
-                "issueKeys": [
-                  "AUTH-203"
-                ],
-                "suite": [
-                  {
-                    "title": "buildIngestPayload"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "envToConfig ingest retry > maps AI_TESTING_TOOL_INGEST_MAX_RETRIES and AI_TESTING_TOOL_INGEST_RETRY_BASE_DELAY_MS",
-            "title": "maps AI_TESTING_TOOL_INGEST_MAX_RETRIES and AI_TESTING_TOOL_INGEST_RETRY_BASE_DELAY_MS",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "maps AI_TESTING_TOOL_INGEST_MAX_RETRIES and AI_TESTING_TOOL_INGEST_RETRY_BASE_DELAY_MS",
-                "issueKeys": [
-                  "AUTH-204"
-                ],
-                "suite": [
-                  {
-                    "title": "envToConfig ingest retry"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "envToConfig version tags > maps AI_TESTING_TOOL_FIX_VERSION and AI_TESTING_TOOL_SPRINT",
-            "title": "maps AI_TESTING_TOOL_FIX_VERSION and AI_TESTING_TOOL_SPRINT",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "maps AI_TESTING_TOOL_FIX_VERSION and AI_TESTING_TOOL_SPRINT",
-                "issueKeys": [
-                  "AUTH-205"
-                ],
-                "suite": [
-                  {
-                    "title": "envToConfig version tags"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "createDefaultConfig > defaults to mode off with ingest limits",
-            "title": "defaults to mode off with ingest limits",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "defaults to mode off with ingest limits",
-                "issueKeys": [
-                  "AUTH-206"
-                ],
-                "suite": [
-                  {
-                    "title": "createDefaultConfig"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "createDefaultConfig > merges env overrides last",
-            "title": "merges env overrides last",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "merges env overrides last",
-                "issueKeys": [
-                  "AUTH-207"
-                ],
-                "suite": [
-                  {
-                    "title": "createDefaultConfig"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "buildCiTemplateContext > fills GitHub secret and launch expressions (proposal §3.2)",
-            "title": "fills GitHub secret and launch expressions (proposal §3.2)",
-            "status": "passed",
-            "duration": 5,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "fills GitHub secret and launch expressions (proposal §3.2)",
-                "issueKeys": [
-                  "AUTH-201"
-                ],
-                "suite": [
-                  {
-                    "title": "buildCiTemplateContext"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "buildCiTemplateContext > fills GitLab / Azure / Jenkins / Bitbucket defaults",
-            "title": "fills GitLab / Azure / Jenkins / Bitbucket defaults",
-            "status": "passed",
-            "duration": 2,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "fills GitLab / Azure / Jenkins / Bitbucket defaults",
-                "issueKeys": [
-                  "AUTH-202"
-                ],
-                "suite": [
-                  {
-                    "title": "buildCiTemplateContext"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "listCiTemplateVariants > returns upload (Vitest/Jest/Playwright) + reporter (… + WDIO) matrix",
-            "title": "returns upload (Vitest/Jest/Playwright) + reporter (… + WDIO) matrix",
-            "status": "passed",
-            "duration": 2,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "returns upload (Vitest/Jest/Playwright) + reporter (… + WDIO) matrix",
-                "issueKeys": [
-                  "AUTH-203"
-                ],
-                "suite": [
-                  {
-                    "title": "listCiTemplateVariants"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — all platforms × frameworks > github / vitest / upload",
-            "title": "github / vitest / upload",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "github / vitest / upload",
-                "issueKeys": [
-                  "AUTH-204"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — all platforms × frameworks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — all platforms × frameworks > github / jest / upload",
-            "title": "github / jest / upload",
-            "status": "passed",
-            "duration": 2,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "github / jest / upload",
-                "issueKeys": [
-                  "AUTH-205"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — all platforms × frameworks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — all platforms × frameworks > github / playwright / upload",
-            "title": "github / playwright / upload",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "github / playwright / upload",
-                "issueKeys": [
-                  "AUTH-206"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — all platforms × frameworks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — all platforms × frameworks > gitlab / vitest / upload",
-            "title": "gitlab / vitest / upload",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "gitlab / vitest / upload",
-                "issueKeys": [
-                  "AUTH-207"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — all platforms × frameworks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — all platforms × frameworks > gitlab / jest / upload",
-            "title": "gitlab / jest / upload",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "gitlab / jest / upload",
-                "issueKeys": [
-                  "AUTH-208"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — all platforms × frameworks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — all platforms × frameworks > gitlab / playwright / upload",
-            "title": "gitlab / playwright / upload",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "gitlab / playwright / upload",
-                "issueKeys": [
-                  "AUTH-209"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — all platforms × frameworks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — all platforms × frameworks > azure-devops / vitest / upload",
-            "title": "azure-devops / vitest / upload",
-            "status": "passed",
-            "duration": 2,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "azure-devops / vitest / upload",
-                "issueKeys": [
-                  "AUTH-210"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — all platforms × frameworks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — all platforms × frameworks > azure-devops / jest / upload",
-            "title": "azure-devops / jest / upload",
-            "status": "passed",
-            "duration": 2,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "azure-devops / jest / upload",
-                "issueKeys": [
-                  "AUTH-211"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — all platforms × frameworks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — all platforms × frameworks > azure-devops / playwright / upload",
-            "title": "azure-devops / playwright / upload",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "azure-devops / playwright / upload",
-                "issueKeys": [
-                  "AUTH-212"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — all platforms × frameworks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — all platforms × frameworks > jenkins / vitest / upload",
-            "title": "jenkins / vitest / upload",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "jenkins / vitest / upload",
-                "issueKeys": [
-                  "AUTH-213"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — all platforms × frameworks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — all platforms × frameworks > jenkins / jest / upload",
-            "title": "jenkins / jest / upload",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "jenkins / jest / upload",
-                "issueKeys": [
-                  "AUTH-214"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — all platforms × frameworks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — all platforms × frameworks > jenkins / playwright / upload",
-            "title": "jenkins / playwright / upload",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "jenkins / playwright / upload",
-                "issueKeys": [
-                  "AUTH-215"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — all platforms × frameworks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — all platforms × frameworks > bitbucket / vitest / upload",
-            "title": "bitbucket / vitest / upload",
-            "status": "passed",
-            "duration": 2,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "bitbucket / vitest / upload",
-                "issueKeys": [
-                  "AUTH-216"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — all platforms × frameworks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — all platforms × frameworks > bitbucket / jest / upload",
-            "title": "bitbucket / jest / upload",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "bitbucket / jest / upload",
-                "issueKeys": [
-                  "AUTH-217"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — all platforms × frameworks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — all platforms × frameworks > bitbucket / playwright / upload",
-            "title": "bitbucket / playwright / upload",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "bitbucket / playwright / upload",
-                "issueKeys": [
-                  "AUTH-218"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — all platforms × frameworks"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — Vitest upload snapshots (proposal §5) > §5.1 GitHub",
-            "title": "§5.1 GitHub",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "§5.1 GitHub",
-                "issueKeys": [
-                  "AUTH-219"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — Vitest upload snapshots (proposal §5)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — Vitest upload snapshots (proposal §5) > §5.2 GitLab",
-            "title": "§5.2 GitLab",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "§5.2 GitLab",
-                "issueKeys": [
-                  "AUTH-220"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — Vitest upload snapshots (proposal §5)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — Vitest upload snapshots (proposal §5) > §5.3 Jenkins",
-            "title": "§5.3 Jenkins",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "§5.3 Jenkins",
-                "issueKeys": [
-                  "AUTH-221"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — Vitest upload snapshots (proposal §5)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — Vitest upload snapshots (proposal §5) > §5.4 Bitbucket",
-            "title": "§5.4 Bitbucket",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "§5.4 Bitbucket",
-                "issueKeys": [
-                  "AUTH-222"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — Vitest upload snapshots (proposal §5)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "generateCiTemplate — Vitest upload snapshots (proposal §5) > §5.5 Azure DevOps",
-            "title": "§5.5 Azure DevOps",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "§5.5 Azure DevOps",
-                "issueKeys": [
-                  "AUTH-223"
-                ],
-                "suite": [
-                  {
-                    "title": "generateCiTemplate — Vitest upload snapshots (proposal §5)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > github / vitest / reporter",
-            "title": "github / vitest / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "github / vitest / reporter",
-                "issueKeys": [
-                  "AUTH-224"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > github / jest / reporter",
-            "title": "github / jest / reporter",
-            "status": "passed",
-            "duration": 2,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "github / jest / reporter",
-                "issueKeys": [
-                  "AUTH-225"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > github / mocha / reporter",
-            "title": "github / mocha / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "github / mocha / reporter",
-                "issueKeys": [
-                  "AUTH-226"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > github / cucumberjs / reporter",
-            "title": "github / cucumberjs / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "github / cucumberjs / reporter",
-                "issueKeys": [
-                  "AUTH-227"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > github / cypress / reporter",
-            "title": "github / cypress / reporter",
-            "status": "passed",
-            "duration": 2,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "github / cypress / reporter",
-                "issueKeys": [
-                  "AUTH-228"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > github / playwright / reporter",
-            "title": "github / playwright / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "github / playwright / reporter",
-                "issueKeys": [
-                  "AUTH-229"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > github / wdio / reporter",
-            "title": "github / wdio / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "github / wdio / reporter",
-                "issueKeys": [
-                  "AUTH-230"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > gitlab / vitest / reporter",
-            "title": "gitlab / vitest / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "gitlab / vitest / reporter",
-                "issueKeys": [
-                  "AUTH-231"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > gitlab / jest / reporter",
-            "title": "gitlab / jest / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "gitlab / jest / reporter",
-                "issueKeys": [
-                  "AUTH-232"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > gitlab / mocha / reporter",
-            "title": "gitlab / mocha / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "gitlab / mocha / reporter",
-                "issueKeys": [
-                  "AUTH-233"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > gitlab / cucumberjs / reporter",
-            "title": "gitlab / cucumberjs / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "gitlab / cucumberjs / reporter",
-                "issueKeys": [
-                  "AUTH-234"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > gitlab / cypress / reporter",
-            "title": "gitlab / cypress / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "gitlab / cypress / reporter",
-                "issueKeys": [
-                  "AUTH-235"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > gitlab / playwright / reporter",
-            "title": "gitlab / playwright / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "gitlab / playwright / reporter",
-                "issueKeys": [
-                  "AUTH-236"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > gitlab / wdio / reporter",
-            "title": "gitlab / wdio / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "gitlab / wdio / reporter",
-                "issueKeys": [
-                  "AUTH-237"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > azure-devops / vitest / reporter",
-            "title": "azure-devops / vitest / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "azure-devops / vitest / reporter",
-                "issueKeys": [
-                  "AUTH-238"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > azure-devops / jest / reporter",
-            "title": "azure-devops / jest / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "azure-devops / jest / reporter",
-                "issueKeys": [
-                  "AUTH-239"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > azure-devops / mocha / reporter",
-            "title": "azure-devops / mocha / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "azure-devops / mocha / reporter",
-                "issueKeys": [
-                  "AUTH-240"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > azure-devops / cucumberjs / reporter",
-            "title": "azure-devops / cucumberjs / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "azure-devops / cucumberjs / reporter",
-                "issueKeys": [
-                  "AUTH-241"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > azure-devops / cypress / reporter",
-            "title": "azure-devops / cypress / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "azure-devops / cypress / reporter",
-                "issueKeys": [
-                  "AUTH-242"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > azure-devops / playwright / reporter",
-            "title": "azure-devops / playwright / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "azure-devops / playwright / reporter",
-                "issueKeys": [
-                  "AUTH-243"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > azure-devops / wdio / reporter",
-            "title": "azure-devops / wdio / reporter",
-            "status": "passed",
-            "duration": 2,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "azure-devops / wdio / reporter",
-                "issueKeys": [
-                  "AUTH-244"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > jenkins / vitest / reporter",
-            "title": "jenkins / vitest / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "jenkins / vitest / reporter",
-                "issueKeys": [
-                  "AUTH-245"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > jenkins / jest / reporter",
-            "title": "jenkins / jest / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "jenkins / jest / reporter",
-                "issueKeys": [
-                  "AUTH-246"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > jenkins / mocha / reporter",
-            "title": "jenkins / mocha / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "jenkins / mocha / reporter",
-                "issueKeys": [
-                  "AUTH-247"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > jenkins / cucumberjs / reporter",
-            "title": "jenkins / cucumberjs / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "jenkins / cucumberjs / reporter",
-                "issueKeys": [
-                  "AUTH-248"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > jenkins / cypress / reporter",
-            "title": "jenkins / cypress / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "jenkins / cypress / reporter",
-                "issueKeys": [
-                  "AUTH-249"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > jenkins / playwright / reporter",
-            "title": "jenkins / playwright / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "jenkins / playwright / reporter",
-                "issueKeys": [
-                  "AUTH-250"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > jenkins / wdio / reporter",
-            "title": "jenkins / wdio / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "jenkins / wdio / reporter",
-                "issueKeys": [
-                  "AUTH-251"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > bitbucket / vitest / reporter",
-            "title": "bitbucket / vitest / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "bitbucket / vitest / reporter",
-                "issueKeys": [
-                  "AUTH-252"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > bitbucket / jest / reporter",
-            "title": "bitbucket / jest / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "bitbucket / jest / reporter",
-                "issueKeys": [
-                  "AUTH-253"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > bitbucket / mocha / reporter",
-            "title": "bitbucket / mocha / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "bitbucket / mocha / reporter",
-                "issueKeys": [
-                  "AUTH-254"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > bitbucket / cucumberjs / reporter",
-            "title": "bitbucket / cucumberjs / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "bitbucket / cucumberjs / reporter",
-                "issueKeys": [
-                  "AUTH-255"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > bitbucket / cypress / reporter",
-            "title": "bitbucket / cypress / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "bitbucket / cypress / reporter",
-                "issueKeys": [
-                  "AUTH-256"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > bitbucket / playwright / reporter",
-            "title": "bitbucket / playwright / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "bitbucket / playwright / reporter",
-                "issueKeys": [
-                  "AUTH-257"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > bitbucket / wdio / reporter",
-            "title": "bitbucket / wdio / reporter",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "bitbucket / wdio / reporter",
-                "issueKeys": [
-                  "AUTH-258"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > rejects Cypress upload path",
-            "title": "rejects Cypress upload path",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "rejects Cypress upload path",
-                "issueKeys": [
-                  "AUTH-259"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > rejects WDIO upload path",
-            "title": "rejects WDIO upload path",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "rejects WDIO upload path",
-                "issueKeys": [
-                  "AUTH-260"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > rejects Mocha upload path",
-            "title": "rejects Mocha upload path",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "rejects Mocha upload path",
-                "issueKeys": [
-                  "AUTH-261"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > rejects CucumberJS upload path",
-            "title": "rejects CucumberJS upload path",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "rejects CucumberJS upload path",
-                "issueKeys": [
-                  "AUTH-262"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio) > supports Playwright upload JSON path",
-            "title": "supports Playwright upload JSON path",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "supports Playwright upload JSON path",
-                "issueKeys": [
-                  "AUTH-263"
-                ],
-                "suite": [
-                  {
-                    "title": "reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forge-jest / @ai-testing-tool/forge-mocha / @ai-testing-tool/forge-cucumberjs / @ai-testing-tool/forge-cypress / @ai-testing-tool/forge-playwright / @ai-testing-tool/forge-wdio)"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "vitestJsonRun > builds the Vitest JSON reporter command",
-            "title": "builds the Vitest JSON reporter command",
-            "status": "passed",
-            "duration": 1,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "builds the Vitest JSON reporter command",
-                "issueKeys": [
-                  "AUTH-264"
-                ],
-                "suite": [
-                  {
-                    "title": "vitestJsonRun"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "withRetry > retries retryable errors until success",
-            "title": "retries retryable errors until success",
-            "status": "passed",
-            "duration": 225,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "retries retryable errors until success",
-                "issueKeys": [
-                  "AUTH-201"
-                ],
-                "suite": [
-                  {
-                    "title": "withRetry"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
                   }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "withRetry > does not retry non-retryable errors",
-            "title": "does not retry non-retryable errors",
-            "status": "passed",
-            "duration": 2,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
                 },
-                "title": "does not retry non-retryable errors",
+                "title": "mocha path unchanged when useCucumber is false",
                 "issueKeys": [
-                  "AUTH-202"
+                  "AUTH-1004"
                 ],
                 "suite": [
                   {
-                    "title": "withRetry"
+                    "title": "QaWdioReporter useCucumber (FR135)"
                   }
                 ],
                 "steps": [
@@ -2992,58 +611,31 @@
             }
           },
           {
-            "fullName": "IngestClient > retries direct ingest on transient HTTP errors",
-            "title": "retries direct ingest on transient HTTP errors",
+            "fullName": "QaWdioReporter modes > mode=file via reporter writes payload with qa.step hierarchy",
+            "title": "mode=file via reporter writes payload with qa.step hierarchy",
             "status": "passed",
-            "duration": 198,
+            "duration": 319,
             "failureMessages": [],
             "meta": {
               "qa": {
                 "framework": "vitest",
                 "host": {
                   "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
-                },
-                "title": "retries direct ingest on transient HTTP errors",
-                "issueKeys": [
-                  "AUTH-202"
-                ],
-                "suite": [
-                  {
-                    "title": "IngestClient"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "fe9feb261bc5f470ae7eb634e053aad802e6f03d",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "authorEmail": "jsoftconnector@gmail.com"
                   }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "IngestClient > uploads large payloads via session/chunk/complete",
-            "title": "uploads large payloads via session/chunk/complete",
-            "status": "passed",
-            "duration": 3,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest"
                 },
-                "title": "uploads large payloads via session/chunk/complete",
+                "title": "mode=file via reporter writes payload with qa.step hierarchy",
                 "issueKeys": [
-                  "AUTH-203"
+                  "AUTH-1003"
                 ],
                 "suite": [
                   {
-                    "title": "IngestClient"
+                    "title": "QaWdioReporter modes"
                   }
                 ],
                 "steps": [
