@@ -323,8 +323,8 @@ function detectHostEnvironment() {
     const ci = {};
     if (detected.ciPlatform)
         ci.platform = detected.ciPlatform;
-    if (detected.buildUrl)
-        ci.buildUrl = detected.buildUrl;
+    if (detected.ciBuildUrl)
+        ci.buildUrl = detected.ciBuildUrl;
     const git = {};
     if (detected.gitCommitSha)
         git.commitSha = detected.gitCommitSha;
@@ -332,8 +332,8 @@ function detectHostEnvironment() {
         git.branch = detected.gitBranch;
     if (detected.gitAuthorName)
         git.authorName = detected.gitAuthorName;
-    if (detected.gitAuthorEmail)
-        git.authorEmail = detected.gitAuthorEmail;
+    if (detected.gitHashCommitUrl)
+        git.hashCommitUrl = detected.gitHashCommitUrl;
     return {
         ci: Object.keys(ci).length > 0 ? ci : undefined,
         git: Object.keys(git).length > 0 ? git : undefined,

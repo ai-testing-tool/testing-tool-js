@@ -10,7 +10,7 @@ function buildLargePayload(): IngestPayload {
   return {
     projectKey: 'AUTH',
     launchName: 'large-run',
-    buildUrl: 'https://ci.example/run/99',
+    ciBuildUrl: 'https://ci.example/run/99',
     report: {
       numTotalTests: 2,
       testResults: [

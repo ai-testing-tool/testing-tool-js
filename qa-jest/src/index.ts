@@ -6,6 +6,7 @@ import {
   type QaMetaWire,
 } from '@ai-testing-tool/forge-commons';
 
+import { getQaJestBridge, setQaJestBridge } from './bridge';
 import type { QaJestBridge, QaMetaEntry } from './jest';
 import { toJestJsonReport, type AggregatedResultLike } from './report-builder';
 
@@ -20,7 +21,8 @@ type JestTestCaseResultLike = {
  * Jest custom reporter for AiTestingTool.
  * Configure: `reporters: ['default', '@ai-testing-tool/forge-jest']` or `['@ai-testing-tool/forge-jest', { mode: 'ingest', ... }]`.
  *
- * Helpers from `@ai-testing-tool/forge-jest/jest` forward metadata via a global bridge (works with `--runInBand`).
+ * Helpers from `@ai-testing-tool/forge-jest/jest` forward metadata via a process-shared
+ * bridge (works with `--runInBand`, including jsdom test environments).
  */
 export class JestQaReporter {
   private readonly options: JestQaOptions;
@@ -45,7 +47,7 @@ export class JestQaReporter {
       },
       currentTitle: undefined,
     };
-    globalThis.__QA_JEST_BRIDGE__ = bridge;
+    setQaJestBridge(bridge);
   }
 
   onTestCaseStart(
@@ -53,9 +55,9 @@ export class JestQaReporter {
     testCaseStartInfo: JestTestCaseResultLike,
   ): void {
     try {
-      if (globalThis.__QA_JEST_BRIDGE__) {
-        globalThis.__QA_JEST_BRIDGE__.currentTitle =
-          testCaseStartInfo.fullName ?? testCaseStartInfo.title;
+      const bridge = getQaJestBridge();
+      if (bridge) {
+        bridge.currentTitle = testCaseStartInfo.fullName ?? testCaseStartInfo.title;
       }
     } catch {
       // never fail

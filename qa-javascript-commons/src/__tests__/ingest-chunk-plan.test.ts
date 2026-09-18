@@ -10,7 +10,7 @@ function buildPayload(testResults: IngestPayload['report']['testResults']): Inge
   return {
     projectKey: 'AUTH',
     launchName: 'ci #1',
-    buildUrl: 'https://ci.example/run/1',
+    ciBuildUrl: 'https://ci.example/run/1',
     format: 'jest-json',
     report: {
       numTotalTests: testResults.length,

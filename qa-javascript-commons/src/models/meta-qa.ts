@@ -38,7 +38,7 @@ export type QaMetaGit = {
   commitSha?: string;
   branch?: string;
   authorName?: string;
-  authorEmail?: string;
+  hashCommitUrl?: string;
 };
 
 export type QaMetaHost = {
@@ -395,7 +395,7 @@ export type ToQaMetaWireOptions = {
     commitSha?: string;
     branch?: string;
     authorName?: string;
-    authorEmail?: string;
+    hashCommitUrl?: string;
   };
 };
 
@@ -415,12 +415,12 @@ function detectHostEnvironment(): { ci?: QaMetaCi; git?: QaMetaGit } {
   const detected = detectCiEnvironment();
   const ci: QaMetaCi = {};
   if (detected.ciPlatform) ci.platform = detected.ciPlatform;
-  if (detected.buildUrl) ci.buildUrl = detected.buildUrl;
+  if (detected.ciBuildUrl) ci.buildUrl = detected.ciBuildUrl;
   const git: QaMetaGit = {};
   if (detected.gitCommitSha) git.commitSha = detected.gitCommitSha;
   if (detected.gitBranch) git.branch = detected.gitBranch;
   if (detected.gitAuthorName) git.authorName = detected.gitAuthorName;
-  if (detected.gitAuthorEmail) git.authorEmail = detected.gitAuthorEmail;
+  if (detected.gitHashCommitUrl) git.hashCommitUrl = detected.gitHashCommitUrl;
   return {
     ci: Object.keys(ci).length > 0 ? ci : undefined,
     git: Object.keys(git).length > 0 ? git : undefined,

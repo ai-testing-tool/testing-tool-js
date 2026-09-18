@@ -2,12 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JestQaReporter = void 0;
 const forge_commons_1 = require("@ai-testing-tool/forge-commons");
+const bridge_1 = require("./bridge");
 const report_builder_1 = require("./report-builder");
 /**
  * Jest custom reporter for AiTestingTool.
  * Configure: `reporters: ['default', '@ai-testing-tool/forge-jest']` or `['@ai-testing-tool/forge-jest', { mode: 'ingest', ... }]`.
  *
- * Helpers from `@ai-testing-tool/forge-jest/jest` forward metadata via a global bridge (works with `--runInBand`).
+ * Helpers from `@ai-testing-tool/forge-jest/jest` forward metadata via a process-shared
+ * bridge (works with `--runInBand`, including jsdom test environments).
  */
 class JestQaReporter {
     options;
@@ -30,13 +32,13 @@ class JestQaReporter {
             },
             currentTitle: undefined,
         };
-        globalThis.__QA_JEST_BRIDGE__ = bridge;
+        (0, bridge_1.setQaJestBridge)(bridge);
     }
     onTestCaseStart(_test, testCaseStartInfo) {
         try {
-            if (globalThis.__QA_JEST_BRIDGE__) {
-                globalThis.__QA_JEST_BRIDGE__.currentTitle =
-                    testCaseStartInfo.fullName ?? testCaseStartInfo.title;
+            const bridge = (0, bridge_1.getQaJestBridge)();
+            if (bridge) {
+                bridge.currentTitle = testCaseStartInfo.fullName ?? testCaseStartInfo.title;
             }
         }
         catch {

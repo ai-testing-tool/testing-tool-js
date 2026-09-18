@@ -6,25 +6,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.qa = void 0;
 exports.drainQaMeta = drainQaMeta;
 const forge_commons_1 = require("@ai-testing-tool/forge-commons");
+const bridge_1 = require("./bridge");
 const localBuffer = [];
 function pushMeta(type, body) {
     const entry = { type, body };
-    if (globalThis.__QA_JEST_BRIDGE__) {
-        globalThis.__QA_JEST_BRIDGE__.push(entry);
+    const bridge = (0, bridge_1.getQaJestBridge)();
+    if (bridge) {
+        bridge.push(entry);
         return;
     }
     localBuffer.push(entry);
 }
 function drainQaMeta() {
-    if (globalThis.__QA_JEST_BRIDGE__) {
-        return globalThis.__QA_JEST_BRIDGE__.drain();
+    const bridge = (0, bridge_1.getQaJestBridge)();
+    if (bridge) {
+        return bridge.drain();
     }
     const copy = [...localBuffer];
     localBuffer.length = 0;
     return copy;
 }
 function currentTestTitle() {
-    return globalThis.__QA_JEST_BRIDGE__?.currentTitle;
+    return (0, bridge_1.getQaJestBridge)()?.currentTitle;
 }
 exports.qa = {
     async title(value) {

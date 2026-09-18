@@ -2,7 +2,7 @@
 
 Publish test results from JavaScript/TypeScript projects to **AI Testing Tool** — a Forge app that ingests Jest/Vitest JSON, stores launches, and syncs traceability to Jira.
 
-> **Status:** Under active development. APIs and package versions may change between releases. Pin to a specific version (currently **2.1.0**) in production CI.
+> **Status:** Under active development. APIs and package versions may change between releases. Pin to a specific version (currently **2.2.0**) in production CI.
 
 ## What you get in Jira
 
@@ -72,7 +72,7 @@ Your test runner  →  @ai-testing-tool/forge-* reporter or CLI  →  Forge web 
 - **Automated CI:** set `AI_TESTING_TOOL_MODE=ingest` — reporters upload when the run finishes.
 - **Optional metadata:** set Jira issue keys via `qa.issueKeys()` (or Cucumber `@AUTH-101` tags) — stored in `meta.qa.issueKeys`, not in test titles.
 - **Rich steps:** use `qa.suite` / `qa.step` (Jest, Vitest, Mocha, Cypress, WDIO), Playwright `test.step()`, or Cucumber tags — suite hierarchy appears in ingest payloads.
-- **Tags:** `qa.suiteId`, `qa.planId`, `qa.plan`, `qa.fixVersion`, `qa.sprintName`, `qa.labels` write onto `meta.qa`.
+- **Tags:** `qa.suiteId`, `qa.planId`, `qa.plan`, `qa.fixVersion`, `qa.sprintName`, `qa.labels` write onto `meta.qa`. The Forge ingest API reads **plan / fix version / sprint only from `meta.qa`** (not top-level payload fields).
 - **Large suites:** reports above ~3.5 MB chunk automatically; transient upload errors retry.
 
 Configure ingest in Jira under **Test Management → Settings → Automation setup**.
@@ -199,7 +199,7 @@ test('login succeeds', async () => {
 npx jest --runInBand
 ```
 
-Use `--runInBand` so `qa.*` helpers share the reporter bridge.
+Use `--runInBand` so `qa.*` helpers share the reporter bridge (including jsdom / `*.test.tsx`). Those helpers write `meta.qa` on each assertion — that is how plan / fix version / sprint reach Forge (not as top-level ingest fields).
 
 ### Mocha
 
@@ -487,8 +487,8 @@ Ingest payload schema: [`schemas/ingest-payload.schema.json`](./schemas/ingest-p
 | `AI_TESTING_TOOL_INGEST_TOKEN` | ingest mode | Bearer token from Automation setup |
 | `AI_TESTING_TOOL_PROJECT_KEY` | yes | Jira project key |
 | `AI_TESTING_TOOL_LAUNCH_NAME` | no | Display name for the launch (defaults vary by runner) |
-| `AI_TESTING_TOOL_PLAN_ID` / `PLAN_KEY` / `PLAN_NAME` | no | Link launch to a test plan / cycle |
-| `AI_TESTING_TOOL_FIX_VERSION` / `AI_TESTING_TOOL_SPRINT` | no | Version tags on the launch |
+
+Plan / fix version / sprint are **not** set via env. Use `qa.planId` / `qa.plan` / `qa.fixVersion` / `qa.sprintName` (and related helpers) so they land on `meta.qa`.
 
 ### Large reports
 
@@ -509,18 +509,6 @@ Optional tuning:
 - HTTP **201** with body `{ "ok": true }` means the launch was accepted.
 - Open the Jira project **Test Management** page to see the launch and sync status.
 - Jira issue creation (TestCase / TestExecution) runs asynchronously after ingest — allow a few minutes under load.
-
-## Upgrading to 2.0.0
-
-Breaking changes from 1.x:
-
-- **Web-trigger only** — `AI_TESTING_TOOL_INGEST_URL` must be the Forge web trigger URL (not an ingest gateway).
-- **Removed** — `AI_TESTING_TOOL_FORGE_INGEST_URL`, `AI_TESTING_TOOL_FORGE_INGEST_TOKEN`, ingest-gateway mode.
-- **Added** — automatic chunked upload and retry (see above).
-
-```bash
-npm install -D @ai-testing-tool/forge-vitest@2.0.0 @ai-testing-tool/forge-commons@2.0.0
-```
 
 ## Troubleshooting
 
@@ -555,13 +543,13 @@ npm test
 Lockstep version across all packages. Tag `v2.0.0` triggers the publish pipeline.
 
 ```bash
-npm run release:bump 2.1.0
+npm run release:bump 2.2.0
 npm test && npm run release:dry
-git commit -am "release: v2.1.0"
-git tag v2.1.0 && git push origin main develop v2.1.0
+git commit -am "release: v2.2.0"
+git tag v2.2.0 && git push origin main develop v2.2.0
 ```
 
-Manual publish: `RELEASE_TAG=v2.1.0 npm run release` (requires npm token).
+Manual publish: `RELEASE_TAG=v2.2.0 npm run release` (requires npm token).
 
 ## License
 

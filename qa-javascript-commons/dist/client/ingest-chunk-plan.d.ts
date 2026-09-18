@@ -15,12 +15,12 @@ export type IngestSessionBody = {
     planName?: string;
     fixVersion?: string;
     sprintName?: string;
-    buildUrl?: string;
+    ciBuildUrl?: string;
     ciPlatform?: string;
     gitCommitSha?: string;
     gitBranch?: string;
     gitAuthorName?: string;
-    gitAuthorEmail?: string;
+    gitHashCommitUrl?: string;
     reportMeta: Omit<JestVitestJsonReport, 'testResults'>;
 };
 export type IngestChunkBody = {

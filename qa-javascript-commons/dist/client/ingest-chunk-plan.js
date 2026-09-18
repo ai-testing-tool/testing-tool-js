@@ -49,7 +49,7 @@ function createIngestSessionId(payload) {
     const fingerprint = [
         payload.projectKey,
         payload.launchName ?? '',
-        payload.buildUrl ?? '',
+        payload.ciBuildUrl ?? '',
         payload.gitCommitSha ?? '',
     ].join('|');
     if (!fingerprint.replace(/\|/g, '').trim()) {
@@ -78,12 +78,12 @@ function planChunks(payload, options = {}) {
         planName: payload.planName,
         fixVersion: payload.fixVersion,
         sprintName: payload.sprintName,
-        buildUrl: payload.buildUrl,
+        ciBuildUrl: payload.ciBuildUrl,
         ciPlatform: payload.ciPlatform,
         gitCommitSha: payload.gitCommitSha,
         gitBranch: payload.gitBranch,
         gitAuthorName: payload.gitAuthorName,
-        gitAuthorEmail: payload.gitAuthorEmail,
+        gitHashCommitUrl: payload.gitHashCommitUrl,
         reportMeta: reportMetaFromPayload(payload.report),
     };
     const chunks = groups.map((group, chunkIndex) => ({

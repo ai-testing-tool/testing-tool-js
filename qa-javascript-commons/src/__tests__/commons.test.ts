@@ -27,7 +27,7 @@ qaDescribe('buildIngestPayload', () => {
         numTotalTests: 1,
         testResults: [{ name: 'suite.test.ts', assertionResults: [] }],
       },
-      ci: { ciPlatform: 'github', buildUrl: 'https://example/run/1' },
+      ci: { ciPlatform: 'github', ciBuildUrl: 'https://example/run/1' },
     });
 
     expect(payload.projectKey).toBe('AUTH');

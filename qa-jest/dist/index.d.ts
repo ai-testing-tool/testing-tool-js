@@ -9,7 +9,8 @@ type JestTestCaseResultLike = {
  * Jest custom reporter for AiTestingTool.
  * Configure: `reporters: ['default', '@ai-testing-tool/forge-jest']` or `['@ai-testing-tool/forge-jest', { mode: 'ingest', ... }]`.
  *
- * Helpers from `@ai-testing-tool/forge-jest/jest` forward metadata via a global bridge (works with `--runInBand`).
+ * Helpers from `@ai-testing-tool/forge-jest/jest` forward metadata via a process-shared
+ * bridge (works with `--runInBand`, including jsdom test environments).
  */
 export declare class JestQaReporter {
     private readonly options;

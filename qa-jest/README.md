@@ -59,7 +59,7 @@ test('AUTH-101 login', async () => {
 
 Prefer **Jira issue keys in test titles**.
 
-With the `@ai-testing-tool/forge-jest` reporter loaded (use `--runInBand` so helpers share the reporter bridge), `qa.*` metadata is attached as `assertionResults[].meta.qa` on Path B ingest/file.
+With the `@ai-testing-tool/forge-jest` reporter loaded (use `--runInBand` so helpers share the reporter bridge), `qa.*` metadata is attached as `assertionResults[].meta.qa` on Path B ingest/file. The bridge is stored on Node `process` so it also works under **jsdom** (UI `*.test.tsx`) environments. Forge reads **plan / fix version / sprint from `meta.qa` only** (not top-level ingest payload fields).
 
 ## Dual path
 

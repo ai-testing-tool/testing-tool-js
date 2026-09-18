@@ -4,6 +4,8 @@
 
 import { uploadAttachmentForQa } from '@ai-testing-tool/forge-commons';
 
+import { getQaJestBridge } from './bridge';
+
 type StepFn = () => Promise<void> | void;
 
 export type QaAttachInput = {
@@ -58,16 +60,18 @@ const localBuffer: QaMetaEntry[] = [];
 
 function pushMeta(type: string, body: unknown): void {
   const entry = { type, body };
-  if (globalThis.__QA_JEST_BRIDGE__) {
-    globalThis.__QA_JEST_BRIDGE__.push(entry);
+  const bridge = getQaJestBridge();
+  if (bridge) {
+    bridge.push(entry);
     return;
   }
   localBuffer.push(entry);
 }
 
 export function drainQaMeta(): QaMetaEntry[] {
-  if (globalThis.__QA_JEST_BRIDGE__) {
-    return globalThis.__QA_JEST_BRIDGE__.drain();
+  const bridge = getQaJestBridge();
+  if (bridge) {
+    return bridge.drain();
   }
   const copy = [...localBuffer];
   localBuffer.length = 0;
@@ -75,7 +79,7 @@ export function drainQaMeta(): QaMetaEntry[] {
 }
 
 function currentTestTitle(): string | undefined {
-  return globalThis.__QA_JEST_BRIDGE__?.currentTitle;
+  return getQaJestBridge()?.currentTitle;
 }
 
 export const qa: QaHelpers = {

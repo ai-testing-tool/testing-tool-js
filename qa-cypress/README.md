@@ -5,7 +5,7 @@ Cypress reporter + plugin for **AI Testing Tool** (Jira Forge quality hub).
 ## Install
 
 ```bash
-npm install -D @ai-testing-tool/forge-cypress@2.1.0 @ai-testing-tool/forge-commons@2.1.0 cypress-multi-reporters
+npm install -D @ai-testing-tool/forge-cypress@2.2.0 @ai-testing-tool/forge-commons@2.2.0 cypress-multi-reporters
 ```
 
 The pinned versions above track the latest release; `npm run release:bump` keeps them in sync.

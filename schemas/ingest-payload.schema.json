@@ -14,11 +14,11 @@
       "description": "jest-json / vitest-json / normalized"
     },
     "ciPlatform": { "type": "string" },
-    "buildUrl": { "type": "string" },
+    "ciBuildUrl": { "type": "string" },
     "gitCommitSha": { "type": "string" },
     "gitBranch": { "type": "string" },
     "gitAuthorName": { "type": "string" },
-    "gitAuthorEmail": { "type": "string" },
+    "gitHashCommitUrl": { "type": "string" },
     "ciTriggeredBy": { "type": "string" },
     "gitCommittedAt": { "type": "string" },
     "gitCommitMessageSubject": { "type": "string" },

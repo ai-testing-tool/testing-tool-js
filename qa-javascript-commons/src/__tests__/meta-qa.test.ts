@@ -108,7 +108,7 @@ qaDescribe('meta.qa enrichment', () => {
         commitSha: 'abc123',
         branch: 'main',
         authorName: 'Dev',
-        authorEmail: 'dev@example.com',
+        hashCommitUrl: 'https://github.com/org/repo/commit/abc123',
       },
     });
     expect(wire?.host).toEqual({
@@ -119,7 +119,7 @@ qaDescribe('meta.qa enrichment', () => {
         commitSha: 'abc123',
         branch: 'main',
         authorName: 'Dev',
-        authorEmail: 'dev@example.com',
+        hashCommitUrl: 'https://github.com/org/repo/commit/abc123',
       },
     });
   });

@@ -20,12 +20,12 @@ export type IngestSessionBody = {
   planName?: string;
   fixVersion?: string;
   sprintName?: string;
-  buildUrl?: string;
+  ciBuildUrl?: string;
   ciPlatform?: string;
   gitCommitSha?: string;
   gitBranch?: string;
   gitAuthorName?: string;
-  gitAuthorEmail?: string;
+  gitHashCommitUrl?: string;
   reportMeta: Omit<JestVitestJsonReport, 'testResults'>;
 };
 
@@ -116,7 +116,7 @@ export function createIngestSessionId(payload: IngestPayload): string {
   const fingerprint = [
     payload.projectKey,
     payload.launchName ?? '',
-    payload.buildUrl ?? '',
+    payload.ciBuildUrl ?? '',
     payload.gitCommitSha ?? '',
   ].join('|');
 
@@ -152,12 +152,12 @@ export function planChunks(payload: IngestPayload, options: PlanChunksOptions = 
     planName: payload.planName,
     fixVersion: payload.fixVersion,
     sprintName: payload.sprintName,
-    buildUrl: payload.buildUrl,
+    ciBuildUrl: payload.ciBuildUrl,
     ciPlatform: payload.ciPlatform,
     gitCommitSha: payload.gitCommitSha,
     gitBranch: payload.gitBranch,
     gitAuthorName: payload.gitAuthorName,
-    gitAuthorEmail: payload.gitAuthorEmail,
+    gitHashCommitUrl: payload.gitHashCommitUrl,
     reportMeta: reportMetaFromPayload(payload.report),
   };
 

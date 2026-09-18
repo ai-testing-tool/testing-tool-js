@@ -10,11 +10,11 @@ type IngestPayloadBase = {
     fixVersion?: string;
     sprintName?: string;
     ciPlatform?: string;
-    buildUrl?: string;
+    ciBuildUrl?: string;
     gitCommitSha?: string;
     gitBranch?: string;
     gitAuthorName?: string;
-    gitAuthorEmail?: string;
+    gitHashCommitUrl?: string;
 };
 /** FR41 JSON ingest. */
 export type IngestPayload = IngestPayloadBase & {

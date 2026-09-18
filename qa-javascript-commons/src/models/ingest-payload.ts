@@ -13,11 +13,11 @@ type IngestPayloadBase = {
   fixVersion?: string;
   sprintName?: string;
   ciPlatform?: string;
-  buildUrl?: string;
+  ciBuildUrl?: string;
   gitCommitSha?: string;
   gitBranch?: string;
   gitAuthorName?: string;
-  gitAuthorEmail?: string;
+  gitHashCommitUrl?: string;
 };
 
 /** FR41 JSON ingest. */
@@ -68,11 +68,11 @@ export function buildIngestPayload(input: BuildIngestPayloadInput): IngestPayloa
     fixVersion: input.fixVersion?.trim() || undefined,
     sprintName: input.sprintName?.trim() || undefined,
     ciPlatform: input.ci?.ciPlatform,
-    buildUrl: input.ci?.buildUrl,
+    ciBuildUrl: input.ci?.ciBuildUrl,
     gitCommitSha: input.ci?.gitCommitSha,
     gitBranch: input.ci?.gitBranch,
     gitAuthorName: input.ci?.gitAuthorName,
-    gitAuthorEmail: input.ci?.gitAuthorEmail,
+    gitHashCommitUrl: input.ci?.gitHashCommitUrl,
   };
 
   const normalized = normalizeJestReport(input.report);

@@ -24,7 +24,7 @@ export type QaMetaGit = {
     commitSha?: string;
     branch?: string;
     authorName?: string;
-    authorEmail?: string;
+    hashCommitUrl?: string;
 };
 export type QaMetaHost = {
     framework?: string;
@@ -106,7 +106,7 @@ export type ToQaMetaWireOptions = {
         commitSha?: string;
         branch?: string;
         authorName?: string;
-        authorEmail?: string;
+        hashCommitUrl?: string;
     };
 };
 /** Resolve CI/git once per process for meta.qa.host (overridable via options). */
