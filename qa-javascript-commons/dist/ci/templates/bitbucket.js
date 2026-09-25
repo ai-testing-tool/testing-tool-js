@@ -62,7 +62,7 @@ ${bitbucketScriptLines(ctx, (0, reporter_1.frameworkReporterRun)(ctx))}
         filename: 'bitbucket-pipelines.yml',
         content,
         secretsSetup: bitbucketSecrets(),
-        variablesSetup: [...bitbucketVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
+        variablesSetup: [...bitbucketVariables(), ...(0, reporter_1.planCiVariableHints)()],
     };
 }
 /**
@@ -108,6 +108,6 @@ ${uploadBlock}
         filename: 'bitbucket-pipelines.yml',
         content,
         secretsSetup: bitbucketSecrets(),
-        variablesSetup: [...bitbucketVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
+        variablesSetup: [...bitbucketVariables(), ...(0, reporter_1.planCiVariableHints)()],
     };
 }

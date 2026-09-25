@@ -9,7 +9,6 @@ import {
   reporterConfigHint,
   reporterFrameworkLabel,
   planCiVariableHints,
-  versionTagCiVariableHints,
   reporterPackageName,
   reporterPreRunScripts,
 } from '../frameworks/reporter';
@@ -85,7 +84,7 @@ ${bitbucketScriptLines(ctx, frameworkReporterRun(ctx))}
     filename: 'bitbucket-pipelines.yml',
     content,
     secretsSetup: bitbucketSecrets(),
-    variablesSetup: [...bitbucketVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
+    variablesSetup: [...bitbucketVariables(), ...planCiVariableHints()],
   };
 }
 
@@ -135,6 +134,6 @@ ${uploadBlock}
     filename: 'bitbucket-pipelines.yml',
     content,
     secretsSetup: bitbucketSecrets(),
-    variablesSetup: [...bitbucketVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
+    variablesSetup: [...bitbucketVariables(), ...planCiVariableHints()],
   };
 }

@@ -9,7 +9,6 @@ import {
   reporterConfigHint,
   reporterFrameworkLabel,
   planCiVariableHints,
-  versionTagCiVariableHints,
   reporterPackageName,
   reporterPreRunScripts,
 } from '../frameworks/reporter';
@@ -73,8 +72,7 @@ ${jobName}:
     AI_TESTING_TOOL_INGEST_TOKEN: $AI_TESTING_TOOL_INGEST_TOKEN
     AI_TESTING_TOOL_PROJECT_KEY: $JIRA_PROJECT_KEY
     AI_TESTING_TOOL_LAUNCH_NAME: $CI_PIPELINE_ID
-    # Optional Test Plan: AI_TESTING_TOOL_PLAN_NAME / AI_TESTING_TOOL_PLAN_ID / AI_TESTING_TOOL_PLAN_KEY
-    # Optional tags: AI_TESTING_TOOL_FIX_VERSION / AI_TESTING_TOOL_SPRINT
+    # Optional Test Plan: AI_TESTING_TOOL_PLAN_KEY
   script:
     - npm ci
 ${gitlabScriptLines(ctx, frameworkReporterRun(ctx))}
@@ -87,7 +85,7 @@ ${gitlabScriptLines(ctx, frameworkReporterRun(ctx))}
     filename: '.gitlab-ci.yml',
     content,
     secretsSetup: gitlabSecrets(),
-    variablesSetup: [...gitlabVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
+    variablesSetup: [...gitlabVariables(), ...planCiVariableHints()],
   };
 }
 
@@ -146,6 +144,6 @@ ${uploadBlock}
     filename: '.gitlab-ci.yml',
     content,
     secretsSetup: gitlabSecrets(),
-    variablesSetup: [...gitlabVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
+    variablesSetup: [...gitlabVariables(), ...planCiVariableHints()],
   };
 }

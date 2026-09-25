@@ -15,7 +15,6 @@ exports.reporterFrameworkLabel = reporterFrameworkLabel;
 exports.reporterConfigHint = reporterConfigHint;
 exports.reporterIngestEnvLines = reporterIngestEnvLines;
 exports.planCiVariableHints = planCiVariableHints;
-exports.versionTagCiVariableHints = versionTagCiVariableHints;
 exports.assertReporterFramework = assertReporterFramework;
 /** Vitest run when @ai-testing-tool/forge-vitest is configured in vitest.config.ts. */
 function vitestReporterRun() {
@@ -133,41 +132,15 @@ function reporterIngestEnvLines(ctx) {
         url: ctx.ingestUrlExpr ?? ctx.ingestUrlSecret,
         token: ctx.ingestTokenExpr ?? ctx.ingestTokenSecret,
         project: ctx.projectKeyExpr ?? ctx.projectKey,
-        planNameHint: 'AI_TESTING_TOOL_PLAN_NAME',
     };
 }
 /** Shared optional plan env vars for CI variable checklists (FR158). */
 function planCiVariableHints() {
     return [
         {
-            name: 'AI_TESTING_TOOL_PLAN_NAME',
-            description: 'Optional Test Plan display name (auto-creates stub unless require_existing_plan)',
-            platformHint: 'Set as a CI variable/env when attaching launches to a plan',
-        },
-        {
-            name: 'AI_TESTING_TOOL_PLAN_ID',
-            description: 'Optional Test Plan UUID from AiTestingTool Plans UI',
-            platformHint: 'Prefer over plan name when the plan already exists',
-        },
-        {
             name: 'AI_TESTING_TOOL_PLAN_KEY',
             description: 'Optional Test Plan slug (plan_key)',
-            platformHint: 'Alternative to plan name / id',
-        },
-    ];
-}
-/** Optional fix version / sprint tags (FR21). */
-function versionTagCiVariableHints() {
-    return [
-        {
-            name: 'AI_TESTING_TOOL_FIX_VERSION',
-            description: 'Optional fix version / release tag on the launch',
-            platformHint: 'Set per release pipeline (e.g. 2.4.0)',
-        },
-        {
-            name: 'AI_TESTING_TOOL_SPRINT',
-            description: 'Optional sprint name tag on the launch',
-            platformHint: 'Set per sprint or iteration',
+            platformHint: 'Set as a CI variable/env when attaching launches to a plan',
         },
     ];
 }

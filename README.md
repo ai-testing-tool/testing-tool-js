@@ -543,13 +543,13 @@ npm test
 Lockstep version across all packages. Tag `v2.0.0` triggers the publish pipeline.
 
 ```bash
-npm run release:bump 2.2.0
+npm run release:bump 2.2.1
 npm test && npm run release:dry
-git commit -am "release: v2.2.0"
-git tag v2.2.0 && git push origin main develop v2.2.0
+git commit -am "release: v2.2.1"
+git tag v2.2.1 && git push origin main develop v2.2.1
 ```
 
-Manual publish: `RELEASE_TAG=v2.2.0 npm run release` (requires npm token).
+Manual publish: `RELEASE_TAG=v2.2.1 npm run release` (requires npm token).
 
 ## License
 

@@ -9,7 +9,6 @@ import {
   reporterConfigHint,
   reporterFrameworkLabel,
   planCiVariableHints,
-  versionTagCiVariableHints,
   reporterPackageName,
   reporterPreRunScripts,
 } from '../frameworks/reporter';
@@ -104,7 +103,7 @@ ${azurePreRunScripts(ctx)}  - script: ${frameworkReporterRun(ctx)}
     filename: 'azure-pipelines.yml',
     content,
     secretsSetup: azureSecrets(),
-    variablesSetup: [...azureVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
+    variablesSetup: [...azureVariables(), ...planCiVariableHints()],
   };
 }
 
@@ -166,6 +165,6 @@ ${uploadBlock}
     filename: 'azure-pipelines.yml',
     content,
     secretsSetup: azureSecrets(),
-    variablesSetup: [...azureVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
+    variablesSetup: [...azureVariables(), ...planCiVariableHints()],
   };
 }

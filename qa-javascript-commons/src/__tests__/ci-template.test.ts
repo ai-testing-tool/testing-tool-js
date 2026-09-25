@@ -166,8 +166,9 @@ qaDescribe('generateCiTemplate — all platforms × frameworks', () => {
         expect(result.content).not.toMatch(/ai-testing-tool-upload\.js/);
         expect(result.secretsSetup.length >= 2).toBeTruthy();
         expect(result.variablesSetup.length >= 1).toBeTruthy();
-        expect(result.variablesSetup.some((v) => v.name === 'AI_TESTING_TOOL_PLAN_NAME')).toBeTruthy();
-        expect(result.variablesSetup.some((v) => v.name === 'AI_TESTING_TOOL_FIX_VERSION')).toBeTruthy();
+        expect(result.variablesSetup.some((v) => v.name === 'AI_TESTING_TOOL_PLAN_KEY')).toBeTruthy();
+        expect(result.variablesSetup.some((v) => v.name === 'AI_TESTING_TOOL_PLAN_NAME')).toBeFalsy();
+        expect(result.variablesSetup.some((v) => v.name === 'AI_TESTING_TOOL_FIX_VERSION')).toBeFalsy();
 
         if (framework === 'vitest') {
           expect(result.content).toMatch(/npx vitest run --reporter=json --outputFile=ai-testing-tool-results\.json/);
@@ -439,8 +440,9 @@ qaDescribe('reporter path (@ai-testing-tool/forge-vitest / @ai-testing-tool/forg
         }
         expect(result.content).not.toMatch(/@ai-testing-tool\/forge-api-client/);
         expect(result.content).not.toMatch(/Bearer\s+\S+/i);
-        expect(result.variablesSetup.some((v) => v.name === 'AI_TESTING_TOOL_PLAN_NAME')).toBeTruthy();
-        expect(result.variablesSetup.some((v) => v.name === 'AI_TESTING_TOOL_FIX_VERSION')).toBeTruthy();
+        expect(result.variablesSetup.some((v) => v.name === 'AI_TESTING_TOOL_PLAN_KEY')).toBeTruthy();
+        expect(result.variablesSetup.some((v) => v.name === 'AI_TESTING_TOOL_PLAN_NAME')).toBeFalsy();
+        expect(result.variablesSetup.some((v) => v.name === 'AI_TESTING_TOOL_FIX_VERSION')).toBeFalsy();
       });
     }
   }

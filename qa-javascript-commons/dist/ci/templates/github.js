@@ -72,11 +72,7 @@ ${preRun ? `${preRun}\n` : ''}      - name: Run ${label} with AiTestingTool repo
           AI_TESTING_TOOL_INGEST_TOKEN: ${tokenExpr}
           AI_TESTING_TOOL_PROJECT_KEY: ${projectExpr}
           AI_TESTING_TOOL_LAUNCH_NAME: \${{ github.workflow }} #\${{ github.run_number }}
-          # Optional Test Plan (FR158): AI_TESTING_TOOL_PLAN_NAME / AI_TESTING_TOOL_PLAN_ID / AI_TESTING_TOOL_PLAN_KEY
-          # AI_TESTING_TOOL_PLAN_NAME: Smoke
-          # Optional tags (FR21): AI_TESTING_TOOL_FIX_VERSION / AI_TESTING_TOOL_SPRINT
-          # AI_TESTING_TOOL_FIX_VERSION: 2.4.0
-          # AI_TESTING_TOOL_SPRINT: Sprint 42
+          # Optional Test Plan (FR158): AI_TESTING_TOOL_PLAN_KEY
         run: ${(0, reporter_1.frameworkReporterRun)(ctx)}
 `;
     return {
@@ -86,7 +82,7 @@ ${preRun ? `${preRun}\n` : ''}      - name: Run ${label} with AiTestingTool repo
         filename: githubFilename(ctx.framework, 'reporter'),
         content,
         secretsSetup: githubSecrets(),
-        variablesSetup: [...githubVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
+        variablesSetup: [...githubVariables(), ...(0, reporter_1.planCiVariableHints)()],
     };
 }
 /**
@@ -151,6 +147,6 @@ ${preRun ? `${preRun}\n` : ''}${testStep}${uploadStep}`;
         filename: githubFilename(ctx.framework, 'upload'),
         content,
         secretsSetup: githubSecrets(),
-        variablesSetup: [...githubVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
+        variablesSetup: [...githubVariables(), ...(0, reporter_1.planCiVariableHints)()],
     };
 }

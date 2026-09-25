@@ -69,7 +69,7 @@ ${jenkinsShLines('          ', ctx, (0, reporter_1.frameworkReporterRun)(ctx))}
         filename: 'Jenkinsfile',
         content,
         secretsSetup: jenkinsSecrets(),
-        variablesSetup: [...jenkinsVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
+        variablesSetup: [...jenkinsVariables(), ...(0, reporter_1.planCiVariableHints)()],
     };
 }
 /**
@@ -120,6 +120,6 @@ ${uploadBlock}
         filename: 'Jenkinsfile',
         content,
         secretsSetup: jenkinsSecrets(),
-        variablesSetup: [...jenkinsVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
+        variablesSetup: [...jenkinsVariables(), ...(0, reporter_1.planCiVariableHints)()],
     };
 }

@@ -9,7 +9,6 @@ import {
   reporterConfigHint,
   reporterFrameworkLabel,
   planCiVariableHints,
-  versionTagCiVariableHints,
   reporterPackageName,
   reporterPreRunScripts,
 } from '../frameworks/reporter';
@@ -91,7 +90,7 @@ ${jenkinsShLines('          ', ctx, frameworkReporterRun(ctx))}
     filename: 'Jenkinsfile',
     content,
     secretsSetup: jenkinsSecrets(),
-    variablesSetup: [...jenkinsVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
+    variablesSetup: [...jenkinsVariables(), ...planCiVariableHints()],
   };
 }
 
@@ -146,6 +145,6 @@ ${uploadBlock}
     filename: 'Jenkinsfile',
     content,
     secretsSetup: jenkinsSecrets(),
-    variablesSetup: [...jenkinsVariables(), ...planCiVariableHints(), ...versionTagCiVariableHints()],
+    variablesSetup: [...jenkinsVariables(), ...planCiVariableHints()],
   };
 }

@@ -79,7 +79,7 @@ ${azurePreRunScripts(ctx)}  - script: ${(0, reporter_1.frameworkReporterRun)(ctx
         filename: 'azure-pipelines.yml',
         content,
         secretsSetup: azureSecrets(),
-        variablesSetup: [...azureVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
+        variablesSetup: [...azureVariables(), ...(0, reporter_1.planCiVariableHints)()],
     };
 }
 /**
@@ -137,6 +137,6 @@ ${uploadBlock}
         filename: 'azure-pipelines.yml',
         content,
         secretsSetup: azureSecrets(),
-        variablesSetup: [...azureVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
+        variablesSetup: [...azureVariables(), ...(0, reporter_1.planCiVariableHints)()],
     };
 }

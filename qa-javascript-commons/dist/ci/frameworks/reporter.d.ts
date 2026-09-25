@@ -31,11 +31,7 @@ export declare function reporterIngestEnvLines(ctx: CiTemplateContext): {
     url: string;
     token: string;
     project: string;
-    /** Optional — document in templates; set in CI when attaching a Test Plan. */
-    planNameHint: string;
 };
 /** Shared optional plan env vars for CI variable checklists (FR158). */
 export declare function planCiVariableHints(): CiVariableHint[];
-/** Optional fix version / sprint tags (FR21). */
-export declare function versionTagCiVariableHints(): CiVariableHint[];
 export declare function assertReporterFramework(ctx: CiTemplateContext): void;

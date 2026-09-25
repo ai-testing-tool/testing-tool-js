@@ -51,8 +51,7 @@ ${jobName}:
     AI_TESTING_TOOL_INGEST_TOKEN: $AI_TESTING_TOOL_INGEST_TOKEN
     AI_TESTING_TOOL_PROJECT_KEY: $JIRA_PROJECT_KEY
     AI_TESTING_TOOL_LAUNCH_NAME: $CI_PIPELINE_ID
-    # Optional Test Plan: AI_TESTING_TOOL_PLAN_NAME / AI_TESTING_TOOL_PLAN_ID / AI_TESTING_TOOL_PLAN_KEY
-    # Optional tags: AI_TESTING_TOOL_FIX_VERSION / AI_TESTING_TOOL_SPRINT
+    # Optional Test Plan: AI_TESTING_TOOL_PLAN_KEY
   script:
     - npm ci
 ${gitlabScriptLines(ctx, (0, reporter_1.frameworkReporterRun)(ctx))}
@@ -64,7 +63,7 @@ ${gitlabScriptLines(ctx, (0, reporter_1.frameworkReporterRun)(ctx))}
         filename: '.gitlab-ci.yml',
         content,
         secretsSetup: gitlabSecrets(),
-        variablesSetup: [...gitlabVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
+        variablesSetup: [...gitlabVariables(), ...(0, reporter_1.planCiVariableHints)()],
     };
 }
 /**
@@ -119,6 +118,6 @@ ${uploadBlock}
         filename: '.gitlab-ci.yml',
         content,
         secretsSetup: gitlabSecrets(),
-        variablesSetup: [...gitlabVariables(), ...(0, reporter_1.planCiVariableHints)(), ...(0, reporter_1.versionTagCiVariableHints)()],
+        variablesSetup: [...gitlabVariables(), ...(0, reporter_1.planCiVariableHints)()],
     };
 }

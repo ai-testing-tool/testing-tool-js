@@ -26,7 +26,6 @@ export {
   reporterConfigHint,
   reporterIngestEnvLines,
   planCiVariableHints,
-  versionTagCiVariableHints,
   assertReporterFramework,
 } from './frameworks/reporter';
 export {
