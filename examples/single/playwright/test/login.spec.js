@@ -10,9 +10,11 @@ test.describe('Authentication', () => {
     await loginPage.goto();
   });
 
-  test('AUTH-101 User can login with valid credentials', async ({ page }) => {
+  test('User can login with valid credentials', async ({ page }) => {
+    qa.issueKeys(['AUTH-101']);
     qa.fields({ severity: 'critical', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tAuthentication\tLogin');
+    qa.labels(['smoke', 'e2e']);
 
     await test.step('Navigate to login page', async () => {
       await expect(page).toHaveURL(/saucedemo\.com\/?$/);
@@ -25,10 +27,17 @@ test.describe('Authentication', () => {
 
     await test.step('Verify successful login', async () => {
       await expect(page).toHaveURL(/.*inventory\.html/);
+      const screenshot = await page.screenshot();
+      await qa.attach({
+        name: 'login-success.png',
+        content: screenshot,
+        contentType: 'image/png',
+      });
     });
   });
 
-  test('AUTH-102 User cannot login with invalid password', async ({ page }) => {
+  test('User cannot login with invalid password', async ({ page }) => {
+    qa.issueKeys(['AUTH-102']);
     qa.fields({ severity: 'minor', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tAuthentication\tLogin');
     qa.parameters({ username: 'standard_user', password: 'wrong_password' });
@@ -43,7 +52,8 @@ test.describe('Authentication', () => {
     });
   });
 
-  test('AUTH-103 Locked user cannot login', async ({ page }) => {
+  test('Locked user cannot login', async ({ page }) => {
+    qa.issueKeys(['AUTH-103']);
     qa.fields({ severity: 'major', priority: 'medium', layer: 'e2e' });
     qa.suite('E-commerce\tAuthentication\tLogin');
     qa.parameters({ username: 'locked_out_user' });

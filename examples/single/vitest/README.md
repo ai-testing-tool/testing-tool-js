@@ -1,6 +1,6 @@
 # AI Testing Tool Vitest Pilot Example
 
-JSONPlaceholder API scenarios (CRUD, posts, errors, advanced). Jira issue keys live in test titles (e.g. `AUTH-101 GET all users`).
+JSONPlaceholder API scenarios (CRUD, posts, errors, advanced). Issue keys use **`qa.issueKeys(['AUTH-101'])`** via the `qaTest` / `withQa` helpers (not titles).
 
 **Default path (recommended for first launch):** native Vitest JSON → `@ai-testing-tool/forge-api-client` → Forge ingest.  
 **Optional path:** [`@ai-testing-tool/forge-vitest`](../../../qa-vitest) reporter (`mode=off` \| `file` \| `ingest`).
@@ -109,7 +109,7 @@ test(
 );
 ```
 
-Await all `qa.*` calls except `qa.ignore()` (sync). Prefer **Jira keys in titles**; helpers add suite/step/fields metadata for richer launches.
+Await all `qa.*` calls except `qa.ignore()` (sync). Prefer **`qa.issueKeys()`** over embedding keys in titles.
 
 This example’s tests stay plain Vitest (no `withQa`) so Path A stays zero-config.
 

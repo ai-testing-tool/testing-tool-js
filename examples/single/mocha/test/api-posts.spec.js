@@ -4,7 +4,8 @@ const assert = require('assert');
 describe('JSONPlaceholder Post Validation', function () {
   const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
-  it('AUTH-105 GET all posts - verify 100 posts returned', async function () {
+  it('GET all posts - verify 100 posts returned', async function () {
+    qa.issueKeys(['AUTH-105']);
     qa.fields({ priority: 'high' });
 
     let response;
@@ -36,7 +37,8 @@ describe('JSONPlaceholder Post Validation', function () {
     });
   });
 
-  it('AUTH-106 GET posts by user ID - verify filtered results', async function () {
+  it('GET posts by user ID - verify filtered results', async function () {
+    qa.issueKeys(['AUTH-106']);
     const testUserId = 1;
     qa.parameters({ userId: String(testUserId) });
 
@@ -60,7 +62,8 @@ describe('JSONPlaceholder Post Validation', function () {
     });
   });
 
-  it('AUTH-107 GET post with comments - verify comment structure', async function () {
+  it('GET post with comments - verify comment structure', async function () {
+    qa.issueKeys(['AUTH-107']);
     let post;
     let comments;
 

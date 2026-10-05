@@ -4,7 +4,8 @@ const assert = require('assert');
 describe('JSONPlaceholder Error Handling', function () {
   const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
-  it('AUTH-108 GET non-existent user - verify 404 response', async function () {
+  it('GET non-existent user - verify 404 response', async function () {
+    qa.issueKeys(['AUTH-108']);
     qa.comment(
       'Testing error handling for non-existent resource — expected failure scenario',
     );
@@ -31,7 +32,8 @@ describe('JSONPlaceholder Error Handling', function () {
     });
   });
 
-  it('AUTH-109 GET non-existent post - attach error response', async function () {
+  it('GET non-existent post - attach error response', async function () {
+    qa.issueKeys(['AUTH-109']);
     const nonExistentPostId = 99999;
     let response;
     let errorBody;
@@ -70,7 +72,8 @@ describe('JSONPlaceholder Error Handling', function () {
     });
   });
 
-  it('AUTH-110 Invalid endpoint - verify graceful 404 handling', async function () {
+  it('Invalid endpoint - verify graceful 404 handling', async function () {
+    qa.issueKeys(['AUTH-110']);
     const invalidEndpoint = '/invalid-endpoint-12345';
     let response;
 

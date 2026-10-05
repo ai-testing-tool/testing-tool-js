@@ -11,7 +11,10 @@ describe('Checkout Flow', () => {
     CartPage.checkout();
   });
 
-  it('AUTH-110 User can complete checkout with valid information', () => {
+  it('User can complete checkout with valid information', () => {
+    qa.issueKeys(['AUTH-110']);
+
+    qa.fields({ severity: 'critical', priority: 'low', layer: 'e2e' });
     qa.suite('E-commerce\tCheckout\tComplete Flow');
     qa.parameters({ firstName: 'John', lastName: 'Doe', postalCode: '12345' });
 
@@ -54,7 +57,10 @@ describe('Checkout Flow', () => {
     qa.comment('Checkout completed successfully');
   });
 
-  it('AUTH-111 Checkout fails without required information', () => {
+  it('Checkout fails without required information', () => {
+    qa.issueKeys(['AUTH-111']);
+
+    qa.fields({ severity: 'normal', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tCheckout\tValidation');
     qa.parameters({ scenario: 'missing_first_name' });
 
@@ -84,7 +90,10 @@ describe('Checkout Flow', () => {
     qa.comment('Validation working correctly');
   });
 
-  it('AUTH-112 User can cancel checkout', () => {
+  it('User can cancel checkout', () => {
+    qa.issueKeys(['AUTH-112']);
+
+    qa.fields({ severity: 'major', priority: 'medium', layer: 'e2e' });
     qa.suite('E-commerce\tCheckout\tNavigation');
 
     qa.step('Verify on checkout information page', () => {
@@ -107,7 +116,10 @@ describe('Checkout Flow', () => {
     qa.comment('Cancel navigation works correctly');
   });
 
-  it('AUTH-113 Demo test that will be ignored in reporting', () => {
+  it('Demo test that will be ignored in reporting', () => {
+    qa.issueKeys(['AUTH-113']);
+
+    qa.fields({ severity: 'major', priority: 'low', layer: 'e2e' });
     qa.ignore();
     qa.suite('E-commerce\tCheckout\tDemo');
 

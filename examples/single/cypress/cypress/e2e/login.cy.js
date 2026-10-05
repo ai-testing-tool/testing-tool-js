@@ -7,7 +7,10 @@ describe('Login Scenarios', () => {
     LoginPage.visit();
   });
 
-  it('AUTH-101 User can login with valid credentials', () => {
+  it('User can login with valid credentials', () => {
+    qa.issueKeys(['AUTH-101']);
+
+    qa.fields({ severity: 'critical', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tAuthentication\tLogin');
 
     qa.step('Fill in username', () => {
@@ -30,7 +33,10 @@ describe('Login Scenarios', () => {
     qa.comment('Login successful');
   });
 
-  it('AUTH-102 User cannot login with invalid password', () => {
+  it('User cannot login with invalid password', () => {
+    qa.issueKeys(['AUTH-102']);
+
+    qa.fields({ severity: 'critical', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tAuthentication\tLogin');
     qa.parameters({ username: 'standard_user', password: 'wrong_password' });
 
@@ -51,7 +57,10 @@ describe('Login Scenarios', () => {
     });
   });
 
-  it('AUTH-103 Locked user cannot login', () => {
+  it('Locked user cannot login', () => {
+    qa.issueKeys(['AUTH-103']);
+
+    qa.fields({ severity: 'major', priority: 'medium', layer: 'e2e' });
     qa.suite('E-commerce\tAuthentication\tLogin');
     qa.parameters({ username: 'locked_out_user', password: 'secret_sauce' });
 

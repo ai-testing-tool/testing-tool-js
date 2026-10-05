@@ -16,7 +16,8 @@ test.describe('Product Inventory', () => {
     await expect(page).toHaveURL(/.*inventory\.html/);
   });
 
-  test('AUTH-104 User can browse all products', async ({ page }) => {
+  test('User can browse all products', async ({ page }) => {
+    qa.issueKeys(['AUTH-104']);
     qa.fields({ severity: 'normal', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tInventory\tBrowsing');
 
@@ -36,7 +37,8 @@ test.describe('Product Inventory', () => {
     });
   });
 
-  test('AUTH-105 User can sort products by price', async ({ page }) => {
+  test('User can sort products by price', async ({ page }) => {
+    qa.issueKeys(['AUTH-105']);
     qa.fields({ severity: 'minor', priority: 'medium', layer: 'e2e' });
     qa.suite('E-commerce\tInventory\tSorting');
     qa.parameters({ sortOption: 'lohi' });
@@ -57,7 +59,8 @@ test.describe('Product Inventory', () => {
     });
   });
 
-  test('AUTH-106 User can view product details', async ({ page }) => {
+  test('User can view product details', async ({ page }) => {
+    qa.issueKeys(['AUTH-106']);
     qa.fields({ severity: 'major', priority: 'low', layer: 'e2e' });
     qa.suite('E-commerce\tInventory\tProduct Details');
 

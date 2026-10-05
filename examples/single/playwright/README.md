@@ -1,20 +1,19 @@
-# AI Testing Tool Playwright Pilot Example
+# Playwright Example - E-commerce Test Suite
 
-Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`@ai-testing-tool/forge-playwright`**.
+## Overview
 
-Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`).
+Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`@ai-testing-tool/forge-playwright`**. Mirrors the Qase Playwright example scenarios, adapted to AI Testing Tool helpers.
 
-Steps use Playwright native **`test.step()`** (no `qa.step`). Default mode is **`off`** (no credentials).
+Steps use Playwright native **`test.step()`** (do not use `qa.step` — FR112). Issue keys use **`qa.issueKeys()`** (not titles). Default mode is **`off`**.
 
 ## Prerequisites
 
 - Node.js **18+**
-- Network access to [saucedemo.com](https://www.saucedemo.com) for live E2E
-- From monorepo: build reporters first (`cd ai-testing-tool-js && npm run build`)
-- Chromium via Playwright: `npm run install:browsers` (or `npx playwright install` / `install --with-deps` in CI)
-- For ingest/upload: AiTestingTool Configure → Connection, project on allowlist
+- Network access to [saucedemo.com](https://www.saucedemo.com)
+- From monorepo: `cd ai-testing-tool-js && npm run build`
+- Chromium: `npm run install:browsers`
 
-## Install & local run (no credentials)
+## Installation
 
 ```bash
 cd ai-testing-tool-js
@@ -23,30 +22,63 @@ npm run build
 cd examples/single/playwright
 npm install
 npm run install:browsers
+```
+
+## Configuration
+
+| Variable | Required | Description |
+| -------- | -------- | ----------- |
+| `AI_TESTING_TOOL_MODE` | No | `off` (default) \| `file` \| `ingest` |
+| `AI_TESTING_TOOL_PROJECT_KEY` | file/ingest | Jira project key |
+| `AI_TESTING_TOOL_INGEST_URL` | ingest | From Automation setup |
+| `AI_TESTING_TOOL_INGEST_TOKEN` | ingest | Bearer token (CI secret) |
+| `AI_TESTING_TOOL_LAUNCH_NAME` | No | Launch display name |
+
+## Running Tests
+
+```bash
+npm test
+
+AI_TESTING_TOOL_MODE=file AI_TESTING_TOOL_PROJECT_KEY=AUTH npm test
+
+AI_TESTING_TOOL_MODE=ingest \
+AI_TESTING_TOOL_PROJECT_KEY=AUTH \
+AI_TESTING_TOOL_INGEST_URL=... \
+AI_TESTING_TOOL_INGEST_TOKEN=... \
 npm test
 ```
 
-`npm test` runs `playwright test` with `AI_TESTING_TOOL_MODE=off` (default). Expect **13** tests (12 pass + 1 ignore demo that still executes).
+## Test Scenarios
 
-## Layout
+| File | Scenario | Description |
+| ---- | -------- | ----------- |
+| `login.spec.js` | Authentication | Valid login, invalid password, locked user |
+| `inventory.spec.js` | Product browsing | Listing, sorting, detail page |
+| `cart.spec.js` | Shopping cart | Add / remove / multiple items |
+| `checkout.spec.js` | Checkout | Complete flow, validation, cancel, ignore demo |
 
-```
-test/
-  login.spec.js
-  inventory.spec.js
-  cart.spec.js
-  checkout.spec.js
-  pages/          # LoginPage, InventoryPage, CartPage, CheckoutPage
-playwright.config.js
-```
+## Features Demonstrated
 
-### Native `test.step`
+| Feature | Usage |
+| ------- | ----- |
+| **Issue keys** | `qa.issueKeys(['AUTH-101'])` |
+| **Fields** | `qa.fields({ severity, priority, layer })` |
+| **Suite** | `qa.suite('E-commerce\\tAuthentication\\tLogin')` |
+| **Steps** | Playwright `test.step()` |
+| **Parameters** | `qa.parameters({ ... })` |
+| **Labels** | `qa.labels(['smoke', 'e2e'])` |
+| **Attachments** | `qa.attach({ name, content, contentType })` |
+| **Comments** | `qa.comment(...)` |
+| **Ignore** | `qa.ignore()` |
+
+## Helper pattern
 
 ```js
 const { test } = require('@playwright/test');
 const { qa } = require('@ai-testing-tool/forge-playwright');
 
-test('AUTH-101 …', async ({ page }) => {
+test('User can login with valid credentials', async ({ page }) => {
+  qa.issueKeys(['AUTH-101']);
   qa.suite('E-commerce\tAuthentication\tLogin');
   await test.step('Fill in credentials and submit', async () => {
     // …
@@ -54,53 +86,7 @@ test('AUTH-101 …', async ({ page }) => {
 });
 ```
 
-### `qa.attach({ contentType })`
-
-Metadata-only stub in the cart spec — binary screenshot/video/trace upload is deferred.
-
-## Path A — Playwright JSON + CLI
-
-```bash
-npx playwright test --reporter=json
-# Prefer Path B file mode for the jest-json ingest shape, or upload a converted report:
-npx @ai-testing-tool/forge-api-client --project AUTH --launch "playwright pilot" --report ai-testing-tool-results.json
-```
-
-## Path B — `@ai-testing-tool/forge-playwright` reporter
-
-**File mode:**
-
-```bash
-AI_TESTING_TOOL_MODE=file \
-AI_TESTING_TOOL_PROJECT_KEY=AUTH \
-npx playwright test
-
-npm run upload
-```
-
-**Ingest mode:**
-
-```bash
-AI_TESTING_TOOL_MODE=ingest \
-AI_TESTING_TOOL_PROJECT_KEY=AUTH \
-AI_TESTING_TOOL_INGEST_URL=... \
-AI_TESTING_TOOL_INGEST_TOKEN=... \
-npx playwright test
-```
-
-### Environment
-
-| Variable | Required | Description |
-| -------- | -------- | ----------- |
-| `AI_TESTING_TOOL_MODE` | No | `off` (default) \| `file` \| `ingest` |
-| `AI_TESTING_TOOL_PROJECT_KEY` | file/ingest | Jira project key |
-| `AI_TESTING_TOOL_INGEST_URL` | ingest | From Configure → Connection |
-| `AI_TESTING_TOOL_INGEST_TOKEN` | ingest | Bearer token (CI secret) |
-| `AI_TESTING_TOOL_LAUNCH_NAME` | No | Launch display name |
-
-**Never commit the ingest token.**
-
-## Issue key pattern
+## Issue key map
 
 | Spec | Keys |
 | ---- | ---- |
@@ -108,3 +94,14 @@ npx playwright test
 | inventory | AUTH-104 … AUTH-106 |
 | cart | AUTH-107 … AUTH-109 |
 | checkout | AUTH-110 … AUTH-113 (`AUTH-113` uses `qa.ignore()`) |
+
+## Project Structure
+
+```
+test/
+├── pages/          # LoginPage, InventoryPage, CartPage, CheckoutPage
+├── login.spec.js
+├── inventory.spec.js
+├── cart.spec.js
+└── checkout.spec.js
+```

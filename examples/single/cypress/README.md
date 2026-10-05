@@ -2,7 +2,7 @@
 
 Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`@ai-testing-tool/forge-cypress`**.
 
-Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`).
+Issue keys use **`qa.issueKeys(['AUTH-101'])`** (not titles). Specs also demo `qa.fields`, `qa.suite`, `qa.step`, `qa.parameters`, `qa.comment`, and `qa.ignore`.
 
 Default mode is **`off`** (no credentials). Graduate to `file` or `ingest` when ready.
 
@@ -56,7 +56,9 @@ cy.login('locked_out_user', 'secret_sauce');
 ```js
 import { qa } from '@ai-testing-tool/forge-cypress/mocha';
 
-it('AUTH-101 …', () => {
+it('User can login with valid credentials', () => {
+  qa.issueKeys(['AUTH-101']);
+  qa.fields({ severity: 'critical', priority: 'high', layer: 'e2e' });
   qa.suite('E-commerce\tAuthentication\tLogin');
   qa.step('Fill in username', () => {
     LoginPage.fillUsername('standard_user'); // sync callback only — no async/await

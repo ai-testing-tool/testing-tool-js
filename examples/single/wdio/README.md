@@ -2,7 +2,7 @@
 
 Saucedemo e-commerce E2E (`login`, `inventory`, `cart`, `checkout`) with Page Objects and **`@ai-testing-tool/forge-wdio`**.
 
-Jira issue keys live in test titles (e.g. `AUTH-101 User can login with valid credentials`).
+Issue keys use **`qa.issueKeys(['AUTH-101'])`** in Mocha specs (Cucumber path uses `@AUTH-101` tags).
 
 Steps use **`await qa.step()`** (including nested `step.step()`). Default mode is **`off`** (no credentials).
 

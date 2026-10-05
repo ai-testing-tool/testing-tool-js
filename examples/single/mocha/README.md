@@ -1,14 +1,19 @@
-# Mocha pilot — JSONPlaceholder + @ai-testing-tool/forge-mocha
+# Mocha Example - API Testing with JSONPlaceholder
 
-API tests against [JSONPlaceholder](https://jsonplaceholder.typicode.com/) using **@ai-testing-tool/forge-mocha**.
+## Overview
+
+API tests against [JSONPlaceholder](https://jsonplaceholder.typicode.com/) using **`@ai-testing-tool/forge-mocha`**. Same scenario set as the Qase Mocha example: CRUD, posts, errors, nested steps, suite hierarchy, attachments, and ignore.
+
+Issue keys use **`qa.issueKeys()`** (not titles). Default mode is **`off`**.
 
 ## Setup
 
 ```bash
-# from ai-testing-tool-js: build commons + @ai-testing-tool/forge-mocha first
-cd ../../qa-javascript-commons && npm run build
-cd ../qa-mocha && npm run build
-cd ../examples/single/mocha && npm install
+cd ai-testing-tool-js
+npm run build
+
+cd examples/single/mocha
+npm install
 ```
 
 ## Run
@@ -28,13 +33,48 @@ AI_TESTING_TOOL_INGEST_TOKEN=... \
 npm test
 ```
 
-## Specs
+## Test Scenarios
 
 | File | Focus |
 | ---- | ----- |
 | `api-crud.spec.js` | User CRUD |
 | `api-posts.spec.js` | Posts + filtering |
 | `api-errors.spec.js` | 404 handling |
-| `api-advanced.spec.js` | Nested steps, suite, ignore |
+| `api-advanced.spec.js` | Nested steps, suite, parameters, ignore |
 
-Jira keys live in titles (`AUTH-101` …). Helpers: `require('@ai-testing-tool/forge-mocha/mocha')`.
+## Features Demonstrated
+
+| Feature | Usage |
+| ------- | ----- |
+| **Issue keys** | `qa.issueKeys(['AUTH-101'])` |
+| **Fields** | `qa.fields({ layer, severity })` |
+| **Suite** | `qa.suite('API Tests\\tAdvanced\\t…')` |
+| **Steps** | `await qa.step(name, fn)` (nested supported) |
+| **Parameters** | `qa.parameters({ … })` |
+| **Attachments** | `qa.attach({ name, content, contentType })` |
+| **Comments** | `qa.comment(…)` |
+| **Ignore** | `qa.ignore()` + `it.skip` |
+
+## Helper pattern
+
+```js
+const { qa } = require('@ai-testing-tool/forge-mocha/mocha');
+
+it('GET all users - verify 10 users returned', async function () {
+  qa.issueKeys(['AUTH-101']);
+  qa.fields({ layer: 'api', severity: 'normal' });
+
+  await qa.step('Send GET request to /users endpoint', async () => {
+    // …
+  });
+});
+```
+
+## Issue key map
+
+| Spec | Keys |
+| ---- | ---- |
+| api-crud | AUTH-101 … AUTH-104 |
+| api-posts | AUTH-105 … AUTH-107 |
+| api-errors | AUTH-108 … AUTH-110 |
+| api-advanced | AUTH-111 … AUTH-114 (`AUTH-114` skipped + ignore) |

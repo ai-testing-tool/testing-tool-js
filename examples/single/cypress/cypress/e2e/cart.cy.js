@@ -7,7 +7,10 @@ describe('Cart Management', () => {
     cy.login();
   });
 
-  it('AUTH-107 User can add product to cart', () => {
+  it('User can add product to cart', () => {
+    qa.issueKeys(['AUTH-107']);
+
+    qa.fields({ severity: 'critical', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tShopping Cart\tAdd Items');
     qa.parameters({ product: 'Sauce Labs Backpack' });
 
@@ -36,7 +39,10 @@ describe('Cart Management', () => {
     qa.comment('Successfully added product to cart');
   });
 
-  it('AUTH-108 User can remove product from cart', () => {
+  it('User can remove product from cart', () => {
+    qa.issueKeys(['AUTH-108']);
+
+    qa.fields({ severity: 'normal', priority: 'medium', layer: 'e2e' });
     qa.suite('E-commerce\tShopping Cart\tRemove Items');
 
     qa.step('Add product to cart', () => {
@@ -64,7 +70,10 @@ describe('Cart Management', () => {
     qa.comment('Successfully removed product from cart');
   });
 
-  it('AUTH-109 User can add multiple products to cart', () => {
+  it('User can add multiple products to cart', () => {
+    qa.issueKeys(['AUTH-109']);
+
+    qa.fields({ severity: 'major', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tShopping Cart\tMultiple Items');
 
     qa.step('Add first product to cart', () => {

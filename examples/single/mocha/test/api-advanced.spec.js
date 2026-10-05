@@ -4,7 +4,8 @@ const assert = require('assert');
 describe('JSONPlaceholder Advanced Features', function () {
   const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
-  it('AUTH-111 Complex nested steps - multi-resource retrieval', async function () {
+  it('Complex nested steps - multi-resource retrieval', async function () {
+    qa.issueKeys(['AUTH-111']);
     qa.fields({ layer: 'api', severity: 'normal', priority: 'medium' });
 
     let user;
@@ -59,7 +60,8 @@ describe('JSONPlaceholder Advanced Features', function () {
     );
   });
 
-  it('AUTH-112 Suite hierarchy demonstration', async function () {
+  it('Suite hierarchy demonstration', async function () {
+    qa.issueKeys(['AUTH-112']);
     qa.suite('API Tests\tAdvanced\tRelationships');
     qa.fields({ layer: 'api', severity: 'low' });
 
@@ -107,7 +109,8 @@ describe('JSONPlaceholder Advanced Features', function () {
     });
   });
 
-  it('AUTH-113 Parameterized test pattern - multiple user IDs', async function () {
+  it('Parameterized test pattern - multiple user IDs', async function () {
+    qa.issueKeys(['AUTH-113']);
     const userIds = [1, 2, 3];
     qa.parameters({ userIds: userIds.join(', ') });
 
@@ -131,7 +134,8 @@ describe('JSONPlaceholder Advanced Features', function () {
     });
   });
 
-  it.skip('AUTH-114 Future feature - API authentication', function () {
+  it.skip('Future feature - API authentication', async function () {
+    qa.issueKeys(['AUTH-114']);
     qa.ignore();
     qa.comment('Placeholder for future auth coverage');
   });

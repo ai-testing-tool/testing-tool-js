@@ -2,7 +2,8 @@ const { qa } = require('@ai-testing-tool/forge-wdio');
 const LoginPage = require('../pageobjects/LoginPage');
 
 describe('Login Scenarios', () => {
-  it('AUTH-101 User can login with valid credentials', async () => {
+  it('User can login with valid credentials', async () => {
+    qa.issueKeys(['AUTH-101']);
     qa.fields({ severity: 'critical', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tAuthentication\tLogin');
 
@@ -31,7 +32,8 @@ describe('Login Scenarios', () => {
     });
   });
 
-  it('AUTH-102 User cannot login with invalid password', async () => {
+  it('User cannot login with invalid password', async () => {
+    qa.issueKeys(['AUTH-102']);
     qa.fields({ severity: 'major', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tAuthentication\tLogin');
     qa.parameters({ username: 'standard_user', password: 'wrong_password' });
@@ -54,7 +56,8 @@ describe('Login Scenarios', () => {
     qa.comment('Error message correctly displayed for invalid credentials');
   });
 
-  it('AUTH-103 Locked user cannot login', async () => {
+  it('Locked user cannot login', async () => {
+    qa.issueKeys(['AUTH-103']);
     qa.fields({ severity: 'major', priority: 'medium', layer: 'e2e' });
     qa.suite('E-commerce\tAuthentication\tLogin');
     qa.parameters({ username: 'locked_out_user' });

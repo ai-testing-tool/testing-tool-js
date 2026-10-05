@@ -19,7 +19,8 @@ test.describe('Shopping Cart', () => {
     await expect(page).toHaveURL(/.*inventory\.html/);
   });
 
-  test('AUTH-107 User can add product to cart', async ({ page }) => {
+  test('User can add product to cart', async ({ page }) => {
+    qa.issueKeys(['AUTH-107']);
     qa.fields({ severity: 'critical', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tShopping Cart\tAdd Items');
     qa.parameters({ product: 'Sauce Labs Backpack' });
@@ -40,15 +41,16 @@ test.describe('Shopping Cart', () => {
       const itemCount = await cartPage.getItemCount();
       expect(itemCount).toBe(1);
 
-      // Metadata-only attach stub (binary upload deferred — FR119)
-      qa.attach({
+      await qa.attach({
         name: 'cart-state.json',
+        content: JSON.stringify({ itemCount: 1, product: 'Sauce Labs Backpack' }),
         contentType: 'application/json',
       });
     });
   });
 
-  test('AUTH-108 User can remove product from cart', async ({ page }) => {
+  test('User can remove product from cart', async ({ page }) => {
+    qa.issueKeys(['AUTH-108']);
     qa.fields({ severity: 'normal', priority: 'medium', layer: 'e2e' });
     qa.suite('E-commerce\tShopping Cart\tRemove Items');
 
@@ -74,7 +76,8 @@ test.describe('Shopping Cart', () => {
     });
   });
 
-  test('AUTH-109 User can add multiple products to cart', async ({ page }) => {
+  test('User can add multiple products to cart', async ({ page }) => {
+    qa.issueKeys(['AUTH-109']);
     qa.fields({ severity: 'major', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tShopping Cart\tMultiple Items');
 

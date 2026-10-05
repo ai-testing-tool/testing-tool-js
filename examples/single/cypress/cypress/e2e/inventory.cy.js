@@ -7,7 +7,10 @@ describe('Product Inventory', () => {
     cy.url().should('include', '/inventory.html');
   });
 
-  it('AUTH-104 User can browse all products', () => {
+  it('User can browse all products', () => {
+    qa.issueKeys(['AUTH-104']);
+
+    qa.fields({ severity: 'normal', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tInventory\tBrowsing');
 
     qa.step('Verify Products page title', () => {
@@ -33,7 +36,10 @@ describe('Product Inventory', () => {
     qa.comment('Successfully browsed all 6 products on inventory page');
   });
 
-  it('AUTH-105 User can sort products by price', () => {
+  it('User can sort products by price', () => {
+    qa.issueKeys(['AUTH-105']);
+
+    qa.fields({ severity: 'minor', priority: 'medium', layer: 'e2e' });
     qa.suite('E-commerce\tInventory\tSorting');
     qa.parameters({ sortOption: 'lohi' });
 
@@ -57,7 +63,10 @@ describe('Product Inventory', () => {
     qa.comment('Products sorted correctly by price');
   });
 
-  it('AUTH-106 User can view product details', () => {
+  it('User can view product details', () => {
+    qa.issueKeys(['AUTH-106']);
+
+    qa.fields({ severity: 'major', priority: 'low', layer: 'e2e' });
     qa.suite('E-commerce\tInventory\tProduct Details');
 
     qa.step('Click on first product name', () => {

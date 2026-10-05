@@ -8,7 +8,8 @@ describe('Cart Management', () => {
     await loginAsStandardUser();
   });
 
-  it('AUTH-107 User can add product to cart', async () => {
+  it('User can add product to cart', async () => {
+    qa.issueKeys(['AUTH-107']);
     qa.fields({ severity: 'critical', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tCart\tAdd Items');
     qa.parameters({ product: 'Sauce Labs Backpack' });
@@ -43,7 +44,8 @@ describe('Cart Management', () => {
     qa.comment('Product successfully added to cart and visible on cart page');
   });
 
-  it('AUTH-108 User can remove product from cart', async () => {
+  it('User can remove product from cart', async () => {
+    qa.issueKeys(['AUTH-108']);
     qa.fields({ severity: 'major', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tCart\tRemove Items');
 
@@ -68,7 +70,8 @@ describe('Cart Management', () => {
     qa.comment('Product successfully removed from cart');
   });
 
-  it('AUTH-109 User can add multiple products to cart', async () => {
+  it('User can add multiple products to cart', async () => {
+    qa.issueKeys(['AUTH-109']);
     qa.fields({ severity: 'normal', priority: 'medium', layer: 'e2e' });
     qa.suite('E-commerce\tCart\tMultiple Items');
 

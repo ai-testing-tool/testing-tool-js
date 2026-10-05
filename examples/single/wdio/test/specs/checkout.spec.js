@@ -16,7 +16,8 @@ describe('Checkout Flow', () => {
     );
   });
 
-  it('AUTH-110 User can complete checkout with valid information', async () => {
+  it('User can complete checkout with valid information', async () => {
+    qa.issueKeys(['AUTH-110']);
     qa.fields({ severity: 'critical', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tCheckout\tComplete Purchase');
     qa.parameters({ firstName: 'John', lastName: 'Doe', postalCode: '12345' });
@@ -64,7 +65,8 @@ describe('Checkout Flow', () => {
     qa.comment('Checkout completed successfully with nested step demonstration');
   });
 
-  it('AUTH-111 Checkout fails without required information', async () => {
+  it('Checkout fails without required information', async () => {
+    qa.issueKeys(['AUTH-111']);
     qa.fields({ severity: 'major', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tCheckout\tValidation');
     qa.parameters({ scenario: 'missing_first_name' });
@@ -83,7 +85,8 @@ describe('Checkout Flow', () => {
     qa.comment('Form validation correctly prevents checkout without required fields');
   });
 
-  it('AUTH-112 User can cancel checkout', async () => {
+  it('User can cancel checkout', async () => {
+    qa.issueKeys(['AUTH-112']);
     qa.fields({ severity: 'minor', priority: 'medium', layer: 'e2e' });
     qa.suite('E-commerce\tCheckout\tCancel');
 
@@ -106,7 +109,8 @@ describe('Checkout Flow', () => {
     qa.comment('User can safely cancel checkout and return to cart');
   });
 
-  it('AUTH-113 Demo test that will be ignored in reporting', async () => {
+  it('Demo test that will be ignored in reporting', async () => {
+    qa.issueKeys(['AUTH-113']);
     qa.ignore();
     qa.suite('E-commerce\tCheckout\tIgnore demo');
     await expect(true).toBe(true);

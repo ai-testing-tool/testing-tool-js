@@ -1,168 +1,124 @@
-# AI Testing Tool Jest Pilot Example
+# Jest Example - API Testing with JSONPlaceholder
 
-JSONPlaceholder API scenarios (CRUD, posts, errors, advanced). Jira issue keys live in test titles (e.g. `AUTH-101 GET all users`).
+## Overview
 
-**Default path (recommended for first launch):** native Jest JSON → `@ai-testing-tool/forge-api-client` → Forge ingest.  
-**Optional path:** [`@ai-testing-tool/forge-jest`](../../../qa-jest) reporter (`mode=off` \| `file` \| `ingest`).
+This example demonstrates realistic API tests with Jest and **`@ai-testing-tool/forge-jest`**. Tests hit [JSONPlaceholder](https://jsonplaceholder.typicode.com) and cover CRUD, post validation, error handling, nested steps, suite hierarchy, attachments, and ignore — the same scenarios as the Qase Jest example, adapted to AI Testing Tool helpers.
+
+Default mode is **`off`** (no credentials). Set `AI_TESTING_TOOL_MODE=ingest` in CI to upload launches to Jira.
 
 ## Prerequisites
 
-- Node.js **18+** (22 recommended)
-- Network access to [jsonplaceholder.typicode.com](https://jsonplaceholder.typicode.com/)
-- For upload/ingest: a configured AiTestingTool site (Automation setup in project Settings) with your project connected
+- Node.js **18+** (native `fetch`)
+- From monorepo: build reporters first (`cd ai-testing-tool-js && npm run build`)
+- For ingest: AI Testing Tool → Settings → Automation setup (URL + token + project)
 
-## Install & local run (no AiTestingTool credentials)
+## Installation
 
 ```bash
-cd ai-testing-tool-js/examples/single/jest
+cd ai-testing-tool-js
+npm run build
+
+cd examples/single/jest
 npm install
+```
+
+## Configuration
+
+**Environment variables:**
+
+| Variable | Required | Description |
+| -------- | -------- | ----------- |
+| `AI_TESTING_TOOL_MODE` | No | `off` (default) \| `file` \| `ingest` |
+| `AI_TESTING_TOOL_PROJECT_KEY` | file/ingest | Jira project key (e.g. `AUTH`) |
+| `AI_TESTING_TOOL_INGEST_URL` | ingest | From Automation setup |
+| `AI_TESTING_TOOL_INGEST_TOKEN` | ingest | Bearer token (CI secret) |
+| `AI_TESTING_TOOL_LAUNCH_NAME` | No | Launch display name |
+
+`jest.config.js` wires the reporter:
+
+```js
+reporters: [
+  'default',
+  ['@ai-testing-tool/forge-jest', { /* mode defaults to off */ }],
+],
+```
+
+## Running Tests
+
+```bash
+# Local — no credentials
+npm test
+
+# Write ingest payload file
+npm run test:file
+
+# Upload to Forge
+AI_TESTING_TOOL_MODE=ingest \
+AI_TESTING_TOOL_PROJECT_KEY=AUTH \
+AI_TESTING_TOOL_INGEST_URL=... \
+AI_TESTING_TOOL_INGEST_TOKEN=... \
 npm test
 ```
 
-All tests should pass (13 passed, 1 skipped). No `AI_TESTING_TOOL_*` env vars are required. Default `jest.config.js` uses the `default` reporter only.
-
-## Path A — CI upload (JSON + CLI)
-
-Generate JSON, then upload with the Forge CLI client:
-
-```bash
-npx jest --runInBand --json --outputFile=ai-testing-tool-results.json
-
-npx @ai-testing-tool/forge-api-client \
-  --project AUTH \
-  --launch "local smoke" \
-  --report ai-testing-tool-results.json
-```
-
-Or use the package scripts:
+Optional Path A (native JSON + CLI, no reporter helpers needed for upload):
 
 ```bash
 npm run test:json
 npm run upload
 ```
 
-### Environment (Path A)
+## Test Scenarios
 
-| Variable | Required | Description |
-| -------- | -------- | ----------- |
-| `AI_TESTING_TOOL_INGEST_URL` | Yes (upload) | Ingest URL from project Settings → Automation setup |
-| `AI_TESTING_TOOL_INGEST_TOKEN` | Yes (upload) | Bearer token (shown once on generate/rotate) |
-| `AI_TESTING_TOOL_PROJECT_KEY` | Optional | Defaults via `--project` |
+| File | Scenario | Description |
+| ---- | -------- | ----------- |
+| `api-crud.test.js` | User CRUD | GET list/single, POST create, DELETE |
+| `api-posts.test.js` | Posts | List, filter by user, nested comments |
+| `api-errors.test.js` | Errors | 404 handling, empty POST body |
+| `api-advanced.test.js` | Advanced | Nested steps, suite hierarchy, parameters, ignore |
 
-**Never commit the ingest token.** Prefer CI secrets from the **CI template** section in project Settings → Automation setup.
+## Features Demonstrated
 
-## Path B — Optional `@ai-testing-tool/forge-jest` reporter
+| Feature | Usage | Files |
+| ------- | ----- | ----- |
+| **Issue keys** (`qa.issueKeys()`) | FR43 — keys in `meta.qa`, not titles | All |
+| **Fields** (`qa.fields()`) | severity, priority, layer | All |
+| **Suite** (`qa.suite()`) | Tab-separated hierarchy | All |
+| **Steps** (`qa.step()`) | Structured step reporting | All |
+| **Parameters** (`qa.parameters()`) | Parameterized metadata | posts, advanced |
+| **Labels** (`qa.labels()`) | Tags for filtering | crud |
+| **Attachments** (`qa.attach()`) | JSON payloads | crud, posts, errors |
+| **Comments** (`qa.comment()`) | Contextual notes | crud, errors, advanced |
+| **Ignore** (`qa.ignore()` + `test.skip`) | Exclude from reporting | advanced |
 
-From the monorepo (after `npm run build` in `ai-testing-tool-js`):
-
-```bash
-npm install -D ../../../qa-jest ../../../qa-javascript-commons
-```
-
-Example `jest.config.js` (keep Path A as default until you opt in):
-
-```js
-module.exports = {
-  testEnvironment: 'node',
-  testTimeout: 15_000,
-  reporters: [
-    'default',
-    [
-      '@ai-testing-tool/forge-jest',
-      {
-        // mode defaults to off — no credentials needed for local runs
-        // mode: 'off' | 'file' | 'ingest',
-        // projectKey: 'AUTH',
-      },
-    ],
-  ],
-};
-```
-
-### Modes (`AI_TESTING_TOOL_MODE` or reporter options)
-
-| Mode | Behavior |
-| ---- | -------- |
-| `off` (default) | No network / file write |
-| `file` | Writes the ingest payload (default `./ai-testing-tool-results.json`) |
-| `ingest` | POSTs the payload with `format: jest-json` (needs URL + token + project) |
-
-Same secrets as Path A for `ingest`.
-
-### `qa` helpers
+## Helper pattern
 
 ```js
 const { qa } = require('@ai-testing-tool/forge-jest/jest');
 
-test('AUTH-101 GET all users', async () => {
-  await qa.suite('User CRUD');
-  await qa.plan('Smoke');
-  await qa.fixVersion('2.4.0');
-  await qa.sprintName('Sprint 42');
-  await qa.labels('test-auto,flaky');
-  await qa.step('fetch users', async () => {
-    const res = await fetch('https://jsonplaceholder.typicode.com/users');
-    expect(res.status).toBe(200);
-  });
-  await qa.attach({
-    name: 'response-sample.json',
-    contentType: 'application/json',
-    content: '{"ok":true}',
+test('GET all users returns 10 users', async () => {
+  await qa.issueKeys(['AUTH-101']);
+  await qa.fields({ layer: 'api', severity: 'normal', priority: 'high' });
+  await qa.suite('API Tests\tCRUD\tUsers');
+
+  await qa.step('Send GET request to /users endpoint', async () => {
+    const response = await fetch('https://jsonplaceholder.typicode.com/users');
+    expect(response.status).toBe(200);
   });
 });
 ```
 
-Await all `qa.*` calls except `qa.ignore()` (sync). Prefer **Jira keys in titles**; helpers add suite/step/fields/plan/labels metadata for richer launches.
+Prefer **`qa.issueKeys()`** over embedding keys in titles.
 
-This example’s tests stay plain Jest (no `qa` imports) so Path A stays zero-config.
+## Issue key map
 
-## Optional: Test Plans
+| Spec | Keys |
+| ---- | ---- |
+| api-crud | AUTH-101 … AUTH-104 |
+| api-posts | AUTH-105 … AUTH-107 |
+| api-errors | AUTH-108 … AUTH-111 |
+| api-advanced | AUTH-112 … AUTH-116 (`AUTH-116` skipped + ignore) |
 
-Attach a launch to a named plan (groups runs on the Jira project **Plans** tab):
+## Additional Resources
 
-```bash
-export AI_TESTING_TOOL_PLAN_NAME=Smoke
-# or: AI_TESTING_TOOL_PLAN_ID=<uuid> / AI_TESTING_TOOL_PLAN_KEY=smoke
-# upload CLI: --plan Smoke | --plan-id <uuid> | --plan-key smoke
-```
-
-Plans do not run tests — CI still selects which files execute.
-
-## Optional: Fix version / sprint tags
-
-Tag launches for release filtering (project + global Quality pages):
-
-```bash
-export AI_TESTING_TOOL_FIX_VERSION=2.4.0
-export AI_TESTING_TOOL_SPRINT="Sprint 42"
-# upload CLI: --fix-version 2.4.0 --sprint "Sprint 42"
-```
-
-## Automation setup
-
-1. Open **AI Testing Tool** on your Jira project
-2. Go to **Settings → Automation setup** — connect the project, copy the ingest token and URL, and run **Test connection**
-3. Use the **CI template** builder to generate a pipeline snippet (Jest + project)
-
-## Local vs CI
-
-| Mode | Command | Forge contact |
-| ---- | ------- | ------------- |
-| Local | `npm test` | None |
-| Path A | `npm run test:json` + `@ai-testing-tool/forge-api-client` | Ingest URL + token |
-| Path B | `AI_TESTING_TOOL_MODE=ingest` + `@ai-testing-tool/forge-jest` reporter | Same secrets |
-
-## Test map
-
-| File | Coverage |
-| ---- | -------- |
-| `test/api-crud.test.ts` | Users CRUD (`AUTH-101`–`104`) |
-| `test/api-posts.test.ts` | Posts + comments (`AUTH-105`–`107`) |
-| `test/api-errors.test.ts` | 404 handling (`AUTH-108`–`110`) |
-| `test/api-advanced.test.ts` | Nested flows + skip placeholder (`AUTH-111`–`114`) |
-
-## Manual ingest smoke
-
-1. Deploy/tunnel AiTestingTool with a configured site.
-2. Path A: `npm run test:json` then upload — **or** Path B: `AI_TESTING_TOOL_MODE=ingest` with `@ai-testing-tool/forge-jest`.
-3. Open the Jira project page → **Test Launches** and confirm pass/fail counts and issue keys from titles.
+- Reporter package: [`qa-jest`](../../../qa-jest)
+- Root SDK README: [`../../../README.md`](../../../README.md)

@@ -4,7 +4,8 @@ const assert = require('assert');
 describe('JSONPlaceholder User CRUD Operations', function () {
   const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
-  it('AUTH-101 GET all users - verify 10 users returned', async function () {
+  it('GET all users - verify 10 users returned', async function () {
+    qa.issueKeys(['AUTH-101']);
     qa.fields({ layer: 'api', severity: 'normal' });
 
     let response;
@@ -36,7 +37,8 @@ describe('JSONPlaceholder User CRUD Operations', function () {
     });
   });
 
-  it('AUTH-102 GET single user by ID - verify user details', async function () {
+  it('GET single user by ID - verify user details', async function () {
+    qa.issueKeys(['AUTH-102']);
     qa.parameters({ userId: '1' });
 
     let response;
@@ -61,7 +63,8 @@ describe('JSONPlaceholder User CRUD Operations', function () {
     });
   });
 
-  it('AUTH-103 POST create user - verify 201 response and returned ID', async function () {
+  it('POST create user - verify 201 response and returned ID', async function () {
+    qa.issueKeys(['AUTH-103']);
     qa.fields({ layer: 'api', severity: 'critical' });
 
     const newUser = {
@@ -100,7 +103,8 @@ describe('JSONPlaceholder User CRUD Operations', function () {
     qa.comment('JSONPlaceholder fakes writes — resource is not persisted');
   });
 
-  it('AUTH-104 DELETE user - verify 200 response', async function () {
+  it('DELETE user - verify 200 response', async function () {
+    qa.issueKeys(['AUTH-104']);
     let response;
 
     await qa.step('Send DELETE request to /users/1', async () => {

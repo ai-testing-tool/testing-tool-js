@@ -1,10 +1,10 @@
 {
   "projectKey": "AUTH",
   "launchName": "sdk",
-  "gitCommitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+  "gitCommitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
   "gitBranch": "main",
   "gitAuthorName": "jvuvo",
-  "gitHashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+  "gitHashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
   "format": "vitest-json",
   "report": {
     "numTotalTestSuites": 1,
@@ -16,20 +16,20 @@
     "numFailedTests": 0,
     "numPendingTests": 0,
     "numTodoTests": 0,
-    "startTime": 1789744194890,
+    "startTime": 1790359121498,
     "success": true,
     "testResults": [
       {
         "name": "unknown",
         "status": "passed",
-        "startTime": 1789744194890,
-        "endTime": 1789744195386,
+        "startTime": 1790359121498,
+        "endTime": 1790359121958,
         "assertionResults": [
           {
             "fullName": "WDIO failure screenshot enrich (FR133) > merges buffered screenshots onto failed assertions",
             "title": "merges buffered screenshots onto failed assertions",
             "status": "passed",
-            "duration": 7,
+            "duration": 5,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -38,10 +38,10 @@
                   "framework": "vitest",
                   "reporter": "@ai-testing-tool/forge-vitest",
                   "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
                     "branch": "main",
                     "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
                   }
                 },
                 "title": "merges buffered screenshots onto failed assertions",
@@ -68,7 +68,7 @@
             "fullName": "toJestJsonReport (FR124 / FR134) > normalizes saucedemo fixture to 13 tests with AUTH keys and steps",
             "title": "normalizes saucedemo fixture to 13 tests with AUTH keys and steps",
             "status": "passed",
-            "duration": 99,
+            "duration": 65,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -77,10 +77,10 @@
                   "framework": "vitest",
                   "reporter": "@ai-testing-tool/forge-vitest",
                   "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
                     "branch": "main",
                     "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
                   }
                 },
                 "title": "normalizes saucedemo fixture to 13 tests with AUTH keys and steps",
@@ -107,7 +107,7 @@
             "fullName": "WDIO failure screenshot enrich (FR133) > service afterTest captures screenshot when enabled",
             "title": "service afterTest captures screenshot when enabled",
             "status": "passed",
-            "duration": 69,
+            "duration": 54,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -116,10 +116,10 @@
                   "framework": "vitest",
                   "reporter": "@ai-testing-tool/forge-vitest",
                   "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
                     "branch": "main",
                     "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
                   }
                 },
                 "title": "service afterTest captures screenshot when enabled",
@@ -146,7 +146,7 @@
             "fullName": "qa.step → meta.qa.steps (FR125) > preserves nested step order via qaMetaFromEntries",
             "title": "preserves nested step order via qaMetaFromEntries",
             "status": "passed",
-            "duration": 3,
+            "duration": 4,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -155,10 +155,10 @@
                   "framework": "vitest",
                   "reporter": "@ai-testing-tool/forge-vitest",
                   "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
                     "branch": "main",
                     "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
                   }
                 },
                 "title": "preserves nested step order via qaMetaFromEntries",
@@ -194,10 +194,10 @@
                   "framework": "vitest",
                   "reporter": "@ai-testing-tool/forge-vitest",
                   "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
                     "branch": "main",
                     "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
                   }
                 },
                 "title": "service afterScenario captures screenshot on cucumber failure",
@@ -224,7 +224,7 @@
             "fullName": "cucumber tags (FR135) > applies @QaSuite/@QaTitle/@QaFields and collects bare issue keys",
             "title": "applies @QaSuite/@QaTitle/@QaFields and collects bare issue keys",
             "status": "passed",
-            "duration": 5,
+            "duration": 6,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -233,10 +233,10 @@
                   "framework": "vitest",
                   "reporter": "@ai-testing-tool/forge-vitest",
                   "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
                     "branch": "main",
                     "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
                   }
                 },
                 "title": "applies @QaSuite/@QaTitle/@QaFields and collects bare issue keys",
@@ -263,7 +263,7 @@
             "fullName": "@ai-testing-tool/forge-wdio scaffold > loads reporter module and no-ops when mode=off",
             "title": "loads reporter module and no-ops when mode=off",
             "status": "passed",
-            "duration": 6,
+            "duration": 7,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -272,54 +272,15 @@
                   "framework": "vitest",
                   "reporter": "@ai-testing-tool/forge-vitest",
                   "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
                     "branch": "main",
                     "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
                   }
                 },
                 "title": "loads reporter module and no-ops when mode=off",
                 "issueKeys": [
                   "AUTH-1001"
-                ],
-                "suite": [
-                  {
-                    "title": "@ai-testing-tool/forge-wdio scaffold"
-                  }
-                ],
-                "steps": [
-                  {
-                    "id": "s1",
-                    "stepType": "text",
-                    "name": "run",
-                    "status": "passed"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "fullName": "@ai-testing-tool/forge-wdio scaffold > exports QaWdioService lifecycle hooks",
-            "title": "exports QaWdioService lifecycle hooks",
-            "status": "passed",
-            "duration": 2,
-            "failureMessages": [],
-            "meta": {
-              "qa": {
-                "framework": "vitest",
-                "host": {
-                  "framework": "vitest",
-                  "reporter": "@ai-testing-tool/forge-vitest",
-                  "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
-                    "branch": "main",
-                    "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
-                  }
-                },
-                "title": "exports QaWdioService lifecycle hooks",
-                "issueKeys": [
-                  "AUTH-1002"
                 ],
                 "suite": [
                   {
@@ -350,10 +311,10 @@
                   "framework": "vitest",
                   "reporter": "@ai-testing-tool/forge-vitest",
                   "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
                     "branch": "main",
                     "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
                   }
                 },
                 "title": "applies suiteId/plan/fix/sprint/labels tags",
@@ -363,6 +324,45 @@
                 "suite": [
                   {
                     "title": "cucumber tags (FR135)"
+                  }
+                ],
+                "steps": [
+                  {
+                    "id": "s1",
+                    "stepType": "text",
+                    "name": "run",
+                    "status": "passed"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "fullName": "@ai-testing-tool/forge-wdio scaffold > exports QaWdioService lifecycle hooks",
+            "title": "exports QaWdioService lifecycle hooks",
+            "status": "passed",
+            "duration": 2,
+            "failureMessages": [],
+            "meta": {
+              "qa": {
+                "framework": "vitest",
+                "host": {
+                  "framework": "vitest",
+                  "reporter": "@ai-testing-tool/forge-vitest",
+                  "git": {
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
+                    "branch": "main",
+                    "authorName": "jvuvo",
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
+                  }
+                },
+                "title": "exports QaWdioService lifecycle hooks",
+                "issueKeys": [
+                  "AUTH-1002"
+                ],
+                "suite": [
+                  {
+                    "title": "@ai-testing-tool/forge-wdio scaffold"
                   }
                 ],
                 "steps": [
@@ -389,10 +389,10 @@
                   "framework": "vitest",
                   "reporter": "@ai-testing-tool/forge-vitest",
                   "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
                     "branch": "main",
                     "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
                   }
                 },
                 "title": "qa helpers record metadata including nested steps and type attach",
@@ -419,7 +419,7 @@
             "fullName": "@ai-testing-tool/forge-wdio scaffold > assertHooksForMode throws in debug when hooks missing (NFR33)",
             "title": "assertHooksForMode throws in debug when hooks missing (NFR33)",
             "status": "passed",
-            "duration": 2,
+            "duration": 1,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -428,10 +428,10 @@
                   "framework": "vitest",
                   "reporter": "@ai-testing-tool/forge-vitest",
                   "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
                     "branch": "main",
                     "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
                   }
                 },
                 "title": "assertHooksForMode throws in debug when hooks missing (NFR33)",
@@ -458,7 +458,7 @@
             "fullName": "mode=file publish > writes FR41 payload with format jest-json",
             "title": "writes FR41 payload with format jest-json",
             "status": "passed",
-            "duration": 66,
+            "duration": 63,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -467,10 +467,10 @@
                   "framework": "vitest",
                   "reporter": "@ai-testing-tool/forge-vitest",
                   "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
                     "branch": "main",
                     "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
                   }
                 },
                 "title": "writes FR41 payload with format jest-json",
@@ -506,10 +506,10 @@
                   "framework": "vitest",
                   "reporter": "@ai-testing-tool/forge-vitest",
                   "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
                     "branch": "main",
                     "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
                   }
                 },
                 "title": "mode=off completes without credentials",
@@ -536,7 +536,7 @@
             "fullName": "QaWdioReporter useCucumber (FR135) > records one assertion per scenario with gherkin steps",
             "title": "records one assertion per scenario with gherkin steps",
             "status": "passed",
-            "duration": 64,
+            "duration": 57,
             "failureMessages": [],
             "meta": {
               "qa": {
@@ -545,10 +545,10 @@
                   "framework": "vitest",
                   "reporter": "@ai-testing-tool/forge-vitest",
                   "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
                     "branch": "main",
                     "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
                   }
                 },
                 "title": "records one assertion per scenario with gherkin steps",
@@ -584,10 +584,10 @@
                   "framework": "vitest",
                   "reporter": "@ai-testing-tool/forge-vitest",
                   "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
                     "branch": "main",
                     "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
                   }
                 },
                 "title": "mocha path unchanged when useCucumber is false",
@@ -623,10 +623,10 @@
                   "framework": "vitest",
                   "reporter": "@ai-testing-tool/forge-vitest",
                   "git": {
-                    "commitSha": "6a6bbfb270e7d4d34b9cc942861f53ccc572f130",
+                    "commitSha": "3331e6bac1ab0d878687e6f9cfd1e7d4110ea625",
                     "branch": "main",
                     "authorName": "jvuvo",
-                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/6a6bbfb270e7d4d34b9cc942861f53ccc572f130"
+                    "hashCommitUrl": "https://github.com/ai-testing-tool/testing-tool-js/commit/3331e6bac1ab0d878687e6f9cfd1e7d4110ea625"
                   }
                 },
                 "title": "mode=file via reporter writes payload with qa.step hierarchy",

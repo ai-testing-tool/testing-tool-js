@@ -3,16 +3,16 @@ module.exports = {
   testEnvironment: 'node',
   testTimeout: 15_000,
   roots: ['<rootDir>/test'],
-  testMatch: ['**/*.test.ts'],
-  transform: {
-    '^.+\\.tsx?$': [
-      'ts-jest',
+  testMatch: ['**/*.test.js'],
+  reporters: [
+    'default',
+    [
+      '@ai-testing-tool/forge-jest',
       {
-        tsconfig: '<rootDir>/tsconfig.json',
+        // mode defaults to off — no credentials needed for local runs
+        // Override with AI_TESTING_TOOL_MODE=file|ingest
+        // projectKey: 'AUTH',
       },
     ],
-  },
-  // Default: native reporters only (Path A — JSON + @ai-testing-tool/forge-api-client).
-  // Optional Path B: add `@ai-testing-tool/forge-jest` to `reporters` — see README.
-  reporters: ['default'],
+  ],
 };

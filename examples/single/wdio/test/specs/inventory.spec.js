@@ -7,7 +7,8 @@ describe('Product Inventory', () => {
     await loginAsStandardUser();
   });
 
-  it('AUTH-104 User can browse all products', async () => {
+  it('User can browse all products', async () => {
+    qa.issueKeys(['AUTH-104']);
     qa.fields({ severity: 'critical', priority: 'high', layer: 'e2e' });
     qa.suite('E-commerce\tProduct Catalog\tBrowsing');
 
@@ -44,7 +45,8 @@ describe('Product Inventory', () => {
     });
   });
 
-  it('AUTH-105 User can sort products by price', async () => {
+  it('User can sort products by price', async () => {
+    qa.issueKeys(['AUTH-105']);
     qa.fields({ severity: 'normal', priority: 'medium', layer: 'e2e' });
     qa.suite('E-commerce\tProduct Catalog\tSorting');
     qa.parameters({ sortOption: 'lohi' });
@@ -69,7 +71,8 @@ describe('Product Inventory', () => {
     qa.comment('Products correctly sorted by price in ascending order');
   });
 
-  it('AUTH-106 User can view product details', async () => {
+  it('User can view product details', async () => {
+    qa.issueKeys(['AUTH-106']);
     qa.fields({ severity: 'normal', priority: 'medium', layer: 'e2e' });
     qa.suite('E-commerce\tProduct Catalog\tDetails');
 
